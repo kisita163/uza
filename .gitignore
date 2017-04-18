@@ -20,10 +20,14 @@
 *.tar
 *.zip
 *.apk
+*.bin
 # Folder #
 ############
 
 build
+app/build/*
+.gradle
+.idea
 
 # Logs and databases #
 ######################
