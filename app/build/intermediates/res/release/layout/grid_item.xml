@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res/com.glam"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -79,4 +79,4 @@
         </LinearLayout>
     </RelativeLayout>
 
-</android.support.v7.widget.CardView><!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/src/main/res/layout/grid_item.xml -->
+</android.support.v7.widget.CardView><!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/src/main/res/layout/grid_item.xml -->

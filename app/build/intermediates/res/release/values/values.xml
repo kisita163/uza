@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string-array name="arr_dropdown">
         <item>Popular</item>
@@ -14,7 +14,7 @@
         <item>example1@gmail.com</item>
         <item>example2@gmail.com</item>
     </string-array>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <attr format="reference" name="drawerArrowStyle"/>
     <attr format="dimension" name="height"/>
@@ -36,11 +36,11 @@
     <color name="background_floating_material_light">#ffeeeeee</color>
     <color name="background_material_dark">#ff303030</color>
     <color name="background_material_light">#ffeeeeee</color>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/src/main/res/values/color.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/src/main/res/values/color.xml -->
     <eat-comment/>
     <color name="black">#000000</color>
     <color name="blue_sky">#33b5e5</color>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="bright_foreground_disabled_material_dark">#80ffffff</color>
     <color name="bright_foreground_disabled_material_light">#80000000</color>
@@ -50,24 +50,24 @@
     <color name="bright_foreground_material_light">@android:color/black</color>
     <color name="button_material_dark">#ff5a595b</color>
     <color name="button_material_light">#ffd6d7d7</color>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="cardview_dark_background">#FF202020</color>
     <color name="cardview_light_background">#FFFAFAFA</color>
     <color name="cardview_shadow_end_color">#03000000</color>
     <color name="cardview_shadow_start_color">#37000000</color>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="dim_foreground_disabled_material_dark">#80bebebe</color>
     <color name="dim_foreground_disabled_material_light">#80323232</color>
     <color name="dim_foreground_material_dark">#ffbebebe</color>
     <color name="dim_foreground_material_light">#ff323232</color>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/src/main/res/values/color.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/src/main/res/values/color.xml -->
     <eat-comment/>
     <color name="fb_blue">#3b5998</color>
     <color name="gray">#5B5B5B</color>
     <color name="gray_dk">#313031</color>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="highlighted_text_material_dark">#6680cbc4</color>
     <color name="highlighted_text_material_light">#66009688</color>
@@ -75,7 +75,7 @@
     <color name="hint_foreground_material_light">@color/bright_foreground_disabled_material_light</color>
     <color name="link_text_material_dark">@color/material_deep_teal_200</color>
     <color name="link_text_material_light">@color/material_deep_teal_500</color>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/src/main/res/values/color.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/src/main/res/values/color.xml -->
     <eat-comment/>
     <color name="main_color">#41B3E8</color>
     <color name="main_color_dk">#348FBA</color>
@@ -83,7 +83,7 @@
     <color name="main_grey_dk">#666666</color>
     <color name="main_grey_dk1">#424242</color>
     <color name="main_grey_lt">#e5e5e5</color>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="material_blue_grey_800">#ff37474f</color>
     <color name="material_blue_grey_900">#ff263238</color>
@@ -98,10 +98,10 @@
     <color name="primary_text_default_material_light">#de000000</color>
     <color name="primary_text_disabled_material_dark">#4Dffffff</color>
     <color name="primary_text_disabled_material_light">#39000000</color>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/src/main/res/values/color.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/src/main/res/values/color.xml -->
     <eat-comment/>
     <color name="red_light">#e74c3c</color>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="ripple_material_dark">#40ffffff</color>
     <color name="ripple_material_light">#40000000</color>
@@ -109,14 +109,14 @@
     <color name="secondary_text_default_material_light">#8a000000</color>
     <color name="secondary_text_disabled_material_dark">#36ffffff</color>
     <color name="secondary_text_disabled_material_light">#24000000</color>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/src/main/res/values/color.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/src/main/res/values/color.xml -->
     <eat-comment/>
     <color name="side_menu_divider">#999999</color>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="switch_thumb_normal_material_dark">#ffbdbdbd</color>
     <color name="switch_thumb_normal_material_light">#fff1f1f1</color>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/src/main/res/values/color.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/src/main/res/values/color.xml -->
     <eat-comment/>
     <color name="theme_black">#393939</color>
     <color name="theme_yellow">#FFDC00</color>
@@ -147,7 +147,7 @@
     <declare-styleable name="Toolbar"><attr format="reference" name="titleTextAppearance"/><attr format="reference" name="subtitleTextAppearance"/><attr name="title"/><attr name="subtitle"/><attr name="android:gravity"/><attr format="dimension" name="titleMargins"/><attr format="dimension" name="titleMarginStart"/><attr format="dimension" name="titleMarginEnd"/><attr format="dimension" name="titleMarginTop"/><attr format="dimension" name="titleMarginBottom"/><attr name="contentInsetStart"/><attr name="contentInsetEnd"/><attr name="contentInsetLeft"/><attr name="contentInsetRight"/><attr format="dimension" name="maxButtonHeight"/><attr format="reference" name="theme"/><attr format="reference" name="collapseIcon"/><attr format="string" name="collapseContentDescription"/><attr name="popupTheme"/><attr format="reference" name="navigationIcon"/><attr format="string" name="navigationContentDescription"/><attr name="android:minHeight"/></declare-styleable>
     <declare-styleable name="View"><attr format="dimension" name="paddingStart"/><attr format="dimension" name="paddingEnd"/><attr name="android:focusable"/></declare-styleable>
     <declare-styleable name="ViewStubCompat"><attr name="android:layout"/><attr name="android:inflatedId"/><attr name="android:id"/></declare-styleable>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <dimen name="abc_action_bar_default_height_material">56dp</dimen>
     <dimen name="abc_action_bar_default_padding_material">4dp</dimen>
@@ -186,16 +186,16 @@
     <dimen name="abc_text_size_subtitle_material_toolbar">16dp</dimen>
     <dimen name="abc_text_size_title_material">20sp</dimen>
     <dimen name="abc_text_size_title_material_toolbar">20dp</dimen>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="action_bar_auto_hide_min_y">152dp</dimen>
     <dimen name="action_bar_auto_hide_sensivity">48dp</dimen>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <dimen name="cardview_compat_inset_shadow">1dp</dimen>
     <dimen name="cardview_default_elevation">2dp</dimen>
     <dimen name="cardview_default_radius">2dp</dimen>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <item name="dialog_fixed_height_major" type="dimen">80%</item>
     <item name="dialog_fixed_height_minor" type="dimen">100%</item>
@@ -203,7 +203,7 @@
     <item name="dialog_fixed_width_minor" type="dimen">320dp</item>
     <item format="float" name="disabled_alpha_material_dark" type="dimen">0.30</item>
     <item format="float" name="disabled_alpha_material_light" type="dimen">0.26</item>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="divider">0.5dp</dimen>
     <dimen name="pad_10dp">10dp</dimen>
@@ -227,13 +227,13 @@
     <dimen name="txt_20sp">20sp</dimen>
     <dimen name="txt_25sp">25sp</dimen>
     <dimen name="txt_7sp">7sp</dimen>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/src/main/res/values/color.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/src/main/res/values/color.xml -->
     <eat-comment/>
     <drawable name="theme_black">#393939</drawable>
     <drawable name="theme_yellow">#FFDC00</drawable>
     <drawable name="trans_draw">#00000000</drawable>
     <drawable name="white">#ffffff</drawable>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <item name="action_bar_activity_content" type="id"/>
     <item name="action_bar_spinner" type="id"/>
@@ -261,7 +261,7 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="account">Account</string>
     <string name="app_name">Glam</string>
@@ -285,7 +285,7 @@
     <string name="sign_in_fb">Sign in with Facebook</string>
     <string name="sign_up">&lt;u>New here? Sign up&lt;/u></string>
     <string name="tnc">Terms &amp; Conditions</string>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppBaseTheme" parent="Theme.AppCompat">
          <item name="colorPrimary">@color/main_color</item>
@@ -307,7 +307,7 @@
     <style name="AppTheme.StatusBarOverlay" parent="@style/AppTheme">
     <item name="android:windowContentOverlay">@null</item>
     </style>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <style name="Base.TextAppearance.AppCompat" parent="android:TextAppearance">
         <item name="android:textColor">?android:textColorPrimary</item>
@@ -1061,7 +1061,7 @@
         <item name="android:scaleType">center</item>
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <style name="CardView">
         <item name="cardBackgroundColor">@color/cardview_light_background</item>
@@ -1077,7 +1077,7 @@
     <style name="CardView.Light">
         <item name="cardBackgroundColor">@color/cardview_light_background</item>
     </style>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <style name="Platform.AppCompat" parent="android:Theme">
         <item name="android:windowNoTitle">true</item>
@@ -1305,13 +1305,13 @@
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
     </style>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="Theme.CustomDialog" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@drawable/trans_draw</item>
         <item name="android:windowNoTitle">true</item>
     </style>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <style name="ThemeOverlay.AppCompat" parent="Base.ThemeOverlay.AppCompat"/>
     <style name="ThemeOverlay.AppCompat.ActionBar" parent="Base.ThemeOverlay.AppCompat.ActionBar"/>
@@ -1371,7 +1371,7 @@
     <style name="Widget.AppCompat.Spinner.DropDown.ActionBar" parent="Base.Widget.AppCompat.Spinner.DropDown.ActionBar"/>
     <style name="Widget.AppCompat.Toolbar" parent="Base.Widget.AppCompat.Toolbar"/>
     <style name="Widget.AppCompat.Toolbar.Button.Navigation" parent="Base.Widget.AppCompat.Toolbar.Button.Navigation"/>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="btn" parent="android:Widget.Holo.Light.Button">
         <item name="android:minHeight">1dp</item>

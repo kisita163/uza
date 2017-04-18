@@ -18,14 +18,10 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Tue Apr 18 19:42:36 CEST 2017.<br/>
-14 errors and 182 warnings found:<br/><br/>
+Check performed at Tue Apr 18 20:44:03 CEST 2017.<br/>
+10 errors and 182 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
-</td></tr>
-<tr>
-<td class="countColumn">4</td><td class="issueColumn"><img border="0" align="top" src="lint-results_files/lint-error.png" alt="Error" />
-<a href="#ResAuto">ResAuto: Hardcoded Package in Namespace</a>
 </td></tr>
 <tr>
 <td class="countColumn">9</td><td class="issueColumn"><img border="0" align="top" src="lint-results_files/lint-error.png" alt="Error" />
@@ -142,55 +138,6 @@ Check performed at Tue Apr 18 19:42:36 CEST 2017.<br/>
 <br/>
 <a name="Correctness"></a>
 <div class="category"><a href="#" title="Return to top">Correctness</a><div class="categorySeparator"></div>
-</div>
-<a name="ResAuto"></a>
-<div class="issue">
-<div class="id"><a href="#" title="Return to top">ResAuto: Hardcoded Package in Namespace</a><div class="issueSeparator"></div>
-</div>
-<div class="warningslist">
-<span class="location"><a href="../../src/main/res/layout/activity_main.xml">../../src/main/res/layout/activity_main.xml</a>:5</span>: <span class="message">In Gradle projects, always use <code>http://schemas.android.com/apk/res-auto</code> for custom attributes</span><br /><pre class="errorlines">
-<span class="lineno">   2</span>     xmlns:tools="http://schemas.android.com/tools"
-<span class="lineno">   3</span>     android:id="@+id/drawer_layout"
-<span class="lineno">   4</span>     android:layout_width="match_parent"
-<span class="lineno">   5</span>     android:layout_height="match_parent" <span class="errorspan">xmlns:app="http://schemas.android.com/apk/res/com.glam"></span>
-<span class="lineno">   6</span> 
-<span class="lineno">   7</span>     &lt;LinearLayout
-</pre>
-<span class="location"><a href="../../src/main/res/layout/card_item.xml">../../src/main/res/layout/card_item.xml</a>:4</span>: <span class="message">In Gradle projects, always use <code>http://schemas.android.com/apk/res-auto</code> for custom attributes</span><br /><pre class="errorlines">
-<span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
-<span class="lineno">   2</span> &lt;android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-<span class="lineno">   3</span>     xmlns:android="http://schemas.android.com/apk/res/android"
-<span class="lineno">   4</span>     <span class="errorspan">xmlns:app="http://schemas.android.com/apk/res/com.glam"</span>
-<span class="lineno">   5</span>     android:id="@+id/card_view"
-<span class="lineno">   6</span>     android:layout_width="match_parent"
-</pre>
-<span class="location"><a href="../../src/main/res/layout/grid_item.xml">../../src/main/res/layout/grid_item.xml</a>:4</span>: <span class="message">In Gradle projects, always use <code>http://schemas.android.com/apk/res-auto</code> for custom attributes</span><br /><pre class="errorlines">
-<span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
-<span class="lineno">   2</span> &lt;android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-<span class="lineno">   3</span>     xmlns:android="http://schemas.android.com/apk/res/android"
-<span class="lineno">   4</span>     <span class="errorspan">xmlns:app="http://schemas.android.com/apk/res/com.glam"</span>
-<span class="lineno">   5</span>     android:id="@+id/card_view"
-<span class="lineno">   6</span>     android:layout_width="match_parent"
-</pre>
-<span class="location"><a href="../../src/main/res/layout/grid_item1.xml">../../src/main/res/layout/grid_item1.xml</a>:4</span>: <span class="message">In Gradle projects, always use <code>http://schemas.android.com/apk/res-auto</code> for custom attributes</span><br /><pre class="errorlines">
-<span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
-<span class="lineno">   2</span> &lt;android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-<span class="lineno">   3</span>     xmlns:android="http://schemas.android.com/apk/res/android"
-<span class="lineno">   4</span>     <span class="errorspan">xmlns:app="http://schemas.android.com/apk/res/com.glam"</span>
-<span class="lineno">   5</span>     android:id="@+id/card_view"
-<span class="lineno">   6</span>     android:layout_width="match_parent"
-</pre>
-</div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results_files/lint-run.png" />
-<br>
-Priority: 9 / 10<br/>
-Category: Correctness</div>
-Severity: <span class="error">Fatal</span><div class="summary">
-Explanation: Hardcoded Package in Namespace.</div>
-<div class="explanation">
-In Gradle projects, the actual package used in the final APK can vary; for example,you can add a <code>.debug</code> package suffix in one version and not the other. Therefore, you should <b>not</b> hardcode the application package in the resource; instead, use the special namespace <code>http://schemas.android.com/apk/res-auto</code> which will cause the tools to figure out the right namespace for the resource regardless of the actual package used during the build.
-</div>
-<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "ResAuto" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
 <a name="DuplicateIds"></a>
 <div class="issue">
@@ -391,7 +338,7 @@ ScrollView children must set their <code>layout_width</code> or <code>layout_hei
 <div class="id"><a href="#" title="Return to top">InlinedApi: Using inlined constants on older versions</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/com/glam/custom/CustomActivity.java">../../src/main/java/com/glam/custom/CustomActivity.java</a>:43</span>: <span class="message">Field requires API level 21 (current min is 14): <code>android.view.WindowManager.LayoutParams#FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS</code></span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/com/kisita/uza/custom/CustomActivity.java">../../src/main/java/com/kisita/uza/custom/CustomActivity.java</a>:43</span>: <span class="message">Field requires API level 21 (current min is 14): <code>android.view.WindowManager.LayoutParams#FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS</code></span><br /><pre class="errorlines">
 <span class="lineno">  40</span> 		{
 <span class="lineno">  41</span> 			getWindow()
 <span class="lineno">  42</span> 					.addFlags(
@@ -420,14 +367,7 @@ If your code is <b>deliberately</b> accessing newer APIs, and you have ensured (
 <div class="id"><a href="#" title="Return to top">NewApi: Calling new methods on older versions</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/com/glam/custom/CustomActivity.java">../../src/main/java/com/glam/custom/CustomActivity.java</a>:39</span>: <span class="message">Field requires API level 4 (current min is 1): <code>android.os.Build.VERSION#SDK_INT</code></span><br /><pre class="errorlines">
-<span class="lineno">  36</span> 		super.onCreate(arg0);
-<span class="lineno">  37</span> 		setupActionBar();
-<span class="lineno">  38</span> 
-<span class="lineno">  39</span> 		if (Build.VERSION.<span class="errorspan">SDK_INT >= Build.VERSION_CODES.LOLLIPOP)</span>
-<span class="lineno">  40</span> 		{
-<span class="lineno">  41</span> 			getWindow()
-</pre>
+<span class="location"><a href="../intermediates/classes/debug/com/glam/custom/CustomActivity.class">../intermediates/classes/debug/com/glam/custom/CustomActivity.class</a></span>: <span class="message">Field requires API level 4 (current min is 1): <code>android.os.Build.VERSION#SDK_INT</code></span><br />
 </div>
 <div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results_files/lint-run.png" />
 <br>
@@ -462,7 +402,7 @@ Similarly, you can use tools:targetApi="11" in an XML file to indicate that the 
 </pre>
 <span class="location"><a href="../../build.gradle">../../build.gradle</a>:10</span>: <span class="message">Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the android.os.Build.VERSION_CODES javadoc for details.</span><br /><pre class="errorlines">
 <span class="lineno">   7</span>     defaultConfig {
-<span class="lineno">   8</span>         applicationId "com.glam"
+<span class="lineno">   8</span>         applicationId "com.kisita.uza"
 <span class="lineno">   9</span>         minSdkVersion 14
 <span class="lineno">  10</span>         <span class="errorspan">targetSdkVersion 18</span>
 <span class="lineno">  11</span>     }
@@ -488,7 +428,7 @@ To fix this issue, set the <code>targetSdkVersion</code> to the highest availabl
 <div class="id"><a href="#" title="Return to top">InflateParams: Layout Inflation without a Parent</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/com/glam/Login.java">../../src/main/java/com/glam/Login.java</a>:147</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/com/kisita/uza/Login.java">../../src/main/java/com/kisita/uza/Login.java</a>:147</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
 <span class="lineno"> 144</span> 		public Object instantiateItem(ViewGroup container, int arg0)
 <span class="lineno"> 145</span> 		{
 <span class="lineno"> 146</span> 			final ImageView img = (ImageView) getLayoutInflater().inflate(
@@ -496,7 +436,7 @@ To fix this issue, set the <code>targetSdkVersion</code> to the highest availabl
 <span class="lineno"> 148</span> 
 <span class="lineno"> 149</span> 			img.setImageResource(R.drawable.img_signin);
 </pre>
-<span class="location"><a href="../../src/main/java/com/glam/ui/MainFragment.java">../../src/main/java/com/glam/ui/MainFragment.java</a>:117</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/com/kisita/uza/ui/MainFragment.java">../../src/main/java/com/kisita/uza/ui/MainFragment.java</a>:117</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
 <span class="lineno"> 114</span> 		public Object instantiateItem(ViewGroup container, int pos)
 <span class="lineno"> 115</span> 		{
 <span class="lineno"> 116</span> 			final View v = getLayoutInflater(null).inflate(
@@ -504,7 +444,7 @@ To fix this issue, set the <code>targetSdkVersion</code> to the highest availabl
 <span class="lineno"> 118</span> 
 <span class="lineno"> 119</span> 			RecyclerView recList = (RecyclerView) v.findViewById(R.id.cardList);
 </pre>
-<span class="location"><a href="../../src/main/java/com/glam/ProductDetail.java">../../src/main/java/com/glam/ProductDetail.java</a>:148</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/com/kisita/uza/ProductDetail.java">../../src/main/java/com/kisita/uza/ProductDetail.java</a>:148</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
 <span class="lineno"> 145</span> 		public Object instantiateItem(ViewGroup container, int arg0)
 <span class="lineno"> 146</span> 		{
 <span class="lineno"> 147</span> 			final ImageView img = (ImageView) getLayoutInflater().inflate(
@@ -512,7 +452,7 @@ To fix this issue, set the <code>targetSdkVersion</code> to the highest availabl
 <span class="lineno"> 149</span> 
 <span class="lineno"> 150</span> 			img.setImageResource(R.drawable.product_detail_bottom_banner);
 </pre>
-<span class="location"><a href="../../src/main/java/com/glam/ui/Settings.java">../../src/main/java/com/glam/ui/Settings.java</a>:31</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/com/kisita/uza/ui/Settings.java">../../src/main/java/com/kisita/uza/ui/Settings.java</a>:31</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
 <span class="lineno">  28</span> 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 <span class="lineno">  29</span> 			Bundle savedInstanceState)
 <span class="lineno">  30</span> 	{
@@ -723,7 +663,7 @@ When only a single widget in a LinearLayout defines a weight, it is more efficie
 <span class="lineno">   7</span>     android:gravity="center_horizontal"
 <span class="lineno">   8</span>     android:orientation="vertical" >
 </pre>
-<span class="location"><a href="../../src/main/res/layout/home.xml">../../src/main/res/layout/home.xml</a>:5</span>: <span class="message">Possible overdraw: Root element paints background <code>@drawable/home_bg</code> with a theme that also paints a background (inferred theme is <code>@style/AppTheme</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/res/layout/home.xml">../../src/main/res/layout/home.xml</a>:5</span>: <span class="message">Possible overdraw: Root element paints background <code>@drawable/home_bg</code> with a theme that also paints a background (inferred theme is <code>@style/AppTheme_FullScreen</code>)</span><br /><pre class="errorlines">
 <span class="lineno">   2</span> &lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span>     android:layout_width="match_parent"
 <span class="lineno">   4</span>     android:layout_height="match_parent"
@@ -739,7 +679,7 @@ When only a single widget in a LinearLayout defines a weight, it is more efficie
 <span class="lineno">   8</span>     android:gravity="center_vertical"
 <span class="lineno">   9</span>     android:orientation="vertical"
 </pre>
-<span class="location"><a href="../../src/main/res/layout/login.xml">../../src/main/res/layout/login.xml</a>:7</span>: <span class="message">Possible overdraw: Root element paints background <code>@color/white</code> with a theme that also paints a background (inferred theme is <code>@style/AppTheme</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/res/layout/login.xml">../../src/main/res/layout/login.xml</a>:7</span>: <span class="message">Possible overdraw: Root element paints background <code>@color/white</code> with a theme that also paints a background (inferred theme is <code>@style/AppTheme_StatusBarOverlay</code>)</span><br /><pre class="errorlines">
 <span class="lineno">   4</span>     android:id="@+id/scrb"
 <span class="lineno">   5</span>     android:layout_width="match_parent"
 <span class="lineno">   6</span>     android:layout_height="match_parent"
@@ -773,7 +713,7 @@ When only a single widget in a LinearLayout defines a weight, it is more efficie
 <span class="lineno">   8</span>     >
 <span class="lineno">   9</span> 
 </pre>
-<span class="location"><a href="../../src/main/res/layout/pr_detail.xml">../../src/main/res/layout/pr_detail.xml</a>:6</span>: <span class="message">Possible overdraw: Root element paints background <code>@color/white</code> with a theme that also paints a background (inferred theme is <code>@style/AppTheme</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/res/layout/pr_detail.xml">../../src/main/res/layout/pr_detail.xml</a>:6</span>: <span class="message">Possible overdraw: Root element paints background <code>@color/white</code> with a theme that also paints a background (inferred theme is <code>@style/AppBaseTheme</code>)</span><br /><pre class="errorlines">
 <span class="lineno">   3</span>     android:id="@+id/aaa"
 <span class="lineno">   4</span>     android:layout_width="match_parent"
 <span class="lineno">   5</span>     android:layout_height="match_parent"
@@ -789,7 +729,7 @@ When only a single widget in a LinearLayout defines a weight, it is more efficie
 <span class="lineno">   7</span>     android:orientation="vertical" >
 <span class="lineno">   8</span> 
 </pre>
-<span class="location"><a href="../../src/main/res/layout/splash.xml">../../src/main/res/layout/splash.xml</a>:6</span>: <span class="message">Possible overdraw: Root element paints background <code>@color/main_color</code> with a theme that also paints a background (inferred theme is <code>@style/AppTheme</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/res/layout/splash.xml">../../src/main/res/layout/splash.xml</a>:6</span>: <span class="message">Possible overdraw: Root element paints background <code>@color/main_color</code> with a theme that also paints a background (inferred theme is <code>@android:style/Theme_Holo_Light_NoActionBar_Fullscreen</code>)</span><br /><pre class="errorlines">
 <span class="lineno">   3</span>     android:layout_width="match_parent"
 <span class="lineno">   4</span>     android:layout_height="match_parent"
 <span class="lineno">   5</span>     android:orientation="vertical" 
