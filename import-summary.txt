@@ -1,0 +1,288 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Risky Project Location:
+-----------------------
+The tools *should* handle project locations in any directory. However,
+due to bugs, placing projects in directories containing spaces in the
+path, or characters like ", ' and &, have had issues. We're working to
+eliminate these bugs, but to save yourself headaches you may want to
+move your project to a location where this is not a problem.
+D:\Android\Work Docs\Template Apps\Android Studio\Glam
+               -             -            -           
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+* doc\
+* doc\allclasses-frame.html
+* doc\allclasses-noframe.html
+* doc\android\
+* doc\android\support\
+* doc\android\support\v7\
+* doc\android\support\v7\appcompat\
+* doc\android\support\v7\appcompat\R.anim.html
+* doc\android\support\v7\appcompat\R.attr.html
+* doc\android\support\v7\appcompat\R.bool.html
+* doc\android\support\v7\appcompat\R.color.html
+* doc\android\support\v7\appcompat\R.dimen.html
+* doc\android\support\v7\appcompat\R.drawable.html
+* doc\android\support\v7\appcompat\R.html
+* doc\android\support\v7\appcompat\R.id.html
+* doc\android\support\v7\appcompat\R.integer.html
+* doc\android\support\v7\appcompat\R.layout.html
+* doc\android\support\v7\appcompat\R.string.html
+* doc\android\support\v7\appcompat\R.style.html
+* doc\android\support\v7\appcompat\R.styleable.html
+* doc\android\support\v7\appcompat\class-use\
+* doc\android\support\v7\appcompat\class-use\R.anim.html
+* doc\android\support\v7\appcompat\class-use\R.attr.html
+* doc\android\support\v7\appcompat\class-use\R.bool.html
+* doc\android\support\v7\appcompat\class-use\R.color.html
+* doc\android\support\v7\appcompat\class-use\R.dimen.html
+* doc\android\support\v7\appcompat\class-use\R.drawable.html
+* doc\android\support\v7\appcompat\class-use\R.html
+* doc\android\support\v7\appcompat\class-use\R.id.html
+* doc\android\support\v7\appcompat\class-use\R.integer.html
+* doc\android\support\v7\appcompat\class-use\R.layout.html
+* doc\android\support\v7\appcompat\class-use\R.string.html
+* doc\android\support\v7\appcompat\class-use\R.style.html
+* doc\android\support\v7\appcompat\class-use\R.styleable.html
+* doc\android\support\v7\appcompat\package-frame.html
+* doc\android\support\v7\appcompat\package-summary.html
+* doc\android\support\v7\appcompat\package-tree.html
+* doc\android\support\v7\appcompat\package-use.html
+* doc\android\support\v7\cardview\
+* doc\android\support\v7\cardview\R.attr.html
+* doc\android\support\v7\cardview\R.color.html
+* doc\android\support\v7\cardview\R.dimen.html
+* doc\android\support\v7\cardview\R.html
+* doc\android\support\v7\cardview\R.style.html
+* doc\android\support\v7\cardview\R.styleable.html
+* doc\android\support\v7\cardview\class-use\
+* doc\android\support\v7\cardview\class-use\R.attr.html
+* doc\android\support\v7\cardview\class-use\R.color.html
+* doc\android\support\v7\cardview\class-use\R.dimen.html
+* doc\android\support\v7\cardview\class-use\R.html
+* doc\android\support\v7\cardview\class-use\R.style.html
+* doc\android\support\v7\cardview\class-use\R.styleable.html
+* doc\android\support\v7\cardview\package-frame.html
+* doc\android\support\v7\cardview\package-summary.html
+* doc\android\support\v7\cardview\package-tree.html
+* doc\android\support\v7\cardview\package-use.html
+* doc\com\
+* doc\com\glam\
+* doc\com\glam\BuildConfig.html
+* doc\com\glam\CheckoutActivity.html
+* doc\com\glam\Home.html
+* doc\com\glam\Login.PageAdapter.html
+* doc\com\glam\Login.html
+* doc\com\glam\MainActivity.html
+* doc\com\glam\ProductDetail.PageAdapter.html
+* doc\com\glam\ProductDetail.html
+* doc\com\glam\R.anim.html
+* doc\com\glam\R.array.html
+* doc\com\glam\R.attr.html
+* doc\com\glam\R.bool.html
+* doc\com\glam\R.color.html
+* doc\com\glam\R.dimen.html
+* doc\com\glam\R.drawable.html
+* doc\com\glam\R.html
+* doc\com\glam\R.id.html
+* doc\com\glam\R.integer.html
+* doc\com\glam\R.layout.html
+* doc\com\glam\R.menu.html
+* doc\com\glam\R.string.html
+* doc\com\glam\R.style.html
+* doc\com\glam\R.styleable.html
+* doc\com\glam\SplashScreen.html
+* doc\com\glam\class-use\
+* doc\com\glam\class-use\BuildConfig.html
+* doc\com\glam\class-use\CheckoutActivity.html
+* doc\com\glam\class-use\Home.html
+* doc\com\glam\class-use\Login.PageAdapter.html
+* doc\com\glam\class-use\Login.html
+* doc\com\glam\class-use\MainActivity.html
+* doc\com\glam\class-use\ProductDetail.PageAdapter.html
+* doc\com\glam\class-use\ProductDetail.html
+* doc\com\glam\class-use\R.anim.html
+* doc\com\glam\class-use\R.array.html
+* doc\com\glam\class-use\R.attr.html
+* doc\com\glam\class-use\R.bool.html
+* doc\com\glam\class-use\R.color.html
+* doc\com\glam\class-use\R.dimen.html
+* doc\com\glam\class-use\R.drawable.html
+* doc\com\glam\class-use\R.html
+* doc\com\glam\class-use\R.id.html
+* doc\com\glam\class-use\R.integer.html
+* doc\com\glam\class-use\R.layout.html
+* doc\com\glam\class-use\R.menu.html
+* doc\com\glam\class-use\R.string.html
+* doc\com\glam\class-use\R.style.html
+* doc\com\glam\class-use\R.styleable.html
+* doc\com\glam\class-use\SplashScreen.html
+* doc\com\glam\custom\
+* doc\com\glam\custom\CustomActivity.html
+* doc\com\glam\custom\CustomFragment.html
+* doc\com\glam\custom\class-use\
+* doc\com\glam\custom\class-use\CustomActivity.html
+* doc\com\glam\custom\class-use\CustomFragment.html
+* doc\com\glam\custom\package-frame.html
+* doc\com\glam\custom\package-summary.html
+* doc\com\glam\custom\package-tree.html
+* doc\com\glam\custom\package-use.html
+* doc\com\glam\model\
+* doc\com\glam\model\Data.html
+* doc\com\glam\model\class-use\
+* doc\com\glam\model\class-use\Data.html
+* doc\com\glam\model\package-frame.html
+* doc\com\glam\model\package-summary.html
+* doc\com\glam\model\package-tree.html
+* doc\com\glam\model\package-use.html
+* doc\com\glam\package-frame.html
+* doc\com\glam\package-summary.html
+* doc\com\glam\package-tree.html
+* doc\com\glam\package-use.html
+* doc\com\glam\ui\
+* doc\com\glam\ui\Checkout.CardAdapter.CardViewHolder.html
+* doc\com\glam\ui\Checkout.CardAdapter.html
+* doc\com\glam\ui\Checkout.html
+* doc\com\glam\ui\LeftNavAdapter.html
+* doc\com\glam\ui\MainFragment.CardAdapter.CardViewHolder.html
+* doc\com\glam\ui\MainFragment.CardAdapter.html
+* doc\com\glam\ui\MainFragment.PageAdapter.html
+* doc\com\glam\ui\MainFragment.html
+* doc\com\glam\ui\OnSale.CardAdapter.CardViewHolder.html
+* doc\com\glam\ui\OnSale.CardAdapter.html
+* doc\com\glam\ui\OnSale.html
+* doc\com\glam\ui\Settings.html
+* doc\com\glam\ui\class-use\
+* doc\com\glam\ui\class-use\Checkout.CardAdapter.CardViewHolder.html
+* doc\com\glam\ui\class-use\Checkout.CardAdapter.html
+* doc\com\glam\ui\class-use\Checkout.html
+* doc\com\glam\ui\class-use\LeftNavAdapter.html
+* doc\com\glam\ui\class-use\MainFragment.CardAdapter.CardViewHolder.html
+* doc\com\glam\ui\class-use\MainFragment.CardAdapter.html
+* doc\com\glam\ui\class-use\MainFragment.PageAdapter.html
+* doc\com\glam\ui\class-use\MainFragment.html
+* doc\com\glam\ui\class-use\OnSale.CardAdapter.CardViewHolder.html
+* doc\com\glam\ui\class-use\OnSale.CardAdapter.html
+* doc\com\glam\ui\class-use\OnSale.html
+* doc\com\glam\ui\class-use\Settings.html
+* doc\com\glam\ui\package-frame.html
+* doc\com\glam\ui\package-summary.html
+* doc\com\glam\ui\package-tree.html
+* doc\com\glam\ui\package-use.html
+* doc\com\glam\utils\
+* doc\com\glam\utils\TouchEffect.html
+* doc\com\glam\utils\class-use\
+* doc\com\glam\utils\class-use\TouchEffect.html
+* doc\com\glam\utils\package-frame.html
+* doc\com\glam\utils\package-summary.html
+* doc\com\glam\utils\package-tree.html
+* doc\com\glam\utils\package-use.html
+* doc\com\google\
+* doc\com\google\android\
+* doc\com\google\android\gms\
+* doc\com\google\android\gms\R.attr.html
+* doc\com\google\android\gms\R.color.html
+* doc\com\google\android\gms\R.drawable.html
+* doc\com\google\android\gms\R.html
+* doc\com\google\android\gms\R.id.html
+* doc\com\google\android\gms\R.integer.html
+* doc\com\google\android\gms\R.string.html
+* doc\com\google\android\gms\R.styleable.html
+* doc\com\google\android\gms\class-use\
+* doc\com\google\android\gms\class-use\R.attr.html
+* doc\com\google\android\gms\class-use\R.color.html
+* doc\com\google\android\gms\class-use\R.drawable.html
+* doc\com\google\android\gms\class-use\R.html
+* doc\com\google\android\gms\class-use\R.id.html
+* doc\com\google\android\gms\class-use\R.integer.html
+* doc\com\google\android\gms\class-use\R.string.html
+* doc\com\google\android\gms\class-use\R.styleable.html
+* doc\com\google\android\gms\package-frame.html
+* doc\com\google\android\gms\package-summary.html
+* doc\com\google\android\gms\package-tree.html
+* doc\com\google\android\gms\package-use.html
+* doc\constant-values.html
+* doc\deprecated-list.html
+* doc\help-doc.html
+* doc\index-files\
+* doc\index-files\index-1.html
+* doc\index-files\index-10.html
+* doc\index-files\index-11.html
+* doc\index-files\index-12.html
+* doc\index-files\index-13.html
+* doc\index-files\index-14.html
+* doc\index-files\index-15.html
+* doc\index-files\index-16.html
+* doc\index-files\index-17.html
+* doc\index-files\index-18.html
+* doc\index-files\index-19.html
+* doc\index-files\index-2.html
+* doc\index-files\index-20.html
+* doc\index-files\index-21.html
+* doc\index-files\index-22.html
+* doc\index-files\index-3.html
+* doc\index-files\index-4.html
+* doc\index-files\index-5.html
+* doc\index-files\index-6.html
+* doc\index-files\index-7.html
+* doc\index-files\index-8.html
+* doc\index-files\index-9.html
+* doc\index.html
+* doc\overview-frame.html
+* doc\overview-summary.html
+* doc\overview-tree.html
+* doc\package-list
+* doc\resources\
+* doc\resources\background.gif
+* doc\resources\tab.gif
+* doc\resources\titlebar.gif
+* doc\resources\titlebar_end.gif
+* doc\stylesheet.css
+* javadoc.xml
+* proguard-project.txt
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+android-support-v4.jar => com.android.support:support-v4:21.0.3
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => app\src\main\AndroidManifest.xml
+* assets\ => app\src\main\assets
+* libs\android-support-v7-cardview.jar => app\libs\android-support-v7-cardview.jar
+* lint.xml => app\lint.xml
+* res\ => app\src\main\res\
+* src\ => app\src\main\java\
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

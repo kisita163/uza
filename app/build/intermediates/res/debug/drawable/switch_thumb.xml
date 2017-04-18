@@ -3,4 +3,4 @@
     <item android:state_checked="true" android:drawable="@drawable/switch_thumb_on"></item>
     <item android:state_checkable="false" android:drawable="@drawable/switch_thumb_off"></item>
     <item android:drawable="@drawable/switch_thumb_off"></item>
-</selector><!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/src/main/res/drawable/switch_thumb.xml -->
+</selector><!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/src/main/res/drawable/switch_thumb.xml -->

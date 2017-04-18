@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/Glam%20Main%20Android%20Studio/app/src/main/res/values-large-mdpi/dimens.xml -->
+    <!-- From: file:/C:/Users/Hugues/AndroidStudioProjects/glam/uzaApp/app/src/main/res/values-large-mdpi/dimens.xml -->
     <eat-comment/>
     <dimen name="divider">1dp</dimen>
     <dimen name="pad_10dp">20dp</dimen>
