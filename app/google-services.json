@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "834449551276",
+    "firebase_url": "https://glam-afc14.firebaseio.com",
+    "project_id": "glam-afc14",
+    "storage_bucket": "glam-afc14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834449551276:android:5f9249fa6ca9fba0",
+        "android_client_info": {
+          "package_name": "com.uza"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "834449551276-8gspbqel1lc5k668gpa746clt9k7o418.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7_Szst1S7Z_FYDXdkFIbpbnC5XftTO0E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834449551276:android:ef5c90acbd228092",
+        "android_client_info": {
+          "package_name": "com.kisita.uza"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "834449551276-8gspbqel1lc5k668gpa746clt9k7o418.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7_Szst1S7Z_FYDXdkFIbpbnC5XftTO0E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
