@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Glam</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="search">Search</string>
+    <string name="grid">Grid</string>
+    <string name="cart">Cart</string>
+
+    <string name="account">Account</string>
+    <string name="login">Login</string>
+    <string name="settings">SETTINGS</string>
+    <string name="push_notif">Push Notifications</string>
+    <string name="email_notif">Email Notifications</string>
+    <string name="tnc">Terms &amp; Conditions</string>
+    
+    
+    <string name="create_acc">Create Account</string>
+    <string name="sign_in">Sign in</string>
+    <string name="email">Email Address</string>
+    <string name="password">Password</string>
+    <string name="forget_pwd">Forgot Password?</string>
+    <string name="sign_up">&lt;u>New here? Sign up&lt;/u></string>
+    <string name="sign_in_fb">Sign in with Facebook</string>
+    <string-array name="arr_dropdown">
+        <item >Popular</item>
+        <item >Latest</item>
+        <item >Discount</item>
+        <item >On Sale</item>
+        <item >Upcoming</item>
+    </string-array>
+    
+    <string-array name="arr_email">
+        <item >example@gmail.com</item>
+        <item >example1@gmail.com</item>
+        <item >example2@gmail.com</item>
+    </string-array> 
+        <string name="credit_cards">Credit Cards</string>
+        <string name="email1">Email</string>
+        <string name="detail_temp">Moto 360 stays true to the timeless form of the classic wristwatch. A round ... That\'s why all the leather used for Moto 360 comes from American leather crafters.\n\nThe 203 Series is a comprehensive update of the 200 collection. With many design details drawn from the 302 Series chrongraph, the 203 Series still maintains reference to the engineering dials it was inspired by. The 40mm two-part case features a lugless design and a chamfered bezel.</string>
+    
+    
+    
+
+</resources>

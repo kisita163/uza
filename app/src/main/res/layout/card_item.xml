@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.glam"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/pad_3dp"
+    android:clickable="true"
+    android:foreground="?android:selectableItemBackground"
+    app:cardElevation="@dimen/pad_5dp"
+    app:cardPreventCornerOverlap="false"
+    card_view:cardCornerRadius="@dimen/pad_5dp" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/popularity_img1" />
+
+        <TextView
+            android:id="@+id/lbl1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/pad_15dp"
+            android:background="@drawable/discount_bg"
+            android:gravity="center_horizontal"
+            android:paddingTop="@dimen/pad_5dp"
+            android:text="00%\nOFF"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_13sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/img"
+            android:gravity="center_vertical"
+            android:padding="@dimen/pad_10dp" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/lbl2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ally Capellino Frank Brown - Fott Shop 2014"
+                    android:textColor="@color/main_grey_dk1"
+                    android:textSize="@dimen/txt_13sp" />
+
+                <LinearLayout
+                    android:id="@+id/d"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/lbl3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$000-$000"
+                        android:textColor="@color/main_grey_dk1"
+                        android:textSize="@dimen/txt_13sp"
+                        android:textStyle="bold" 
+                        android:layout_marginRight="@dimen/pad_10dp"/>
+
+                    <TextView
+                        android:id="@+id/lbl4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="xyz.com"
+                        android:textColor="@color/main_grey"
+                        android:textSize="@dimen/txt_12sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/btnAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_add" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

@@ -1,0 +1,99 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="AppBaseTheme" parent="Theme.AppCompat">
+         <item name="colorPrimary">@color/main_color</item>
+    <item name="colorPrimaryDark">@color/main_color_dk</item>
+    </style>
+
+    <style name="AppTheme" parent="@style/AppBaseTheme">
+        <!-- <item name="android:windowNoTitle">true</item> -->
+    <item name="windowActionBar">false</item>
+    </style>
+    
+     <style name="AppTheme.FullScreen" parent="@style/AppTheme">
+         <item name="android:windowFullscreen">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <style name="AppTheme.StatusBarOverlay" parent="@style/AppTheme">
+    <item name="android:windowContentOverlay">@null</item>
+    </style> 
+    
+    <style name="AppTheme.ActionBarOverlay" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    
+    
+    <style name="Theme.CustomDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowBackground">@drawable/trans_draw</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    
+    
+    
+    <style name="edittext" parent="android:Widget.Holo.Light.EditText">
+        <item name="android:background">@drawable/edittext_bg</item>
+        <item name="android:inputType">textPersonName</item>
+        <item name="android:paddingLeft">@dimen/pad_10dp</item>
+        <item name="android:paddingRight">@dimen/pad_10dp</item>
+        <item name="android:drawablePadding">@dimen/pad_20dp</item>	
+        <item name="android:textColor">@color/main_grey_dk</item>
+        <item name="android:textColorHint">@color/main_grey</item>
+        <item name="android:textSize">@dimen/txt_15sp</item>
+    </style>
+    <style name="btn" parent="android:Widget.Holo.Light.Button">
+        <item name="android:minHeight">1dp</item>
+        <item name="android:minWidth">1dp</item>
+        <item name="android:foreground">?android:selectableItemBackground</item>
+    </style>
+     <style name="lbl_setting1" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:textColor">@color/side_menu_divider</item>
+        <item name="android:textSize">@dimen/txt_16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="lbl_setting2" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:textColor">@color/gray_dk</item>
+        <item name="android:textSize">@dimen/txt_16sp</item>
+    </style>
+    <style name="switch_custom" >
+        <item name="android:textColor">@color/gray_dk</item>
+        <item name="android:textSize">@dimen/txt_16sp</item>
+        <item name="android:thumb">@drawable/switch_thumb</item>
+        <item name="android:track">@drawable/switch_track</item>
+    </style>
+    
+    
+    <style name="btn_blue" parent="@style/btn">
+        <item name="android:background">@color/main_color</item>
+        <item name="android:padding">@dimen/pad_10dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/txt_15sp</item>
+    </style>
+    <style name="btn_white" parent="@style/btn">
+        <item name="android:background">@color/white</item>
+        <item name="android:padding">@dimen/pad_10dp</item>
+        <item name="android:textColor">@color/main_color</item>
+        <item name="android:textSize">@dimen/txt_15sp</item>
+    </style>
+    <style name="btn_gray" parent="@style/btn">
+        <item name="android:background">@color/white</item>
+        <item name="android:textColor">@color/main_grey</item>
+        <item name="android:textSize">@dimen/txt_13sp</item>
+        <item name="android:paddingTop">@dimen/pad_10dp</item>
+        <item name="android:paddingBottom">@dimen/pad_10dp</item>
+    </style>
+    <style name="card_disable" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:drawableLeft">@drawable/credit_card_diabled</item>
+        <item name="android:drawablePadding">@dimen/pad_20dp</item>
+        <item name="android:padding">@dimen/pad_10dp</item>
+        <item name="android:textColor">@color/main_grey_lt</item>
+        <item name="android:textSize">@dimen/txt_16sp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <style name="card_enabled" parent="@style/card_disable">
+        <item name="android:drawableLeft">@drawable/credit_card_enabled</item>
+        <item name="android:drawableRight">@drawable/icon_checked</item>
+        <item name="android:textColor">@color/main_grey_dk1</item>
+    </style>
+</resources>

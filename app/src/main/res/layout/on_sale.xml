@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    >
+    
+
+    <TextView
+        android:id="@+id/lbl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="20%\nOn Sale" 
+        android:background="@drawable/on_sale_top"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="40sp"
+        android:gravity="bottom"
+        android:padding="@dimen/pad_20dp"/>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/cardList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/lbl"
+        android:layout_margin="@dimen/pad_5dp"
+       />
+     <Button
+        style="@style/btn"
+        android:id="@+id/fabCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/fab_cart"
+        android:layout_alignTop="@+id/cardList"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/pad_10dp"
+        android:layout_marginTop="-26dp"/>
+</RelativeLayout> 
