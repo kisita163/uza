@@ -5,7 +5,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "com.glam"
+        applicationId "com.kisita.uza"
         minSdkVersion 14
         targetSdkVersion 18
     }
