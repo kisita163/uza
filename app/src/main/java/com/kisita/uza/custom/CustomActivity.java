@@ -1,4 +1,4 @@
-package com.uza.custom;
+package com.kisita.uza.custom;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 
-import com.uza.utils.TouchEffect;
+import com.kisita.uza.utils.TouchEffect;
 
 /**
  * This is a common activity that all other activities of the app can extend to

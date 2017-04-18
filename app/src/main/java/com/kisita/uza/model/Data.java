@@ -1,4 +1,4 @@
-package com.uza.model;
+package com.kisita.uza.model;
 
 /**
  * The Class Data is simple Java bean class that holds two members only to

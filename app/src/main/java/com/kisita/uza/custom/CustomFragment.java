@@ -1,4 +1,4 @@
-package com.uza.custom;
+package com.kisita.uza.custom;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

@@ -1,4 +1,4 @@
-package com.uza;
+package com.kisita.uza;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.uza;
+package com.kisita.uza;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.uza.custom.CustomActivity;
+import com.kisita.uza.custom.CustomActivity;
 
 /**
  * The Activity ProductDetail is launched when user select a product item from

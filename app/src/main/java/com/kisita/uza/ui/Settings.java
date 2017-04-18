@@ -1,4 +1,4 @@
-package com.uza.ui;
+package com.kisita.uza.ui;
 
 import java.util.ArrayList;
 
@@ -7,10 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.uza.MainActivity;
-import com.uza.R;
-import com.uza.custom.CustomFragment;
-import com.uza.model.Data;
+import com.kisita.uza.MainActivity;
+import com.kisita.uza.R;
+import com.kisita.uza.custom.CustomFragment;
+import com.kisita.uza.model.Data;
 
 /**
  * The Class Settings is the fragment that shows various settings options.

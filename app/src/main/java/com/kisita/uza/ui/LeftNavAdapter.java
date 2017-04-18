@@ -1,4 +1,4 @@
-package com.uza.ui;
+package com.kisita.uza.ui;
 
 import java.util.ArrayList;
 
@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.uza.R;
-import com.uza.model.Data;
+import com.kisita.uza.R;
+import com.kisita.uza.model.Data;
 
 /**
  * The Adapter class for the ListView displayed in the left navigation drawer.

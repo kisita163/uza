@@ -1,4 +1,4 @@
-package com.uza;
+package com.kisita.uza;
 
 import java.util.ArrayList;
 
@@ -24,13 +24,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.uza.custom.CustomActivity;
-import com.uza.custom.CustomFragment;
-import com.uza.model.Data;
-import com.uza.ui.Checkout;
-import com.uza.ui.LeftNavAdapter;
-import com.uza.ui.MainFragment;
-import com.uza.ui.OnSale;
+import com.kisita.uza.custom.CustomActivity;
+import com.kisita.uza.custom.CustomFragment;
+import com.kisita.uza.model.Data;
+import com.kisita.uza.ui.Checkout;
+import com.kisita.uza.ui.LeftNavAdapter;
+import com.kisita.uza.ui.MainFragment;
+import com.kisita.uza.ui.OnSale;
 
 /**
  * The Activity MainActivity will launched after the Login and it is the
@@ -432,7 +432,7 @@ public class MainActivity extends CustomActivity
 		}
 		else if (pos == 4)
 		{
-			f = new com.uza.ui.Settings();
+			f = new com.kisita.uza.ui.Settings();
 			title = "Settings";
 		}
 		else if (pos == 5)

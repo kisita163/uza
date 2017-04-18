@@ -1,4 +1,4 @@
-package com.uza.utils;
+package com.kisita.uza.utils;
 
 import android.annotation.SuppressLint;
 import android.view.MotionEvent;
