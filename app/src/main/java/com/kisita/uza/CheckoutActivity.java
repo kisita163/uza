@@ -2,7 +2,7 @@ package com.kisita.uza;
 
 import android.os.Bundle;
 
-import com.uza.custom.CustomActivity;
+import com.kisita.uza.custom.CustomActivity;
 
 /**
  * The Activity CheckoutActivity is just a container class for Checkout fragment

@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.uza.custom.CustomActivity;
+import com.kisita.uza.custom.CustomActivity;
 
 /**
  * The Activity Login is launched after the Home screen. You need to write your

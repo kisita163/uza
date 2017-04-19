@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.R;
 
@@ -25,10 +24,10 @@ public class Home extends CustomActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home);
-		if(!checkPlayServices(this)) {
+		/*if(!checkPlayServices(this)) {
 			System.out.println("Allow users to download Google Play services from the Play Store");
 			//TODO GoogleApiAvailability.makeGooglePlayServicesAvailable(this);
-		}
+		}*/
 		setupView();
 	}
 
@@ -57,13 +56,13 @@ public class Home extends CustomActivity
 		}
 	}
 
-	/*
+	/*TODO
 Check the device to make sure it has the google play services apk. if it doesn't,
 display a dialog that allow users to download the apk
- */
+
 	private boolean checkPlayServices(Context context) {
 		GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
 		int resultCode = googleApiAvailability.isGooglePlayServicesAvailable(context);
 		return resultCode == ConnectionResult.SUCCESS;
-	}
+	} */
 }
