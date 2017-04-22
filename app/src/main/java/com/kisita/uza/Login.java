@@ -2,17 +2,30 @@ package com.kisita.uza;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Html;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.kisita.uza.custom.CustomActivity;
+import com.kisita.uza.model.User;
 
 /**
  * The Activity Login is launched after the Home screen. You need to write your
@@ -21,6 +34,17 @@ import com.kisita.uza.custom.CustomActivity;
  */
 public class Login extends CustomActivity
 {
+	/** Firebase fields */
+	private static final String TAG = "SignInActivity";
+
+	private DatabaseReference mDatabase;
+	private FirebaseAuth mAuth;
+
+	/** VIEW */
+
+	private EditText mEmailField;
+	private EditText mPasswordField;
+	private Button mSignInButton;
 
 	/** The pager. */
 	private ViewPager pager;
@@ -37,7 +61,31 @@ public class Login extends CustomActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
 
+		mDatabase = FirebaseDatabase.getInstance().getReference();
+		mAuth = FirebaseAuth.getInstance();
+
 		setupView();
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+
+		// Check auth on Activity start
+		if (mAuth.getCurrentUser() != null) {
+			onAuthSuccess(mAuth.getCurrentUser());
+		}
+	}
+
+	private void onAuthSuccess(FirebaseUser user) {
+		String username = usernameFromEmail(user.getEmail());
+
+		// Write new user
+		writeNewUser(user.getUid(), username, user.getEmail());
+
+		// Go to MainActivity
+		//TODO startActivity(new Intent(SignInActivity.this, MainActivity.class));
+		finish();
 	}
 
 	/**
@@ -47,10 +95,15 @@ public class Login extends CustomActivity
 	 */
 	private void setupView()
 	{
+		// Views
+		mEmailField = (EditText) findViewById(R.id.field_email);
+		mPasswordField = (EditText) findViewById(R.id.field_password);
+		mSignInButton = (Button) findViewById(R.id.button_sign_in);
+
 		Button b = (Button) setTouchNClick(R.id.btnReg);
 		b.setText(Html.fromHtml(getString(R.string.sign_up)));
 
-		setTouchNClick(R.id.btnLogin);
+		setTouchNClick(R.id.button_sign_in);
 		setTouchNClick(R.id.btnForget);
 		setTouchNClick(R.id.btnFb);
 
@@ -189,12 +242,74 @@ public class Login extends CustomActivity
 	public void onClick(View v)
 	{
 		super.onClick(v);
-		if (v.getId() == R.id.btnLogin || v.getId() == R.id.btnFb)
+		if (v.getId() == R.id.button_sign_in)
 		{
-			Intent i = new Intent(this, MainActivity.class);
+			/*Intent i = new Intent(this, MainActivity.class);
 			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(i);
-			finish();
+			finish();*/
+			signIn();
+		}
+	}
+
+	private boolean validateForm() {
+		boolean result = true;
+		if (TextUtils.isEmpty(mEmailField.getText().toString())) {
+			mEmailField.setError("Required");
+			result = false;
+		} else {
+			mEmailField.setError(null);
+		}
+
+		if (TextUtils.isEmpty(mPasswordField.getText().toString())) {
+			mPasswordField.setError("Required");
+			result = false;
+		} else {
+			mPasswordField.setError(null);
+		}
+
+		return result;
+	}
+
+	private void signIn() {
+		Log.d(TAG, "signIn");
+		if (!validateForm()) {
+			return;
+		}
+
+		showProgressDialog();
+		String email = mEmailField.getText().toString();
+		String password = mPasswordField.getText().toString();
+
+		mAuth.signInWithEmailAndPassword(email, password)
+				.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+					@Override
+					public void onComplete(@NonNull Task<AuthResult> task) {
+						Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
+						hideProgressDialog();
+
+						if (task.isSuccessful()) {
+							onAuthSuccess(task.getResult().getUser());
+						} else {
+							Toast.makeText(Login.this, "Sign In Failed",
+									Toast.LENGTH_SHORT).show();
+						}
+					}
+				});
+	}
+
+	// [START basic_write]
+	private void writeNewUser(String userId, String name, String email) {
+		User user = new User(name, email);
+
+		mDatabase.child("users").child(userId).setValue(user);
+	}
+
+	private String usernameFromEmail(String email) {
+		if (email.contains("@")) {
+			return email.split("@")[0];
+		} else {
+			return email;
 		}
 	}
 }

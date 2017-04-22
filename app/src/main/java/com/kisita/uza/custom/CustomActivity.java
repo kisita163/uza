@@ -1,6 +1,7 @@
 package com.kisita.uza.custom;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -25,6 +26,7 @@ public class CustomActivity extends ActionBarActivity implements
 	 * effect. The view must have a Non-Transparent background.
 	 */
 	public static final TouchEffect TOUCH = new TouchEffect();
+	private ProgressDialog mProgressDialog;
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
@@ -117,6 +119,23 @@ public class CustomActivity extends ActionBarActivity implements
 		View v = findViewById(id);
 		v.setOnClickListener(this);
 		return v;
+	}
+
+
+	public void showProgressDialog() {
+		if (mProgressDialog == null) {
+			mProgressDialog = new ProgressDialog(this);
+			mProgressDialog.setCancelable(false);
+			mProgressDialog.setMessage("Loading...");
+		}
+
+		mProgressDialog.show();
+	}
+
+	public void hideProgressDialog() {
+		if (mProgressDialog != null && mProgressDialog.isShowing()) {
+			mProgressDialog.dismiss();
+		}
 	}
 
 }

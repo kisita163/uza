@@ -168,7 +168,8 @@ public class OnSale extends CustomFragment
 
 	/**
 	 * Load dummy product data for displaying on the RecyclerView. You need to
-	 * write your own code for loading real products from Web-service or API and
+	 * write your own code for loading real products from Web-
+	 * or API and
 	 * displaying them on RecyclerView.
 	 */
 	private void loadDummyData()
