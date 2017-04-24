@@ -15,6 +15,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -41,7 +42,6 @@ import com.kisita.uza.ui.OnSale;
 @SuppressLint("InlinedApi")
 public class MainActivity extends CustomActivity
 {
-
 	/** The drawer layout. */
 	private DrawerLayout drawerLayout;
 
@@ -423,7 +423,7 @@ public class MainActivity extends CustomActivity
 		else if (pos == 2)
 		{
 			f = new OnSale();
-			title = "On Sale";
+			title = getResources().getString(R.string.app_name);
 		}
 		else if (pos == 3)
 		{
