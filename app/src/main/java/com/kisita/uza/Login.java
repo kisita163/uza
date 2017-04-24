@@ -60,6 +60,8 @@ public class Login extends CustomActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
+
+		//TODO The app crash arguing that this instance must be called prior to other instances
 		FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 		mDatabase = FirebaseDatabase.getInstance().getReference();
 		mAuth = FirebaseAuth.getInstance();
