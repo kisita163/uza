@@ -1,14 +1,11 @@
 package com.kisita.uza.model;
 
-/**
- * The Class Data is simple Java bean class that holds two members only to
- * represent dummy data for app. You can customize or can write new bean classes
- * as per you needs.
- */
+
 public class Data
 {
+	public enum UzaData {NAME,PRICE,CURRENCY,BRAND,DESCRIPTION,SELLER,CATEGORY,PICTURES};
 
-	/** The texts. */
+	/** The texts. This field contains the item name, the brand, the seller's name and a short item description */
 	private String[] texts;
 
 	/** The resources. */
@@ -26,6 +23,25 @@ public class Data
 	{
 		this.texts = texts;
 		this.resources = resources;
+		setPriceCurrency();
+	}
+
+	public void setPriceCurrency() {
+		String price;
+
+		if(texts.length > 1) {
+			if (texts[UzaData.CURRENCY.ordinal()].equals("US")) {
+				price = texts[UzaData.PRICE.ordinal()] + " $";
+			} else if (texts[UzaData.CURRENCY.ordinal()].equals("EUR")) {
+				price = texts[UzaData.PRICE.ordinal()] + " €";
+			} else if (texts[UzaData.CURRENCY.ordinal()].equals("FC")) {
+				price = texts[UzaData.PRICE.ordinal()] + " FC";
+			} else {
+				price = texts[UzaData.PRICE.ordinal()] + " $";
+			}
+
+			texts[UzaData.PRICE.ordinal()] = price;
+		}
 	}
 
 	/**
