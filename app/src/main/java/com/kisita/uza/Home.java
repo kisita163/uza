@@ -54,6 +54,13 @@ public class Home extends CustomActivity
 			startActivity(i);
 			finish();
 		}
+
+		if (v.getId() == R.id.btnReg) {
+			Intent i = new Intent(this, Login.class);
+			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(i);
+			finish();
+		}
 	}
 
 	/*TODO
