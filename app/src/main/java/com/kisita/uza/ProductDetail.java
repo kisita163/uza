@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.kisita.uza.custom.CustomActivity;
+import com.kisita.uza.model.Data;
 
 /**
  * The Activity ProductDetail is launched when user select a product item from
@@ -48,12 +50,24 @@ public class ProductDetail extends CustomActivity
 	 */
 	private void setupView()
 	{
+		String [] details = this.getIntent().getStringArrayExtra(getResources().getString(R.string.detail));
+
+		TextView  item_name  = (TextView)findViewById(R.id.item_name);
+		TextView  item_price  = (TextView)findViewById(R.id.item_price);
+		TextView  item_description  = (TextView)findViewById(R.id.item_description);
+
+
+		item_name.setText(details[Data.UzaData.NAME.ordinal()] + " | " + details[Data.UzaData.SELLER.ordinal()]);
+		item_price.setText(details[Data.UzaData.PRICE.ordinal()]);
+		item_description.setText(details[Data.UzaData.DESCRIPTION.ordinal()]);
+
+
 		setTouchNClick(R.id.fabCart);
 		setTouchNClick(R.id.btnLike);
 		setTouchNClick(R.id.btnComment);
 		setTouchNClick(R.id.btnMore);
 
-		getSupportActionBar().setTitle("Product Detail");
+		//getSupportActionBar().setTitle("Product Detail");
 
 		initPager();
 	}
