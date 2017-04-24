@@ -60,7 +60,7 @@ public class Login extends CustomActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
-
+		FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 		mDatabase = FirebaseDatabase.getInstance().getReference();
 		mAuth = FirebaseAuth.getInstance();
 
@@ -84,7 +84,7 @@ public class Login extends CustomActivity
 		writeNewUser(user.getUid(), username, user.getEmail());
 
 		// Go to MainActivity
-		//TODO startActivity(new Intent(SignInActivity.this, MainActivity.class));
+		startActivity(new Intent(Login.this, MainActivity.class));
 		finish();
 	}
 
