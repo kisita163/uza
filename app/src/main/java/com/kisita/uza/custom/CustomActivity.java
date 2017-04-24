@@ -6,18 +6,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 
+import com.kisita.uza.R;
 import com.kisita.uza.utils.TouchEffect;
 
 /**
  * This is a common activity that all other activities of the app can extend to
  * inherit the common behaviors like setting a Theme to activity.
  */
-public class CustomActivity extends ActionBarActivity implements
+public class CustomActivity extends AppCompatActivity implements
 		OnClickListener
 {
 
@@ -77,8 +79,7 @@ public class CustomActivity extends ActionBarActivity implements
 		// actionBar.setLogo(R.drawable.icon);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setHomeButtonEnabled(true);
-		actionBar.setTitle(null);
-
+		actionBar.setHomeAsUpIndicator(R.drawable.drawer_shadow);
 	}
 
 	/* (non-Javadoc)
