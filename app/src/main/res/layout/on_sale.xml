@@ -27,14 +27,4 @@
         android:layout_below="@+id/lbl"
         android:layout_margin="@dimen/pad_5dp"
        />
-     <Button
-        style="@style/btn"
-        android:id="@+id/fabCart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/fab_cart"
-        android:layout_alignBottom="@+id/cardList"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/pad_10dp"
-        android:layout_marginTop="-26dp"/>
 </RelativeLayout> 
