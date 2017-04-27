@@ -1,6 +1,7 @@
 package com.kisita.uza;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 
 import com.kisita.uza.custom.CustomActivity;
 
@@ -19,12 +20,6 @@ public class CheckoutActivity extends CustomActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.checkout_act);
-
-		/*Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
-		toolbar.setTitle("Settings");
-		setSupportActionBar(toolbar);*/
-		getSupportActionBar().setTitle("Checkout");
-
 	}
 
 }
