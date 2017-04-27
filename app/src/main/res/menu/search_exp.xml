@@ -1,13 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
-	
-	<item
-        android:id="@+id/menu_grid"
-        android:icon="@drawable/ic_grid"
-        app:showAsAction="always"
+    <item
+        android:id="@+id/action_cart"
+        android:icon="@drawable/ic_menu_cart"
         android:title="@string/grid"
-        />
+        app:showAsAction="always" />
 	<item
         android:id="@+id/menu_search"
         android:icon="@drawable/icon_search"
