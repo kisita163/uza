@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kisita.uza.MainActivity;
-import com.kisita.uza.ProductDetail;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
@@ -227,7 +226,7 @@ public class MainFragment extends CustomFragment
 				@Override
 				public void onClick(View v)
 				{
-					startActivity(new Intent(getActivity(), ProductDetail.class));
+					//TODO startActivity(new Intent(getActivity(), ProductDetail.class));
 				}
 			});
 			return new CardViewHolder(itemView);
