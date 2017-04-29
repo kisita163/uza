@@ -1,16 +1,21 @@
 package com.kisita.uza;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,19 +23,28 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
-import com.kisita.uza.ui.Checkout;
+import com.kisita.uza.model.User;
+import com.kisita.uza.ui.CheckoutFragment;
+import com.kisita.uza.ui.DetailFragment;
 import com.kisita.uza.ui.LeftNavAdapter;
 import com.kisita.uza.ui.MainFragment;
-import com.kisita.uza.ui.OnSale;
+import com.kisita.uza.utils.CartDrawable;
 
 /**
  * The Activity MainActivity will launched after the Login and it is the
@@ -39,7 +53,7 @@ import com.kisita.uza.ui.OnSale;
  * items on Drawer layout.
  */
 @SuppressLint("InlinedApi")
-public class MainActivity extends CustomActivity
+public class MainActivity extends CustomActivity implements DetailFragment.OnFragmentInteractionListener
 {
 	/** The drawer layout. */
 	private DrawerLayout drawerLayout;
@@ -75,6 +89,14 @@ public class MainActivity extends CustomActivity
 	/** The toolbar. */
 	public Toolbar toolbar;
 
+	/* cart icon*/
+	private LayerDrawable mIcon;
+
+	/* Items count */
+	private long count = 0;
+
+	private DatabaseReference mDatabase;
+
 	/* (non-Javadoc)
 	 * @see com.newsfeeder.custom.CustomActivity#onCreate(android.os.Bundle)
 	 */
@@ -84,17 +106,20 @@ public class MainActivity extends CustomActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+		toolbar = (Toolbar) findViewById(R.id.main_toolbar);
 		setSupportActionBar(toolbar);
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 
+		mDatabase = FirebaseDatabase.getInstance().getReference();
+
 		setupDrawer();
-		setupContainer(2);
+		setupContainer();
+		commandsCount();
 
 	}
-
+	//region Drawer
 	/**
 	 * Setup the drawer layout. This method also includes the method calls for
 	 * setting up the Left & Right side drawers.
@@ -166,7 +191,9 @@ public class MainActivity extends CustomActivity
 			autoShowOrHideActionBar(true);
 		}
 	}
+	//endregion
 
+	//region action bar
 	/**
 	 * Auto show or hide action bar.
 	 * 
@@ -257,19 +284,16 @@ public class MainActivity extends CustomActivity
 			int lastFvi = 0;
 
 			@Override
-			public void onScrollStateChanged(RecyclerView view, int scrollState)
-			{
+			public void onScrollStateChanged(RecyclerView view, int scrollState) {
 			}
 
 			@Override
-			public void onScrolled(RecyclerView recyclerView, int dx, int dy)
-			{
+			public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 				super.onScrolled(recyclerView, dx, dy);
 
 				// autoShowOrHideActionBar(recyclerView.getScrollY()<=100);
 
-				try
-				{
+				try {
 					LinearLayoutManager llm = (LinearLayoutManager) recyclerView
 							.getLayoutManager();
 					int firstVisibleItem = llm.findFirstVisibleItemPosition();
@@ -278,10 +302,9 @@ public class MainActivity extends CustomActivity
 									: Integer.MAX_VALUE, lastFvi
 									- firstVisibleItem > 0 ? Integer.MIN_VALUE
 									: lastFvi == firstVisibleItem ? 0
-											: Integer.MAX_VALUE);
+									: Integer.MAX_VALUE);
 					lastFvi = firstVisibleItem;
-				} catch (Exception e)
-				{
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -375,7 +398,7 @@ public class MainActivity extends CustomActivity
 				R.drawable.ic_nav2, R.drawable.ic_nav2_sel }));
 		al.add(new Data(new String[] { "Cart" }, new int[] {
 				R.drawable.ic_nav3, R.drawable.ic_nav3_sel }));
-		al.add(new Data(new String[] { "Settings" }, new int[] {
+		al.add(new Data(new String[] { "SettingsFragment" }, new int[] {
 				R.drawable.ic_nav4, R.drawable.ic_nav4_sel }));
 		al.add(new Data(new String[] { "Logout" }, new int[] {
 				R.drawable.ic_nav5, R.drawable.ic_nav5_sel }));
@@ -386,26 +409,19 @@ public class MainActivity extends CustomActivity
 
 			@Override
 			public void onItemClick(AdapterView<?> l, View arg1, int pos,
-					long arg3)
-			{
+									long arg3) {
 				if (pos != 0)
 					adp.setSelection(pos - 1);
 				drawerLayout.closeDrawers();
-				setupContainer(pos);
+				setupContainer();
 			}
 		});
 
 	}
 
-	/**
-	 * Setup the container fragment for drawer layout. This method will setup
-	 * the grid view display of main contents. You can customize this method as
-	 * per your need to display specific content.
-	 * 
-	 * @param pos
-	 *            the new up container
-	 */
-	private void setupContainer(int pos)
+	//endregion
+
+	private void setupContainer()
 	{
 		/*if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP)
 		{
@@ -416,45 +432,13 @@ public class MainActivity extends CustomActivity
 
 		CustomFragment f = null;
 		String title = null;
-
-		if (pos == 0)
-		{
-			return;
-		}
-		else if (pos == 1)
-			f = new MainFragment();
-		else if (pos == 2)
-		{
-			f = new OnSale();
-			title = getResources().getString(R.string.app_name);
-		}
-		else if (pos == 3)
-		{
-			f = new Checkout();
-			title = "Checkout";
-		}
-		else if (pos == 4)
-		{
-			f = new com.kisita.uza.ui.Settings();
-			title = "Settings";
-		}
-		else if (pos == 5)
-		{
-			startActivity(new Intent(this, Login.class));
-			finish();
-		}
-		if (f == null)
-			return;
-
+		f = new MainFragment();
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.content_frame, f).commit();
 		if (getSupportActionBar() != null)
 			getSupportActionBar().setTitle(title);
 	}
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onPostCreate(android.os.Bundle)
-	 */
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState)
 	{
@@ -463,9 +447,6 @@ public class MainActivity extends CustomActivity
 		drawerToggle.syncState();
 	}
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onConfigurationChanged(android.content.res.Configuration)
-	 */
 	@Override
 	public void onConfigurationChanged(Configuration newConfig)
 	{
@@ -474,17 +455,100 @@ public class MainActivity extends CustomActivity
 		drawerToggle.onConfigurationChanged(newConfig);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.whatshere.custom.CustomActivity#onOptionsItemSelected(android.view.MenuItem)
-	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		if (drawerToggle.onOptionsItemSelected(item))
-		{
 			return true;
+
+		if (item.getItemId() == R.id.action_cart) {
+			getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,R.anim.slide_in_left, R.anim.slide_out_right)
+					.addToBackStack(null)
+					.replace(R.id.content_frame, new CheckoutFragment()).commit();
+			getSupportActionBar().setTitle("Checkout");
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+	//TODO handle properly back button when we want to go from one fragment to another one
+
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		getMenuInflater().inflate(R.menu.search_exp, menu);
+		MenuItem itemCart = menu.findItem(R.id.action_cart);
+		mIcon = (LayerDrawable) itemCart.getIcon();
+		//TODO initialize with a persistent value
+		setBadgeCount(this, mIcon, String.valueOf(count));
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public void onFragmentInteraction(String key) {
+		//TODO should be a persistent value
+		String command = mDatabase.child("users").push().getKey(); // New command id
+		Map<String, Object> childUpdates = new HashMap<>();
+		childUpdates.put("/users-commands/" + getUid() + "/commands/"+command,key);
+		mDatabase.updateChildren(childUpdates);
+		setBadgeCount(this, mIcon, String.valueOf(count));
+	}
+
+	public static void setBadgeCount(Context context, LayerDrawable icon, String count) {
+
+		CartDrawable badge;
+
+		// Reuse drawable if possible
+		Drawable reuse = icon.findDrawableByLayerId(R.id.ic_badge);
+		if (reuse != null && reuse instanceof CartDrawable) {
+			badge = (CartDrawable) reuse;
+		} else {
+			badge = new CartDrawable(context);
+		}
+		if(Double.valueOf(count) > 9)
+			badge.setCount(count,6);
+		else
+			badge.setCount(count, 0);
+		icon.mutate();
+		icon.setDrawableByLayerId(R.id.ic_badge, badge);
+	}
+
+
+	@Override
+	public void onBackPressed() {
+		if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
+			getSupportFragmentManager()
+					.popBackStack();
+		}else{
+			super.onBackPressed();
+		}
+	}
+
+	private void commandsCount(){
+		DatabaseReference commands = mDatabase.child("users-commands").child(getUid());
+		commands.addChildEventListener(new ChildEventListener() {
+			@Override
+			public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+					count =  dataSnapshot.getChildrenCount();
+			}
+
+			@Override
+			public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+				   count =  dataSnapshot.getChildrenCount();
+			}
+
+			@Override
+			public void onChildRemoved(DataSnapshot dataSnapshot) {
+				    count =  dataSnapshot.getChildrenCount();
+			}
+
+			@Override
+			public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+			}
+
+			@Override
+			public void onCancelled(DatabaseError databaseError) {
+			}
+		});
 	}
 }
