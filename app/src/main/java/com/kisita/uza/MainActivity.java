@@ -479,14 +479,12 @@ public class MainActivity extends CustomActivity implements DetailFragment.OnFra
 		getMenuInflater().inflate(R.menu.search_exp, menu);
 		MenuItem itemCart = menu.findItem(R.id.action_cart);
 		mIcon = (LayerDrawable) itemCart.getIcon();
-		//TODO initialize with a persistent value
 		setBadgeCount(this, mIcon, String.valueOf(count));
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public void onFragmentInteraction(String key) {
-		//TODO should be a persistent value
 		String command = mDatabase.child("users").push().getKey(); // New command id
 		Map<String, Object> childUpdates = new HashMap<>();
 		childUpdates.put("/users-commands/" + getUid() + "/commands/"+command,key);
