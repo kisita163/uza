@@ -3,8 +3,9 @@ package com.kisita.uza.model;
 
 public class Data
 {
-	public enum UzaData {NAME,PRICE,CURRENCY,BRAND,DESCRIPTION,SELLER,CATEGORY,PICTURES};
+	public enum UzaData {UID,NAME,PRICE,CURRENCY,BRAND,DESCRIPTION,SELLER,CATEGORY,PICTURES};
 
+	private String uid;
 	/** The texts. This field contains the item name, the brand, the seller's name and a short item description */
 	private String[] texts;
 
