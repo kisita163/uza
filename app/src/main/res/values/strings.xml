@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Glam</string>
+    <string name="app_name">Uza</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="search">Search</string>
@@ -14,7 +14,9 @@
     <string name="push_notif">Push Notifications</string>
     <string name="email_notif">Email Notifications</string>
     <string name="tnc">Terms &amp; Conditions</string>
-    
+    <string name="db_items">items</string>
+    <string name="db_users_commands">users_commands</string>
+
     
     <string name="create_acc">Create Account</string>
     <string name="sign_in">Sign in</string>
@@ -39,8 +41,10 @@
         <string name="credit_cards">Credit Cards</string>
         <string name="email1">Email</string>
         <string name="detail_temp">Moto 360 stays true to the timeless form of the classic wristwatch. A round ... That\'s why all the leather used for Moto 360 comes from American leather crafters.\n\nThe 203 Series is a comprehensive update of the 200 collection. With many design details drawn from the 302 Series chrongraph, the 203 Series still maintains reference to the engineering dials it was inspired by. The 40mm two-part case features a lugless design and a chamfered bezel.</string>
-    
-    
-    
+    <string name="detail">ItemDetail</string>
+    <string name="title_activity_main2">Main2Activity</string>
 
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="checkout">Checkout</string>
 </resources>
