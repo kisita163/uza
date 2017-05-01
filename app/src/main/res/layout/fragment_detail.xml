@@ -4,6 +4,6 @@
     android:layout_height="match_parent"
     tools:context="com.kisita.uza.ui.DetailFragment">
 
-    <include layout="@layout/pr_detail" />
+    <include layout="@layout/detail_container" />
 
 </FrameLayout>
