@@ -7,6 +7,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 /**
  * The Class CustomFragment is the base Fragment class. You can extend your
  * Fragment classes with this class in case you want to apply common set of
@@ -49,4 +53,11 @@ public class CustomFragment extends Fragment implements OnClickListener
 
 	}
 
+	public String getUid() {
+		return FirebaseAuth.getInstance().getCurrentUser().getUid();
+	}
+
+	public DatabaseReference getDb() {
+		return FirebaseDatabase.getInstance().getReference();
+	}
 }
