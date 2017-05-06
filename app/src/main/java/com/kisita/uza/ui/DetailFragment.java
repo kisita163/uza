@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.kisita.uza.MainActivity;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.utils.PageAdapter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,21 +34,33 @@ import com.kisita.uza.utils.PageAdapter;
  * Use the {@link DetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetailFragment extends CustomFragment {
+public class DetailFragment extends CustomFragment implements ChildEventListener {
     // the fragment initialization parameters
+    private static final String TAG = "### DetailFragment";
+
     private static final String DESCRIPTION = "description";
+
     private static final String PICTURES = "pictures";
 
     private String [] mDescription;
+
     private String mPictures;
+
+    private boolean mCart = false;
 
     /** The pager. */
     private ViewPager pager;
+
+    private Button add;
+
+    private ImageView mlike;
 
     /** The view that hold dots. */
     private LinearLayout vDots;
 
     private OnFragmentInteractionListener mListener;
+
+    private Boolean mLiked = false;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -69,6 +89,8 @@ public class DetailFragment extends CustomFragment {
         if (getArguments() != null) {
             mDescription = getArguments().getStringArray(DESCRIPTION);
             mPictures = getArguments().getString(PICTURES);
+            // get user data
+            getDb().child("users-data").child(getUid()).addChildEventListener(this);
         }
     }
 
@@ -78,10 +100,14 @@ public class DetailFragment extends CustomFragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_detail, null);
 
-        ((MainActivity) getActivity()).toolbar.setTitle(getResources().getString(R.string.app_name));//TODO product name
-        ((MainActivity) getActivity()).toolbar.findViewById(
-                R.id.spinner_toolbar).setVisibility(View.GONE);
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).toolbar.setTitle(mDescription[Data.UzaData.NAME.ordinal()]);
+            ((MainActivity) getActivity()).toolbar.findViewById(
+                    R.id.spinner_toolbar).setVisibility(View.GONE);
+            ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            ((MainActivity) getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
 
+        }
         setHasOptionsMenu(true);
         return setupView(v);
     }
@@ -121,30 +147,23 @@ public class DetailFragment extends CustomFragment {
         TextView  item_price  = (TextView)v.findViewById(R.id.item_price);
         TextView  item_description  = (TextView)v.findViewById(R.id.item_description);
 
+        add = (Button) v.findViewById(R.id.fabCart);
+        add.setOnClickListener(this);
+        mlike = (ImageView) v.findViewById(R.id.btnLike);
+        mlike.setOnClickListener(this);
+
         if(mDescription != null) {
             item_name.setText(mDescription[Data.UzaData.NAME.ordinal()] + " | " + mDescription[Data.UzaData.SELLER.ordinal()]);
             item_price.setText(mDescription[Data.UzaData.PRICE.ordinal()]);
             item_description.setText(mDescription[Data.UzaData.DESCRIPTION.ordinal()]);
         }
 
-        initAddButton(v);
         initPager(v);
 
         //TODO "Show more pictures" button
         //TODO "Message" button
-        //TODO "Heart" button
 
         return v;
-    }
-
-    private void initAddButton(View v) {
-        Button add = (Button)v.findViewById(R.id.fabCart);
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onButtonPressed(mDescription[Data.UzaData.UID.ordinal()]);
-            }
-        });
     }
 
     /**
@@ -203,6 +222,78 @@ public class DetailFragment extends CustomFragment {
             {
                 vDots.setTag(img);
             }
+        }
+    }
+
+    @Override
+    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        Log.i(TAG, "There is data : " + dataSnapshot.getValue() + " " + dataSnapshot.getKey());
+        if (dataSnapshot.getKey().equalsIgnoreCase("commands")) {
+            Log.i(TAG, "There is a commands child");
+            if (dataSnapshot.getValue().toString().contains(mDescription[Data.UzaData.UID.ordinal()]))
+                setAddButton();
+        }
+
+        if (dataSnapshot.getKey().equalsIgnoreCase("likes")) {
+            Log.i(TAG, "There is a likes child");
+            setLikeButton();
+        }
+    }
+
+    private void setLikeButton() {
+        Log.i(TAG, "Setting like button");
+        mLiked = true;
+        mlike.setImageResource(R.drawable.button_liked);
+    }
+
+    private void setAddButton() {
+        Log.i(TAG, "Setting add button");
+        add.setEnabled(false);
+        add.setBackgroundResource(R.drawable.fab_added);
+        Toast.makeText(this.getContext(), "Item in the cart", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+    }
+
+    @Override
+    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+    }
+
+    @Override
+    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+    }
+
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fabCart:
+                setAddButton();
+                onButtonPressed(mDescription[Data.UzaData.UID.ordinal()]);
+                break;
+            case R.id.btnLike:
+                Log.i(TAG, "button add pressed (case)");
+                if (!mLiked) {
+                    Log.i(TAG, "Click on like");
+                    String like = getDb().child("users").push().getKey(); // New like id
+                    Map<String, Object> childUpdates = new HashMap<>();
+                    childUpdates.put("/users-data/" + getUid() + "/likes/" + like, mDescription[Data.UzaData.UID.ordinal()]);
+                    getDb().updateChildren(childUpdates);
+                } else {
+                    Toast.makeText(this.getContext(), "Already belong to your favourites", Toast.LENGTH_LONG).show();
+                }
+                break;
+            default:
+                Toast.makeText(this.getContext(), "Unknown error occured", Toast.LENGTH_LONG).show();
         }
     }
 
