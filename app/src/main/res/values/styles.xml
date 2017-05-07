@@ -1,18 +1,18 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppBaseTheme" parent="Theme.AppCompat">
-         <item name="colorPrimary">@color/main_color</item>
-    <item name="colorPrimaryDark">@color/main_color_dk</item>
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/main_color</item>
+        <item name="colorPrimaryDark">@color/main_color_dk</item>
     </style>
 
     <style name="AppTheme" parent="@style/AppBaseTheme">
         <!-- <item name="android:windowNoTitle">true</item> -->
-    <item name="windowActionBar">false</item>
+
     </style>
     
      <style name="AppTheme.FullScreen" parent="@style/AppTheme">
          <item name="android:windowFullscreen">true</item>
-    <item name="android:windowContentOverlay">@null</item>
+         <item name="android:windowContentOverlay">@null</item>
     </style>
     <style name="AppTheme.StatusBarOverlay" parent="@style/AppTheme">
     <item name="android:windowContentOverlay">@null</item>
@@ -27,7 +27,7 @@
     
     <style name="Theme.CustomDialog" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@drawable/trans_draw</item>
-        <item name="android:windowNoTitle">true</item>
+       <!-- <item name="android:windowNoTitle">true</item>-->
     </style>
     
     

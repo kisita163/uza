@@ -28,6 +28,7 @@ public class CommandsChildEventListener implements ChildEventListener {
         this.mItemsList = itemsList;
         this.mDatabase = reference;
     }
+    //TODO remove item from commands when it is removed from item list
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         Log.i(TAG, "onChildAdded ");
@@ -36,6 +37,8 @@ public class CommandsChildEventListener implements ChildEventListener {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(!dataSnapshot.exists())
+                            return;
                         Log.i(TAG, dataSnapshot.getValue().toString());
                         mItemsList.add(new Data(new String[]{
                                 dataSnapshot.getKey(),

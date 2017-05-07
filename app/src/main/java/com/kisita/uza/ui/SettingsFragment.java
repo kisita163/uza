@@ -31,8 +31,6 @@ public class SettingsFragment extends CustomFragment
 		View v = inflater.inflate(R.layout.settings, null);
 
 		((MainActivity) getActivity()).toolbar.setTitle("SettingsFragment");
-		((MainActivity) getActivity()).toolbar.findViewById(
-				R.id.spinner_toolbar).setVisibility(View.GONE);
 		return v;
 	}
 

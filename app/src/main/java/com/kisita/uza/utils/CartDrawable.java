@@ -23,6 +23,8 @@ public class CartDrawable extends Drawable {
     private Paint mBadgePaint1;
     private Paint mTextPaint;
     private Rect mTxtRect = new Rect();
+    private float mdiff = 0;
+    private Context mContext;
 
     private String mCount = "";
     private boolean mWillDraw;
@@ -38,6 +40,8 @@ public class CartDrawable extends Drawable {
         mBadgePaint1.setColor(ContextCompat.getColor(context.getApplicationContext(), R.color.red_light));
         mBadgePaint1.setAntiAlias(true);
         mBadgePaint1.setStyle(Paint.Style.FILL);
+
+        mContext = context;
 
         mTextPaint = new Paint();
         mTextPaint.setColor(Color.WHITE);
@@ -63,7 +67,7 @@ public class CartDrawable extends Drawable {
 
 	        /*Using Math.max rather than Math.min */
 
-        float radius = ((Math.max(width, height) / 2)) / 2;
+        float radius = (((Math.max(width, height) / 2)) / 2) + mdiff;
         float centerX = (width - radius - 1);
         float centerY = radius ;
         if(mCount.length() <= 2){
@@ -89,11 +93,25 @@ public class CartDrawable extends Drawable {
     /*
     Sets the count (i.e notifications) to display.
      */
-    public void setCount(String count) {
+    public void setCount(String count,float diff) {
         mCount = count;
+        mdiff = diff;
 
         // Only draw a badge if there are notifications.
-        mWillDraw = !count.equalsIgnoreCase("0");
+        mWillDraw = true;
+        if(mCount.equalsIgnoreCase("0")){
+            mBadgePaint.setColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.main_color));
+            mBadgePaint1.setColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.main_color));
+        }else{
+            mBadgePaint.setColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.red_light));
+            mBadgePaint1.setColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.red_light));
+        }
+        invalidateSelf();
+    }
+
+    public void setColor(int color){
+        mBadgePaint.setColor(ContextCompat.getColor(mContext.getApplicationContext(),color));
+        mBadgePaint1.setColor(ContextCompat.getColor(mContext.getApplicationContext(),color));
         invalidateSelf();
     }
 

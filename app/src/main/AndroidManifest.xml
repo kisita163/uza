@@ -48,24 +48,14 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <activity
-            android:name=".ProductDetail"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppBaseTheme" >
-        </activity>
-        <activity
-            android:name=".CheckoutActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppBaseTheme" >
-        </activity>
 
         <!-- Firebase messaging service -->
-        <service android:name="com.kisita.uza.fcm.UzaFirebaseMessagingService" >
+        <service android:name=".fcm.UzaFirebaseMessagingService" >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name="com.kisita.uza.fcm.UzaFirebaseInstanceIDService" >
+        <service android:name=".fcm.UzaFirebaseInstanceIDService" >
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
@@ -87,10 +77,27 @@
             android:resource="@color/main_color" />
 
         <service
-            android:name="com.kisita.uza.fcm.UzaJobService"
+            android:name=".fcm.UzaJobService"
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <activity
+            android:name=".DetailsActivity"
+            android:label="@string/title_activity_details"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.kisita.uza.MainActivity" />
+        </activity>
+        <activity
+            android:name=".CheckoutActivity"
+            android:label="@string/title_activity_checkout"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.kisita.uza.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

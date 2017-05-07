@@ -2,33 +2,62 @@ package com.kisita.uza.custom;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.kisita.uza.CheckoutActivity;
 import com.kisita.uza.R;
+import com.kisita.uza.ui.DetailFragment;
+import com.kisita.uza.utils.CartDrawable;
 import com.kisita.uza.utils.TouchEffect;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This is a common activity that all other activities of the app can extend to
  * inherit the common behaviors like setting a Theme to activity.
  */
 public class CustomActivity extends AppCompatActivity implements
-		OnClickListener
+		OnClickListener,DetailFragment.OnFragmentInteractionListener
 {
 
 	/**
 	 * Apply this Constant as touch listener for views to provide alpha touch
 	 * effect. The view must have a Non-Transparent background.
 	 */
+
+	public String TAG = "###"+ getClass().getName();
+
 	public static final TouchEffect TOUCH = new TouchEffect();
+
 	private ProgressDialog mProgressDialog;
+	/* Items count */
+	private long count = 0;
+
+	/* cart icon*/
+	private LayerDrawable mIcon;
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
@@ -47,20 +76,7 @@ public class CustomActivity extends AppCompatActivity implements
 							WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 			// getWindow().setStatusBarColor(getResources().getColor(R.color.main_color_dk));
 		}
-	}
-
-	/* (non-Jav-adoc)
-	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
-	 */
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
-	 */
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		if (item.getItemId() == android.R.id.home)
-			finish();
-		return super.onOptionsItemSelected(item);
+		commandsCount();
 	}
 
 	/**
@@ -75,8 +91,8 @@ public class CustomActivity extends AppCompatActivity implements
 		if (actionBar == null)
 			return;
 		actionBar.setDisplayShowTitleEnabled(true);
-		// actionBar.setDisplayUseLogoEnabled(true);
-		// actionBar.setLogo(R.drawable.icon);
+		actionBar.setDisplayUseLogoEnabled(true);
+		actionBar.setLogo(R.drawable.ic_email);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setHomeAsUpIndicator(R.drawable.drawer_shadow);
@@ -139,4 +155,80 @@ public class CustomActivity extends AppCompatActivity implements
 		}
 	}
 
+	private void setBadgeCount(Context context, LayerDrawable icon, String count) {
+
+		CartDrawable badge;
+		Log.i(TAG,"setBadgeCount. count = "+count);
+		// Reuse drawable if possible
+		Drawable reuse = icon.findDrawableByLayerId(R.id.ic_badge);
+		if (reuse != null && reuse instanceof CartDrawable) {
+			badge = (CartDrawable) reuse;
+		} else {
+			badge = new CartDrawable(context);
+		}
+		if(Double.valueOf(count) > 9)
+			badge.setCount(count,6);
+		else
+			badge.setCount(count, 0);
+		icon.mutate();
+		icon.setDrawableByLayerId(R.id.ic_badge, badge);
+	}
+
+	private void commandsCount(){
+		DatabaseReference commands = getDb().child("users-data").child(getUid()).child("commands");
+		commands.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot) {
+				Log.i(TAG, "Child added. count = "+dataSnapshot.getChildrenCount());
+				count = dataSnapshot.getChildrenCount();
+				if(mIcon != null)
+					setBadgeCount(getApplicationContext(), mIcon, String.valueOf(dataSnapshot.getChildrenCount()));
+			}
+
+			@Override
+			public void onCancelled(DatabaseError databaseError) {
+
+			}
+		});
+	}
+
+	public String getUid() {
+		return FirebaseAuth.getInstance().getCurrentUser().getUid();
+	}
+
+	public DatabaseReference getDb() {
+		return FirebaseDatabase.getInstance().getReference();
+	}
+
+	@Override
+	public void onFragmentInteraction(String key) {
+		count++;
+		String command = getDb().child("users").push().getKey(); // New command id
+		Map<String, Object> childUpdates = new HashMap<>();
+		childUpdates.put("/users-data/" + getUid() + "/commands/"+command,key);
+		getDb().updateChildren(childUpdates);
+		setBadgeCount(this, mIcon, String.valueOf(count));
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		Log.i(TAG,"onCreateOptionsMenu");
+		getMenuInflater().inflate(R.menu.search_exp, menu);
+		MenuItem itemCart = menu.findItem(R.id.action_cart);
+		mIcon = (LayerDrawable) itemCart.getIcon();
+		setBadgeCount(this, mIcon, String.valueOf(count));
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Log.i(TAG,"onOptionsItemSelected");
+		if (item.getItemId() == R.id.action_cart) {
+			if(!getClass().getName().equalsIgnoreCase(CheckoutActivity.class.getName())) {
+				Intent intent = new Intent(this, CheckoutActivity.class);
+				startActivity(intent);
+			}
+		}
+		return super.onOptionsItemSelected(item);
+	}
 }

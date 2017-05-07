@@ -1,13 +1,10 @@
 package com.kisita.uza;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.kisita.uza.custom.CustomActivity;
-import com.kisita.uza.R;
 
 /**
  * The Activity Home is launched after the Splash screen. It simply show two
@@ -23,7 +20,7 @@ public class Home extends CustomActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.home);
+		setContentView(R.layout.activity_home);
 		/*if(!checkPlayServices(this)) {
 			System.out.println("Allow users to download Google Play services from the Play Store");
 			//TODO GoogleApiAvailability.makeGooglePlayServicesAvailable(this);

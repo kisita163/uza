@@ -1,9 +1,11 @@
 package com.kisita.uza.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +16,9 @@ import android.widget.TextView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.kisita.uza.DetailsActivity;
 import com.kisita.uza.R;
+import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.listerners.ItemChildEventListener;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.ui.DetailFragment;
@@ -27,16 +31,14 @@ import java.util.ArrayList;
 public class UzaCardAdapter extends
         RecyclerView.Adapter<UzaCardAdapter.CardViewHolder>
 {
-
+    private static final String TAG = "### UzaCardAdapter";
     private ArrayList<Data> itemsList;
     private Context mContext;
-    private DatabaseReference mDatabase;
-    private ItemChildEventListener mChildEventListener;
     private AdapterView.OnItemClickListener mOnItemClickListener;
 
-    public UzaCardAdapter(Context context) {
+    public UzaCardAdapter(Context context,ArrayList<Data> items) {
         this.mContext = context;
-        loadData();
+        this.itemsList = items;
     }
 
     @Override
@@ -57,12 +59,9 @@ public class UzaCardAdapter extends
         mOnItemClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Bundle b = new Bundle();
-                b.putStringArray(mContext.getString(R.string.detail), itemsList.get(i).getTexts());
-                DetailFragment f = DetailFragment.newInstance(itemsList.get(i).getTexts(),"");
-                ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,R.anim.slide_in_left, R.anim.slide_out_right)
-                        .addToBackStack(null)
-                        .replace(R.id.content_frame, f).commit();
+                Intent intent = new Intent(mContext, DetailsActivity.class);
+                intent.putExtra("Details",itemsList.get(i).getTexts());
+                mContext.startActivity(intent);
             }
         };
     }
@@ -70,27 +69,6 @@ public class UzaCardAdapter extends
     @Override
     public int getItemCount() {
         return itemsList.size();
-    }
-
-    /**
-     * Load  product data for displaying on the RecyclerView.
-     */
-    private void  loadData()
-    {
-        itemsList = new ArrayList<>();
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.keepSynced(true);
-
-
-        mChildEventListener = new ItemChildEventListener(itemsList,this);
-        Query itemsQuery = getQuery(mDatabase);
-        itemsQuery.addChildEventListener(mChildEventListener);
-    }
-
-    public Query getQuery(DatabaseReference databaseReference) {
-        // All my posts
-        return databaseReference.child("items");
     }
 
     private void onItemHolderClick(CardViewHolder itemHolder) {

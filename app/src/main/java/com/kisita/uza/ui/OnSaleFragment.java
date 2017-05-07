@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -44,11 +45,7 @@ public class OnSaleFragment extends CustomFragment
 	{
 		View v = inflater.inflate(R.layout.fragment_onsale, null);
 
-		((MainActivity) getActivity()).toolbar.setTitle(getResources().getString(R.string.app_name));
-		((MainActivity) getActivity()).toolbar.findViewById(
-				R.id.spinner_toolbar).setVisibility(View.GONE);
-
-		setHasOptionsMenu(true);
+		//setHasOptionsMenu(true);
 		setupView(v);
 		return v;
 		//TODO Add a floating  spinner to filter articles

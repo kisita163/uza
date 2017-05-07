@@ -17,6 +17,10 @@ import android.widget.Toast;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
+import com.kisita.uza.DetailsActivity;
 import com.kisita.uza.MainActivity;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
@@ -44,6 +48,8 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
 
     private String [] mDescription;
 
+    private String key;
+
     private String mPictures;
 
     private boolean mCart = false;
@@ -61,6 +67,9 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
     private OnFragmentInteractionListener mListener;
 
     private Boolean mLiked = false;
+
+    private DatabaseReference commands;
+    private DatabaseReference likes;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -90,7 +99,12 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
             mDescription = getArguments().getStringArray(DESCRIPTION);
             mPictures = getArguments().getString(PICTURES);
             // get user data
-            getDb().child("users-data").child(getUid()).addChildEventListener(this);
+            commands = getDb().child("users-data").child(getUid()).child("commands");
+            likes = getDb().child("users-data").child(getUid()).child("likes");
+
+
+            commands.addChildEventListener(this);
+            likes.addChildEventListener(this);
         }
     }
 
@@ -100,14 +114,6 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_detail, null);
 
-        if (getActivity() instanceof MainActivity) {
-            ((MainActivity) getActivity()).toolbar.setTitle(mDescription[Data.UzaData.NAME.ordinal()]);
-            ((MainActivity) getActivity()).toolbar.findViewById(
-                    R.id.spinner_toolbar).setVisibility(View.GONE);
-            ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            ((MainActivity) getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
-
-        }
         setHasOptionsMenu(true);
         return setupView(v);
     }
@@ -227,50 +233,69 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        Log.i(TAG, "There is data : " + dataSnapshot.getValue() + " " + dataSnapshot.getKey());
-        if (dataSnapshot.getKey().equalsIgnoreCase("commands")) {
-            Log.i(TAG, "There is a commands child");
-            if (dataSnapshot.getValue().toString().contains(mDescription[Data.UzaData.UID.ordinal()]))
+        Log.i(TAG, "Command or like added");
+        onDbEvent(dataSnapshot,true);
+    }
+
+    private void onDbEvent(DataSnapshot dataSnapshot,Boolean status) {
+        Log.i(TAG,dataSnapshot.getValue().toString() + " " + dataSnapshot.getRef().getParent().getKey());//TODO please don't set the button for like case and vice versa
+        if(dataSnapshot.getRef().getParent().getKey().equalsIgnoreCase("commands")){
+            if (dataSnapshot.getValue().toString().equalsIgnoreCase(mDescription[Data.UzaData.UID.ordinal()])){
                 setAddButton();
+            }
         }
 
-        if (dataSnapshot.getKey().equalsIgnoreCase("likes")) {
-            Log.i(TAG, "There is a likes child");
+        if(dataSnapshot.getRef().getParent().getKey().equalsIgnoreCase("likes")){
+            if (dataSnapshot.getValue().toString().equalsIgnoreCase(mDescription[Data.UzaData.UID.ordinal()])){
+                if(status)
+                    mLiked = true;
+                else
+                    mLiked  = false;
+                key = dataSnapshot.getKey();
+            }else{
+                mLiked = false;
+            }
             setLikeButton();
         }
     }
 
+
     private void setLikeButton() {
         Log.i(TAG, "Setting like button");
-        mLiked = true;
-        mlike.setImageResource(R.drawable.button_liked);
+        if(mLiked)
+            mlike.setImageResource(R.drawable.button_liked);
+        else
+            mlike.setImageResource(R.drawable.button_like);
+
     }
 
     private void setAddButton() {
         Log.i(TAG, "Setting add button");
         add.setEnabled(false);
         add.setBackgroundResource(R.drawable.fab_added);
-        Toast.makeText(this.getContext(), "Item in the cart", Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(), "Item in the cart", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+        Log.i(TAG, "Command or like Changed");
     }
 
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+        Log.i(TAG, "Command or like removed");
+        mLiked = false;
+        onDbEvent(dataSnapshot,false);
     }
 
     @Override
     public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+        Log.i(TAG, "Command or like moved");
     }
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
-
+        Log.i(TAG, "Command or like cancelled");
     }
 
     @Override
@@ -281,19 +306,26 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
                 onButtonPressed(mDescription[Data.UzaData.UID.ordinal()]);
                 break;
             case R.id.btnLike:
-                Log.i(TAG, "button add pressed (case)");
-                if (!mLiked) {
-                    Log.i(TAG, "Click on like");
-                    String like = getDb().child("users").push().getKey(); // New like id
-                    Map<String, Object> childUpdates = new HashMap<>();
-                    childUpdates.put("/users-data/" + getUid() + "/likes/" + like, mDescription[Data.UzaData.UID.ordinal()]);
-                    getDb().updateChildren(childUpdates);
-                } else {
-                    Toast.makeText(this.getContext(), "Already belong to your favourites", Toast.LENGTH_LONG).show();
-                }
+                likePressed();
                 break;
             default:
                 Toast.makeText(this.getContext(), "Unknown error occured", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void likePressed() {
+        Log.i(TAG, "button like pressed (case)");
+        Map<String, Object> childUpdates = new HashMap<>();
+        if (!mLiked) {
+            Log.i(TAG, "mlike is false");
+            String like = getDb().child("users").push().getKey(); // New key
+            childUpdates.put("/users-data/" + getUid() + "/likes/" + like, mDescription[Data.UzaData.UID.ordinal()]);
+            getDb().updateChildren(childUpdates);
+            //Toast.makeText(this.getContext(), "Added to your favourites", Toast.LENGTH_LONG).show();
+        } else {
+            likes.child(key).removeValue();
+            mLiked = false;
+            //Toast.makeText(this.getContext(), "Removed from your favourites", Toast.LENGTH_LONG).show();
         }
     }
 

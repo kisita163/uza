@@ -59,9 +59,10 @@ public class Login extends CustomActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.login);
+		setContentView(R.layout.activity_login);
 
 		try {
+			Log.i(TAG,"Make data persistent");
 			FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 		}catch (Exception e){
 			Log.i(TAG,"The app crash arguing that this instance must be called prior to other instances");
