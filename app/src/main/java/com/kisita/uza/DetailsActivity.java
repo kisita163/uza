@@ -1,13 +1,10 @@
 package com.kisita.uza;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.kisita.uza.custom.CustomActivity;
-import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.ui.DetailFragment;
 
@@ -30,6 +27,7 @@ public class DetailsActivity extends CustomActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, f)
                 .commit();
+        commandsCount();
     }
 
     @Override
