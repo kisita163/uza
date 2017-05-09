@@ -1,9 +1,11 @@
-package com.kisita.uza;
+package com.kisita.uza.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+
+import com.kisita.uza.R;
 
 /**
  * The Class SplashScreen will launched at the start of the application. It will
@@ -67,7 +69,7 @@ public class SplashScreen extends Activity
 	}
 
 	/**
-	 * If the app is still running than this method will start the Login
+	 * If the app is still running than this method will start the LoginActivity
 	 * activity and finish the Splash.
 	 */
 	private synchronized void doFinish()
@@ -76,7 +78,7 @@ public class SplashScreen extends Activity
 		if (isRunning)
 		{
 			isRunning = false;
-			Intent i = new Intent(SplashScreen.this, Login.class);
+			Intent i = new Intent(SplashScreen.this, LoginActivity.class);
 			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(i);
 			finish();

@@ -1,20 +1,16 @@
 package com.kisita.uza.ui;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.kisita.uza.MainActivity;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.listerners.ItemChildEventListener;
@@ -44,8 +40,7 @@ public class OnSaleFragment extends CustomFragment
 			Bundle savedInstanceState)
 	{
 		View v = inflater.inflate(R.layout.fragment_onsale, null);
-
-		//setHasOptionsMenu(true);
+		setHasOptionsMenu(true);
 		setupView(v);
 		return v;
 		//TODO Add a floating  spinner to filter articles
@@ -85,31 +80,19 @@ public class OnSaleFragment extends CustomFragment
 		loadData();
 	}
 
-	@Override
-	public void onAttach(Context context) {
-		Log.i(TAG, "On attach called");
-		super.onAttach(context);
-	}
-
-	@Override
-	public void onDetach() {
-		Log.i(TAG, "On dettach called");
-		super.onDetach();
-	}
-
 	/**
-	 * Load  product data for displaying on the RecyclerView.
-	 */
-	private void  loadData()
-	{
-		mDatabase = FirebaseDatabase.getInstance().getReference();
-		mDatabase.keepSynced(true);
+ * Load  product data for displaying on the RecyclerView.
+ */
+private void  loadData()
+{
+	mDatabase = FirebaseDatabase.getInstance().getReference();
+	mDatabase.keepSynced(true);
 
 
-		mChildEventListener = new ItemChildEventListener(itemsList,mCardadapter);
-		Query itemsQuery = getQuery(mDatabase);
-		itemsQuery.addChildEventListener(mChildEventListener);
-	}
+	mChildEventListener = new ItemChildEventListener(itemsList,mCardadapter);
+	Query itemsQuery = getQuery(mDatabase);
+	itemsQuery.addChildEventListener(mChildEventListener);
+}
 
 	public Query getQuery(DatabaseReference databaseReference) {
 		return databaseReference.child("items");

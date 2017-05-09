@@ -61,4 +61,5 @@
     <string name="title_activity_teest">TeestActivity</string>
     <string name="title_activity_details">DetailsActivity</string>
     <string name="title_activity_checkout">CheckoutActivity</string>
+    <string name="title_activity_favorites">FavoritesActivity</string>
 </resources>

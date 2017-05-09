@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.kisita.uza.MainActivity;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
@@ -29,8 +28,7 @@ public class SettingsFragment extends CustomFragment
 			Bundle savedInstanceState)
 	{
 		View v = inflater.inflate(R.layout.settings, null);
-
-		((MainActivity) getActivity()).toolbar.setTitle("SettingsFragment");
+		setHasOptionsMenu(true);
 		return v;
 	}
 

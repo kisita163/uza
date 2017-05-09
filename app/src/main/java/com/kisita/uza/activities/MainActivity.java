@@ -1,4 +1,4 @@
-package com.kisita.uza;
+package com.kisita.uza.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.ui.LeftNavAdapter;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 
 
 /**
- * The Activity MainActivity will launched after the Login and it is the
+ * The Activity MainActivity will launched after the LoginActivity and it is the
  * Home/Base activity of the app which holds all the Fragments and also show the
  * Sliding Navigation drawer. You can write your code for displaying actual
  * items on Drawer layout.
@@ -166,14 +167,25 @@ public class MainActivity extends CustomActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i(TAG, "position : " + position);
+                Intent intent;
                 switch (position) {
                     case (1):
+                        break;
                     case (2):
+                        intent = new Intent(mContext, UzaActivity.class);
+                        intent.putExtra("fragment",0);
+                        mContext.startActivity(intent);
+                        break;
                     case (3):
-                        Intent intent = new Intent(mContext, CheckoutActivity.class);
+                        intent = new Intent(mContext, UzaActivity.class);
+                        intent.putExtra("fragment",1);
                         mContext.startActivity(intent);
                         break;
                     case (4):
+                        intent = new Intent(mContext, UzaActivity.class);
+                        intent.putExtra("fragment",2);
+                        mContext.startActivity(intent);
+                        break;
                     case (5):
                         break;
                 }

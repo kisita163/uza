@@ -2,26 +2,16 @@ package com.kisita.uza.utils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.kisita.uza.DetailsActivity;
 import com.kisita.uza.R;
-import com.kisita.uza.custom.CustomActivity;
-import com.kisita.uza.listerners.ItemChildEventListener;
+import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.model.Data;
-import com.kisita.uza.ui.DetailFragment;
 
 import java.util.ArrayList;
 
@@ -59,7 +49,8 @@ public class UzaCardAdapter extends
         mOnItemClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(mContext, DetailsActivity.class);
+                Intent intent = new Intent(mContext, UzaActivity.class);
+                intent.putExtra("fragment",3);
                 intent.putExtra("Details",itemsList.get(i).getTexts());
                 mContext.startActivity(intent);
             }

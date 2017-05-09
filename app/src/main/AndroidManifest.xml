@@ -23,7 +23,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".SplashScreen"
+            android:name=".activities.SplashScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen" >
@@ -34,18 +34,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Home"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.FullScreen" >
-        </activity>
-        <activity
-            android:name=".Login"
+            android:name=".activities.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.StatusBarOverlay"
             android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:screenOrientation="portrait" >
         </activity>
 
@@ -83,20 +78,12 @@
         </service>
 
         <activity
-            android:name=".DetailsActivity"
-            android:label="@string/title_activity_details"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.kisita.uza.MainActivity" />
-        </activity>
-        <activity
-            android:name=".CheckoutActivity"
+            android:name=".activities.UzaActivity"
             android:label="@string/title_activity_checkout"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".activities.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.kisita.uza.MainActivity" />
+                android:value=".activities.MainActivity" />
         </activity>
     </application>
 

@@ -18,10 +18,6 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Transaction;
-import com.kisita.uza.DetailsActivity;
-import com.kisita.uza.MainActivity;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
@@ -113,7 +109,6 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_detail, null);
-
         setHasOptionsMenu(true);
         return setupView(v);
     }

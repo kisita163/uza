@@ -19,8 +19,6 @@ import android.view.ViewGroup;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.kisita.uza.CheckoutActivity;
-import com.kisita.uza.MainActivity;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.listerners.CommandsChildEventListener;
@@ -58,7 +56,6 @@ public class CheckoutFragment extends CustomFragment
 		View v = inflater.inflate(R.layout.fragment_checkout, null);
 
 		setTouchNClick(v.findViewById(R.id.btnDone));
-		setHasOptionsMenu(true);
 		setupView(v);
 		return v;
 	}

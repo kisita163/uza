@@ -9,7 +9,7 @@ import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.jobdispatcher.Job;
 import com.google.firebase.messaging.RemoteMessage;
-import com.kisita.uza.MainActivity;
+import com.kisita.uza.activities.MainActivity;
 import com.kisita.uza.R;
 
 import android.media.RingtoneManager;

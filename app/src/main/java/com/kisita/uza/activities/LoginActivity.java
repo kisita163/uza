@@ -1,4 +1,4 @@
-package com.kisita.uza;
+package com.kisita.uza.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,15 +24,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.model.User;
 
 /**
- * The Activity Login is launched after the Home screen. You need to write your
- * logic for actual Login. You also need to implement Facebook Login if
+ * The Activity LoginActivity is launched after the Home screen. You need to write your
+ * logic for actual LoginActivity. You also need to implement Facebook LoginActivity if
  * required.
  */
-public class Login extends CustomActivity
+public class LoginActivity extends CustomActivity
 {
 	/** Firebase fields */
 	private static final String TAG = "SignInActivity";
@@ -90,7 +91,7 @@ public class Login extends CustomActivity
 		writeNewUser(user.getUid(), username, user.getEmail());
 
 		// Go to MainActivity
-		startActivity(new Intent(Login.this, MainActivity.class));
+		startActivity(new Intent(LoginActivity.this, MainActivity.class));
 		finish();
 	}
 
@@ -297,7 +298,7 @@ public class Login extends CustomActivity
 						if (task.isSuccessful()) {
 							onAuthSuccess(task.getResult().getUser());
 						} else {
-							Toast.makeText(Login.this, "Sign In Failed",
+							Toast.makeText(LoginActivity.this, "Sign In Failed",
 									Toast.LENGTH_SHORT).show();
 						}
 					}

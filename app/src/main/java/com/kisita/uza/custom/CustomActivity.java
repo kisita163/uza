@@ -6,11 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -20,13 +18,12 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.kisita.uza.CheckoutActivity;
+import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.R;
 import com.kisita.uza.ui.DetailFragment;
 import com.kisita.uza.utils.CartDrawable;
@@ -76,7 +73,6 @@ public class CustomActivity extends AppCompatActivity implements
 							WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 			// getWindow().setStatusBarColor(getResources().getColor(R.color.main_color_dk));
 		}
-		commandsCount();
 	}
 
 	/**
@@ -174,14 +170,14 @@ public class CustomActivity extends AppCompatActivity implements
 		icon.setDrawableByLayerId(R.id.ic_badge, badge);
 	}
 
-	private void commandsCount(){
+	protected void commandsCount(){
 		DatabaseReference commands = getDb().child("users-data").child(getUid()).child("commands");
 		commands.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
-				Log.i(TAG, "Child added. count = "+dataSnapshot.getChildrenCount());
+				Log.i(TAG, "Child added. count = " + dataSnapshot.getChildrenCount());
 				count = dataSnapshot.getChildrenCount();
-				if(mIcon != null)
+				if (mIcon != null)
 					setBadgeCount(getApplicationContext(), mIcon, String.valueOf(dataSnapshot.getChildrenCount()));
 			}
 
@@ -218,17 +214,5 @@ public class CustomActivity extends AppCompatActivity implements
 		mIcon = (LayerDrawable) itemCart.getIcon();
 		setBadgeCount(this, mIcon, String.valueOf(count));
 		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Log.i(TAG,"onOptionsItemSelected");
-		if (item.getItemId() == R.id.action_cart) {
-			if(!getClass().getName().equalsIgnoreCase(CheckoutActivity.class.getName())) {
-				Intent intent = new Intent(this, CheckoutActivity.class);
-				startActivity(intent);
-			}
-		}
-		return super.onOptionsItemSelected(item);
 	}
 }

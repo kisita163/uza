@@ -1,7 +1,5 @@
 package com.kisita.uza.ui;
 
-import java.util.ArrayList;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,7 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.kisita.uza.MainActivity;
+import com.kisita.uza.activities.MainActivity;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 
@@ -41,11 +39,7 @@ public class MainFragment extends CustomFragment
 		{
 			((MainActivity) getActivity()).toolbar.setTitle(getResources().getString(R.string.all_sales));
 			((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-			//((MainActivity) getActivity()).getToggle().setDrawerIndicatorEnabled(true);
-
 		}
-
-		setHasOptionsMenu(true);
 		setupView(v);
 
 		return v;
