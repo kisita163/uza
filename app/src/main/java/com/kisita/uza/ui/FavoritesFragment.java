@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * A placeholder fragment containing a simple view.
  */
 public class FavoritesFragment extends CustomFragment {
-    final static String TAG = "### OnSaleFragment";
+    final static String TAG = "### FavoritesFragment";
     /*The card adapter*/
     private UzaCardAdapter mCardadapter;
     /*The list of items*/
