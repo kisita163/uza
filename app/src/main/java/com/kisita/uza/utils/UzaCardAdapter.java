@@ -2,13 +2,23 @@ package com.kisita.uza.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageException;
+import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.model.Data;
@@ -19,16 +29,24 @@ import java.util.ArrayList;
  * Created by Hugues on 23/04/2017.
  */
 public class UzaCardAdapter extends
-        RecyclerView.Adapter<UzaCardAdapter.CardViewHolder>
+        RecyclerView.Adapter<UzaCardAdapter.CardViewHolder> implements OnFailureListener
 {
     private static final String TAG = "### UzaCardAdapter";
+    private final long ONE_MEGABYTE = 1024 * 1024;
     private ArrayList<Data> itemsList;
     private Context mContext;
     private AdapterView.OnItemClickListener mOnItemClickListener;
+    private FirebaseStorage mStorage;
+    private StorageReference mStorageRef;
+    private Bitmap mBitmap;
+    private Data d;
+    private int posTest = -1;
+    private boolean done = false;
 
     public UzaCardAdapter(Context context,ArrayList<Data> items) {
         this.mContext = context;
         this.itemsList = items;
+        mStorage = FirebaseStorage.getInstance();
     }
 
     @Override
@@ -40,11 +58,30 @@ public class UzaCardAdapter extends
 
     @Override
     public void onBindViewHolder(UzaCardAdapter.CardViewHolder holder, int position) {
-        Data d = itemsList.get(position);
+        d = itemsList.get(position);
+        final int pos = position;
+        mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + d.getTexts()[Data.UzaData.UID.ordinal()] + "/android.png");
+
+        mStorageRef.child(d.getTexts()[Data.UzaData.UID.ordinal()] + "/android.png");
+
+
+        mStorageRef.getBytes(ONE_MEGABYTE).addOnFailureListener(this).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Log.i(TAG, "File downloaded  for position " + getItemId(pos));
+                mBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                notifyDataSetChanged();
+                posTest = pos;
+                done = true;
+            }
+        });
+
         holder.lbl1.setText(d.getTexts()[Data.UzaData.NAME.ordinal()]); // Name
         holder.lbl2.setText(d.getTexts()[Data.UzaData.SELLER.ordinal()]);
         holder.lbl3.setText(d.getTexts()[Data.UzaData.PRICE.ordinal()]);
-        holder.img.setImageResource(d.getResources()[0]);
+        holder.img.setImageBitmap(mBitmap);
+        Log.i(TAG, "View setting done");
+        //holder.img.refreshDrawableState();
 
         mOnItemClickListener = new AdapterView.OnItemClickListener() {
             @Override
@@ -68,6 +105,15 @@ public class UzaCardAdapter extends
                     itemHolder.getAdapterPosition(), itemHolder.getItemId());
         }
     }
+
+    @Override
+    public void onFailure(@NonNull Exception e) {
+        int errorCode = ((StorageException) e).getErrorCode();
+        String errorMessage = e.getMessage();
+
+        Log.i(TAG, "Failure occurred. Error code is  : " + errorMessage + "-" + e.getCause().toString());
+    }
+
 
     /**
      * The Class CardViewHolder is the View Holder class for Adapter views.

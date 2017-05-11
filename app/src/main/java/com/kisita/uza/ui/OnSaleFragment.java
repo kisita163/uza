@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.listerners.ItemChildEventListener;
@@ -26,9 +28,11 @@ import java.util.ArrayList;
 public class OnSaleFragment extends CustomFragment
 {
 	final static String TAG = "### OnSaleFragment";
+	StorageReference storageRef;
 	private UzaCardAdapter mCardadapter;
 	private ArrayList<Data> itemsList;
 	private DatabaseReference mDatabase;
+	private FirebaseStorage storage;
 	private ItemChildEventListener mChildEventListener;
 
 	/* (non-Javadoc)
