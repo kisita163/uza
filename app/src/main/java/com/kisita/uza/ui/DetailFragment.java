@@ -2,6 +2,7 @@ package com.kisita.uza.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -46,7 +47,7 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
 
     private String key;
 
-    private String mPictures;
+    private byte[] mPicture;
 
     private boolean mCart = false;
 
@@ -76,14 +77,14 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
      * this fragment using the provided parameters.
      *
      * @param description Parameter 1.
-     * @param pictures Parameter 2.
+     * @param picture Parameter 2.
      * @return A new instance of fragment DetailFragment.
      */
-    public static DetailFragment newInstance(String [] description, String pictures) {
+    public static DetailFragment newInstance(String[] description, byte[] picture) {
         DetailFragment fragment = new DetailFragment();
         Bundle args = new Bundle();
         args.putStringArray(DESCRIPTION, description);
-        args.putString(PICTURES, pictures);
+        args.putByteArray(PICTURES, picture);
         fragment.setArguments(args);
         return fragment;
     }
@@ -93,7 +94,7 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mDescription = getArguments().getStringArray(DESCRIPTION);
-            mPictures = getArguments().getString(PICTURES);
+            mPicture = getArguments().getByteArray(PICTURES);
             // get user data
             commands = getDb().child("users-data").child(getUid()).child("commands");
             likes = getDb().child("users-data").child(getUid()).child("likes");
@@ -147,6 +148,7 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
         TextView item_name  = (TextView)v.findViewById(R.id.item_name);
         TextView  item_price  = (TextView)v.findViewById(R.id.item_price);
         TextView  item_description  = (TextView)v.findViewById(R.id.item_description);
+        ImageView item_picture = (ImageView) v.findViewById(R.id.imageView1);
 
         add = (Button) v.findViewById(R.id.fabCart);
         add.setOnClickListener(this);
@@ -157,7 +159,11 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
             item_name.setText(mDescription[Data.UzaData.NAME.ordinal()] + " | " + mDescription[Data.UzaData.SELLER.ordinal()]);
             item_price.setText(mDescription[Data.UzaData.PRICE.ordinal()]);
             item_description.setText(mDescription[Data.UzaData.DESCRIPTION.ordinal()]);
+
         }
+
+        if (mPicture != null)
+            item_picture.setImageBitmap(BitmapFactory.decodeByteArray(mPicture, 0, mPicture.length));
 
         initPager(v);
 

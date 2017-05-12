@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
@@ -40,8 +39,6 @@ public class UzaCardAdapter extends
     private StorageReference mStorageRef;
     private Bitmap mBitmap;
     private Data d;
-    private int posTest = -1;
-    private boolean done = false;
 
     public UzaCardAdapter(Context context,ArrayList<Data> items) {
         this.mContext = context;
@@ -59,36 +56,20 @@ public class UzaCardAdapter extends
     @Override
     public void onBindViewHolder(UzaCardAdapter.CardViewHolder holder, int position) {
         d = itemsList.get(position);
-        final int pos = position;
-        mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + d.getTexts()[Data.UzaData.UID.ordinal()] + "/android.png");
-
-        mStorageRef.child(d.getTexts()[Data.UzaData.UID.ordinal()] + "/android.png");
-
-
-        mStorageRef.getBytes(ONE_MEGABYTE).addOnFailureListener(this).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                Log.i(TAG, "File downloaded  for position " + getItemId(pos));
-                mBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                notifyDataSetChanged();
-                posTest = pos;
-                done = true;
-            }
-        });
-
+        if (d.getmPicBytes() != null)
+            mBitmap = BitmapFactory.decodeByteArray(d.getmPicBytes(), 0, d.getmPicBytes().length);
         holder.lbl1.setText(d.getTexts()[Data.UzaData.NAME.ordinal()]); // Name
         holder.lbl2.setText(d.getTexts()[Data.UzaData.SELLER.ordinal()]);
         holder.lbl3.setText(d.getTexts()[Data.UzaData.PRICE.ordinal()]);
         holder.img.setImageBitmap(mBitmap);
-        Log.i(TAG, "View setting done");
-        //holder.img.refreshDrawableState();
 
         mOnItemClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(mContext, UzaActivity.class);
                 intent.putExtra("fragment",3);
-                intent.putExtra("Details",itemsList.get(i).getTexts());
+                intent.putExtra("details", itemsList.get(i).getTexts());
+                intent.putExtra("picture", itemsList.get(i).getmPicBytes());
                 mContext.startActivity(intent);
             }
         };

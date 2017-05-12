@@ -47,8 +47,8 @@ public class UzaActivity extends CustomActivity {
                 f = new SettingsFragment();
                 break;
             case(3):
-                title = getIntent().getStringArrayExtra("Details")[Data.UzaData.NAME.ordinal()];
-                f = DetailFragment.newInstance(getIntent().getStringArrayExtra("Details"), "");
+                title = getIntent().getStringArrayExtra("details")[Data.UzaData.NAME.ordinal()];
+                f = DetailFragment.newInstance(getIntent().getStringArrayExtra("details"), getIntent().getByteArrayExtra("picture"));
             default:
                 break;
         }
