@@ -15,9 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageException;
-import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.model.Data;
@@ -31,19 +29,14 @@ public class UzaCardAdapter extends
         RecyclerView.Adapter<UzaCardAdapter.CardViewHolder> implements OnFailureListener
 {
     private static final String TAG = "### UzaCardAdapter";
-    private final long ONE_MEGABYTE = 1024 * 1024;
     private ArrayList<Data> itemsList;
     private Context mContext;
     private AdapterView.OnItemClickListener mOnItemClickListener;
-    private FirebaseStorage mStorage;
-    private StorageReference mStorageRef;
     private Bitmap mBitmap;
-    private Data d;
 
     public UzaCardAdapter(Context context,ArrayList<Data> items) {
         this.mContext = context;
         this.itemsList = items;
-        mStorage = FirebaseStorage.getInstance();
     }
 
     @Override
@@ -55,13 +48,16 @@ public class UzaCardAdapter extends
 
     @Override
     public void onBindViewHolder(UzaCardAdapter.CardViewHolder holder, int position) {
-        d = itemsList.get(position);
-        if (d.getmPicBytes() != null)
+        Data d = itemsList.get(position);
+        Bitmap mBitmap = null;
+        if (d.getmPicBytes() != null) {
             mBitmap = BitmapFactory.decodeByteArray(d.getmPicBytes(), 0, d.getmPicBytes().length);
+            holder.img.setImageBitmap(mBitmap);
+        }
         holder.lbl1.setText(d.getTexts()[Data.UzaData.NAME.ordinal()]); // Name
         holder.lbl2.setText(d.getTexts()[Data.UzaData.SELLER.ordinal()]);
         holder.lbl3.setText(d.getTexts()[Data.UzaData.PRICE.ordinal()]);
-        holder.img.setImageBitmap(mBitmap);
+
 
         mOnItemClickListener = new AdapterView.OnItemClickListener() {
             @Override
@@ -77,6 +73,7 @@ public class UzaCardAdapter extends
 
     @Override
     public int getItemCount() {
+        Log.i(TAG, "count = " + itemsList.size());
         return itemsList.size();
     }
 

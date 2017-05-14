@@ -1,5 +1,7 @@
 package com.kisita.uza.listerners;
 
+import android.util.Log;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
  */
 public class ItemChildEventListener implements ChildEventListener{
 
+    private static final String TAG = "## ItemChildListener";
     private final long ONE_MEGABYTE = 1024 * 1024;
     private ArrayList<Data> mItemsList;
     private UzaCardAdapter mAdapter;
@@ -31,6 +34,7 @@ public class ItemChildEventListener implements ChildEventListener{
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        Log.i(TAG, "Item added : " + dataSnapshot.getKey());
         String[] str = new String[]{
                 dataSnapshot.getKey(),
                 dataSnapshot.child("name").getValue().toString(),
@@ -42,7 +46,7 @@ public class ItemChildEventListener implements ChildEventListener{
                 dataSnapshot.child("category").getValue().toString()};
         data = new Data(str);
         mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + dataSnapshot.getKey() + "/android.png");
-        mStorageRef.child(dataSnapshot.getKey() + "/android.png");
+        //mStorageRef.child(dataSnapshot.getKey() + "/android.png");
         mStorageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new PictureEventListener(data, mAdapter, dataSnapshot.getKey()));
         mItemsList.add(data);
 

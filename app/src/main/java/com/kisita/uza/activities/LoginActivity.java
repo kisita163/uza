@@ -180,68 +180,6 @@ public class LoginActivity extends CustomActivity
 		}
 	}
 
-	/**
-	 * The Class PageAdapter is adapter class for ViewPager and it simply holds
-	 * a Single image view with dummy images. You need to write logic for
-	 * loading actual images.
-	 */
-	private class PageAdapter extends PagerAdapter
-	{
-
-		/* (non-Javadoc)
-		 * @see android.support.v4.view.PagerAdapter#getCount()
-		 */
-		@Override
-		public int getCount()
-		{
-			return 5;
-		}
-
-		/* (non-Javadoc)
-		 * @see android.support.v4.view.PagerAdapter#instantiateItem(android.view.ViewGroup, int)
-		 */
-		@Override
-		public Object instantiateItem(ViewGroup container, int arg0)
-		{
-			final ImageView img = (ImageView) getLayoutInflater().inflate(
-					R.layout.img, null);
-
-			img.setImageResource(R.drawable.img_signin);
-
-			container.addView(img,
-					android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-					android.view.ViewGroup.LayoutParams.MATCH_PARENT);
-			return img;
-		}
-
-		/* (non-Javadoc)
-		 * @see android.support.v4.view.PagerAdapter#destroyItem(android.view.ViewGroup, int, java.lang.Object)
-		 */
-		@Override
-		public void destroyItem(ViewGroup container, int position, Object object)
-		{
-			try
-			{
-				// super.destroyItem(container, position, object);
-				// if(container.getChildAt(position)!=null)
-				// container.removeViewAt(position);
-			} catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-
-		/* (non-Javadoc)
-		 * @see android.support.v4.view.PagerAdapter#isViewFromObject(android.view.View, java.lang.Object)
-		 */
-		@Override
-		public boolean isViewFromObject(View arg0, Object arg1)
-		{
-			return arg0 == arg1;
-		}
-
-	}
-
 	/* (non-Javadoc)
 	 * @see com.taxi.custom.CustomActivity#onClick(android.view.View)
 	 */
@@ -318,5 +256,60 @@ public class LoginActivity extends CustomActivity
 		} else {
 			return email;
 		}
+	}
+
+	/**
+	 * The Class PageAdapter is adapter class for ViewPager and it simply holds
+	 * a Single image view with dummy images. You need to write logic for
+	 * loading actual images.
+	 */
+	private class PageAdapter extends PagerAdapter {
+
+		/* (non-Javadoc)
+		 * @see android.support.v4.view.PagerAdapter#getCount()
+		 */
+		@Override
+		public int getCount() {
+			return 5;
+		}
+
+		/* (non-Javadoc)
+		 * @see android.support.v4.view.PagerAdapter#instantiateItem(android.view.ViewGroup, int)
+		 */
+		@Override
+		public Object instantiateItem(ViewGroup container, int arg0) {
+			final ImageView img = (ImageView) getLayoutInflater().inflate(
+					R.layout.img, null);
+
+			img.setImageResource(R.drawable.img_signin);
+
+			container.addView(img,
+					android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+					android.view.ViewGroup.LayoutParams.MATCH_PARENT);
+			return img;
+		}
+
+		/* (non-Javadoc)
+		 * @see android.support.v4.view.PagerAdapter#destroyItem(android.view.ViewGroup, int, java.lang.Object)
+		 */
+		@Override
+		public void destroyItem(ViewGroup container, int position, Object object) {
+			try {
+				// super.destroyItem(container, position, object);
+				// if(container.getChildAt(position)!=null)
+				// container.removeViewAt(position);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		/* (non-Javadoc)
+		 * @see android.support.v4.view.PagerAdapter#isViewFromObject(android.view.View, java.lang.Object)
+		 */
+		@Override
+		public boolean isViewFromObject(View arg0, Object arg1) {
+			return arg0 == arg1;
+		}
+
 	}
 }
