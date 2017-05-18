@@ -2,7 +2,6 @@ package com.kisita.uza.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -15,10 +14,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
@@ -40,8 +43,6 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
     private static final String TAG = "### DetailFragment";
 
     private static final String DESCRIPTION = "description";
-
-    private static final String PICTURES = "pictures";
 
     private String [] mDescription;
 
@@ -67,6 +68,8 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
 
     private DatabaseReference commands;
     private DatabaseReference likes;
+    private FirebaseStorage mStorage;
+    private StorageReference mStorageRef;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -84,7 +87,6 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
         DetailFragment fragment = new DetailFragment();
         Bundle args = new Bundle();
         args.putStringArray(DESCRIPTION, description);
-        args.putByteArray(PICTURES, picture);
         fragment.setArguments(args);
         return fragment;
     }
@@ -94,10 +96,10 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mDescription = getArguments().getStringArray(DESCRIPTION);
-            mPicture = getArguments().getByteArray(PICTURES);
             // get user data
             commands = getDb().child("users-data").child(getUid()).child("commands");
             likes = getDb().child("users-data").child(getUid()).child("likes");
+            mStorage = FirebaseStorage.getInstance();
 
 
             commands.addChildEventListener(this);
@@ -156,14 +158,19 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
         mlike.setOnClickListener(this);
 
         if(mDescription != null) {
+            mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + mDescription[Data.UzaData.UID.ordinal()] + "/android.png");
             item_name.setText(mDescription[Data.UzaData.NAME.ordinal()] + " | " + mDescription[Data.UzaData.SELLER.ordinal()]);
             item_price.setText(mDescription[Data.UzaData.PRICE.ordinal()]);
             item_description.setText(mDescription[Data.UzaData.DESCRIPTION.ordinal()]);
-
+            item_picture.setImageResource(R.drawable.on_sale_item6);
+            // Load the image using Glide
+            Glide.with(this)
+                    .using(new FirebaseImageLoader())
+                    .load(mStorageRef)
+                    .error(R.drawable.on_sale_item6)
+                    .into(item_picture);
         }
 
-        if (mPicture != null)
-            item_picture.setImageBitmap(BitmapFactory.decodeByteArray(mPicture, 0, mPicture.length));
 
         initPager(v);
 

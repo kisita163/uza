@@ -2,8 +2,6 @@ package com.kisita.uza.utils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,8 +12,12 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageException;
+import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.model.Data;
@@ -32,11 +34,13 @@ public class UzaCardAdapter extends
     private ArrayList<Data> itemsList;
     private Context mContext;
     private AdapterView.OnItemClickListener mOnItemClickListener;
-    private Bitmap mBitmap;
+    private FirebaseStorage mStorage;
+    private StorageReference mStorageRef;
 
     public UzaCardAdapter(Context context,ArrayList<Data> items) {
         this.mContext = context;
         this.itemsList = items;
+        mStorage = FirebaseStorage.getInstance();
     }
 
     @Override
@@ -48,15 +52,20 @@ public class UzaCardAdapter extends
 
     @Override
     public void onBindViewHolder(UzaCardAdapter.CardViewHolder holder, int position) {
+        Log.i(TAG, "Position is  : " + position);
         Data d = itemsList.get(position);
-        Bitmap mBitmap = null;
-        if (d.getmPicBytes() != null) {
-            mBitmap = BitmapFactory.decodeByteArray(d.getmPicBytes(), 0, d.getmPicBytes().length);
-            holder.img.setImageBitmap(mBitmap);
-        }
+
+        mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + d.getUid() + "/android.png");
+
         holder.lbl1.setText(d.getTexts()[Data.UzaData.NAME.ordinal()]); // Name
         holder.lbl2.setText(d.getTexts()[Data.UzaData.SELLER.ordinal()]);
         holder.lbl3.setText(d.getTexts()[Data.UzaData.PRICE.ordinal()]);
+        // Load the image using Glide
+        Glide.with(mContext)
+                .using(new FirebaseImageLoader())
+                .load(mStorageRef)
+                .error(R.drawable.on_sale_item6)
+                .into(holder.img);
 
 
         mOnItemClickListener = new AdapterView.OnItemClickListener() {

@@ -57,7 +57,7 @@ public class CommandsChildEventListener implements ChildEventListener {
                         data = new Data(str);
                         mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + dataSnapshot.getKey() + "/android.png");
                         mStorageRef.child(dataSnapshot.getKey() + "/android.png");
-                        mStorageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new PictureEventListener(data, mAdapter, dataSnapshot.getKey()));
+
                         mItemsList.add(data);
                         mAdapter.notifyDataSetChanged();
                     }

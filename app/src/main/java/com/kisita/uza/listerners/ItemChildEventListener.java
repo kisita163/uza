@@ -10,6 +10,7 @@ import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.utils.UzaCardAdapter;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -25,6 +26,7 @@ public class ItemChildEventListener implements ChildEventListener{
     private FirebaseStorage mStorage;
     private StorageReference mStorageRef;
     private Data data;
+    private File localFile;
 
     public ItemChildEventListener(ArrayList<Data> itemsList, UzaCardAdapter adapter) {
         this.mAdapter = adapter;
@@ -45,11 +47,7 @@ public class ItemChildEventListener implements ChildEventListener{
                 dataSnapshot.child("seller").getValue().toString(),
                 dataSnapshot.child("category").getValue().toString()};
         data = new Data(str);
-        mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + dataSnapshot.getKey() + "/android.png");
-        //mStorageRef.child(dataSnapshot.getKey() + "/android.png");
-        mStorageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new PictureEventListener(data, mAdapter, dataSnapshot.getKey()));
         mItemsList.add(data);
-
         mAdapter.notifyDataSetChanged();
     }
 
