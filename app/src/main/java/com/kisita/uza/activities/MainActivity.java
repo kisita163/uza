@@ -17,9 +17,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.model.Data;
+import com.kisita.uza.ui.FavoritesFragment;
 import com.kisita.uza.ui.LeftNavAdapter;
 import com.kisita.uza.ui.OnSaleFragment;
 
@@ -55,11 +57,12 @@ public class MainActivity extends CustomActivity
     private ActionBarDrawerToggle mDrawerToggle;
 
     private Context mContext;
+    private FirebaseAuth mAuth;
 
-	/* (non-Javadoc)
-	 * @see com.newsfeeder.custom.CustomActivity#onCreate(android.os.Bundle)
-	 */
-	@Override
+    /* (non-Javadoc)
+     * @see com.newsfeeder.custom.CustomActivity#onCreate(android.os.Bundle)
+     */
+    @Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -77,15 +80,16 @@ public class MainActivity extends CustomActivity
         commandsCount();
         setupLeftNavDrawer();
         setDrawerOpenCloseEvent();
-	}
+        //TODO Database to store pictures byte²
+    }
 
 	private void setPagerAdapter() {
 		mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
 			private final Fragment[] mFragments = new Fragment[] {
 					new OnSaleFragment(),
-					new OnSaleFragment(),
-					new OnSaleFragment(),
-			};
+                    new FavoritesFragment(),
+                    new FavoritesFragment(),
+            };
 			private final String[] mFragmentNames = new String[] {
 					"Men",
 					"Women",
@@ -187,6 +191,10 @@ public class MainActivity extends CustomActivity
                         mContext.startActivity(intent);
                         break;
                     case (5):
+                        mAuth = FirebaseAuth.getInstance();
+                        mAuth.signOut();
+                        intent = new Intent(mContext, LoginActivity.class);
+                        mContext.startActivity(intent);
                         break;
                 }
                 mDrawerLayout.closeDrawer(drawerLeft);

@@ -14,10 +14,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
@@ -40,13 +44,11 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
 
     private static final String DESCRIPTION = "description";
 
-    private static final String PICTURES = "pictures";
-
     private String [] mDescription;
 
     private String key;
 
-    private String mPictures;
+    private byte[] mPicture;
 
     private boolean mCart = false;
 
@@ -66,6 +68,8 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
 
     private DatabaseReference commands;
     private DatabaseReference likes;
+    private FirebaseStorage mStorage;
+    private StorageReference mStorageRef;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -76,14 +80,13 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
      * this fragment using the provided parameters.
      *
      * @param description Parameter 1.
-     * @param pictures Parameter 2.
+     * @param picture Parameter 2.
      * @return A new instance of fragment DetailFragment.
      */
-    public static DetailFragment newInstance(String [] description, String pictures) {
+    public static DetailFragment newInstance(String[] description, byte[] picture) {
         DetailFragment fragment = new DetailFragment();
         Bundle args = new Bundle();
         args.putStringArray(DESCRIPTION, description);
-        args.putString(PICTURES, pictures);
         fragment.setArguments(args);
         return fragment;
     }
@@ -93,10 +96,10 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mDescription = getArguments().getStringArray(DESCRIPTION);
-            mPictures = getArguments().getString(PICTURES);
             // get user data
             commands = getDb().child("users-data").child(getUid()).child("commands");
             likes = getDb().child("users-data").child(getUid()).child("likes");
+            mStorage = FirebaseStorage.getInstance();
 
 
             commands.addChildEventListener(this);
@@ -147,6 +150,7 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
         TextView item_name  = (TextView)v.findViewById(R.id.item_name);
         TextView  item_price  = (TextView)v.findViewById(R.id.item_price);
         TextView  item_description  = (TextView)v.findViewById(R.id.item_description);
+        ImageView item_picture = (ImageView) v.findViewById(R.id.imageView1);
 
         add = (Button) v.findViewById(R.id.fabCart);
         add.setOnClickListener(this);
@@ -154,10 +158,19 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
         mlike.setOnClickListener(this);
 
         if(mDescription != null) {
+            mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + mDescription[Data.UzaData.UID.ordinal()] + "/android.png");
             item_name.setText(mDescription[Data.UzaData.NAME.ordinal()] + " | " + mDescription[Data.UzaData.SELLER.ordinal()]);
             item_price.setText(mDescription[Data.UzaData.PRICE.ordinal()]);
             item_description.setText(mDescription[Data.UzaData.DESCRIPTION.ordinal()]);
+            item_picture.setImageResource(R.drawable.on_sale_item6);
+            // Load the image using Glide
+            Glide.with(this)
+                    .using(new FirebaseImageLoader())
+                    .load(mStorageRef)
+                    .error(R.drawable.on_sale_item6)
+                    .into(item_picture);
         }
+
 
         initPager(v);
 

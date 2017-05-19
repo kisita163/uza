@@ -2,8 +2,6 @@ package com.kisita.uza.utils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,8 +12,9 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
@@ -32,16 +31,11 @@ public class UzaCardAdapter extends
         RecyclerView.Adapter<UzaCardAdapter.CardViewHolder> implements OnFailureListener
 {
     private static final String TAG = "### UzaCardAdapter";
-    private final long ONE_MEGABYTE = 1024 * 1024;
     private ArrayList<Data> itemsList;
     private Context mContext;
     private AdapterView.OnItemClickListener mOnItemClickListener;
     private FirebaseStorage mStorage;
     private StorageReference mStorageRef;
-    private Bitmap mBitmap;
-    private Data d;
-    private int posTest = -1;
-    private boolean done = false;
 
     public UzaCardAdapter(Context context,ArrayList<Data> items) {
         this.mContext = context;
@@ -58,37 +52,29 @@ public class UzaCardAdapter extends
 
     @Override
     public void onBindViewHolder(UzaCardAdapter.CardViewHolder holder, int position) {
-        d = itemsList.get(position);
-        final int pos = position;
-        mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + d.getTexts()[Data.UzaData.UID.ordinal()] + "/android.png");
+        Log.i(TAG, "Position is  : " + position);
+        Data d = itemsList.get(position);
 
-        mStorageRef.child(d.getTexts()[Data.UzaData.UID.ordinal()] + "/android.png");
-
-
-        mStorageRef.getBytes(ONE_MEGABYTE).addOnFailureListener(this).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                Log.i(TAG, "File downloaded  for position " + getItemId(pos));
-                mBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                notifyDataSetChanged();
-                posTest = pos;
-                done = true;
-            }
-        });
+        mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + d.getUid() + "/android.png");
 
         holder.lbl1.setText(d.getTexts()[Data.UzaData.NAME.ordinal()]); // Name
         holder.lbl2.setText(d.getTexts()[Data.UzaData.SELLER.ordinal()]);
         holder.lbl3.setText(d.getTexts()[Data.UzaData.PRICE.ordinal()]);
-        holder.img.setImageBitmap(mBitmap);
-        Log.i(TAG, "View setting done");
-        //holder.img.refreshDrawableState();
+        // Load the image using Glide
+        Glide.with(mContext)
+                .using(new FirebaseImageLoader())
+                .load(mStorageRef)
+                .error(R.drawable.on_sale_item6)
+                .into(holder.img);
+
 
         mOnItemClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(mContext, UzaActivity.class);
                 intent.putExtra("fragment",3);
-                intent.putExtra("Details",itemsList.get(i).getTexts());
+                intent.putExtra("details", itemsList.get(i).getTexts());
+                intent.putExtra("picture", itemsList.get(i).getmPicBytes());
                 mContext.startActivity(intent);
             }
         };
@@ -96,6 +82,7 @@ public class UzaCardAdapter extends
 
     @Override
     public int getItemCount() {
+        Log.i(TAG, "count = " + itemsList.size());
         return itemsList.size();
     }
 

@@ -3,18 +3,18 @@ package com.kisita.uza.model;
 
 public class Data
 {
-	public enum UzaData {UID,NAME,PRICE,CURRENCY,BRAND,DESCRIPTION,SELLER,CATEGORY,PICTURES};
-
 	private String uid;
+
 	/** The texts. This field contains the item name, the brand, the seller's name and a short item description */
 	private String[] texts;
-
 	/** The resources. */
 	private int resources[];
+	private byte[] mPicBytes;  // Pictures
+
 
 	/**
 	 * Instantiates a new data.
-	 * 
+	 *
 	 * @param texts
 	 *            the texts
 	 * @param resources
@@ -25,6 +25,25 @@ public class Data
 		this.texts = texts;
 		this.resources = resources;
 		setPriceCurrency();
+	}
+
+	public Data(String[] texts, byte[] b) {
+		this.texts = texts;
+		this.mPicBytes = b;
+		setPriceCurrency();
+	}
+
+	public Data(String[] texts) {
+		this.texts = texts;
+		setPriceCurrency();
+	}
+
+	public byte[] getmPicBytes() {
+		return mPicBytes;
+	}
+
+	public void setmPicBytes(byte[] mPicBytes) {
+		this.mPicBytes = mPicBytes;
 	}
 
 	public void setPriceCurrency() {
@@ -47,7 +66,7 @@ public class Data
 
 	/**
 	 * Gets the texts.
-	 * 
+	 *
 	 * @return the texts
 	 */
 	public String[] getTexts()
@@ -57,7 +76,7 @@ public class Data
 
 	/**
 	 * Sets the texts.
-	 * 
+	 *
 	 * @param texts
 	 *            the new texts
 	 */
@@ -68,7 +87,7 @@ public class Data
 
 	/**
 	 * Gets the resources.
-	 * 
+	 *
 	 * @return the resources
 	 */
 	public int[] getResources()
@@ -78,7 +97,7 @@ public class Data
 
 	/**
 	 * Sets the resources.
-	 * 
+	 *
 	 * @param resources
 	 *            the new resources
 	 */
@@ -87,4 +106,10 @@ public class Data
 		this.resources = resources;
 	}
 
+	public String getUid() {
+		return texts[UzaData.UID.ordinal()];
+	}
+
+
+	public enum UzaData {UID, NAME, PRICE, CURRENCY, BRAND, DESCRIPTION, SELLER, CATEGORY, PICTURES}
 }

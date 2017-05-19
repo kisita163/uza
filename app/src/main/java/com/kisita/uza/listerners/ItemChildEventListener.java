@@ -1,13 +1,16 @@
 package com.kisita.uza.listerners;
 
+import android.util.Log;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.kisita.uza.R;
-import com.kisita.uza.model.User;
-import com.kisita.uza.utils.UzaCardAdapter;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.model.Data;
+import com.kisita.uza.utils.UzaCardAdapter;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -16,17 +19,25 @@ import java.util.ArrayList;
  */
 public class ItemChildEventListener implements ChildEventListener{
 
+    private static final String TAG = "## ItemChildListener";
+    private final long ONE_MEGABYTE = 1024 * 1024;
     private ArrayList<Data> mItemsList;
     private UzaCardAdapter mAdapter;
+    private FirebaseStorage mStorage;
+    private StorageReference mStorageRef;
+    private Data data;
+    private File localFile;
 
     public ItemChildEventListener(ArrayList<Data> itemsList, UzaCardAdapter adapter) {
         this.mAdapter = adapter;
         this.mItemsList = itemsList;
+        mStorage = FirebaseStorage.getInstance();
     }
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        mItemsList.add(new Data(new String[]{
+        Log.i(TAG, "Item added : " + dataSnapshot.getKey());
+        String[] str = new String[]{
                 dataSnapshot.getKey(),
                 dataSnapshot.child("name").getValue().toString(),
                 dataSnapshot.child("price").getValue().toString(),
@@ -34,9 +45,9 @@ public class ItemChildEventListener implements ChildEventListener{
                 dataSnapshot.child("brand").getValue().toString(),
                 dataSnapshot.child("description").getValue().toString(),
                 dataSnapshot.child("seller").getValue().toString(),
-                dataSnapshot.child("category").getValue().toString()},
-                //TODO                               dataSnapshot.child("pictures").getValue().toString()
-                new int[]{R.drawable.on_sale_item2}));
+                dataSnapshot.child("category").getValue().toString()};
+        data = new Data(str);
+        mItemsList.add(data);
         mAdapter.notifyDataSetChanged();
     }
 
