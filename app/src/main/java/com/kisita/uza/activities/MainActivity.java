@@ -1,6 +1,7 @@
 package com.kisita.uza.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
@@ -193,7 +195,9 @@ public class MainActivity extends CustomActivity
                     case (5):
                         mAuth = FirebaseAuth.getInstance();
                         mAuth.signOut();
+                        LoginManager.getInstance().logOut();
                         intent = new Intent(mContext, LoginActivity.class);
+                        ((Activity) mContext).finish();
                         mContext.startActivity(intent);
                         break;
                 }

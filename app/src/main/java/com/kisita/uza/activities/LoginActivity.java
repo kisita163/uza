@@ -17,9 +17,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.model.User;
+import com.facebook.FacebookSdk;
 
 /**
  * The Activity LoginActivity is launched after the Home screen. You need to write your
@@ -52,6 +61,8 @@ public class LoginActivity extends CustomActivity
 
 	/** The view that hold dots. */
 	private LinearLayout vDots;
+	private LoginButton loginButton;
+	private CallbackManager callbackManager;
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
@@ -62,6 +73,7 @@ public class LoginActivity extends CustomActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 
+
 		try {
 			Log.i(TAG,"Make data persistent");
 			FirebaseDatabase.getInstance().setPersistenceEnabled(true);
@@ -70,6 +82,7 @@ public class LoginActivity extends CustomActivity
 		}
 		mDatabase = FirebaseDatabase.getInstance().getReference();
 		mAuth = FirebaseAuth.getInstance();
+		callbackManager = CallbackManager.Factory.create();
 
 		setupView();
 	}
@@ -105,14 +118,34 @@ public class LoginActivity extends CustomActivity
 		// Views
 		mEmailField = (EditText) findViewById(R.id.field_email);
 		mPasswordField = (EditText) findViewById(R.id.field_password);
+
 		mSignInButton = (Button) findViewById(R.id.button_sign_in);
+
+		loginButton = (LoginButton)findViewById(R.id.login_button);
+		loginButton.setReadPermissions("email");
+
+		loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+			@Override
+			public void onSuccess(LoginResult loginResult) {
+				handleFacebookAccessToken(loginResult.getAccessToken());
+			}
+
+			@Override
+			public void onCancel() {
+				Log.i(TAG,"Facebook onCancel");
+			}
+
+			@Override
+			public void onError(FacebookException error) {
+				Log.i(TAG,"Facebook onError "+error.getMessage());
+
+			} });
 
 		Button b = (Button) setTouchNClick(R.id.btnReg);
 		b.setText(Html.fromHtml(getString(R.string.sign_up)));
 
 		setTouchNClick(R.id.button_sign_in);
 		setTouchNClick(R.id.btnForget);
-		setTouchNClick(R.id.btnFb);
 
 		initPager();
 	}
@@ -311,5 +344,35 @@ public class LoginActivity extends CustomActivity
 			return arg0 == arg1;
 		}
 
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		callbackManager.onActivityResult(requestCode, resultCode, data);
+	}
+
+	private void handleFacebookAccessToken(AccessToken token) {
+		AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+		mAuth.signInWithCredential(credential)
+				.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+					@Override
+					public void onComplete(@NonNull Task<AuthResult> task) {
+						if (task.isSuccessful()) {
+							// Sign in success, update UI with the signed-in user's information
+							Log.d(TAG, "signInWithCredential:success");
+							FirebaseUser user = mAuth.getCurrentUser();
+							Log.i(TAG,"The user is  : "+user.getEmail().toString());
+							onAuthSuccess(user);
+						} else {
+							// If sign in fails, display a message to the user.
+							Log.w(TAG, "signInWithCredential:failure", task.getException());
+
+							//updateUI(null);
+						}
+
+						// ...
+					}
+				});
 	}
 }

@@ -62,4 +62,6 @@
     <string name="title_activity_details">DetailsActivity</string>
     <string name="title_activity_checkout">CheckoutActivity</string>
     <string name="title_activity_favorites">FavoritesActivity</string>
+
+    <string name="facebook_app_id">638132053058512</string>
 </resources>

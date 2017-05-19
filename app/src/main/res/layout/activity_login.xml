@@ -51,7 +51,8 @@
             android:gravity="center"
             android:orientation="vertical"
             android:paddingLeft="@dimen/pad_30dp"
-            android:paddingRight="@dimen/pad_30dp" >
+            android:paddingRight="@dimen/pad_30dp"
+            android:weightSum="1">
 
             <EditText
                 android:id="@+id/field_email"
@@ -83,15 +84,16 @@
                 android:layout_marginTop="@dimen/pad_30dp"
                 android:text="@string/sign_in" />
 
-            <Button
-                android:id="@+id/btnFb"
-                style="@style/btn_blue"
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/pad_20dp"
-                android:background="@color/fb_blue"
-                android:drawableLeft="@drawable/ic_facebook"
-                android:text="@string/sign_in_fb" />
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:paddingTop="15sp"
+                android:paddingBottom="15sp"
+                android:layout_weight="0.19" />
 
             <LinearLayout
                 android:id="@+id/a"
