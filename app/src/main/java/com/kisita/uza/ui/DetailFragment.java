@@ -167,6 +167,7 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
             Glide.with(this)
                     .using(new FirebaseImageLoader())
                     .load(mStorageRef)
+                    .fitCenter()
                     .error(R.drawable.on_sale_item6)
                     .into(item_picture);
         }

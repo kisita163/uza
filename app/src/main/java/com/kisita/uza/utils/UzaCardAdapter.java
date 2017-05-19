@@ -64,6 +64,7 @@ public class UzaCardAdapter extends
         Glide.with(mContext)
                 .using(new FirebaseImageLoader())
                 .load(mStorageRef)
+                .fitCenter()
                 .error(R.drawable.on_sale_item6)
                 .into(holder.img);
 
