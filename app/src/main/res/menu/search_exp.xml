@@ -6,12 +6,38 @@
         android:icon="@drawable/ic_menu_cart"
         android:title="@string/grid"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/favourite"
+        android:icon="@drawable/ic_nav2_sel"
+        android:title="@string/grid"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_explore"
+        android:icon="@drawable/ic_nav1_sel"
+        app:showAsAction="never"
+        android:title="@string/explore"
+        android:actionViewClass="android.widget.SearchView"
+        />
+
 	<item
-        android:id="@+id/menu_search"
+        android:id="@+id/action_search"
         android:icon="@drawable/icon_search"
-        app:showAsAction="always"
+        app:showAsAction="never"
         android:title="@string/search"
         android:actionViewClass="android.widget.SearchView"
         />
+
+    <item
+        android:id="@+id/action_logout"
+        android:title="@string/action_logout"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
 	
 </menu>

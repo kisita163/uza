@@ -1,5 +1,6 @@
 package com.kisita.uza.custom;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,10 +11,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kisita.uza.R;
+import com.kisita.uza.activities.LoginActivity;
+import com.kisita.uza.activities.MainActivity;
 import com.kisita.uza.activities.UzaActivity;
 
 /**
@@ -23,7 +27,7 @@ import com.kisita.uza.activities.UzaActivity;
  */
 public class CustomFragment extends Fragment implements OnClickListener
 {
-
+	private FirebaseAuth mAuth;
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
@@ -68,13 +72,38 @@ public class CustomFragment extends Fragment implements OnClickListener
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Log.i("CustomFragment", "onOptionsItemSelected - item id = " + item.getItemId());
-		if (item.getItemId() == R.id.action_cart) {
-			if(!getClass().getName().equalsIgnoreCase(UzaActivity.class.getName())) {
-				Intent intent = new Intent(getActivity(), UzaActivity.class);
+		Intent intent;
+		switch(item.getItemId()){
+			case (R.id.action_cart):
+				intent = new Intent(getActivity(), UzaActivity.class);
 				intent.putExtra("fragment",1);
 				startActivity(intent);
-			}
+				break;
+			case (R.id.favourite):
+				intent = new Intent(getActivity(), UzaActivity.class);
+				intent.putExtra("fragment", 0);
+				startActivity(intent);
+				break;
+			case (R.id.action_logout):
+				mAuth = FirebaseAuth.getInstance();
+				mAuth.signOut();
+				LoginManager.getInstance().logOut();
+				intent = new Intent(getActivity(), LoginActivity.class);
+				getActivity().finish();
+				getActivity().startActivity(intent);
+				break;
+			case(R.id.action_settings):
+				intent = new Intent(getActivity(), UzaActivity.class);
+				intent.putExtra("fragment",2);
+				getActivity().startActivity(intent);
+				break;
+			case(R.id.action_explore):
+				intent = new Intent(getActivity(), MainActivity.class);
+				getActivity().startActivity(intent);
+				break;
+			default:
+				break;
+
 		}
 		return super.onOptionsItemSelected(item);
 	}

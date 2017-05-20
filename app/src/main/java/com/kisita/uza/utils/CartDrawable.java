@@ -33,18 +33,18 @@ public class CartDrawable extends Drawable {
         float mTextSize = context.getResources().getDimension(R.dimen.abc_action_bar_content_inset_material);
 
         mBadgePaint = new Paint();
-        mBadgePaint.setColor(Color.RED);
+        mBadgePaint.setColor(Color.WHITE);
         mBadgePaint.setAntiAlias(true);
         mBadgePaint.setStyle(Paint.Style.FILL);
         mBadgePaint1 = new Paint();
-        mBadgePaint1.setColor(ContextCompat.getColor(context.getApplicationContext(), R.color.red_light));
+        mBadgePaint1.setColor(Color.WHITE);
         mBadgePaint1.setAntiAlias(true);
         mBadgePaint1.setStyle(Paint.Style.FILL);
 
         mContext = context;
 
         mTextPaint = new Paint();
-        mTextPaint.setColor(Color.WHITE);
+        mTextPaint.setColor(ContextCompat.getColor(context.getApplicationContext(), R.color.red_light));
         mTextPaint.setTypeface(Typeface.DEFAULT);
         mTextPaint.setTextSize(mTextSize);
         mTextPaint.setAntiAlias(true);
@@ -100,11 +100,11 @@ public class CartDrawable extends Drawable {
         // Only draw a badge if there are notifications.
         mWillDraw = true;
         if(mCount.equalsIgnoreCase("0")){
-            mBadgePaint.setColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.main_color));
-            mBadgePaint1.setColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.main_color));
+            mBadgePaint.setColor(Color.WHITE);
+            mBadgePaint1.setColor(Color.WHITE);
         }else{
-            mBadgePaint.setColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.red_light));
-            mBadgePaint1.setColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.red_light));
+            mBadgePaint.setColor(Color.WHITE);
+            mBadgePaint1.setColor(Color.WHITE);
         }
         invalidateSelf();
     }

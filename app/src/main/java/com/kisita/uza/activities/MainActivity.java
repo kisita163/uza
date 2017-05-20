@@ -80,8 +80,8 @@ public class MainActivity extends CustomActivity
 		mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mPagerAdapter);
         commandsCount();
-        setupLeftNavDrawer();
-        setDrawerOpenCloseEvent();
+        //setupLeftNavDrawer();
+        //setDrawerOpenCloseEvent();
         //TODO Database to store pictures byte²
     }
 
@@ -115,9 +115,9 @@ public class MainActivity extends CustomActivity
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+       /* if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
-		}
+		}*/
 		return super.onOptionsItemSelected(item);
     }
 
@@ -210,7 +210,7 @@ public class MainActivity extends CustomActivity
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
+        //mDrawerToggle.syncState();
     }
 
     /* Called whenever we call invalidateOptionsMenu() */
