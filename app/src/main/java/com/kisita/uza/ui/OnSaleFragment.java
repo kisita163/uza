@@ -28,16 +28,31 @@ import java.util.ArrayList;
 public class OnSaleFragment extends CustomFragment
 {
 	final static String TAG = "### OnSaleFragment";
+	final static String QUERY = "QUERY";
 	StorageReference storageRef;
 	private UzaCardAdapter mCardadapter;
 	private ArrayList<Data> itemsList;
 	private DatabaseReference mDatabase;
 	private FirebaseStorage storage;
 	private ItemChildEventListener mChildEventListener;
+	private String mQuery;
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
+
+	public OnSaleFragment() {
+		// Required empty public constructor
+	}
+
+	public static OnSaleFragment newInstance(String query) {
+		OnSaleFragment fragment = new OnSaleFragment();
+		Bundle args = new Bundle();
+		args.putString(QUERY, query);
+		fragment.setArguments(args);
+		return fragment;
+	}
+
 	@SuppressLint({ "InflateParams", "InlinedApi" })
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,7 +62,15 @@ public class OnSaleFragment extends CustomFragment
 		setHasOptionsMenu(true);
 		setupView(v);
 		return v;
-		//TODO Add a floating  spinner to filter articles
+		//TODO Add a floating  spinner to filter articles. Implement the search in the floating button
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		if (getArguments() != null) {
+			mQuery = getArguments().getString(QUERY);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -99,6 +122,9 @@ private void  loadData()
 }
 
 	public Query getQuery(DatabaseReference databaseReference) {
-		return databaseReference.child("items");
+		return databaseReference.child("items")
+				.orderByChild("category")
+				.startAt(mQuery)
+				.endAt(mQuery);
 	}
 }

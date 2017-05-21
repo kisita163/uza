@@ -58,8 +58,8 @@ public class UzaCardAdapter extends
         mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + d.getUid() + "/android.png");
 
         holder.lbl1.setText(d.getTexts()[Data.UzaData.NAME.ordinal()]); // Name
-        holder.lbl2.setText(d.getTexts()[Data.UzaData.SELLER.ordinal()]);
-        holder.lbl3.setText(d.getTexts()[Data.UzaData.PRICE.ordinal()]);
+        holder.lbl2.setText(d.getTexts()[Data.UzaData.PRICE.ordinal()]);
+        holder.lbl3.setText(d.getTexts()[Data.UzaData.BRAND.ordinal()]);
         // Load the image using Glide
         Glide.with(mContext)
                 .using(new FirebaseImageLoader())

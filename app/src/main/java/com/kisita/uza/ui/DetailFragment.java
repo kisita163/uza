@@ -3,12 +3,12 @@ package com.kisita.uza.ui;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -55,7 +55,7 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
     /** The pager. */
     private ViewPager pager;
 
-    private Button add;
+    private FloatingActionButton add;
 
     private ImageView mlike;
 
@@ -152,7 +152,7 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
         TextView  item_description  = (TextView)v.findViewById(R.id.item_description);
         ImageView item_picture = (ImageView) v.findViewById(R.id.imageView1);
 
-        add = (Button) v.findViewById(R.id.fabCart);
+        add = (FloatingActionButton) v.findViewById(R.id.fabCart);
         add.setOnClickListener(this);
         mlike = (ImageView) v.findViewById(R.id.btnLike);
         mlike.setOnClickListener(this);
@@ -274,15 +274,14 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
         if(mLiked)
             mlike.setImageResource(R.drawable.button_liked);
         else
-            mlike.setImageResource(R.drawable.button_like);
+            mlike.setImageResource(R.drawable.ic_favorite_border_black_24dp);
 
     }
 
     private void setAddButton() {
         Log.i(TAG, "Setting add button");
-        add.setEnabled(false);
-        add.setBackgroundResource(R.drawable.fab_added);
-        //Toast.makeText(getContext(), "Item in the cart", Toast.LENGTH_LONG).show();
+        add.setVisibility(View.INVISIBLE);
+        Toast.makeText(getContext(), "Item in the cart", Toast.LENGTH_LONG).show();
     }
 
     @Override

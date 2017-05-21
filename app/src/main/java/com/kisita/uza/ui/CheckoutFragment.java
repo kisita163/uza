@@ -8,11 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -36,12 +32,12 @@ import java.util.ArrayList;
 public class CheckoutFragment extends CustomFragment
 {
 
+	private final static String TAG = "### CheckoutFragment";
 	/** The product list. */
 	private ArrayList<Data> itemsList;
 	private DatabaseReference mDatabase;
 	private UzaCardAdapter mCardadapter;
 	private CommandsChildEventListener mChildEventListener;
-	private final static String TAG = "### CheckoutFragment";
 	/* cart icon*/
 	private LayerDrawable mIcon;
 
@@ -83,7 +79,7 @@ public class CheckoutFragment extends CustomFragment
 		RecyclerView recList = (RecyclerView) v.findViewById(R.id.cardList);
 		itemsList = new ArrayList<>();
 		recList.setHasFixedSize(true);
-
+		setHasOptionsMenu(true);
 
 		StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(2,
 				StaggeredGridLayoutManager.HORIZONTAL);
@@ -111,15 +107,6 @@ public class CheckoutFragment extends CustomFragment
 
 	public Query getQuery(DatabaseReference databaseReference) {
 		return databaseReference.child("users-data").child(getUid()).child("commands");
-	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		Log.i(TAG, "onCreateOptionsMenu");
-		MenuItem itemCart = menu.findItem(R.id.action_cart);
-		mIcon = (LayerDrawable) itemCart.getIcon();
-		setBadgeColor(this.getContext(), mIcon, R.color.gray);
-		super.onCreateOptionsMenu(menu, inflater);
 	}
 
 	private void setBadgeColor(Context context, LayerDrawable icon, int color) {

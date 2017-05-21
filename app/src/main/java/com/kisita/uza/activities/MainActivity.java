@@ -23,7 +23,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.model.Data;
-import com.kisita.uza.ui.FavoritesFragment;
 import com.kisita.uza.ui.LeftNavAdapter;
 import com.kisita.uza.ui.OnSaleFragment;
 
@@ -88,9 +87,10 @@ public class MainActivity extends CustomActivity
 	private void setPagerAdapter() {
 		mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
 			private final Fragment[] mFragments = new Fragment[] {
-					new OnSaleFragment(),
-                    new FavoritesFragment(),
-                    new FavoritesFragment(),
+                    OnSaleFragment.newInstance("Men"),
+                    OnSaleFragment.newInstance("Women"),
+                    OnSaleFragment.newInstance("Kid"),
+                    OnSaleFragment.newInstance("Electronic"),
             };
 			private final String[] mFragmentNames = new String[] {
 					"Men",
