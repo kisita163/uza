@@ -4,10 +4,13 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -36,6 +39,13 @@ public class OnSaleFragment extends CustomFragment
 	private FirebaseStorage storage;
 	private ItemChildEventListener mChildEventListener;
 	private String mQuery;
+	private FloatingActionMenu mFabmenu;
+
+	private FloatingActionButton mMenu1;
+	private FloatingActionButton mMenu2;
+	private FloatingActionButton mMenu3;
+	private FloatingActionButton mMenu4;
+	private FloatingActionButton mMenu5;
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
@@ -73,13 +83,57 @@ public class OnSaleFragment extends CustomFragment
 		}
 	}
 
+	public void setupFab(){
+		switch (mQuery) {
+			case "Men":
+				mMenu1.setLabelText("Clothing");
+				mMenu2.setLabelText("Shoes");
+				mMenu3.setLabelText("Watches");
+				mMenu4.setLabelText("Accessories");
+				mMenu5.setLabelText("Parfums");
+				break;
+			case "Women":
+				mMenu1.setLabelText("Clothing");
+				mMenu2.setLabelText("Shoes & Bags");
+				mMenu3.setLabelText("Watches");
+				mMenu4.setLabelText("Accessories");
+				mMenu5.setLabelText("Parfums & Beauty");
+				break;
+			case "Kid":
+				mMenu1.setLabelText("Clothing");
+				mMenu2.setLabelText("Shoes");
+				mMenu3.setLabelText("Watches");
+				mMenu4.setLabelText("Accessories");
+				mMenu5.setLabelText("Parfums");
+				break;
+			case "Electronic":
+				mMenu1.setLabelText("Clothing");
+				mMenu2.setLabelText("Shoes");
+				mMenu3.setLabelText("Watches");
+				mMenu4.setLabelText("Accessories");
+				mMenu5.setLabelText("Parfums");
+				break;
+		}
+	}
+
 	/* (non-Javadoc)
 	 * @see com.whatshere.custom.CustomFragment#onClick(android.view.View)
 	 */
 	@Override
 	public void onClick(View v)
 	{
-		super.onClick(v);
+		Log.i("## CustomFragment", "Item clicked "+v.getId());
+		switch (v.getId()){
+			case(R.id.menu_1):
+			case(R.id.menu_2):
+			case(R.id.menu_3):
+			case(R.id.menu_4):
+			case(R.id.menu_5):
+				loadData();
+				break;
+			default:
+				break;
+		}
 	}
 
 	/**
@@ -94,6 +148,21 @@ public class OnSaleFragment extends CustomFragment
 	{
 
 		RecyclerView recList = (RecyclerView) v.findViewById(R.id.cardList);
+		mFabmenu =  (FloatingActionMenu)v.findViewById(R.id.menu_labels_right);
+
+		mMenu1 = (FloatingActionButton)v.findViewById(R.id.menu_1);
+		mMenu2 = (FloatingActionButton)v.findViewById(R.id.menu_2);
+		mMenu3 = (FloatingActionButton)v.findViewById(R.id.menu_3);
+		mMenu4 = (FloatingActionButton)v.findViewById(R.id.menu_4);
+		mMenu5 = (FloatingActionButton)v.findViewById(R.id.menu_5);
+
+		mMenu1.setOnClickListener(this);
+		mMenu2.setOnClickListener(this);
+		mMenu3.setOnClickListener(this);
+		mMenu4.setOnClickListener(this);
+		mMenu5.setOnClickListener(this);
+
+		setupFab();
 		itemsList = new ArrayList<>();
 		recList.setHasFixedSize(true);
 
@@ -108,18 +177,17 @@ public class OnSaleFragment extends CustomFragment
 	}
 
 	/**
- * Load  product data for displaying on the RecyclerView.
- */
-private void  loadData()
-{
-	mDatabase = FirebaseDatabase.getInstance().getReference();
-	mDatabase.keepSynced(true);
+	 * Load  product data for displaying on the RecyclerView.
+	 */
+	private void  loadData()
+	{
+		mDatabase = FirebaseDatabase.getInstance().getReference();
+		mDatabase.keepSynced(true);
 
-
-	mChildEventListener = new ItemChildEventListener(itemsList,mCardadapter);
-	Query itemsQuery = getQuery(mDatabase);
-	itemsQuery.addChildEventListener(mChildEventListener);
-}
+		mChildEventListener = new ItemChildEventListener(itemsList,mCardadapter);
+		Query itemsQuery = getQuery(mDatabase);
+		itemsQuery.addChildEventListener(mChildEventListener);
+	}
 
 	public Query getQuery(DatabaseReference databaseReference) {
 		return databaseReference.child("items")
