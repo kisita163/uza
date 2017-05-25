@@ -250,7 +250,8 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
         Log.i(TAG,dataSnapshot.getValue().toString() + " " + dataSnapshot.getRef().getParent().getKey());//TODO please don't set the button for like case and vice versa
         if(dataSnapshot.getRef().getParent().getKey().equalsIgnoreCase("commands")){
             if (dataSnapshot.getValue().toString().equalsIgnoreCase(mDescription[Data.UzaData.UID.ordinal()])){
-                setAddButton();
+                if (this.isVisible())
+                    setAddButton();
             }
         }
 

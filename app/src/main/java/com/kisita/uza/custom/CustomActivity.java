@@ -3,7 +3,6 @@ package com.kisita.uza.custom;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
@@ -23,7 +22,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.R;
 import com.kisita.uza.ui.DetailFragment;
 import com.kisita.uza.utils.CartDrawable;
@@ -40,15 +38,13 @@ public class CustomActivity extends AppCompatActivity implements
 		OnClickListener,DetailFragment.OnFragmentInteractionListener
 {
 
+	public static final TouchEffect TOUCH = new TouchEffect();
 	/**
 	 * Apply this Constant as touch listener for views to provide alpha touch
 	 * effect. The view must have a Non-Transparent background.
 	 */
 
 	public String TAG = "###"+ getClass().getName();
-
-	public static final TouchEffect TOUCH = new TouchEffect();
-
 	private ProgressDialog mProgressDialog;
 	/* Items count */
 	private long count = 0;
@@ -170,7 +166,7 @@ public class CustomActivity extends AppCompatActivity implements
 		icon.setDrawableByLayerId(R.id.ic_badge, badge);
 	}
 
-	protected void commandsCount(){
+	public void commandsCount() {
 		DatabaseReference commands = getDb().child("users-data").child(getUid()).child("commands");
 		commands.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override

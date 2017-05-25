@@ -15,6 +15,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
@@ -36,11 +39,23 @@ public class UzaCardAdapter extends
     private AdapterView.OnItemClickListener mOnItemClickListener;
     private FirebaseStorage mStorage;
     private StorageReference mStorageRef;
-
+    private DatabaseReference mCommands;
+    private Boolean hasRemove = false;
     public UzaCardAdapter(Context context,ArrayList<Data> items) {
         this.mContext = context;
         this.itemsList = items;
         mStorage = FirebaseStorage.getInstance();
+    }
+
+    public UzaCardAdapter(Context context, ArrayList<Data> items, Boolean remove) {
+        this.mContext = context;
+        this.itemsList = items;
+        mStorage = FirebaseStorage.getInstance();
+        hasRemove = remove;
+    }
+
+    public void setItemsList(ArrayList<Data> itemsList) {
+        this.itemsList = itemsList;
     }
 
     @Override
@@ -53,18 +68,33 @@ public class UzaCardAdapter extends
     @Override
     public void onBindViewHolder(UzaCardAdapter.CardViewHolder holder, int position) {
         Log.i(TAG, "Position is  : " + position);
-        Data d = itemsList.get(position);
+        final Data d = itemsList.get(position);
 
         mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + d.getUid() + "/android.png");
 
         holder.lbl1.setText(d.getTexts()[Data.UzaData.NAME.ordinal()]); // Name
         holder.lbl2.setText(d.getTexts()[Data.UzaData.PRICE.ordinal()]);
         holder.lbl3.setText(d.getTexts()[Data.UzaData.BRAND.ordinal()]);
+        if (hasRemove) {
+            holder.mRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i(TAG, "Remove pressed - " + d.getUid());
+                    mCommands = FirebaseDatabase.getInstance()
+                            .getReference()
+                            .child("users-data")
+                            .child(getUid())
+                            .child("commands");
+                    mCommands.child(d.getKey()).removeValue();
+                }
+            });
+        }
         // Load the image using Glide
         Glide.with(mContext)
                 .using(new FirebaseImageLoader())
                 .load(mStorageRef)
                 .fitCenter()
+                .dontTransform()
                 .error(R.drawable.on_sale_item6)
                 .into(holder.img);
 
@@ -102,6 +132,9 @@ public class UzaCardAdapter extends
         Log.i(TAG, "Failure occurred. Error code is  : " + errorMessage + "-" + e.getCause().toString());
     }
 
+    private String getUid() {
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }
 
     /**
      * The Class CardViewHolder is the View Holder class for Adapter views.
@@ -112,6 +145,7 @@ public class UzaCardAdapter extends
         protected TextView lbl1, lbl2, lbl3;
         /** The img. */
         protected ImageView img;
+        protected ImageView mRemove;
         UzaCardAdapter mAdapter;
 
         /**
@@ -128,6 +162,11 @@ public class UzaCardAdapter extends
             lbl2 = (TextView) v.findViewById(R.id.lbl2);
             lbl3 = (TextView) v.findViewById(R.id.lbl3);
             img = (ImageView) v.findViewById(R.id.img);
+            mRemove = (ImageView) v.findViewById(R.id.remove);
+            if (!hasRemove)
+                mRemove.setVisibility(View.GONE);
+
+
             v.setOnClickListener(this);
         }
 

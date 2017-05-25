@@ -3,18 +3,19 @@ package com.kisita.uza.utils;
 /**
  * Created by Hugues on 25/04/2017.
  */
-        import android.content.Context;
-        import android.graphics.Canvas;
-        import android.graphics.Color;
-        import android.graphics.ColorFilter;
-        import android.graphics.Paint;
-        import android.graphics.PixelFormat;
-        import android.graphics.Rect;
-        import android.graphics.Typeface;
-        import android.graphics.drawable.Drawable;
-        import android.support.v4.content.ContextCompat;
 
-        import com.kisita.uza.R;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
+import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+
+import com.kisita.uza.R;
 
 
 public class CartDrawable extends Drawable {
@@ -44,7 +45,7 @@ public class CartDrawable extends Drawable {
         mContext = context;
 
         mTextPaint = new Paint();
-        mTextPaint.setColor(ContextCompat.getColor(context.getApplicationContext(), R.color.red_light));
+        mTextPaint.setColor(ContextCompat.getColor(context.getApplicationContext(), R.color.main_color));
         mTextPaint.setTypeface(Typeface.DEFAULT);
         mTextPaint.setTextSize(mTextSize);
         mTextPaint.setAntiAlias(true);

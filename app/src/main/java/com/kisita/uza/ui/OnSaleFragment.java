@@ -10,12 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.listerners.ItemChildEventListener;
@@ -32,15 +29,12 @@ public class OnSaleFragment extends CustomFragment
 {
 	final static String TAG = "### OnSaleFragment";
 	final static String QUERY = "QUERY";
-	StorageReference storageRef;
 	private UzaCardAdapter mCardadapter;
 	private ArrayList<Data> itemsList;
 	private DatabaseReference mDatabase;
-	private FirebaseStorage storage;
-	private ItemChildEventListener mChildEventListener;
 	private String mQuery;
-	private FloatingActionMenu mFabmenu;
 
+	private FloatingActionButton mMenu0;
 	private FloatingActionButton mMenu1;
 	private FloatingActionButton mMenu2;
 	private FloatingActionButton mMenu3;
@@ -72,7 +66,6 @@ public class OnSaleFragment extends CustomFragment
 		setHasOptionsMenu(true);
 		setupView(v);
 		return v;
-		//TODO Add a floating  spinner to filter articles. Implement the search in the floating button
 	}
 
 	@Override
@@ -86,31 +79,20 @@ public class OnSaleFragment extends CustomFragment
 	public void setupFab(){
 		switch (mQuery) {
 			case "Men":
-				mMenu1.setLabelText("Clothing");
-				mMenu2.setLabelText("Shoes");
-				mMenu3.setLabelText("Watches");
-				mMenu4.setLabelText("Accessories");
-				mMenu5.setLabelText("Parfums");
-				break;
 			case "Women":
+			case "Kid":
+				mMenu0.setLabelText("All");
 				mMenu1.setLabelText("Clothing");
 				mMenu2.setLabelText("Shoes & Bags");
-				mMenu3.setLabelText("Watches");
-				mMenu4.setLabelText("Accessories");
-				mMenu5.setLabelText("Parfums & Beauty");
-				break;
-			case "Kid":
-				mMenu1.setLabelText("Clothing");
-				mMenu2.setLabelText("Shoes");
-				mMenu3.setLabelText("Watches");
-				mMenu4.setLabelText("Accessories");
-				mMenu5.setLabelText("Parfums");
+				mMenu3.setLabelText("Watches & Accessories");
+				//mMenu4.setLabelText("Accessories");
+				mMenu5.setLabelText("Perfumes & Beauty");
 				break;
 			case "Electronic":
+				mMenu0.setLabelText("All");
 				mMenu1.setLabelText("Clothing");
-				mMenu2.setLabelText("Shoes");
-				mMenu3.setLabelText("Watches");
-				mMenu4.setLabelText("Accessories");
+				mMenu2.setLabelText("Shoes & Bags");
+				mMenu3.setLabelText("Watches & Accessories");
 				mMenu5.setLabelText("Parfums");
 				break;
 		}
@@ -122,18 +104,34 @@ public class OnSaleFragment extends CustomFragment
 	@Override
 	public void onClick(View v)
 	{
-		Log.i("## CustomFragment", "Item clicked "+v.getId());
+		ArrayList<Data> tmpList = new ArrayList<>();
+		String s = "Others";
 		switch (v.getId()){
+			case (R.id.menu_0):
+				mCardadapter.setItemsList(itemsList);
+				mCardadapter.notifyDataSetChanged();
+				return;
 			case(R.id.menu_1):
-			case(R.id.menu_2):
-			case(R.id.menu_3):
-			case(R.id.menu_4):
-			case(R.id.menu_5):
-				loadData();
+				s = "Clothing";
 				break;
-			default:
+			case(R.id.menu_2):
+				s = "Shoes & Bags";
+				break;
+			case(R.id.menu_3):
+				s = "Watches & Accessories";
+				break;
+			case(R.id.menu_5):
+				s = "Perfumes & Beauty";
 				break;
 		}
+		for (Data d : itemsList) {
+			Log.i(TAG, "Item clicked. type = " + d.getTexts()[Data.UzaData.TYPE.ordinal()]);
+			if (d.getTexts()[Data.UzaData.TYPE.ordinal()].equalsIgnoreCase(s)) {
+				tmpList.add(d);
+			}
+		}
+		mCardadapter.setItemsList(tmpList);
+		mCardadapter.notifyDataSetChanged();
 	}
 
 	/**
@@ -148,14 +146,15 @@ public class OnSaleFragment extends CustomFragment
 	{
 
 		RecyclerView recList = (RecyclerView) v.findViewById(R.id.cardList);
-		mFabmenu =  (FloatingActionMenu)v.findViewById(R.id.menu_labels_right);
 
+		mMenu0 = (FloatingActionButton) v.findViewById(R.id.menu_0);
 		mMenu1 = (FloatingActionButton)v.findViewById(R.id.menu_1);
 		mMenu2 = (FloatingActionButton)v.findViewById(R.id.menu_2);
 		mMenu3 = (FloatingActionButton)v.findViewById(R.id.menu_3);
 		mMenu4 = (FloatingActionButton)v.findViewById(R.id.menu_4);
 		mMenu5 = (FloatingActionButton)v.findViewById(R.id.menu_5);
 
+		mMenu0.setOnClickListener(this);
 		mMenu1.setOnClickListener(this);
 		mMenu2.setOnClickListener(this);
 		mMenu3.setOnClickListener(this);
@@ -184,7 +183,7 @@ public class OnSaleFragment extends CustomFragment
 		mDatabase = FirebaseDatabase.getInstance().getReference();
 		mDatabase.keepSynced(true);
 
-		mChildEventListener = new ItemChildEventListener(itemsList,mCardadapter);
+		ItemChildEventListener mChildEventListener = new ItemChildEventListener(itemsList, mCardadapter);
 		Query itemsQuery = getQuery(mDatabase);
 		itemsQuery.addChildEventListener(mChildEventListener);
 	}

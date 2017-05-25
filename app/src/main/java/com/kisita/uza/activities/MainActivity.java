@@ -222,5 +222,9 @@ public class MainActivity extends CustomActivity
         return super.onPrepareOptionsMenu(menu);
     }
 
-
+    @Override
+    protected void onResume() {
+        commandsCount();
+        super.onResume();
+    }
 }

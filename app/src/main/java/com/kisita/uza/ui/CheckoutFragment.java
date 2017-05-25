@@ -1,8 +1,6 @@
 package com.kisita.uza.ui;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +17,6 @@ import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.listerners.CommandsChildEventListener;
 import com.kisita.uza.model.Data;
-import com.kisita.uza.utils.CartDrawable;
 import com.kisita.uza.utils.UzaCardAdapter;
 
 import java.util.ArrayList;
@@ -38,6 +35,7 @@ public class CheckoutFragment extends CustomFragment
 	private DatabaseReference mDatabase;
 	private UzaCardAdapter mCardadapter;
 	private CommandsChildEventListener mChildEventListener;
+	private DatabaseReference commands;
 	/* cart icon*/
 	private LayerDrawable mIcon;
 
@@ -81,12 +79,12 @@ public class CheckoutFragment extends CustomFragment
 		recList.setHasFixedSize(true);
 		setHasOptionsMenu(true);
 
-		StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(2,
+		StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1,
 				StaggeredGridLayoutManager.HORIZONTAL);
 
 		llm.setOrientation(LinearLayoutManager.VERTICAL);
 		recList.setLayoutManager(llm);
-		mCardadapter = new UzaCardAdapter(this.getContext(),itemsList);
+		mCardadapter = new UzaCardAdapter(this.getContext(), itemsList, true);
 		recList.setAdapter(mCardadapter);
 		loadData();
 	}
@@ -100,29 +98,13 @@ public class CheckoutFragment extends CustomFragment
 		mDatabase.keepSynced(true);
 
 
-		mChildEventListener = new CommandsChildEventListener(itemsList,mCardadapter,mDatabase);
+		mChildEventListener = new CommandsChildEventListener(itemsList, mCardadapter, mDatabase, this.getActivity());
 		Query itemsQuery = getQuery(mDatabase);
 		itemsQuery.addChildEventListener(mChildEventListener);
 	}
 
 	public Query getQuery(DatabaseReference databaseReference) {
 		return databaseReference.child("users-data").child(getUid()).child("commands");
-	}
-
-	private void setBadgeColor(Context context, LayerDrawable icon, int color) {
-		CartDrawable badge;
-
-		// Reuse drawable if pos
-		// sible
-		Drawable reuse = icon.findDrawableByLayerId(R.id.ic_badge);
-		if (reuse != null && reuse instanceof CartDrawable) {
-			badge = (CartDrawable) reuse;
-		} else {
-			badge = new CartDrawable(context);
-		}
-		badge.setColor(color);
-		icon.mutate();
-		icon.setDrawableByLayerId(R.id.ic_badge, badge);
 	}
 	//TODO remove articles from cart
 }

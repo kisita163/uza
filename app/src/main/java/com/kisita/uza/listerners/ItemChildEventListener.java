@@ -45,7 +45,8 @@ public class ItemChildEventListener implements ChildEventListener{
                 dataSnapshot.child("brand").getValue().toString(),
                 dataSnapshot.child("description").getValue().toString(),
                 dataSnapshot.child("seller").getValue().toString(),
-                dataSnapshot.child("category").getValue().toString()};
+                dataSnapshot.child("category").getValue().toString(),
+                dataSnapshot.child("type").getValue().toString()};
         data = new Data(str);
         mItemsList.add(data);
         mAdapter.notifyDataSetChanged();
