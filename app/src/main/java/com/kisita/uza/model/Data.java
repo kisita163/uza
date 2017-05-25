@@ -10,6 +10,7 @@ public class Data
 	/** The resources. */
 	private int resources[];
 	private byte[] mPicBytes;  // Pictures
+	private String key = null;
 
 
 	/**
@@ -24,6 +25,14 @@ public class Data
 	{
 		this.texts = texts;
 		this.resources = resources;
+		setPriceCurrency();
+	}
+	// Data in cart
+	public Data(String[] texts, String key)
+	{
+		this.texts = texts;
+		this.resources = resources;
+		this.key = key;
 		setPriceCurrency();
 	}
 
@@ -110,6 +119,10 @@ public class Data
 		return texts[UzaData.UID.ordinal()];
 	}
 
+	public String getKey() {
+		return key;
+	}
 
-	public enum UzaData {UID, NAME, PRICE, CURRENCY, BRAND, DESCRIPTION, SELLER, CATEGORY, PICTURES}
+
+	public enum UzaData {UID, NAME, PRICE, CURRENCY, BRAND, DESCRIPTION, SELLER, CATEGORY, TYPE}
 }
