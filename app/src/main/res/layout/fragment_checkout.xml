@@ -78,16 +78,16 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TOTAL"
+            android:text="TOTAL : "
             android:textColor="@color/main_grey_dk1"
             android:textSize="@dimen/txt_18sp" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/pad_10dp"
-            android:text="#467"
+            android:text=""
             android:textColor="@android:color/holo_orange_dark"
             android:textSize="@dimen/txt_18sp" />
     </LinearLayout>

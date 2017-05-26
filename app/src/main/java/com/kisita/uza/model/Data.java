@@ -25,26 +25,21 @@ public class Data
 	{
 		this.texts = texts;
 		this.resources = resources;
-		setPriceCurrency();
 	}
 	// Data in cart
 	public Data(String[] texts, String key)
 	{
 		this.texts = texts;
-		this.resources = resources;
 		this.key = key;
-		setPriceCurrency();
 	}
 
 	public Data(String[] texts, byte[] b) {
 		this.texts = texts;
 		this.mPicBytes = b;
-		setPriceCurrency();
 	}
 
 	public Data(String[] texts) {
 		this.texts = texts;
-		setPriceCurrency();
 	}
 
 	public byte[] getmPicBytes() {

@@ -13,6 +13,7 @@ import com.google.firebase.database.Query;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.listerners.CommandsChildEventListener;
+import com.kisita.uza.listerners.FavoritesChildEventListener;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.utils.UzaCardAdapter;
 
@@ -30,7 +31,7 @@ public class FavoritesFragment extends CustomFragment {
     /*Firebase database*/
     private DatabaseReference mDatabase;
     /*likes event listener*/
-    private CommandsChildEventListener mChildEventListener;
+    private FavoritesChildEventListener mChildEventListener;
 
     public FavoritesFragment() {
     }
@@ -69,7 +70,7 @@ public class FavoritesFragment extends CustomFragment {
         mDatabase.keepSynced(true);
 
 
-        mChildEventListener = new CommandsChildEventListener(itemsList,mCardadapter,mDatabase);
+        mChildEventListener = new FavoritesChildEventListener(itemsList,mCardadapter,mDatabase);
         Query itemsQuery = getQuery(mDatabase);
         itemsQuery.addChildEventListener(mChildEventListener);
     }

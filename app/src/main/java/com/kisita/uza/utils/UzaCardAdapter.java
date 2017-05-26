@@ -1,8 +1,11 @@
 package com.kisita.uza.utils;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,10 +44,13 @@ public class UzaCardAdapter extends
     private StorageReference mStorageRef;
     private DatabaseReference mCommands;
     private Boolean hasRemove = false;
+    private String mCurrency;
+
     public UzaCardAdapter(Context context,ArrayList<Data> items) {
         this.mContext = context;
         this.itemsList = items;
         mStorage = FirebaseStorage.getInstance();
+        getCurrency();
     }
 
     public UzaCardAdapter(Context context, ArrayList<Data> items, Boolean remove) {
@@ -52,6 +58,7 @@ public class UzaCardAdapter extends
         this.itemsList = items;
         mStorage = FirebaseStorage.getInstance();
         hasRemove = remove;
+        getCurrency();
     }
 
     public void setItemsList(ArrayList<Data> itemsList) {
@@ -73,7 +80,7 @@ public class UzaCardAdapter extends
         mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + d.getUid() + "/android.png");
 
         holder.lbl1.setText(d.getTexts()[Data.UzaData.NAME.ordinal()]); // Name
-        holder.lbl2.setText(d.getTexts()[Data.UzaData.PRICE.ordinal()]);
+        holder.lbl2.setText(d.getTexts()[Data.UzaData.PRICE.ordinal()] + " "+mCurrency);
         holder.lbl3.setText(d.getTexts()[Data.UzaData.BRAND.ordinal()]);
         if (hasRemove) {
             holder.mRemove.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +92,22 @@ public class UzaCardAdapter extends
                             .child("users-data")
                             .child(getUid())
                             .child("commands");
-                    mCommands.child(d.getKey()).removeValue();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                    builder.setMessage("Would you really remove this article from the cart?")
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            })
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mCommands.child(d.getKey()).removeValue();
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
             });
         }
@@ -126,7 +148,6 @@ public class UzaCardAdapter extends
 
     @Override
     public void onFailure(@NonNull Exception e) {
-        int errorCode = ((StorageException) e).getErrorCode();
         String errorMessage = e.getMessage();
 
         Log.i(TAG, "Failure occurred. Error code is  : " + errorMessage + "-" + e.getCause().toString());
@@ -142,10 +163,10 @@ public class UzaCardAdapter extends
     public class CardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         /** The lbl3. */
-        protected TextView lbl1, lbl2, lbl3;
+        private TextView lbl1, lbl2, lbl3;
         /** The img. */
-        protected ImageView img;
-        protected ImageView mRemove;
+        private ImageView img;
+        private ImageView mRemove;
         UzaCardAdapter mAdapter;
 
         /**
@@ -154,7 +175,7 @@ public class UzaCardAdapter extends
          * @param v
          *            the v
          */
-        public CardViewHolder(View v,UzaCardAdapter adapter)
+        private CardViewHolder(View v,UzaCardAdapter adapter)
         {
             super(v);
             this.mAdapter = adapter;
@@ -174,5 +195,11 @@ public class UzaCardAdapter extends
         public void onClick(View v) {
             mAdapter.onItemHolderClick(this);
         }
+    }
+
+    private void getCurrency(){
+        SharedPreferences sharedPref = mContext.getSharedPreferences(mContext.getResources().getString(R.string.uza_keys),
+                Context.MODE_PRIVATE);
+        mCurrency = sharedPref.getString(mContext.getString(R.string.uza_currency),"EUR");
     }
 }

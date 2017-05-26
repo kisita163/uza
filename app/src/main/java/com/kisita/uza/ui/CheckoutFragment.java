@@ -1,7 +1,6 @@
 package com.kisita.uza.ui;
 
 import android.annotation.SuppressLint;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +8,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,16 +28,10 @@ import java.util.ArrayList;
  */
 public class CheckoutFragment extends CustomFragment
 {
-
-	private final static String TAG = "### CheckoutFragment";
 	/** The product list. */
 	private ArrayList<Data> itemsList;
-	private DatabaseReference mDatabase;
 	private UzaCardAdapter mCardadapter;
-	private CommandsChildEventListener mChildEventListener;
-	private DatabaseReference commands;
-	/* cart icon*/
-	private LayerDrawable mIcon;
+	private TextView total;
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
@@ -75,7 +69,9 @@ public class CheckoutFragment extends CustomFragment
 	{
 
 		RecyclerView recList = (RecyclerView) v.findViewById(R.id.cardList);
+		total = (TextView)v.findViewById(R.id.total);
 		itemsList = new ArrayList<>();
+		total.setText("0.0");
 		recList.setHasFixedSize(true);
 		setHasOptionsMenu(true);
 
@@ -94,11 +90,11 @@ public class CheckoutFragment extends CustomFragment
 	 */
 	private void  loadData()
 	{
-		mDatabase = FirebaseDatabase.getInstance().getReference();
+		DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 		mDatabase.keepSynced(true);
 
 
-		mChildEventListener = new CommandsChildEventListener(itemsList, mCardadapter, mDatabase, this.getActivity());
+		CommandsChildEventListener mChildEventListener = new CommandsChildEventListener(itemsList, mCardadapter, mDatabase, this.getActivity());
 		Query itemsQuery = getQuery(mDatabase);
 		itemsQuery.addChildEventListener(mChildEventListener);
 	}
@@ -106,5 +102,8 @@ public class CheckoutFragment extends CustomFragment
 	public Query getQuery(DatabaseReference databaseReference) {
 		return databaseReference.child("users-data").child(getUid()).child("commands");
 	}
-	//TODO remove articles from cart
+
+	public void setTotal(String total) {
+		this.total.setText(total);
+	}
 }

@@ -37,7 +37,6 @@
                     android:text="@string/email1" />
 
                 <View
-                    android:id="@+id/view1"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/divider"
                     android:layout_marginBottom="@dimen/pad_10dp"
@@ -52,7 +51,6 @@
                     android:text="@string/tnc" />
 
                 <View
-                    android:id="@+id/view1"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/divider"
                     android:layout_marginBottom="@dimen/pad_10dp"
@@ -70,7 +68,6 @@
                     android:text="@string/push_notif" />
 
                 <View
-                    android:id="@+id/view1"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/divider"
                     android:layout_marginBottom="@dimen/pad_10dp"
@@ -78,7 +75,6 @@
                     android:background="@color/main_grey_lt" />
 
                 <Switch
-                    android:id="@+id/switch1"
                     style="@style/switch_custom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -87,19 +83,32 @@
                     android:textOff="" />
 
                 <View
-                    android:id="@+id/view1"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/divider"
                     android:layout_marginBottom="@dimen/pad_10dp"
                     android:layout_marginTop="@dimen/pad_10dp"
                     android:background="@color/main_grey_lt" />
 
-                <TextView
+                <EditText
                     android:id="@+id/lbl3"
                     style="@style/lbl_setting2"
-                    android:layout_width="wrap_content"
+                    android:hint="@string/phone_number"
+                    android:layout_width="match_parent"
+                    android:inputType="number"
                     android:layout_height="wrap_content"
-                    android:text="@string/credit_cards" />
+                    android:text="" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider"
+                    android:layout_marginBottom="@dimen/pad_10dp"
+                    android:layout_marginTop="@dimen/pad_10dp"
+                    android:background="@color/main_grey_lt" />
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </Spinner>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

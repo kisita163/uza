@@ -2,6 +2,8 @@ package com.kisita.uza.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
@@ -20,6 +22,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
@@ -38,7 +41,7 @@ import java.util.Map;
  * Use the {@link DetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetailFragment extends CustomFragment implements ChildEventListener {
+public class DetailFragment extends CustomFragment{
     // the fragment initialization parameters
     private static final String TAG = "### DetailFragment";
 
@@ -47,10 +50,6 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
     private String [] mDescription;
 
     private String key;
-
-    private byte[] mPicture;
-
-    private boolean mCart = false;
 
     /** The pager. */
     private ViewPager pager;
@@ -70,6 +69,7 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
     private DatabaseReference likes;
     private FirebaseStorage mStorage;
     private StorageReference mStorageRef;
+    private String mCurrency;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -101,9 +101,49 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
             likes = getDb().child("users-data").child(getUid()).child("likes");
             mStorage = FirebaseStorage.getInstance();
 
+            getCurrency();
 
-            commands.addChildEventListener(this);
-            likes.addChildEventListener(this);
+            commands.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.hasChildren()) {
+                        Log.i(TAG, dataSnapshot.getValue().toString());
+                        for(DataSnapshot d :  dataSnapshot.getChildren()){
+                            Log.i(TAG,d.getValue().toString());
+                            if(d.getValue().toString().equalsIgnoreCase(mDescription[Data.UzaData.UID.ordinal()])){
+                                setAddButton();
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+            likes.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.hasChildren()) {
+                        Log.i(TAG, dataSnapshot.getValue().toString());
+                        for(DataSnapshot d :  dataSnapshot.getChildren()){
+                            Log.i(TAG,d.getValue().toString());
+                            if(d.getValue().toString().equalsIgnoreCase(mDescription[Data.UzaData.UID.ordinal()])){
+                                mlike.setImageResource(R.drawable.button_liked);
+                                key = d.getKey();
+                                mLiked = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
     }
 
@@ -160,7 +200,7 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
         if(mDescription != null) {
             mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + mDescription[Data.UzaData.UID.ordinal()] + "/android.png");
             item_name.setText(mDescription[Data.UzaData.NAME.ordinal()] + " | " + mDescription[Data.UzaData.SELLER.ordinal()]);
-            item_price.setText(mDescription[Data.UzaData.PRICE.ordinal()]);
+            item_price.setText(mDescription[Data.UzaData.PRICE.ordinal()] + " "+mCurrency);
             item_description.setText(mDescription[Data.UzaData.DESCRIPTION.ordinal()]);
             item_picture.setImageResource(R.drawable.on_sale_item6);
             // Load the image using Glide
@@ -240,71 +280,10 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
         }
     }
 
-    @Override
-    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        Log.i(TAG, "Command or like added");
-        onDbEvent(dataSnapshot,true);
-    }
-
-    private void onDbEvent(DataSnapshot dataSnapshot,Boolean status) {
-        Log.i(TAG,dataSnapshot.getValue().toString() + " " + dataSnapshot.getRef().getParent().getKey());//TODO please don't set the button for like case and vice versa
-        if(dataSnapshot.getRef().getParent().getKey().equalsIgnoreCase("commands")){
-            if (dataSnapshot.getValue().toString().equalsIgnoreCase(mDescription[Data.UzaData.UID.ordinal()])){
-                if (this.isVisible())
-                    setAddButton();
-            }
-        }
-
-        if(dataSnapshot.getRef().getParent().getKey().equalsIgnoreCase("likes")){
-            if (dataSnapshot.getValue().toString().equalsIgnoreCase(mDescription[Data.UzaData.UID.ordinal()])){
-                if(status)
-                    mLiked = true;
-                else
-                    mLiked  = false;
-                key = dataSnapshot.getKey();
-            }else{
-                mLiked = false;
-            }
-            setLikeButton();
-        }
-    }
-
-
-    private void setLikeButton() {
-        Log.i(TAG, "Setting like button");
-        if(mLiked)
-            mlike.setImageResource(R.drawable.button_liked);
-        else
-            mlike.setImageResource(R.drawable.ic_favorite_border_black_24dp);
-
-    }
-
     private void setAddButton() {
         Log.i(TAG, "Setting add button");
         add.setVisibility(View.INVISIBLE);
         Toast.makeText(getContext(), "Item in the cart", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        Log.i(TAG, "Command or like Changed");
-    }
-
-    @Override
-    public void onChildRemoved(DataSnapshot dataSnapshot) {
-        Log.i(TAG, "Command or like removed");
-        mLiked = false;
-        onDbEvent(dataSnapshot,false);
-    }
-
-    @Override
-    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-        Log.i(TAG, "Command or like moved");
-    }
-
-    @Override
-    public void onCancelled(DatabaseError databaseError) {
-        Log.i(TAG, "Command or like cancelled");
     }
 
     @Override
@@ -327,14 +306,17 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
         Map<String, Object> childUpdates = new HashMap<>();
         if (!mLiked) {
             Log.i(TAG, "mlike is false");
-            String like = getDb().child("users").push().getKey(); // New key
+            String like = getDb().child("users").push().getKey();
+            key = like;
             childUpdates.put("/users-data/" + getUid() + "/likes/" + like, mDescription[Data.UzaData.UID.ordinal()]);
             getDb().updateChildren(childUpdates);
-            //Toast.makeText(this.getContext(), "Added to your favourites", Toast.LENGTH_LONG).show();
+            mlike.setImageResource(R.drawable.button_liked);
+            mLiked = true;
         } else {
+            Log.i(TAG, "mlike is true - key = "+key);
             likes.child(key).removeValue();
             mLiked = false;
-            //Toast.makeText(this.getContext(), "Removed from your favourites", Toast.LENGTH_LONG).show();
+            mlike.setImageResource(R.drawable.ic_favorite_border_black_24dp);
         }
     }
 
@@ -350,5 +332,12 @@ public class DetailFragment extends CustomFragment implements ChildEventListener
      */
     public interface OnFragmentInteractionListener {
         public void onFragmentInteraction(String key);
+    }
+
+    private void getCurrency(){
+        Context mContext = getContext();
+        SharedPreferences sharedPref = mContext.getSharedPreferences(mContext.getResources().getString(R.string.uza_keys),
+                Context.MODE_PRIVATE);
+        mCurrency = sharedPref.getString(mContext.getString(R.string.uza_currency),"EUR");
     }
 }
