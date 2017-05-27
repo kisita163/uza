@@ -44,7 +44,7 @@
             android:id="@+id/menu_0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/clothing"
+            android:src="@drawable/ic_apps_black_24dp"
             fab:fab_colorNormal="@color/main_color"
             fab:fab_label="Menu item 0"
             fab:fab_size="mini" />

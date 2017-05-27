@@ -79,6 +79,7 @@
 
         <activity
             android:name=".activities.UzaActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_checkout"
             android:parentActivityName=".activities.MainActivity" >
             <meta-data

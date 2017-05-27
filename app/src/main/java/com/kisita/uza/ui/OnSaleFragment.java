@@ -80,7 +80,6 @@ public class OnSaleFragment extends CustomFragment
 		switch (mQuery) {
 			case "Men":
 			case "Women":
-			case "Kid":
 				mMenu0.setLabelText("All");
 				mMenu1.setLabelText("Clothing");
 				mMenu2.setLabelText("Shoes & Bags");
@@ -88,12 +87,35 @@ public class OnSaleFragment extends CustomFragment
 				//mMenu4.setLabelText("Accessories");
 				mMenu5.setLabelText("Perfumes & Beauty");
 				break;
-			case "Electronic":
+			case "Kid":
 				mMenu0.setLabelText("All");
 				mMenu1.setLabelText("Clothing");
+				mMenu1.setImageResource(R.drawable.toys_baby);
+
 				mMenu2.setLabelText("Shoes & Bags");
-				mMenu3.setLabelText("Watches & Accessories");
-				mMenu5.setLabelText("Parfums");
+				mMenu2.setImageResource(R.drawable.baby_shoes);
+
+				mMenu3.setLabelText("Toys & Accessories");
+				mMenu3.setImageResource(R.drawable.clothing_baby);
+				//mMenu4.setLabelText("Accessories");
+
+				mMenu5.setLabelText("Bathing  & Skin care");
+				mMenu5.setImageResource(R.drawable.bath_baby);
+				break;
+			case "Electronic":
+				mMenu0.setLabelText("All");
+
+				mMenu1.setLabelText("Home");
+				mMenu1.setImageResource(R.drawable.light);
+
+				mMenu2.setLabelText("Video games");
+				mMenu2.setImageResource(R.drawable.game);
+
+				mMenu3.setLabelText("Phones & Accessories");
+				mMenu3.setImageResource(R.drawable.phone);
+
+				mMenu5.setLabelText("Computers & Tablets");
+				mMenu5.setImageResource(R.drawable.laptop);
 				break;
 		}
 	}

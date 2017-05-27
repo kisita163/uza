@@ -102,7 +102,8 @@ public class CommandsChildEventListener implements ChildEventListener {
                 mPrice -= Double.valueOf(d.getTexts()[Data.UzaData.PRICE.ordinal()]);
                 mPrice = Math.round(mPrice);
                 mPriceView = (TextView) (((UzaActivity)mContext).findViewById(R.id.total));
-                mPriceView.setText(String.valueOf(mPrice) + " " + mCurrency);
+                if(mPriceView != null)
+                    mPriceView.setText(String.valueOf(mPrice) + " " + mCurrency);
                 ((UzaActivity) mContext).commandsCount();
                 break;
             }

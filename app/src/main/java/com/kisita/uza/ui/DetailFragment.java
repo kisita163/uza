@@ -212,7 +212,6 @@ public class DetailFragment extends CustomFragment{
                     .into(item_picture);
         }
 
-
         initPager(v);
 
         //TODO "Show more pictures" button

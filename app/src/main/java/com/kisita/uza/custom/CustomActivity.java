@@ -211,4 +211,11 @@ public class CustomActivity extends AppCompatActivity implements
 		setBadgeCount(this, mIcon, String.valueOf(count));
 		return super.onCreateOptionsMenu(menu);
 	}
+
+	@Override
+	protected void onStop() {
+		Log.i(TAG,"OnStop called from uza activity");
+		super.onStop();
+		finish();
+	}
 }
