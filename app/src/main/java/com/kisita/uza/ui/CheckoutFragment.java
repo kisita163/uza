@@ -102,8 +102,4 @@ public class CheckoutFragment extends CustomFragment
 	public Query getQuery(DatabaseReference databaseReference) {
 		return databaseReference.child("users-data").child(getUid()).child("commands");
 	}
-
-	public void setTotal(String total) {
-		this.total.setText(total);
-	}
 }

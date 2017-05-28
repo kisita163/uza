@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+
+    <ScrollView
+        android:id="@+id/sa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:id="@+id/df"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/cardList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/pad_5dp" />
+
+        </LinearLayout>
+    </ScrollView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider"
+        android:layout_marginBottom="@dimen/pad_10dp"
+        android:layout_marginTop="@dimen/pad_10dp"
+        android:background="@color/main_grey_lt" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/pad_10dp"
+        android:layout_marginBottom="@dimen/pad_15dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/comment"
+            style="@style/lbl_setting2"
+            android:hint="Enter your comment here."
+            android:text=""
+            android:inputType="text"
+            android:imeOptions="actionDone"
+            android:lines="2"/>
+    </LinearLayout>
+</LinearLayout>

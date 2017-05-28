@@ -58,6 +58,8 @@ public class DetailFragment extends CustomFragment{
 
     private ImageView mlike;
 
+    private ImageView mComment;
+
     /** The view that hold dots. */
     private LinearLayout vDots;
 
@@ -197,6 +199,9 @@ public class DetailFragment extends CustomFragment{
         mlike = (ImageView) v.findViewById(R.id.btnLike);
         mlike.setOnClickListener(this);
 
+        mComment = (ImageView) v.findViewById(R.id.btnComment);
+        mComment.setOnClickListener(this);
+
         if(mDescription != null) {
             mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + mDescription[Data.UzaData.UID.ordinal()] + "/android.png");
             item_name.setText(mDescription[Data.UzaData.NAME.ordinal()] + " | " + mDescription[Data.UzaData.SELLER.ordinal()]);
@@ -294,6 +299,13 @@ public class DetailFragment extends CustomFragment{
                 break;
             case R.id.btnLike:
                 likePressed();
+                break;
+            case R.id.btnComment:
+                Log.i(TAG,"Start comment fragment");
+                commentFragment f = commentFragment.newInstance(1,mDescription[Data.UzaData.UID.ordinal()]);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, f)
+                        .commit();
                 break;
             default:
                 Toast.makeText(this.getContext(), "Unknown error occured", Toast.LENGTH_LONG).show();
