@@ -47,11 +47,11 @@ public class CommandsChildEventListener implements ChildEventListener {
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        Log.i(TAG, "Command added : " + dataSnapshot.getValue().toString());
+        Log.i(TAG, "Command added : " + dataSnapshot.getKey().toString());
 
-        final String commandKey = dataSnapshot.child("key").getValue().toString();
+        final String commandKey = dataSnapshot.getKey().toString();
         mDatabase.child("items")
-                .child(commandKey)
+                .child(dataSnapshot.child("key").getValue().toString())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -95,9 +95,9 @@ public class CommandsChildEventListener implements ChildEventListener {
 
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
-        Log.i(TAG, "onChildRemoved - " + dataSnapshot.getValue().toString());
+        Log.i(TAG, "onChildRemoved - " + dataSnapshot.child("key").getValue().toString());
         for (Data d : mItemsList) {
-            if (d.getUid().equalsIgnoreCase(dataSnapshot.getValue().toString())) {
+            if (d.getUid().equalsIgnoreCase(dataSnapshot.child("key").getValue().toString())){
                 mItemsList.remove(d);
                 mAdapter.notifyDataSetChanged();
                 mPrice -= Double.valueOf(d.getTexts()[Data.UzaData.PRICE.ordinal()]);
