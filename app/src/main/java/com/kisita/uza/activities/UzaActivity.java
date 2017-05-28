@@ -1,5 +1,7 @@
 package com.kisita.uza.activities;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +27,10 @@ public class UzaActivity extends CustomActivity {
         setFragment(getIntent().getIntExtra("fragment",-1));
 
         setSupportActionBar(toolbar);
+
+        final Drawable upArrow = getResources().getDrawable(R.drawable.abc_ic_ab_back_material);
+        upArrow.setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+        getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -60,5 +66,12 @@ public class UzaActivity extends CustomActivity {
                     .commit();
             commandsCount();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.i(TAG,"***** back pressed");
+        getFragmentManager().popBackStackImmediate();
     }
 }

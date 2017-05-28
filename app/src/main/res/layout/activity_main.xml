@@ -16,8 +16,9 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:elevation="0dp"
+            android:logo="@drawable/ic_launcher"
             android:minHeight="?attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="@color/black"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" >
         </android.support.v7.widget.Toolbar>
 
@@ -34,11 +35,11 @@
             android:background="@color/main_color"
             android:paddingBottom="@dimen/pad_10dp"
             android:paddingTop="@dimen/pad_10dp"
-            android:textColor="@color/white" />
+            android:textColor="@color/black" />
         </android.support.v4.view.ViewPager>
     </LinearLayout>
 
-    <ListView
+   <!-- <ListView
         android:id="@+id/left_drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -47,5 +48,5 @@
         android:background="@color/white"
         android:choiceMode="singleChoice"
         android:divider="@null"
-        android:headerDividersEnabled="false" />
+        android:headerDividersEnabled="false" />-->
 </android.support.v4.widget.DrawerLayout>

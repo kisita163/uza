@@ -47,10 +47,11 @@ public class CommandsChildEventListener implements ChildEventListener {
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        Log.i(TAG, "Command added : " + dataSnapshot.getKey());
-        final String commandKey = dataSnapshot.getKey();
+        Log.i(TAG, "Command added : " + dataSnapshot.getValue().toString());
+
+        final String commandKey = dataSnapshot.child("key").getValue().toString();
         mDatabase.child("items")
-                .child(dataSnapshot.getValue().toString())
+                .child(commandKey)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

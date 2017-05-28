@@ -8,7 +8,7 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/favourite"
-        android:icon="@drawable/ic_nav2_sel"
+        android:icon="@drawable/ic_favorite_black_24dp"
         android:title="@string/grid"
         app:showAsAction="always" />
 

@@ -33,6 +33,20 @@
         <item>USD</item>
         <item>EUR</item>
     </string-array>
+
+    <string-array name="size">
+        <item>XS</item>
+        <item>S</item>
+        <item>M</item>
+        <item>L</item>
+        <item>XL</item>
+        <item>XXL</item>
+    </string-array>
+
+    <string-array name="color">
+        <item>black</item>
+        <item>yellow</item>
+    </string-array>
     
     <string-array name="arr_email">
         <item >example@gmail.com</item>
@@ -69,4 +83,7 @@
     <string name="phone_number">Phone number (Ex : +243818116889)</string>
     <string name="uza_currency">EUR</string>
     <string name="uza_keys">uza_keys</string>
+    <string name="Save">Save</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Quantity_field">Quantity is required!</string>
 </resources>

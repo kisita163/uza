@@ -83,12 +83,9 @@ public class CustomActivity extends AppCompatActivity implements
 		final ActionBar actionBar = getSupportActionBar();
 		if (actionBar == null)
 			return;
-		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setDisplayUseLogoEnabled(true);
-		actionBar.setLogo(R.drawable.ic_email);
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setHomeButtonEnabled(true);
-		actionBar.setHomeAsUpIndicator(R.drawable.drawer_shadow);
+		getSupportActionBar().setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setLogo(R.drawable.ic_launcher);
 	}
 
 	/* (non-Javadoc)
@@ -194,11 +191,15 @@ public class CustomActivity extends AppCompatActivity implements
 	}
 
 	@Override
-	public void onFragmentInteraction(String key) {
+	public void onFragmentInteraction(String[] details) {
 		count++;
 		String command = getDb().child("users").push().getKey(); // New command id
 		Map<String, Object> childUpdates = new HashMap<>();
-		childUpdates.put("/users-data/" + getUid() + "/commands/"+command,key);
+		//TODO check existence of these fields
+		childUpdates.put("/users-data/" + getUid() + "/commands/"+command+"/key",details[0]);
+		childUpdates.put("/users-data/" + getUid() + "/commands/"+command+"/size",details[1]);
+		childUpdates.put("/users-data/" + getUid() + "/commands/"+command+"/color",details[2]);
+		childUpdates.put("/users-data/" + getUid() + "/commands/"+command+"/quantity",details[3]);
 		getDb().updateChildren(childUpdates);
 		setBadgeCount(this, mIcon, String.valueOf(count));
 	}

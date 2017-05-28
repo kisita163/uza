@@ -3,16 +3,25 @@ package com.kisita.uza.ui;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,8 +39,11 @@ import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.utils.PageAdapter;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,6 +75,10 @@ public class DetailFragment extends CustomFragment{
     /** The view that hold dots. */
     private LinearLayout vDots;
 
+    private String mColor = "";
+
+    private String mSize = "";
+
     private OnFragmentInteractionListener mListener;
 
     private Boolean mLiked = false;
@@ -72,6 +88,7 @@ public class DetailFragment extends CustomFragment{
     private FirebaseStorage mStorage;
     private StorageReference mStorageRef;
     private String mCurrency;
+    private AlertDialog mDialog;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -108,11 +125,12 @@ public class DetailFragment extends CustomFragment{
             commands.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+                    Log.i(TAG,"***" + dataSnapshot.child("key").toString());
                     if(dataSnapshot.hasChildren()) {
-                        Log.i(TAG, dataSnapshot.getValue().toString());
+                        Log.i(TAG, "***" + dataSnapshot.getValue().toString());
                         for(DataSnapshot d :  dataSnapshot.getChildren()){
-                            Log.i(TAG,d.getValue().toString());
-                            if(d.getValue().toString().equalsIgnoreCase(mDescription[Data.UzaData.UID.ordinal()])){
+                            Log.i(TAG,"***" + d.child("key").getValue().toString());
+                            if(d.child("key").getValue().toString().equalsIgnoreCase(mDescription[Data.UzaData.UID.ordinal()])){
                                 setAddButton();
                                 break;
                             }
@@ -155,12 +173,105 @@ public class DetailFragment extends CustomFragment{
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_detail, null);
         setHasOptionsMenu(true);
+        setDialogView();
         return setupView(v);
     }
 
-    public void onButtonPressed(String key) {
+    private void setDialogView() {
+        //Preparing views
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.purchase_details, null);
+
+        //layout_root should be the name of the "top-level" layout node in the dialog_layout.xml file.
+        final Spinner size = (Spinner) layout.findViewById(R.id.size);
+        ArrayAdapter<CharSequence> sizeAdapter = ArrayAdapter.createFromResource(this.getActivity(),
+                R.array.size, android.R.layout.simple_spinner_item);
+        sizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        size.setAdapter(sizeAdapter);
+        size.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mSize = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        final Spinner color = (Spinner) layout.findViewById(R.id.color);
+        ArrayAdapter<CharSequence> colorAdapter = ArrayAdapter.createFromResource(this.getActivity(),
+                R.array.color, android.R.layout.simple_spinner_item);
+        colorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        color.setAdapter(colorAdapter);
+        color.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mColor = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        final EditText quantity = (EditText) layout.findViewById(R.id.quantity);
+        quantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Check if edittext is empty
+                if (TextUtils.isEmpty(s)) {
+                    // Disable ok button
+                    mDialog.getButton(
+                            AlertDialog.BUTTON_POSITIVE).setClickable(false);
+                } else {
+                    // Something into edit text. Enable the button.
+                    mDialog.getButton(
+                            AlertDialog.BUTTON_POSITIVE).setClickable(true);
+                }
+            }
+        });
+        quantity.setError( getString(R.string.Quantity_field) );
+        //Building dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setView(layout);
+        builder.setPositiveButton(R.string.Save, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i(TAG,"Color = "+mColor+", Size = "+mSize);
+
+                dialog.dismiss();
+                setAddButton();
+                String[] details = {mDescription[Data.UzaData.UID.ordinal()], mSize, mColor, quantity.getText().toString()};
+                onButtonPressed(details);
+            }
+        });
+        builder.setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        mDialog = builder.create();
+    }
+
+    public void onButtonPressed(String[] details) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(key);
+            mListener.onFragmentInteraction(details);
         }
     }
 
@@ -216,12 +327,9 @@ public class DetailFragment extends CustomFragment{
                     .error(R.drawable.on_sale_item6)
                     .into(item_picture);
         }
-
         initPager(v);
 
         //TODO "Show more pictures" button
-        //TODO "Message" button
-
         return v;
     }
 
@@ -294,8 +402,9 @@ public class DetailFragment extends CustomFragment{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fabCart:
-                setAddButton();
-                onButtonPressed(mDescription[Data.UzaData.UID.ordinal()]);
+                mDialog.show();
+                mDialog.getButton(
+                        AlertDialog.BUTTON_POSITIVE).setClickable(false);
                 break;
             case R.id.btnLike:
                 likePressed();
@@ -304,6 +413,8 @@ public class DetailFragment extends CustomFragment{
                 Log.i(TAG,"Start comment fragment");
                 commentFragment f = commentFragment.newInstance(1,mDescription[Data.UzaData.UID.ordinal()]);
                 getActivity().getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_left,R.anim.slide_in_left,R.anim.slide_out_right)
+                        .addToBackStack(null)
                         .replace(R.id.content_frame, f)
                         .commit();
                 break;
@@ -342,7 +453,7 @@ public class DetailFragment extends CustomFragment{
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        public void onFragmentInteraction(String key);
+        public void onFragmentInteraction(String[] details);
     }
 
     private void getCurrency(){

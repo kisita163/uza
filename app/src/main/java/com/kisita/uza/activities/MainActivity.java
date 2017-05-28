@@ -79,9 +79,6 @@ public class MainActivity extends CustomActivity
 		mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mPagerAdapter);
         commandsCount();
-        //setupLeftNavDrawer();
-        //setDrawerOpenCloseEvent();
-        //TODO Database to store pictures byte²
     }
 
 	private void setPagerAdapter() {
@@ -145,65 +142,6 @@ public class MainActivity extends CustomActivity
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-    }
-
-    private void setupLeftNavDrawer() {
-        drawerLeft = (ListView) findViewById(R.id.left_drawer);
-
-        View header = getLayoutInflater().inflate(R.layout.left_nav_header,
-                null);
-
-        drawerLeft.addHeaderView(header);
-
-        final ArrayList<Data> al = new ArrayList<Data>();
-        al.add(new Data(new String[]{"Explore"}, new int[]{
-                R.drawable.ic_nav1, R.drawable.ic_nav1_sel}));
-        al.add(new Data(new String[]{"Favourites"}, new int[]{
-                R.drawable.ic_nav2, R.drawable.ic_nav2_sel}));
-        al.add(new Data(new String[]{"Cart"}, new int[]{
-                R.drawable.ic_nav3, R.drawable.ic_nav3_sel}));
-        al.add(new Data(new String[]{"Settings"}, new int[]{
-                R.drawable.ic_nav4, R.drawable.ic_nav4_sel}));
-        al.add(new Data(new String[]{"Logout"}, new int[]{
-                R.drawable.ic_nav5, R.drawable.ic_nav5_sel}));
-
-        final LeftNavAdapter adp = new LeftNavAdapter(this, al);
-        drawerLeft.setAdapter(adp);
-        drawerLeft.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i(TAG, "position : " + position);
-                Intent intent;
-                switch (position) {
-                    case (1):
-                        break;
-                    case (2):
-                        intent = new Intent(mContext, UzaActivity.class);
-                        intent.putExtra("fragment",0);
-                        mContext.startActivity(intent);
-                        break;
-                    case (3):
-                        intent = new Intent(mContext, UzaActivity.class);
-                        intent.putExtra("fragment",1);
-                        mContext.startActivity(intent);
-                        break;
-                    case (4):
-                        intent = new Intent(mContext, UzaActivity.class);
-                        intent.putExtra("fragment",2);
-                        mContext.startActivity(intent);
-                        break;
-                    case (5):
-                        mAuth = FirebaseAuth.getInstance();
-                        mAuth.signOut();
-                        LoginManager.getInstance().logOut();
-                        intent = new Intent(mContext, LoginActivity.class);
-                        ((Activity) mContext).finish();
-                        mContext.startActivity(intent);
-                        break;
-                }
-                mDrawerLayout.closeDrawer(drawerLeft);
-            }
-        });
     }
 
     @Override

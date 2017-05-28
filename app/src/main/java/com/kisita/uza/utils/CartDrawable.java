@@ -45,7 +45,7 @@ public class CartDrawable extends Drawable {
         mContext = context;
 
         mTextPaint = new Paint();
-        mTextPaint.setColor(ContextCompat.getColor(context.getApplicationContext(), R.color.main_color));
+        mTextPaint.setColor(ContextCompat.getColor(context.getApplicationContext(), R.color.black));
         mTextPaint.setTypeface(Typeface.DEFAULT);
         mTextPaint.setTextSize(mTextSize);
         mTextPaint.setAntiAlias(true);

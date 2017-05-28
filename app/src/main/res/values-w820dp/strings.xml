@@ -2,4 +2,7 @@
 <resources>
     <string name="checkout">Checkout</string>
     <string name="all_sales">All sales</string>
+    <string name="Save">Save</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Quantity_field">Quantity is required!</string>
 </resources>
