@@ -1,11 +1,15 @@
 package com.kisita.uza.utils;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.kisita.uza.R;
 import com.kisita.uza.ui.commentFragment;
 import com.kisita.uza.ui.commentFragment.OnListFragmentInteractionListener;
@@ -17,10 +21,12 @@ public class commentRecyclerViewAdapter extends RecyclerView.Adapter<commentRecy
 
     private final List<commentFragment.ArticleComment> mValues;
     private final OnListFragmentInteractionListener mListener;
+    private final Context mContext;
 
-    public commentRecyclerViewAdapter(ArrayList<commentFragment.ArticleComment> items, OnListFragmentInteractionListener listener) {
+    public commentRecyclerViewAdapter(ArrayList<commentFragment.ArticleComment> items, OnListFragmentInteractionListener listener,Context context) {
         mValues = items;
         mListener = listener;
+        mContext = context;
     }
 
     @Override
@@ -35,6 +41,9 @@ public class commentRecyclerViewAdapter extends RecyclerView.Adapter<commentRecy
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).name);
         holder.mContentView.setText(mValues.get(position).text);
+        if(FirebaseAuth.getInstance().getCurrentUser().getEmail().equalsIgnoreCase(mValues.get(position).name)){
+            holder.mIdLayout.setBackgroundColor(mContext.getResources().getColor(R.color.comment_dk));
+        }
 
         /*holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +66,7 @@ public class commentRecyclerViewAdapter extends RecyclerView.Adapter<commentRecy
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
+        public final LinearLayout mIdLayout;
         public commentFragment.ArticleComment mItem;
 
         public ViewHolder(View view) {
@@ -64,6 +74,7 @@ public class commentRecyclerViewAdapter extends RecyclerView.Adapter<commentRecy
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);
             mContentView = (TextView) view.findViewById(R.id.content);
+            mIdLayout = (LinearLayout) view.findViewById(R.id.llayout);
         }
 
         @Override

@@ -123,7 +123,7 @@ public class commentFragment extends CustomFragment {
 
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
-        mAdapter = new commentRecyclerViewAdapter(mList,null);
+        mAdapter = new commentRecyclerViewAdapter(mList,null,getContext());
         recList.setAdapter(mAdapter);
 
 
