@@ -86,5 +86,7 @@ public class Data
         public static final int SELLER      = 6;
         public static final int CATEGORY    = 7;
         public static final int TYPE        = 8;
+        public static final int COLOR       = 9;
+        public static final int SIZE        = 10;
     }
 }

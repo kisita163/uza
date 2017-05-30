@@ -68,6 +68,7 @@ public class CommandsChildEventListener implements ChildEventListener {
                                 dataSnapshot.child("description").getValue().toString(),
                                 dataSnapshot.child("seller").getValue().toString(),
                                 dataSnapshot.child("category").getValue().toString()};
+                        //TODO Use array instead of list
                         data = new Data(str, commandKey);
                         mItemsList.add(data);
                         mPrice +=  Double.valueOf(dataSnapshot.child("price").getValue().toString());

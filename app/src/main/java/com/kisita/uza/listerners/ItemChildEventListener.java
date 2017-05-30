@@ -31,17 +31,70 @@ public class ItemChildEventListener implements ChildEventListener{
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        Log.i(TAG, "Item added : " + dataSnapshot.getKey());
-        String[] str = new String[]{
-                dataSnapshot.getKey(),
-                dataSnapshot.child("name").getValue().toString(),
-                dataSnapshot.child("price").getValue().toString(),
-                dataSnapshot.child("currency").getValue().toString(),
-                dataSnapshot.child("brand").getValue().toString(),
-                dataSnapshot.child("description").getValue().toString(),
-                dataSnapshot.child("seller").getValue().toString(),
-                dataSnapshot.child("category").getValue().toString(),
-                dataSnapshot.child("type").getValue().toString()};
+        ArrayList<String> articleData = new ArrayList<>();
+        articleData.add(dataSnapshot.getKey());
+
+        if(dataSnapshot.child("name").getValue() != null){
+            articleData.add(dataSnapshot.child("name").getValue().toString());
+        }else{
+            articleData.add("");
+        }
+
+        if(dataSnapshot.child("price").getValue() != null){
+            articleData.add(dataSnapshot.child("price").getValue().toString());
+        }else{
+            articleData.add("");
+        }
+
+        if(dataSnapshot.child("currency").getValue() != null){
+            articleData.add(dataSnapshot.child("currency").getValue().toString());
+        }else{
+            articleData.add("");
+        }
+
+        if(dataSnapshot.child("brand").getValue() != null){
+            articleData.add(dataSnapshot.child("brand").getValue().toString());
+        }else{
+            articleData.add("");
+        }
+
+        if(dataSnapshot.child("description").getValue() != null){
+            articleData.add(dataSnapshot.child("description").getValue().toString());
+        }else{
+            articleData.add("");
+        }
+
+        if(dataSnapshot.child("seller").getValue() != null){
+            articleData.add(dataSnapshot.child("seller").getValue().toString());
+        }else{
+            articleData.add("");
+        }
+
+        if(dataSnapshot.child("category").getValue() != null){
+            articleData.add(dataSnapshot.child("category").getValue().toString());
+        }
+
+        if(dataSnapshot.child("type").getValue() != null){
+            articleData.add(dataSnapshot.child("type").getValue().toString());
+        }else{
+            articleData.add("");
+        }
+
+        if(dataSnapshot.child("color").getValue() != null){
+            articleData.add(dataSnapshot.child("color").getValue().toString());
+        }else{
+            articleData.add("");
+        }
+
+        if(dataSnapshot.child("size").getValue() != null){
+            articleData.add(dataSnapshot.child("size").getValue().toString());
+        }else{
+            articleData.add("");
+        }
+
+        //TODO Give list array to data object instead of string array
+
+        String[] str = articleData.toArray(new String[articleData.size()]);
         data = new Data(str);
         mItemsList.add(data);
         mAdapter.notifyDataSetChanged();

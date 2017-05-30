@@ -36,10 +36,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
-import com.kisita.uza.model.Data;
 import com.kisita.uza.utils.PageAdapter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
@@ -186,39 +188,69 @@ public class DetailFragment extends CustomFragment{
 
         //layout_root should be the name of the "top-level" layout node in the dialog_layout.xml file.
         final Spinner size = (Spinner) layout.findViewById(R.id.size);
-        ArrayAdapter<CharSequence> sizeAdapter = ArrayAdapter.createFromResource(this.getActivity(),
-                R.array.size, android.R.layout.simple_spinner_item);
-        sizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        size.setAdapter(sizeAdapter);
-        size.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mSize = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-
         final Spinner color = (Spinner) layout.findViewById(R.id.color);
-        ArrayAdapter<CharSequence> colorAdapter = ArrayAdapter.createFromResource(this.getActivity(),
-                R.array.color, android.R.layout.simple_spinner_item);
-        colorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        color.setAdapter(colorAdapter);
-        color.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mColor = parent.getItemAtPosition(position).toString();
+
+        final View separator1 = layout.findViewById(R.id.separator1);
+        final View separator2 = layout.findViewById(R.id.separator2);
+
+
+        if(!mDescription[COLOR].equalsIgnoreCase("")){
+
+            List<String> spinnerArray =  new ArrayList<>();
+            List<String> colorList = new ArrayList<>(Arrays.asList(mDescription[COLOR].split(",")));
+
+            for(String s:colorList){
+                spinnerArray.add(s);
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            ArrayAdapter<String> colorAdapter = new ArrayAdapter<>(this.getActivity(),
+                               android.R.layout.simple_spinner_item,spinnerArray);
+            colorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            color.setAdapter(colorAdapter);
+            color.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    mColor = parent.getItemAtPosition(position).toString();
+                }
 
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        }else{
+            color.setVisibility(View.GONE);
+            separator2.setVisibility(View.GONE);
+        }
+
+        if(!mDescription[SIZE].equalsIgnoreCase("")){
+            List<String> spinnerArray =  new ArrayList<>();
+
+            List<String> sizeList = new ArrayList<>(Arrays.asList(mDescription[SIZE].split(",")));
+
+            for(String s:sizeList){
+                spinnerArray.add(s);
             }
-        });
+
+            ArrayAdapter<String> sizeAdapter = new ArrayAdapter<>(this.getActivity()
+                    ,android.R.layout.simple_spinner_item,spinnerArray);
+            sizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            size.setAdapter(sizeAdapter);
+            size.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    mSize = parent.getItemAtPosition(position).toString();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        }else{
+            size.setVisibility(View.GONE);
+            separator1.setVisibility(View.GONE);
+        }
 
 
         final EditText quantity = (EditText) layout.findViewById(R.id.quantity);
@@ -251,6 +283,8 @@ public class DetailFragment extends CustomFragment{
         //Building dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setView(layout);
+        builder.setTitle("Details");
+        builder.setIcon(R.drawable.ic_launcher);
         builder.setPositiveButton(R.string.Save, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

@@ -12,6 +12,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider"
+        android:id="@+id/separator1"
         android:layout_marginBottom="@dimen/pad_10dp"
         android:layout_marginTop="@dimen/pad_10dp"
         android:background="@color/main_grey_lt" />
@@ -24,6 +25,7 @@
 
     <View
         android:layout_width="match_parent"
+        android:id="@+id/separator2"
         android:layout_height="@dimen/divider"
         android:layout_marginBottom="@dimen/pad_10dp"
         android:layout_marginTop="@dimen/pad_10dp"
@@ -33,6 +35,7 @@
         android:id="@+id/quantity"
         android:layout_width="match_parent"
         android:inputType="number"
+        android:hint="@string/quantity"
         android:layout_height="wrap_content"
         >
         <requestFocus />

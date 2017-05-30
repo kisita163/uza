@@ -42,6 +42,7 @@ public class OnSaleFragment extends CustomFragment
 	private FloatingActionButton mMenu3;
 	private FloatingActionButton mMenu4;
 	private FloatingActionButton mMenu5;
+	private String[]  mTypes;
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
@@ -88,6 +89,7 @@ public class OnSaleFragment extends CustomFragment
 				mMenu3.setLabelText("Watches & Accessories");
 				//mMenu4.setLabelText("Accessories");
 				mMenu5.setLabelText("Perfumes & Beauty");
+				mTypes = new String []{"Clothing","Shoes & Bags","Watches & Accessories","Perfumes & Beauty"};
 				break;
 			case "Kid":
 				mMenu0.setLabelText("All");
@@ -103,6 +105,7 @@ public class OnSaleFragment extends CustomFragment
 
 				mMenu5.setLabelText("Bathing  & Skin care");
 				mMenu5.setImageResource(R.drawable.bath_baby);
+				mTypes = new String []{"Clothing","Shoes & Bags","Toys & Accessories","Bathing  & Skin care"};
 				break;
 			case "Electronic":
 				mMenu0.setLabelText("All");
@@ -118,6 +121,7 @@ public class OnSaleFragment extends CustomFragment
 
 				mMenu5.setLabelText("Computers & Tablets");
 				mMenu5.setImageResource(R.drawable.laptop);
+				mTypes = new String []{"Home","Video games","Phones & Accessories","Computers & Tablets"};
 				break;
 		}
 	}
@@ -136,16 +140,16 @@ public class OnSaleFragment extends CustomFragment
 				mCardadapter.notifyDataSetChanged();
 				return;
 			case(R.id.menu_1):
-				s = "Clothing";
+				s = mTypes[0];
 				break;
 			case(R.id.menu_2):
-				s = "Shoes & Bags";
+				s = mTypes[1];
 				break;
 			case(R.id.menu_3):
-				s = "Watches & Accessories";
+				s = mTypes[2];
 				break;
 			case(R.id.menu_5):
-				s = "Perfumes & Beauty";
+				s = mTypes[3];
 				break;
 		}
 		for (Data d : itemsList) {
