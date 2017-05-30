@@ -129,7 +129,6 @@ public class UzaCardAdapter extends
                 Intent intent = new Intent(mContext, UzaActivity.class);
                 intent.putExtra("fragment",3);
                 intent.putExtra("details", itemsList.get(i).getTexts());
-                intent.putExtra("picture", itemsList.get(i).getmPicBytes());
                 mContext.startActivity(intent);
             }
         };

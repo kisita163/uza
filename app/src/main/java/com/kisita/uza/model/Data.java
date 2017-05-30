@@ -11,7 +11,6 @@ public class Data
 	private String[] texts;
 	/** The resources. */
 	private int resources[];
-	private byte[] mPicBytes;  // Pictures
 	private String key = null;
 
 
@@ -35,23 +34,9 @@ public class Data
 		this.key = key;
 	}
 
-	public Data(String[] texts, byte[] b) {
-		this.texts = texts;
-		this.mPicBytes = b;
-	}
-
 	public Data(String[] texts) {
 		this.texts = texts;
 	}
-
-	public byte[] getmPicBytes() {
-		return mPicBytes;
-	}
-
-	public void setmPicBytes(byte[] mPicBytes) {
-		this.mPicBytes = mPicBytes;
-	}
-
 	/**
 	 * Gets the texts.
 	 *
