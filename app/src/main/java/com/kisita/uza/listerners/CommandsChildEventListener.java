@@ -20,6 +20,8 @@ import com.kisita.uza.utils.UzaCardAdapter;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import static com.kisita.uza.model.Data.UZA.PRICE;
+
 /**
  * Created by Hugues on 30/04/2017.
  */
@@ -100,7 +102,7 @@ public class CommandsChildEventListener implements ChildEventListener {
             if (d.getUid().equalsIgnoreCase(dataSnapshot.child("key").getValue().toString())){
                 mItemsList.remove(d);
                 mAdapter.notifyDataSetChanged();
-                mPrice -= Double.valueOf(d.getTexts()[Data.UzaData.PRICE.ordinal()]);
+                mPrice -= Double.valueOf(d.getTexts()[PRICE]);
                 mPrice = Math.round(mPrice);
                 mPriceView = (TextView) (((UzaActivity)mContext).findViewById(R.id.total));
                 if(mPriceView != null)

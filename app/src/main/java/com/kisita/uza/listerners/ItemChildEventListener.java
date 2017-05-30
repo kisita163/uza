@@ -20,18 +20,13 @@ import java.util.ArrayList;
 public class ItemChildEventListener implements ChildEventListener{
 
     private static final String TAG = "## ItemChildListener";
-    private final long ONE_MEGABYTE = 1024 * 1024;
     private ArrayList<Data> mItemsList;
     private UzaCardAdapter mAdapter;
-    private FirebaseStorage mStorage;
-    private StorageReference mStorageRef;
     private Data data;
-    private File localFile;
 
     public ItemChildEventListener(ArrayList<Data> itemsList, UzaCardAdapter adapter) {
         this.mAdapter = adapter;
         this.mItemsList = itemsList;
-        mStorage = FirebaseStorage.getInstance();
     }
 
     @Override

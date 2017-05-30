@@ -1,6 +1,8 @@
 package com.kisita.uza.model;
 
 
+import static com.kisita.uza.model.Data.UZA.UID;
+
 public class Data
 {
 	private String uid;
@@ -50,24 +52,6 @@ public class Data
 		this.mPicBytes = mPicBytes;
 	}
 
-	public void setPriceCurrency() {
-		String price;
-
-		if(texts.length > 1) {
-			if (texts[UzaData.CURRENCY.ordinal()].equals("US")) {
-				price = texts[UzaData.PRICE.ordinal()] + " $";
-			} else if (texts[UzaData.CURRENCY.ordinal()].equals("EUR")) {
-				price = texts[UzaData.PRICE.ordinal()] + " €";
-			} else if (texts[UzaData.CURRENCY.ordinal()].equals("FC")) {
-				price = texts[UzaData.PRICE.ordinal()] + " FC";
-			} else {
-				price = texts[UzaData.PRICE.ordinal()] + " $";
-			}
-
-			texts[UzaData.PRICE.ordinal()] = price;
-		}
-	}
-
 	/**
 	 * Gets the texts.
 	 *
@@ -76,17 +60,6 @@ public class Data
 	public String[] getTexts()
 	{
 		return texts;
-	}
-
-	/**
-	 * Sets the texts.
-	 *
-	 * @param texts
-	 *            the new texts
-	 */
-	public void setTexts(String[] texts)
-	{
-		this.texts = texts;
 	}
 
 	/**
@@ -111,13 +84,22 @@ public class Data
 	}
 
 	public String getUid() {
-		return texts[UzaData.UID.ordinal()];
+		return texts[UID];
 	}
 
 	public String getKey() {
 		return key;
 	}
 
-
-	public enum UzaData {UID, NAME, PRICE, CURRENCY, BRAND, DESCRIPTION, SELLER, CATEGORY, TYPE}
+    public class UZA {
+        public static final int UID         = 0;
+        public static final int NAME        = 1;
+        public static final int PRICE       = 2;
+        public static final int CURRENCY    = 3;
+        public static final int BRAND       = 4;
+        public static final int DESCRIPTION = 5;
+        public static final int SELLER      = 6;
+        public static final int CATEGORY    = 7;
+        public static final int TYPE        = 8;
+    }
 }

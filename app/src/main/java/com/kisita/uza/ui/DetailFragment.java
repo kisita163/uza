@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -27,7 +28,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,11 +39,11 @@ import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.utils.PageAdapter;
 
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static com.kisita.uza.model.Data.UZA.*;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,7 +57,7 @@ public class DetailFragment extends CustomFragment{
     // the fragment initialization parameters
     private static final String TAG = "### DetailFragment";
 
-    private static final String DESCRIPTION = "description";
+    private static final String DESCR = "description";
 
     private String [] mDescription;
 
@@ -89,6 +89,7 @@ public class DetailFragment extends CustomFragment{
     private StorageReference mStorageRef;
     private String mCurrency;
     private AlertDialog mDialog;
+    private boolean mCommand = false;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -105,7 +106,7 @@ public class DetailFragment extends CustomFragment{
     public static DetailFragment newInstance(String[] description, byte[] picture) {
         DetailFragment fragment = new DetailFragment();
         Bundle args = new Bundle();
-        args.putStringArray(DESCRIPTION, description);
+        args.putStringArray(DESCR, description);
         fragment.setArguments(args);
         return fragment;
     }
@@ -114,7 +115,7 @@ public class DetailFragment extends CustomFragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mDescription = getArguments().getStringArray(DESCRIPTION);
+            mDescription = getArguments().getStringArray(DESCR);
             // get user data
             commands = getDb().child("users-data").child(getUid()).child("commands");
             likes = getDb().child("users-data").child(getUid()).child("likes");
@@ -130,8 +131,9 @@ public class DetailFragment extends CustomFragment{
                         Log.i(TAG, "***" + dataSnapshot.getValue().toString());
                         for(DataSnapshot d :  dataSnapshot.getChildren()){
                             Log.i(TAG,"***" + d.child("key").getValue().toString());
-                            if(d.child("key").getValue().toString().equalsIgnoreCase(mDescription[Data.UzaData.UID.ordinal()])){
+                            if(d.child("key").getValue().toString().equalsIgnoreCase(mDescription[UID])){
                                 setAddButton();
+                                mCommand = true;
                                 break;
                             }
                         }
@@ -149,7 +151,7 @@ public class DetailFragment extends CustomFragment{
                         Log.i(TAG, dataSnapshot.getValue().toString());
                         for(DataSnapshot d :  dataSnapshot.getChildren()){
                             Log.i(TAG,d.getValue().toString());
-                            if(d.getValue().toString().equalsIgnoreCase(mDescription[Data.UzaData.UID.ordinal()])){
+                            if(d.getValue().toString().equalsIgnoreCase(mDescription[UID])){
                                 mlike.setImageResource(R.drawable.button_liked);
                                 key = d.getKey();
                                 mLiked = true;
@@ -256,7 +258,7 @@ public class DetailFragment extends CustomFragment{
 
                 dialog.dismiss();
                 setAddButton();
-                String[] details = {mDescription[Data.UzaData.UID.ordinal()], mSize, mColor, quantity.getText().toString()};
+                String[] details = {mDescription[UID], mSize, mColor, quantity.getText().toString()};
                 onButtonPressed(details);
             }
         });
@@ -314,10 +316,10 @@ public class DetailFragment extends CustomFragment{
         mComment.setOnClickListener(this);
 
         if(mDescription != null) {
-            mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + mDescription[Data.UzaData.UID.ordinal()] + "/android.png");
-            item_name.setText(mDescription[Data.UzaData.NAME.ordinal()] + " | " + mDescription[Data.UzaData.SELLER.ordinal()]);
-            item_price.setText(mDescription[Data.UzaData.PRICE.ordinal()] + " "+mCurrency);
-            item_description.setText(mDescription[Data.UzaData.DESCRIPTION.ordinal()]);
+            mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + mDescription[UID] + "/android.png");
+            item_name.setText(mDescription[NAME] + " | " + mDescription[SELLER]);
+            item_price.setText(mDescription[PRICE] + " "+mCurrency);
+            item_description.setText(mDescription[DESCRIPTION]);
             item_picture.setImageResource(R.drawable.on_sale_item6);
             // Load the image using Glide
             Glide.with(this)
@@ -411,7 +413,7 @@ public class DetailFragment extends CustomFragment{
                 break;
             case R.id.btnComment:
                 Log.i(TAG,"Start comment fragment");
-                commentFragment f = commentFragment.newInstance(1,mDescription[Data.UzaData.UID.ordinal()]);
+                commentFragment f = commentFragment.newInstance(1,mDescription[UID]);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_left,R.anim.slide_in_left,R.anim.slide_out_right)
                         .addToBackStack(null)
@@ -430,7 +432,7 @@ public class DetailFragment extends CustomFragment{
             Log.i(TAG, "mlike is false");
             String like = getDb().child("users").push().getKey();
             key = like;
-            childUpdates.put("/users-data/" + getUid() + "/likes/" + like, mDescription[Data.UzaData.UID.ordinal()]);
+            childUpdates.put("/users-data/" + getUid() + "/likes/" + like, mDescription[UID]);
             getDb().updateChildren(childUpdates);
             mlike.setImageResource(R.drawable.button_liked);
             mLiked = true;
@@ -461,5 +463,17 @@ public class DetailFragment extends CustomFragment{
         SharedPreferences sharedPref = mContext.getSharedPreferences(mContext.getResources().getString(R.string.uza_keys),
                 Context.MODE_PRIVATE);
         mCurrency = sharedPref.getString(mContext.getString(R.string.uza_currency),"EUR");
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.i(TAG,"****************On activity created");
+        if(mLiked){
+            mlike.setImageResource(R.drawable.button_liked);
+        }
+        if(mCommand){
+            setAddButton();
+        }
     }
 }

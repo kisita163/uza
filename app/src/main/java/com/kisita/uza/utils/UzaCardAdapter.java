@@ -30,6 +30,8 @@ import com.kisita.uza.model.Data;
 
 import java.util.ArrayList;
 
+import static com.kisita.uza.model.Data.UZA.*;
+
 /**
  * Created by Hugues on 23/04/2017.
  */
@@ -79,9 +81,9 @@ public class UzaCardAdapter extends
 
         mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + d.getUid() + "/android.png");
 
-        holder.lbl1.setText(d.getTexts()[Data.UzaData.NAME.ordinal()]); // Name
-        holder.lbl2.setText(d.getTexts()[Data.UzaData.PRICE.ordinal()] + " "+mCurrency);
-        holder.lbl3.setText(d.getTexts()[Data.UzaData.BRAND.ordinal()]);
+        holder.lbl1.setText(d.getTexts()[NAME]); // Name
+        holder.lbl2.setText(d.getTexts()[PRICE] + " "+mCurrency);
+        holder.lbl3.setText(d.getTexts()[BRAND]);
         if (hasRemove) {
             holder.mRemove.setOnClickListener(new View.OnClickListener() {
                 @Override

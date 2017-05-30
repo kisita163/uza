@@ -27,12 +27,8 @@ public class FavoritesChildEventListener implements ChildEventListener {
     private UzaCardAdapter mAdapter;
     private DatabaseReference mDatabase;
     private String[] str;
-    private Context mContext;
-    private double mPrice = 0;
-    TextView mPriceView;
 
     private Data data;
-    private String mCurrency = "";
 
     public FavoritesChildEventListener(ArrayList<Data> itemsList,UzaCardAdapter adapter,DatabaseReference reference) {
         this.mAdapter = adapter;

@@ -9,11 +9,12 @@ import android.util.Log;
 
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
-import com.kisita.uza.model.Data;
 import com.kisita.uza.ui.CheckoutFragment;
 import com.kisita.uza.ui.DetailFragment;
 import com.kisita.uza.ui.FavoritesFragment;
 import com.kisita.uza.ui.SettingsFragment;
+
+import static com.kisita.uza.model.Data.UZA.NAME;
 
 public class UzaActivity extends CustomActivity {
     /** The toolbar. */
@@ -54,7 +55,7 @@ public class UzaActivity extends CustomActivity {
                 f = new SettingsFragment();
                 break;
             case(3):
-                title = getIntent().getStringArrayExtra("details")[Data.UzaData.NAME.ordinal()];
+                title = getIntent().getStringArrayExtra("details")[NAME];
                 f = DetailFragment.newInstance(getIntent().getStringArrayExtra("details"), getIntent().getByteArrayExtra("picture"));
             default:
                 break;

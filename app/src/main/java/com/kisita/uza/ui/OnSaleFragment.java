@@ -21,6 +21,8 @@ import com.kisita.uza.utils.UzaCardAdapter;
 
 import java.util.ArrayList;
 
+import static com.kisita.uza.model.Data.UZA.TYPE;
+
 
 /**
  * The Class OnSaleFragment is the fragment that shows the products in GridView.
@@ -147,8 +149,8 @@ public class OnSaleFragment extends CustomFragment
 				break;
 		}
 		for (Data d : itemsList) {
-			Log.i(TAG, "Item clicked. type = " + d.getTexts()[Data.UzaData.TYPE.ordinal()]);
-			if (d.getTexts()[Data.UzaData.TYPE.ordinal()].equalsIgnoreCase(s)) {
+			Log.i(TAG, "Item clicked. type = " + d.getTexts()[TYPE]);
+			if (d.getTexts()[TYPE].equalsIgnoreCase(s)) {
 				tmpList.add(d);
 			}
 		}
