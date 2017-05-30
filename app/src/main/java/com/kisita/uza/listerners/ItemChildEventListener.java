@@ -93,9 +93,7 @@ public class ItemChildEventListener implements ChildEventListener{
         }
 
         //TODO Give list array to data object instead of string array
-
-        String[] str = articleData.toArray(new String[articleData.size()]);
-        data = new Data(str);
+        data = new Data(articleData.toArray(new String[articleData.size()]));
         mItemsList.add(data);
         mAdapter.notifyDataSetChanged();
     }
