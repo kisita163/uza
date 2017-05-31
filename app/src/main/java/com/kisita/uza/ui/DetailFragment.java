@@ -188,7 +188,10 @@ public class DetailFragment extends CustomFragment{
 
         //layout_root should be the name of the "top-level" layout node in the dialog_layout.xml file.
         final Spinner size = (Spinner) layout.findViewById(R.id.size);
+        final TextView tsize = (TextView) layout.findViewById(R.id.size_text);
+
         final Spinner color = (Spinner) layout.findViewById(R.id.color);
+        final TextView tcolor = (TextView) layout.findViewById(R.id.color_text);
 
         final View separator1 = layout.findViewById(R.id.separator1);
         final View separator2 = layout.findViewById(R.id.separator2);
@@ -219,6 +222,7 @@ public class DetailFragment extends CustomFragment{
                 }
             });
         }else{
+            tcolor.setVisibility(View.GONE);
             color.setVisibility(View.GONE);
             separator2.setVisibility(View.GONE);
         }
@@ -248,6 +252,7 @@ public class DetailFragment extends CustomFragment{
                 }
             });
         }else{
+            tsize.setVisibility(View.GONE);
             size.setVisibility(View.GONE);
             separator1.setVisibility(View.GONE);
         }
@@ -272,6 +277,7 @@ public class DetailFragment extends CustomFragment{
                     // Disable ok button
                     mDialog.getButton(
                             AlertDialog.BUTTON_POSITIVE).setClickable(false);
+                    quantity.setError( getString(R.string.Quantity_field) );
                 } else {
                     // Something into edit text. Enable the button.
                     mDialog.getButton(
@@ -279,7 +285,7 @@ public class DetailFragment extends CustomFragment{
                 }
             }
         });
-        quantity.setError( getString(R.string.Quantity_field) );
+
         //Building dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setView(layout);
