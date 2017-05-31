@@ -445,8 +445,6 @@ public class DetailFragment extends CustomFragment{
         switch (v.getId()) {
             case R.id.fabCart:
                 mDialog.show();
-                mDialog.getButton(
-                        AlertDialog.BUTTON_POSITIVE).setClickable(false);
                 break;
             case R.id.btnLike:
                 likePressed();

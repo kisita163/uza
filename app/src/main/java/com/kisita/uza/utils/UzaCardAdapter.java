@@ -22,7 +22,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
@@ -85,6 +84,7 @@ public class UzaCardAdapter extends
         holder.lbl2.setText(d.getTexts()[PRICE] + " "+mCurrency);
         holder.lbl3.setText(d.getTexts()[BRAND]);
         if (hasRemove) {
+            holder.lbl0.setText(setCommandString(d.getCommandDetails()));
             holder.mRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -95,7 +95,7 @@ public class UzaCardAdapter extends
                             .child(getUid())
                             .child("commands");
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                    builder.setMessage("Would you really remove this article from the cart?")
+                    builder.setMessage(R.string.RemoveCommand)
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -164,7 +164,7 @@ public class UzaCardAdapter extends
     public class CardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         /** The lbl3. */
-        private TextView lbl1, lbl2, lbl3;
+        private TextView lbl0,lbl1, lbl2, lbl3;
         /** The img. */
         private ImageView img;
         private ImageView mRemove;
@@ -180,13 +180,17 @@ public class UzaCardAdapter extends
         {
             super(v);
             this.mAdapter = adapter;
+            lbl0 = (TextView) v.findViewById(R.id.lbl0);
             lbl1 = (TextView) v.findViewById(R.id.lbl1);
             lbl2 = (TextView) v.findViewById(R.id.lbl2);
             lbl3 = (TextView) v.findViewById(R.id.lbl3);
             img = (ImageView) v.findViewById(R.id.img);
             mRemove = (ImageView) v.findViewById(R.id.remove);
-            if (!hasRemove)
+            if (!hasRemove){
                 mRemove.setVisibility(View.GONE);
+                lbl0.setVisibility(View.GONE);
+            }
+
 
 
             v.setOnClickListener(this);
@@ -202,5 +206,15 @@ public class UzaCardAdapter extends
         SharedPreferences sharedPref = mContext.getSharedPreferences(mContext.getResources().getString(R.string.uza_keys),
                 Context.MODE_PRIVATE);
         mCurrency = sharedPref.getString(mContext.getString(R.string.uza_currency),"EUR");
+    }
+
+    private String setCommandString(String [] commandDetails){
+        String s = "Qty: "+ commandDetails[0];
+        if(!commandDetails[1].equalsIgnoreCase(""))
+            s = s + " | color: "+ commandDetails[1];
+        if(!commandDetails[2].equalsIgnoreCase(""))
+            s = s + " | size: "+ commandDetails[2];
+
+        return s;
     }
 }

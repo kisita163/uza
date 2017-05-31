@@ -87,4 +87,5 @@
     <string name="Cancel">Cancel</string>
     <string name="Quantity_field">Quantity is required!</string>
     <string name="quantity">Quantity</string>
+    <string name="RemoveCommand">Would you really remove this article from the cart?</string>
 </resources>

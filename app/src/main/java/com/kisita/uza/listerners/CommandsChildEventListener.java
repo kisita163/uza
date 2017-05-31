@@ -17,6 +17,8 @@ import com.kisita.uza.model.Data;
 import com.kisita.uza.ui.CheckoutFragment;
 import com.kisita.uza.utils.UzaCardAdapter;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -51,6 +53,12 @@ public class CommandsChildEventListener implements ChildEventListener {
         Log.i(TAG, "Command added : " + dataSnapshot.getKey().toString());
 
         final String commandKey = dataSnapshot.getKey().toString();
+        final String quantity   = (dataSnapshot.child("quantity").getValue() != null)? dataSnapshot.child("quantity").getValue().toString() : "";
+        final String color      = (dataSnapshot.child("color").getValue() != null)? dataSnapshot.child("color").getValue().toString() : "";
+        final String size       = (dataSnapshot.child("size").getValue() != null)? dataSnapshot.child("size").getValue().toString() : "";
+
+        final String[] commandsDetails = new String[]{quantity,color,size};
+
         mDatabase.child("items")
                 .child(dataSnapshot.child("key").getValue().toString())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -68,8 +76,9 @@ public class CommandsChildEventListener implements ChildEventListener {
                         }
 
                         if(dataSnapshot.child("price").getValue() != null){
+                            double time = Double.valueOf(quantity);
                             articleData.add(dataSnapshot.child("price").getValue().toString());
-                            mPrice +=  Double.valueOf(dataSnapshot.child("price").getValue().toString());
+                            mPrice +=  time*(Double.valueOf(dataSnapshot.child("price").getValue().toString()));
                         }else{
                             articleData.add("");
                         }
@@ -120,7 +129,7 @@ public class CommandsChildEventListener implements ChildEventListener {
                             articleData.add("");
                         }
                         //TODO Use array instead of list
-                        data = new Data(articleData.toArray(new String[articleData.size()]), commandKey);
+                        data = new Data(articleData.toArray(new String[articleData.size()]), commandKey , commandsDetails);
                         mItemsList.add(data);
                         mPriceView = (TextView) (((UzaActivity)mContext).findViewById(R.id.total));
                         if(mPriceView != null)
@@ -153,15 +162,24 @@ public class CommandsChildEventListener implements ChildEventListener {
             if (d.getUid().equalsIgnoreCase(dataSnapshot.child("key").getValue().toString())){
                 mItemsList.remove(d);
                 mAdapter.notifyDataSetChanged();
-                mPrice -= Double.valueOf(d.getTexts()[PRICE]);
-                mPrice = Math.round(mPrice);
+
                 mPriceView = (TextView) (((UzaActivity)mContext).findViewById(R.id.total));
                 if(mPriceView != null)
-                    mPriceView.setText(String.valueOf(mPrice) + " " + mCurrency);
+                    mPriceView.setText(getNewPrice(d) + " " + mCurrency);
                 ((UzaActivity) mContext).commandsCount();
                 break;
             }
         }
+    }
+
+    private String getNewPrice(Data d) {
+
+        DecimalFormat df = new DecimalFormat("#.####");
+        df.setRoundingMode(RoundingMode.CEILING);
+        double time = Double.valueOf(d.getCommandDetails()[0]);
+        mPrice -= time*Double.valueOf(d.getTexts()[PRICE]);
+
+        return  df.format(mPrice);
     }
 
     @Override

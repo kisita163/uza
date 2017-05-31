@@ -11,7 +11,10 @@ public class Data
 	private String[] texts;
 	/** The resources. */
 	private int resources[];
+
 	private String key = null;
+
+	private String[] commandDetails;
 
 
 	/**
@@ -36,6 +39,12 @@ public class Data
 
 	public Data(String[] texts) {
 		this.texts = texts;
+	}
+
+	public Data(String[] texts,String key,String[] commandDetails) {
+		this.texts = texts;
+		this.key = key;
+		this.commandDetails = commandDetails;
 	}
 	/**
 	 * Gets the texts.
@@ -76,7 +85,11 @@ public class Data
 		return key;
 	}
 
-    public class UZA {
+	public String[] getCommandDetails() {
+		return commandDetails;
+	}
+
+	public class UZA {
         public static final int UID         = 0;
         public static final int NAME        = 1;
         public static final int PRICE       = 2;
