@@ -1,17 +1,22 @@
 package com.kisita.uza.listerners;
 
 import android.util.Log;
+import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.kisita.uza.R;
+import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.utils.UzaCardAdapter;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import static com.kisita.uza.model.Data.UZA.PRICE;
 
 
 /**
@@ -105,8 +110,14 @@ public class ItemChildEventListener implements ChildEventListener{
 
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
-        //TODO Remove the removed item in the list (see database app)
-
+        Log.i(TAG, "onChildRemoved - " + dataSnapshot.getKey().toString());
+        for (Data d : mItemsList) {
+            if (d.getUid().equalsIgnoreCase(dataSnapshot.getKey().toString())){
+                mItemsList.remove(d);
+                mAdapter.notifyDataSetChanged();
+                break;
+            }
+        }
     }
 
     @Override
