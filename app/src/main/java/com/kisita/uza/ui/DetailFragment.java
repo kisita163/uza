@@ -360,14 +360,6 @@ public class DetailFragment extends CustomFragment{
             item_name.setText(mDescription[NAME] + " | " + mDescription[SELLER]);
             item_price.setText(mDescription[PRICE] + " "+mCurrency);
             item_description.setText(mDescription[DESCRIPTION]);
-            item_picture.setImageResource(R.drawable.on_sale_item6);
-            // Load the image using Glide
-            Glide.with(this)
-                    .using(new FirebaseImageLoader())
-                    .load(mStorageRef)
-                    .fitCenter()
-                    .error(R.drawable.on_sale_item6)
-                    .into(item_picture);
         }
         initPager(v);
 
@@ -406,7 +398,7 @@ public class DetailFragment extends CustomFragment{
         });
         vDots = (LinearLayout) v.findViewById(R.id.vDots);
 
-        pager.setAdapter(new PageAdapter());
+        pager.setAdapter(new PageAdapter(getContext(),mStorage,mDescription[UID]));
         setupDotbar(v);
     }
 

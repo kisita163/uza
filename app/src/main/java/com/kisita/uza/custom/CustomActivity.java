@@ -195,7 +195,7 @@ public class CustomActivity extends AppCompatActivity implements
 		count++;
 		String command = getDb().child("users").push().getKey(); // New command id
 		Map<String, Object> childUpdates = new HashMap<>();
-		//TODO check existence of these fields
+
 		childUpdates.put("/users-data/" + getUid() + "/commands/"+command+"/key",details[0]);
 		childUpdates.put("/users-data/" + getUid() + "/commands/"+command+"/size",details[1]);
 		childUpdates.put("/users-data/" + getUid() + "/commands/"+command+"/color",details[2]);

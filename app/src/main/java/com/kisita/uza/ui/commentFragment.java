@@ -39,11 +39,10 @@ import java.util.Map;
  */
 public class commentFragment extends CustomFragment {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     private static final String ARG_ITEM_UID = "item-uid";
     private static final String TAG = "## CommentFragment";
-    // TODO: Customize parameters
+
     private int mColumnCount = 1;
     private String mItemUid;
     private OnListFragmentInteractionListener mListener;
@@ -63,7 +62,6 @@ public class commentFragment extends CustomFragment {
     public commentFragment() {
     }
 
-    // TODO: Customize parameter initialization
     //@SuppressWarnings("unused")
     public static commentFragment newInstance(int columnCount,String uid) {
         commentFragment fragment = new commentFragment();

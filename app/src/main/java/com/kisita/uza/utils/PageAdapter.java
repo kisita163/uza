@@ -1,5 +1,6 @@
 package com.kisita.uza.utils;
 
+import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,16 +8,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
+import com.kisita.uza.activities.UzaActivity;
+import com.kisita.uza.ui.DetailFragment;
 
 /**
  * Created by Hugues on 27/04/2017.
  */
 public class PageAdapter extends PagerAdapter {
 
+    private Context mContext;
+    private FirebaseStorage mReference;
+    private String key;
+
+
+
+    public PageAdapter(Context context, FirebaseStorage reference,String key) {
+        this.mContext = context;
+        this.mReference = reference;
+        this.key = key;
+    }
+
     /* (non-Javadoc)
-     * @see android.support.v4.view.PagerAdapter#getCount()
-     */
+         * @see android.support.v4.view.PagerAdapter#getCount()
+         */
     @Override
     public int getCount()
     {
@@ -29,11 +48,35 @@ public class PageAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int arg0)
     {
-        //Log.i("PagerAdapter", "int value is : " + arg0);
-        ImageView img = (ImageView)LayoutInflater.from(container.getContext())
+        final ImageView img = (ImageView)LayoutInflater.from(container.getContext())
                 .inflate(R.layout.img, container, false);
+        final int pos = arg0;
+        final String ref;
 
-        img.setImageResource(R.drawable.product_detail_bottom_banner);
+        if(pos == 0)
+            ref = "gs://glam-afc14.appspot.com/" + key + "/android.png";
+        else
+            ref = "gs://glam-afc14.appspot.com/" + key + "/android"+pos+".png";
+
+        Glide.with(mContext)
+                .using(new FirebaseImageLoader())
+                .load(mReference.getReferenceFromUrl(ref))
+                .fitCenter()
+                .error(R.drawable.on_sale_item6)
+                .into(img);
+
+
+        //img.setImageResource(R.drawable.product_detail_bottom_banner);
+        /*img.setOnClickListener(new View.OnClickListener() {
+            @Override
+        public void onClick(View v) {
+                Glide.with(mContext)
+                        .using(new FirebaseImageLoader())
+                        .load(mReference.getReferenceFromUrl(ref))
+                        .fitCenter()
+                        .error(R.drawable.on_sale_item6)
+                        .into((ImageView) ((UzaActivity)mContext).findViewById(R.id.imageView1));
+            }});*/
 
         container.addView(img,
                 android.view.ViewGroup.LayoutParams.MATCH_PARENT,

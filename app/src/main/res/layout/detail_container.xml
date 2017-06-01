@@ -7,25 +7,67 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/pad_20dp"
+        android:src="@drawable/ic_add_black_24dp"
+        app:backgroundTint="@color/main_color" />
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/imageView1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/product_detail_img" />
+                android:layout_height="400dp"
+                android:src="@drawable/product_detail_img" />-->
+
+            <RelativeLayout
+                android:id="@+id/ae"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+
+                android:layout_marginBottom="@dimen/pad_10dp"
+                android:layout_marginTop="@dimen/pad_10dp">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:id="@+id/aa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/pager"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/pad_10dp">
+
+                    <LinearLayout
+                        android:id="@+id/vDots"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
             <LinearLayout
                 android:id="@+id/as"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/imageView1"
+                android:layout_below="@+id/ae"
                 android:layout_marginTop="@dimen/pad_10dp"
                 android:orientation="vertical">
 
@@ -36,7 +78,8 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/pad_10dp"
                     android:paddingTop="@dimen/pad_10dp"
-                    android:text="Moto 360 | Uniform Wares"/>
+                    android:text="Moto 360 | Uniform Wares" />
+
                 <TextView
                     android:id="@+id/item_price"
                     style="@style/lbl_setting2"
@@ -45,14 +88,14 @@
                     android:layout_marginTop="@dimen/pad_3dp"
                     android:paddingLeft="@dimen/pad_10dp"
                     android:text="$399.99"
-                    android:textColor="@android:color/holo_orange_dark" 
-                    android:textStyle="bold"/>
+                    android:textColor="@android:color/holo_orange_dark"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/pad_10dp"
-                    android:background="@drawable/product_detail_button_separator" >
+                    android:background="@drawable/product_detail_button_separator">
 
                     <ImageView
                         android:id="@+id/btnLike"
@@ -63,6 +106,7 @@
                         android:clickable="true"
                         android:scaleType="center"
                         android:src="@drawable/ic_favorite_border_black_24dp" />
+
                     <ImageView
                         android:id="@+id/btnComment"
                         android:layout_width="wrap_content"
@@ -72,6 +116,7 @@
                         android:clickable="true"
                         android:scaleType="center"
                         android:src="@drawable/ic_chat_bubble_outline_black_24dp" />
+
                     <ImageView
                         android:id="@+id/btnMore"
                         android:layout_width="wrap_content"
@@ -95,47 +140,14 @@
 
             </LinearLayout>
 
-             <RelativeLayout
-            android:id="@+id/ae"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/pad_155dp"
-            android:layout_below="@+id/as"
-            android:layout_marginBottom="@dimen/pad_10dp">
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/pager"
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                 />
-             <LinearLayout
-                 android:id="@+id/aa"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:layout_alignBottom="@+id/pager"
-                 android:gravity="center"
-                 android:orientation="horizontal"
-                 android:padding="@dimen/pad_10dp">
-
-            <LinearLayout
-                android:id="@+id/vDots"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-
-            </LinearLayout>
-            </LinearLayout>
-        </RelativeLayout>
-
+                android:layout_height="@dimen/pad_155dp"
+                android:layout_below="@+id/as"
+                android:scaleType="fitXY"
+                android:src="@drawable/product_detail_bottom_banner"
+                />
         </RelativeLayout>
     </ScrollView>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabCart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/pad_20dp"
-        android:src="@drawable/ic_add_black_24dp"
-        app:backgroundTint="@color/main_color" />
 </android.support.design.widget.CoordinatorLayout>
