@@ -20,13 +20,13 @@
         android:actionViewClass="android.widget.SearchView"
         />
 
-	<item
+	<!--<item TODO search engine
         android:id="@+id/action_search"
         android:icon="@drawable/icon_search"
         app:showAsAction="never"
         android:title="@string/search"
         android:actionViewClass="android.widget.SearchView"
-        />
+        />-->
 
     <item
         android:id="@+id/action_logout"

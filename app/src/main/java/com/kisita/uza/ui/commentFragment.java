@@ -89,7 +89,7 @@ public class commentFragment extends CustomFragment {
         mComments.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.i(TAG,"Data added");
+                //Log.i(TAG,"Data added");
                 if(dataSnapshot.hasChildren()) {
                     mList.clear();
                     for(DataSnapshot d :  dataSnapshot.getChildren()) {
@@ -116,14 +116,15 @@ public class commentFragment extends CustomFragment {
         View view = inflater.inflate(R.layout.fragment_comment_list, container, false);
 
         RecyclerView recList = (RecyclerView) view.findViewById(R.id.cardList);
-        recList.setHasFixedSize(true);
+        recList.setHasFixedSize(false);
 
         StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1,
                 StaggeredGridLayoutManager.HORIZONTAL);
+        //llm.scrollToPositionWithOffset(1, mList.size()-1);
 
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
-        mAdapter = new commentRecyclerViewAdapter(mList,null,getContext());
+        mAdapter = new commentRecyclerViewAdapter(mList,null,getContext(),llm);
         recList.setAdapter(mAdapter);
 
 
@@ -136,7 +137,7 @@ public class commentFragment extends CustomFragment {
                     Map<String, Object> childUpdates = new HashMap<>();
                     // Do whatever you want here
                     String comment = getDb().child("users").push().getKey();
-                    Log.i(TAG,"/items/" + mItemUid + "/comment/" + comment + "/text");
+                    //Log.i(TAG,"/items/" + mItemUid + "/comment/" + comment + "/text");
                     childUpdates.put("/items/" + mItemUid + "/comments/" + comment+ "/text",v.getText().toString());
                     childUpdates.put("/items/" + mItemUid + "/comments/" + comment + "/name", FirebaseAuth.getInstance().getCurrentUser().getEmail());
                     childUpdates.put("/items/" + mItemUid + "/comments/" + comment + "/date", String.valueOf(c.get(Calendar.DATE))+"/"+String.valueOf(c.get(Calendar.MONTH))+"/"+String.valueOf(c.get(Calendar.YEAR)));

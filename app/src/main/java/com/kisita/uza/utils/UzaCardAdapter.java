@@ -75,7 +75,7 @@ public class UzaCardAdapter extends
 
     @Override
     public void onBindViewHolder(UzaCardAdapter.CardViewHolder holder, int position) {
-        Log.i(TAG, "Position is  : " + position);
+        //Log.i(TAG, "Position is  : " + position);
         final Data d = itemsList.get(position);
 
         mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + d.getUid() + "/android.png");
@@ -88,7 +88,7 @@ public class UzaCardAdapter extends
             holder.mRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.i(TAG, "Remove pressed - " + d.getUid());
+                    //Log.i(TAG, "Remove pressed - " + d.getUid());
                     mCommands = FirebaseDatabase.getInstance()
                             .getReference()
                             .child("users-data")
@@ -136,7 +136,7 @@ public class UzaCardAdapter extends
 
     @Override
     public int getItemCount() {
-        Log.i(TAG, "count = " + itemsList.size());
+        //Log.i(TAG, "count = " + itemsList.size());
         return itemsList.size();
     }
 
@@ -151,7 +151,7 @@ public class UzaCardAdapter extends
     public void onFailure(@NonNull Exception e) {
         String errorMessage = e.getMessage();
 
-        Log.i(TAG, "Failure occurred. Error code is  : " + errorMessage + "-" + e.getCause().toString());
+        //Log.i(TAG, "Failure occurred. Error code is  : " + errorMessage + "-" + e.getCause().toString());
     }
 
     private String getUid() {

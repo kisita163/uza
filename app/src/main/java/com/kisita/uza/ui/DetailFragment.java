@@ -128,11 +128,11 @@ public class DetailFragment extends CustomFragment{
             commands.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    Log.i(TAG,"***" + dataSnapshot.child("key").toString());
+                    //Log.i(TAG,"***" + dataSnapshot.child("key").toString());
                     if(dataSnapshot.hasChildren()) {
-                        Log.i(TAG, "***" + dataSnapshot.getValue().toString());
+                        //Log.i(TAG, "***" + dataSnapshot.getValue().toString());
                         for(DataSnapshot d :  dataSnapshot.getChildren()){
-                            Log.i(TAG,"***" + d.child("key").getValue().toString());
+                            //Log.i(TAG,"***" + d.child("key").getValue().toString());
                             if(d.child("key").getValue().toString().equalsIgnoreCase(mDescription[UID])){
                                 setAddButton();
                                 mCommand = true;
@@ -150,9 +150,9 @@ public class DetailFragment extends CustomFragment{
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.hasChildren()) {
-                        Log.i(TAG, dataSnapshot.getValue().toString());
+                        //Log.i(TAG, dataSnapshot.getValue().toString());
                         for(DataSnapshot d :  dataSnapshot.getChildren()){
-                            Log.i(TAG,d.getValue().toString());
+                            //Log.i(TAG,d.getValue().toString());
                             if(d.getValue().toString().equalsIgnoreCase(mDescription[UID])){
                                 mlike.setImageResource(R.drawable.button_liked);
                                 key = d.getKey();
@@ -294,7 +294,7 @@ public class DetailFragment extends CustomFragment{
         builder.setPositiveButton(R.string.Save, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.i(TAG,"Color = "+mColor+", Size = "+mSize);
+                //Log.i(TAG,"Color = "+mColor+", Size = "+mSize);
 
                 dialog.dismiss();
                 setAddButton();
@@ -435,7 +435,7 @@ public class DetailFragment extends CustomFragment{
     }
 
     private void setAddButton() {
-        Log.i(TAG, "Setting add button");
+        //Log.i(TAG, "Setting add button");
         add.setVisibility(View.INVISIBLE);
         Toast.makeText(getContext(), "Item in the cart", Toast.LENGTH_LONG).show();
     }
@@ -450,7 +450,7 @@ public class DetailFragment extends CustomFragment{
                 likePressed();
                 break;
             case R.id.btnComment:
-                Log.i(TAG,"Start comment fragment");
+                //Log.i(TAG,"Start comment fragment");
                 commentFragment f = commentFragment.newInstance(1,mDescription[UID]);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_left,R.anim.slide_in_left,R.anim.slide_out_right)
@@ -464,10 +464,10 @@ public class DetailFragment extends CustomFragment{
     }
 
     private void likePressed() {
-        Log.i(TAG, "button like pressed (case)");
+        //Log.i(TAG, "button like pressed (case)");
         Map<String, Object> childUpdates = new HashMap<>();
         if (!mLiked) {
-            Log.i(TAG, "mlike is false");
+            //Log.i(TAG, "mlike is false");
             String like = getDb().child("users").push().getKey();
             key = like;
             childUpdates.put("/users-data/" + getUid() + "/likes/" + like, mDescription[UID]);
@@ -475,7 +475,7 @@ public class DetailFragment extends CustomFragment{
             mlike.setImageResource(R.drawable.button_liked);
             mLiked = true;
         } else {
-            Log.i(TAG, "mlike is true - key = "+key);
+            //Log.i(TAG, "mlike is true - key = "+key);
             likes.child(key).removeValue();
             mLiked = false;
             mlike.setImageResource(R.drawable.ic_favorite_border_black_24dp);
@@ -506,7 +506,7 @@ public class DetailFragment extends CustomFragment{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.i(TAG,"****************On activity created");
+        //Log.i(TAG,"****************On activity created");
         if(mLiked){
             mlike.setImageResource(R.drawable.button_liked);
         }

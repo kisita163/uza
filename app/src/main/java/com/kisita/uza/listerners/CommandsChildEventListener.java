@@ -50,7 +50,7 @@ public class CommandsChildEventListener implements ChildEventListener {
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        Log.i(TAG, "Command added : " + dataSnapshot.getKey().toString());
+        //Log.i(TAG, "Command added : " + dataSnapshot.getKey().toString());
 
         final String commandKey = dataSnapshot.getKey().toString();
         final String quantity   = (dataSnapshot.child("quantity").getValue() != null)? dataSnapshot.child("quantity").getValue().toString() : "";
@@ -152,12 +152,12 @@ public class CommandsChildEventListener implements ChildEventListener {
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        Log.i(TAG,"onChildAdded" );
+        //Log.i(TAG,"onChildAdded" );
     }
 
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
-        Log.i(TAG, "onChildRemoved - " + dataSnapshot.child("key").getValue().toString());
+        //Log.i(TAG, "onChildRemoved - " + dataSnapshot.child("key").getValue().toString());
         for (Data d : mItemsList) {
             if (d.getUid().equalsIgnoreCase(dataSnapshot.child("key").getValue().toString())){
                 mItemsList.remove(d);

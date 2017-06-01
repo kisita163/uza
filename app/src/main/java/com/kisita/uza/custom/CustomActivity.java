@@ -148,7 +148,7 @@ public class CustomActivity extends AppCompatActivity implements
 	private void setBadgeCount(Context context, LayerDrawable icon, String count) {
 
 		CartDrawable badge;
-		Log.i(TAG,"setBadgeCount. count = "+count);
+		//Log.i(TAG,"setBadgeCount. count = "+count);
 		// Reuse drawable if possible
 		Drawable reuse = icon.findDrawableByLayerId(R.id.ic_badge);
 		if (reuse != null && reuse instanceof CartDrawable) {
@@ -169,7 +169,7 @@ public class CustomActivity extends AppCompatActivity implements
 		commands.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
-				Log.i(TAG, "Child added. count = " + dataSnapshot.getChildrenCount());
+				//Log.i(TAG, "Child added. count = " + dataSnapshot.getChildrenCount());
 				count = dataSnapshot.getChildrenCount();
 				if (mIcon != null)
 					setBadgeCount(getApplicationContext(), mIcon, String.valueOf(dataSnapshot.getChildrenCount()));
@@ -206,7 +206,7 @@ public class CustomActivity extends AppCompatActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		Log.i(TAG,"onCreateOptionsMenu");
+		//Log.i(TAG,"onCreateOptionsMenu");
 		getMenuInflater().inflate(R.menu.search_exp, menu);
 		MenuItem itemCart = menu.findItem(R.id.action_cart);
 		mIcon = (LayerDrawable) itemCart.getIcon();

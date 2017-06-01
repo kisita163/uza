@@ -29,7 +29,7 @@ public class PageAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int arg0)
     {
-        Log.i("PagerAdapter", "int value is : " + arg0);
+        //Log.i("PagerAdapter", "int value is : " + arg0);
         ImageView img = (ImageView)LayoutInflater.from(container.getContext())
                 .inflate(R.layout.img, container, false);
 

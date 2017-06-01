@@ -58,7 +58,7 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 		// parent.getItemAtPosition(pos)
-		Log.i("Settings",parent.getItemAtPosition(position).toString());
+		//Log.i("Settings",parent.getItemAtPosition(position).toString());
 
 		SharedPreferences sharedPref = getActivity().getSharedPreferences(getResources().getString(R.string.uza_keys),Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();

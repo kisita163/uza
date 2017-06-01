@@ -75,10 +75,10 @@ public class LoginActivity extends CustomActivity
 
 
 		try {
-			Log.i(TAG,"Make data persistent");
+			//Log.i(TAG,"Make data persistent");
 			FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 		}catch (Exception e){
-			Log.i(TAG,"The app crash arguing that this instance must be called prior to other instances");
+			//Log.i(TAG,"The app crash arguing that this instance must be called prior to other instances");
 		}
 		mDatabase = FirebaseDatabase.getInstance().getReference();
 		mAuth = FirebaseAuth.getInstance();
@@ -132,12 +132,12 @@ public class LoginActivity extends CustomActivity
 
 			@Override
 			public void onCancel() {
-				Log.i(TAG,"Facebook onCancel");
+				//Log.i(TAG,"Facebook onCancel");
 			}
 
 			@Override
 			public void onError(FacebookException error) {
-				Log.i(TAG,"Facebook onError "+error.getMessage());
+				//Log.i(TAG,"Facebook onError "+error.getMessage());
 
 			} });
 
@@ -362,7 +362,7 @@ public class LoginActivity extends CustomActivity
 							// Sign in success, update UI with the signed-in user's information
 							Log.d(TAG, "signInWithCredential:success");
 							FirebaseUser user = mAuth.getCurrentUser();
-							Log.i(TAG,"The user is  : "+user.getEmail().toString());
+							//Log.i(TAG,"The user is  : "+user.getEmail().toString());
 							onAuthSuccess(user);
 						} else {
 							// If sign in fails, display a message to the user.

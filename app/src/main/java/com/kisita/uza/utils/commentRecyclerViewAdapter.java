@@ -2,7 +2,9 @@ package com.kisita.uza.utils;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +24,13 @@ public class commentRecyclerViewAdapter extends RecyclerView.Adapter<commentRecy
     private final List<commentFragment.ArticleComment> mValues;
     private final OnListFragmentInteractionListener mListener;
     private final Context mContext;
+    private final StaggeredGridLayoutManager mGridManager;
 
-    public commentRecyclerViewAdapter(ArrayList<commentFragment.ArticleComment> items, OnListFragmentInteractionListener listener,Context context) {
+    public commentRecyclerViewAdapter(ArrayList<commentFragment.ArticleComment> items, OnListFragmentInteractionListener listener, Context context, StaggeredGridLayoutManager llm) {
         mValues = items;
         mListener = listener;
         mContext = context;
+        mGridManager  = llm;
     }
 
     @Override
@@ -44,6 +48,8 @@ public class commentRecyclerViewAdapter extends RecyclerView.Adapter<commentRecy
         if(FirebaseAuth.getInstance().getCurrentUser().getEmail().equalsIgnoreCase(mValues.get(position).name)){
             holder.mIdLayout.setBackgroundColor(mContext.getResources().getColor(R.color.comment_dk));
         }
+        //Log.i("GRID",">Grid set at offset position : "+getItemCount());
+        mGridManager.scrollToPosition(getItemCount()-1);
 
         /*holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

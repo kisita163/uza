@@ -72,7 +72,7 @@ public class UzaActivity extends CustomActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Log.i(TAG,"***** back pressed");
+        //Log.i(TAG,"***** back pressed");
         getFragmentManager().popBackStackImmediate();
     }
 }

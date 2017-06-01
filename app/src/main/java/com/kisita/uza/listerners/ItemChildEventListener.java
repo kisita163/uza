@@ -110,7 +110,7 @@ public class ItemChildEventListener implements ChildEventListener{
 
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
-        Log.i(TAG, "onChildRemoved - " + dataSnapshot.getKey().toString());
+        //Log.i(TAG, "onChildRemoved - " + dataSnapshot.getKey().toString());
         for (Data d : mItemsList) {
             if (d.getUid().equalsIgnoreCase(dataSnapshot.getKey().toString())){
                 mItemsList.remove(d);

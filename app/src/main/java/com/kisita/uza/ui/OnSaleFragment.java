@@ -153,7 +153,7 @@ public class OnSaleFragment extends CustomFragment
 				break;
 		}
 		for (Data d : itemsList) {
-			Log.i(TAG, "Item clicked. type = " + d.getTexts()[TYPE]);
+			//Log.i(TAG, "Item clicked. type = " + d.getTexts()[TYPE]);
 			if (d.getTexts()[TYPE].equalsIgnoreCase(s)) {
 				tmpList.add(d);
 			}

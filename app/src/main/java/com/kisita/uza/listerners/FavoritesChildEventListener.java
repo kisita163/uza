@@ -37,7 +37,7 @@ public class FavoritesChildEventListener implements ChildEventListener {
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        Log.i(TAG, "Favorite added : " + dataSnapshot.getKey());
+        //Log.i(TAG, "Favorite added : " + dataSnapshot.getKey());
         final String commandKey = dataSnapshot.getKey();
         mDatabase.child("items")
                 .child(dataSnapshot.getValue().toString())
@@ -121,12 +121,12 @@ public class FavoritesChildEventListener implements ChildEventListener {
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        Log.i(TAG,"onChildAdded" );
+        //Log.i(TAG,"onChildAdded" );
     }
 
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
-        Log.i(TAG, "onChildRemoved - " + dataSnapshot.getValue().toString());
+        //Log.i(TAG, "onChildRemoved - " + dataSnapshot.getValue().toString());
     }
 
     @Override
