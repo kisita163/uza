@@ -56,14 +56,14 @@ public class SpinnerColorAdapter extends BaseAdapter {
             row = inflter.inflate(R.layout.color_item, null);
         }
 
-        Log.i("Color adapter","row is not null :"+position);
-
         ImageView  img = (ImageView)row.findViewById(R.id.color_item);
         int color;
-        String str = mList.get(position).replace("#","");
+        //Log.i("Color adapter","result :"+(int)Long.parseLong( str.trim(), 16)+"- value is : "+str.trim());
 
         try {
-            color = Integer.parseInt( str.trim(), 16);
+            color = Color.parseColor(mList.get(position).trim());
+            //color = Integer.valueOf(str);
+            //color = (int)Long.parseLong( str.trim(), 16);
         }catch (NumberFormatException e){
             color = Color.BLACK;
             Log.e("Format issue in color",e.getMessage());

@@ -5,8 +5,8 @@
     android:layout_height="match_parent">
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_margin="@dimen/pad_5dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="@dimen/pad_5dp"
         android:background="@color/main_color"
         android:id="@+id/color_item"/>
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -85,6 +86,7 @@ public class UzaCardAdapter extends
         holder.lbl3.setText(d.getTexts()[BRAND]);
         if (hasRemove) {
             holder.lbl0.setText(setCommandString(d.getCommandDetails()));
+            holder.lbl4.setBackgroundColor(Color.parseColor(d.getCommandDetails()[1].trim()));
             holder.mRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -166,7 +168,7 @@ public class UzaCardAdapter extends
         /** The lbl3. */
         private TextView lbl0,lbl1, lbl2, lbl3;
         /** The img. */
-        private ImageView img;
+        private ImageView img,lbl4;
         private ImageView mRemove;
         UzaCardAdapter mAdapter;
 
@@ -184,11 +186,13 @@ public class UzaCardAdapter extends
             lbl1 = (TextView) v.findViewById(R.id.lbl1);
             lbl2 = (TextView) v.findViewById(R.id.lbl2);
             lbl3 = (TextView) v.findViewById(R.id.lbl3);
+            lbl4 = (ImageView) v.findViewById(R.id.lbl4);
             img = (ImageView) v.findViewById(R.id.img);
             mRemove = (ImageView) v.findViewById(R.id.remove);
             if (!hasRemove){
                 mRemove.setVisibility(View.GONE);
                 lbl0.setVisibility(View.GONE);
+                lbl4.setVisibility(View.GONE);
             }
 
 
@@ -210,10 +214,10 @@ public class UzaCardAdapter extends
 
     private String setCommandString(String [] commandDetails){
         String s = "Qty: "+ commandDetails[0];
-        if(!commandDetails[1].equalsIgnoreCase(""))
-            s = s + " | color: "+ commandDetails[1];
         if(!commandDetails[2].equalsIgnoreCase(""))
             s = s + " | size: "+ commandDetails[2];
+        if(!commandDetails[1].equalsIgnoreCase(""))
+            s = s + " | color :";
 
         return s;
     }
