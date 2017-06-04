@@ -86,10 +86,10 @@ public class ItemChildEventListener implements ChildEventListener{
         }
 
         if(dataSnapshot.child("colors").getValue() != null){
-            Log.i(TAG,dataSnapshot.child("colors").getValue().toString());
+            //Log.i(TAG,dataSnapshot.child("colors").getValue().toString());
             articleData.add(dataSnapshot.child("colors").getValue().toString());
         }else{
-            Log.i(TAG, "No color");
+            //Log.i(TAG, "No color");
             articleData.add("");
         }
 

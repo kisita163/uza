@@ -17,12 +17,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -32,6 +34,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.model.User;
@@ -301,6 +305,7 @@ public class LoginActivity extends CustomActivity
 		/* (non-Javadoc)
 		 * @see android.support.v4.view.PagerAdapter#getCount()
 		 */
+		private StorageReference mReference;
 		@Override
 		public int getCount() {
 			return 5;
@@ -312,10 +317,16 @@ public class LoginActivity extends CustomActivity
 		@Override
 		public Object instantiateItem(ViewGroup container, int arg0) {
 			final ImageView img = (ImageView) getLayoutInflater().inflate(
-					R.layout.img, null);
+					R.layout.login_images, null);
+			mReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://glam-afc14.appspot.com/login/android.png");
 
-			img.setImageResource(R.drawable.img_signin);
-
+			//img.setImageResource(R.drawable.img_signin);
+			Glide.with(getApplicationContext())
+					.using(new FirebaseImageLoader())
+					.load(mReference)
+					.fitCenter()
+					.error(R.drawable.on_sale_item6)
+					.into(img);
 			container.addView(img,
 					android.view.ViewGroup.LayoutParams.MATCH_PARENT,
 					android.view.ViewGroup.LayoutParams.MATCH_PARENT);

@@ -131,7 +131,7 @@ public class DetailFragment extends CustomFragment{
 
             getCurrency();
 
-            Log.i(TAG,"***** number of pictures is :"+mDescription[PICTURES]);
+            //Log.i(TAG,"***** number of pictures is :"+mDescription[PICTURES]);
 
             if(mDescription[PICTURES].equalsIgnoreCase("")){
                 mPictures = 1;
