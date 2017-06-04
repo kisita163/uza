@@ -85,15 +85,19 @@ public class ItemChildEventListener implements ChildEventListener{
             articleData.add("");
         }
 
-        if(dataSnapshot.child("color").getValue() != null){
-            articleData.add(dataSnapshot.child("color").getValue().toString());
+        if(dataSnapshot.child("colors").getValue() != null){
+            Log.i(TAG,dataSnapshot.child("colors").getValue().toString());
+            articleData.add(dataSnapshot.child("colors").getValue().toString());
         }else{
+            Log.i(TAG, "No color");
             articleData.add("");
         }
 
-        if(dataSnapshot.child("size").getValue() != null){
-            articleData.add(dataSnapshot.child("size").getValue().toString());
+        if(dataSnapshot.child("sizes").getValue() != null){
+            Log.i(TAG,dataSnapshot.child("sizes").getValue().toString());
+            articleData.add(dataSnapshot.child("sizes").getValue().toString());
         }else{
+            Log.i(TAG, "No size");
             articleData.add("");
         }
 

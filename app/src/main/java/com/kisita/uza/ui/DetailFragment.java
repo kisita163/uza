@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -37,12 +38,14 @@ import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.utils.PageAdapter;
+import com.kisita.uza.utils.SpinnerColorAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static com.kisita.uza.model.Data.UZA.*;
@@ -199,18 +202,21 @@ public class DetailFragment extends CustomFragment{
 
         if(!mDescription[COLOR].equalsIgnoreCase("")){
 
-            List<String> spinnerArray =  new ArrayList<>();
+            ArrayList<String> spinnerArray =  new ArrayList<>();
+            mDescription[COLOR] = mDescription[COLOR].replace("[","");
+            mDescription[COLOR] = mDescription[COLOR].replace("]","");
             List<String> colorList = new ArrayList<>(Arrays.asList(mDescription[COLOR].split(",")));
 
             for(String s:colorList){
                 spinnerArray.add(s);
             }
 
-            ArrayAdapter<String> colorAdapter = new ArrayAdapter<>(this.getActivity(),
-                               android.R.layout.simple_spinner_item,spinnerArray);
-            colorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            //ArrayAdapter<String> colorAdapter = new ArrayAdapter<>(this.getActivity(),
+            //                   android.R.layout.simple_spinner_item,spinnerArray);
+            //colorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            SpinnerColorAdapter colorAdapter = new SpinnerColorAdapter(getContext(),spinnerArray);
             color.setAdapter(colorAdapter);
-            color.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            /*color.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     mColor = parent.getItemAtPosition(position).toString();
@@ -220,7 +226,7 @@ public class DetailFragment extends CustomFragment{
                 public void onNothingSelected(AdapterView<?> parent) {
 
                 }
-            });
+            });*/
         }else{
             tcolor.setVisibility(View.GONE);
             color.setVisibility(View.GONE);
@@ -229,7 +235,8 @@ public class DetailFragment extends CustomFragment{
 
         if(!mDescription[SIZE].equalsIgnoreCase("")){
             List<String> spinnerArray =  new ArrayList<>();
-
+            mDescription[SIZE] = mDescription[SIZE].replace("[","");
+            mDescription[SIZE] = mDescription[SIZE].replace("]","");
             List<String> sizeList = new ArrayList<>(Arrays.asList(mDescription[SIZE].split(",")));
 
             for(String s:sizeList){
