@@ -96,6 +96,9 @@ public class DetailFragment extends CustomFragment{
     private AlertDialog mDialog;
     private boolean mCommand = false;
 
+    /*Number of available pictures*/
+    private int mPictures;
+
     public DetailFragment() {
         // Required empty public constructor
     }
@@ -127,6 +130,19 @@ public class DetailFragment extends CustomFragment{
             mStorage = FirebaseStorage.getInstance();
 
             getCurrency();
+
+            Log.i(TAG,"***** number of pictures is :"+mDescription[PICTURES]);
+
+            if(mDescription[PICTURES].equalsIgnoreCase("")){
+                mPictures = 1;
+            }else{
+                try {
+                    mPictures = Integer.valueOf(mDescription[PICTURES]);
+                }catch(NumberFormatException e){
+                    Log.e(TAG,e.getMessage());
+                    mPictures = 1;
+                }
+            }
 
             commands.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -403,7 +419,7 @@ public class DetailFragment extends CustomFragment{
         });
         vDots = (LinearLayout) v.findViewById(R.id.vDots);
 
-        pager.setAdapter(new PageAdapter(getContext(),mStorage,mDescription[UID]));
+        pager.setAdapter(new PageAdapter(getContext(),mStorage,mDescription[UID],mPictures));
         setupDotbar(v);
     }
 
@@ -418,7 +434,7 @@ public class DetailFragment extends CustomFragment{
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         param.setMargins(10, 0, 0, 0);
         vDots.removeAllViews();
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < mPictures; i++)
         {
             ImageView img = new ImageView(v.getContext());
             img.setImageResource(i == 0 ? R.drawable.dot_blue

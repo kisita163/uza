@@ -24,13 +24,15 @@ public class PageAdapter extends PagerAdapter {
     private Context mContext;
     private FirebaseStorage mReference;
     private String key;
+    private int len;
 
 
 
-    public PageAdapter(Context context, FirebaseStorage reference,String key) {
+    public PageAdapter(Context context, FirebaseStorage reference,String key,int len) {
         this.mContext = context;
         this.mReference = reference;
         this.key = key;
+        this.len = len;
     }
 
     /* (non-Javadoc)
@@ -39,7 +41,7 @@ public class PageAdapter extends PagerAdapter {
     @Override
     public int getCount()
     {
-        return 5;
+        return len;
     }
 
     /* (non-Javadoc)

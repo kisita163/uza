@@ -94,10 +94,14 @@ public class ItemChildEventListener implements ChildEventListener{
         }
 
         if(dataSnapshot.child("sizes").getValue() != null){
-            Log.i(TAG,dataSnapshot.child("sizes").getValue().toString());
             articleData.add(dataSnapshot.child("sizes").getValue().toString());
         }else{
-            Log.i(TAG, "No size");
+            articleData.add("");
+        }
+
+        if(dataSnapshot.child("pictures").getValue() != null){
+            articleData.add(dataSnapshot.child("pictures").getValue().toString());
+        }else{
             articleData.add("");
         }
 

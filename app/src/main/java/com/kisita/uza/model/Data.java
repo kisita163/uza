@@ -101,5 +101,6 @@ public class Data
         public static final int TYPE        = 8;
         public static final int COLOR       = 9;
         public static final int SIZE        = 10;
+        public static final int PICTURES    = 11;
     }
 }
