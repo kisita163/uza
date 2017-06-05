@@ -22,7 +22,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import static com.kisita.uza.model.Data.UZA.CURRENCY;
 import static com.kisita.uza.model.Data.UZA.PRICE;
+import static com.kisita.uza.utils.UzaCardAdapter.setFormat;
+import static com.kisita.uza.utils.UzaCardAdapter.setPrice;
 
 /**
  * Created by Hugues on 30/04/2017.
@@ -78,7 +81,9 @@ public class CommandsChildEventListener implements ChildEventListener {
                         if(dataSnapshot.child("price").getValue() != null){
                             double time = Double.valueOf(quantity);
                             articleData.add(dataSnapshot.child("price").getValue().toString());
-                            mPrice +=  time*(Double.valueOf(dataSnapshot.child("price").getValue().toString()));
+                            String oldPrice = dataSnapshot.child("price").getValue().toString();
+                            String newPrice = setPrice(dataSnapshot.child("currency").getValue().toString(),oldPrice,mContext);
+                            mPrice +=  time*(Double.valueOf(newPrice.replace(",",".")));
                         }else{
                             articleData.add("");
                         }
@@ -142,7 +147,7 @@ public class CommandsChildEventListener implements ChildEventListener {
                         mItemsList.add(data);
                         mPriceView = (TextView) (((UzaActivity)mContext).findViewById(R.id.total));
                         if(mPriceView != null)
-                            mPriceView.setText(String.valueOf(mPrice) + " " + mCurrency);
+                            mPriceView.setText(setFormat(String.valueOf(mPrice)) + " " + mCurrency);
                         mAdapter.notifyDataSetChanged();
                     }
 
@@ -186,7 +191,9 @@ public class CommandsChildEventListener implements ChildEventListener {
         DecimalFormat df = new DecimalFormat("#.####");
         df.setRoundingMode(RoundingMode.CEILING);
         double time = Double.valueOf(d.getCommandDetails()[0]);
-        mPrice -= time*Double.valueOf(d.getTexts()[PRICE]);
+        mPrice -= time*Double.valueOf(setPrice(d.getTexts()[CURRENCY],d.getTexts()[PRICE],mContext));
+
+        //mPrice -= getPrice
 
         return  df.format(mPrice);
     }

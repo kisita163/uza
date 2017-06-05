@@ -48,13 +48,11 @@ public class UzaCardAdapter extends
     private StorageReference mStorageRef;
     private DatabaseReference mCommands;
     private Boolean hasRemove = false;
-    private String mCurrency;
 
     public UzaCardAdapter(Context context,ArrayList<Data> items) {
         this.mContext = context;
         this.itemsList = items;
         mStorage = FirebaseStorage.getInstance();
-        getCurrency();
     }
 
     public UzaCardAdapter(Context context, ArrayList<Data> items, Boolean remove) {
@@ -62,7 +60,6 @@ public class UzaCardAdapter extends
         this.itemsList = items;
         mStorage = FirebaseStorage.getInstance();
         hasRemove = remove;
-        getCurrency();
     }
 
     public void setItemsList(ArrayList<Data> itemsList) {
@@ -84,8 +81,8 @@ public class UzaCardAdapter extends
         mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + d.getUid() + "/android.png");
 
         holder.lbl1.setText(d.getTexts()[NAME]); // Name
-        String price = setPrice(d.getTexts()[CURRENCY], d.getTexts()[PRICE]);
-        holder.lbl2.setText(price + " "+mCurrency);
+        String price = setPrice(d.getTexts()[CURRENCY], d.getTexts()[PRICE],mContext);
+        holder.lbl2.setText(price + " "+getCurrency(mContext));
         holder.lbl3.setText(d.getTexts()[BRAND]);
         if (hasRemove) {
             holder.lbl0.setText(setCommandString(d.getCommandDetails()));
@@ -143,7 +140,14 @@ public class UzaCardAdapter extends
         };
     }
 
-    private String setPrice(String currency,String price) {
+    public static String setFormat(String str){
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
+
+        return df.format(Double.valueOf(str));
+    }
+
+    public static String setPrice(String currency,String price,Context context) {
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.CEILING);
         //Get ratio from firebase
@@ -155,6 +159,8 @@ public class UzaCardAdapter extends
         double usd_eur = 0.889098;
 
         double p = Double.valueOf(price);
+
+        String mCurrency = getCurrency(context);
 
 
         if(mCurrency == currency) {
@@ -248,10 +254,12 @@ public class UzaCardAdapter extends
         }
     }
 
-    private void getCurrency(){
-        SharedPreferences sharedPref = mContext.getSharedPreferences(mContext.getResources().getString(R.string.uza_keys),
+    private static String getCurrency(Context context){
+        String currency;
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getResources().getString(R.string.uza_keys),
                 Context.MODE_PRIVATE);
-        mCurrency = sharedPref.getString(mContext.getString(R.string.uza_currency),"EUR");
+        currency = sharedPref.getString(context.getString(R.string.uza_currency),"EUR");
+        return currency;
     }
 
     private String setCommandString(String [] commandDetails){
