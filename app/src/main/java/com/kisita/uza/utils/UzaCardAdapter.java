@@ -28,6 +28,8 @@ import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.model.Data;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import static com.kisita.uza.model.Data.UZA.*;
@@ -82,11 +84,16 @@ public class UzaCardAdapter extends
         mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + d.getUid() + "/android.png");
 
         holder.lbl1.setText(d.getTexts()[NAME]); // Name
-        holder.lbl2.setText(d.getTexts()[PRICE] + " "+mCurrency);
+        String price = setPrice(d.getTexts()[CURRENCY], d.getTexts()[PRICE]);
+        holder.lbl2.setText(price + " "+mCurrency);
         holder.lbl3.setText(d.getTexts()[BRAND]);
         if (hasRemove) {
             holder.lbl0.setText(setCommandString(d.getCommandDetails()));
-            holder.lbl4.setBackgroundColor(Color.parseColor(d.getCommandDetails()[1].trim()));
+            Log.i(TAG,"details length is : "+d.getCommandDetails().length);
+            if(!d.getCommandDetails()[1].equalsIgnoreCase(""))
+                holder.lbl4.setBackgroundColor(Color.parseColor(d.getCommandDetails()[1].trim()));
+            else
+                holder.lbl4.setVisibility(View.GONE);
             holder.mRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -134,6 +141,41 @@ public class UzaCardAdapter extends
                 mContext.startActivity(intent);
             }
         };
+    }
+
+    private String setPrice(String currency,String price) {
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
+        //Get ratio from firebase
+        // euros to cdf
+        double eur_cdf = 1623.58;// 1 euros = 1623.58 fc;
+        // usd to cdf
+        double usd_cdf = 1443.86;// 1 usd   = 1443.86 fc;
+
+        double usd_eur = 0.889098;
+
+        double p = Double.valueOf(price);
+
+
+        if(mCurrency == currency) {
+            return price;
+        }else if(currency.equalsIgnoreCase("CDF") && mCurrency.equalsIgnoreCase("EUR")){
+            p = p/eur_cdf;
+        }else if(currency.equalsIgnoreCase("EUR") && mCurrency.equalsIgnoreCase("CDF")){
+            p = Math.ceil(p*eur_cdf);
+        }else if(currency.equalsIgnoreCase("USD") && mCurrency.equalsIgnoreCase("EUR")) {
+            p = p*usd_eur;
+        }else if(currency.equalsIgnoreCase("EUR") && mCurrency.equalsIgnoreCase("USD")) {
+            p = p/usd_eur;
+        }else if(currency.equalsIgnoreCase("USD") && mCurrency.equalsIgnoreCase("CDF")) {
+            p = Math.ceil(p*usd_cdf);
+        }else if(currency.equalsIgnoreCase("CDF") && mCurrency.equalsIgnoreCase("USD")) {
+            p = p/usd_cdf;
+
+        }else{
+            return price;
+        }
+        return df.format(p);
     }
 
     @Override
@@ -214,8 +256,11 @@ public class UzaCardAdapter extends
 
     private String setCommandString(String [] commandDetails){
         String s = "Qty: "+ commandDetails[0];
-        if(!commandDetails[2].equalsIgnoreCase(""))
-            s = s + " | size: "+ commandDetails[2];
+        Log.i(TAG,""+commandDetails[0]+"-"+commandDetails[1]+"-"+commandDetails[2]);
+        if(!commandDetails[2].equalsIgnoreCase("")) {
+            if(!commandDetails[2].equalsIgnoreCase("size"))
+                s = s + " | size: " + commandDetails[2];
+        }
         if(!commandDetails[1].equalsIgnoreCase(""))
             s = s + " | color :";
 

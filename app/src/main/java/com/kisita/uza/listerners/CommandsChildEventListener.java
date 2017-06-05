@@ -53,7 +53,7 @@ public class CommandsChildEventListener implements ChildEventListener {
         //Log.i(TAG, "Command added : " + dataSnapshot.getKey().toString());
 
         final String commandKey = dataSnapshot.getKey().toString();
-        final String quantity   = (dataSnapshot.child("quantity").getValue() != null)? dataSnapshot.child("quantity").getValue().toString() : "";
+        final String quantity   = (dataSnapshot.child("quantity").getValue() != null)? dataSnapshot.child("quantity").getValue().toString() : "1";
         final String color      = (dataSnapshot.child("color").getValue() != null)? dataSnapshot.child("color").getValue().toString() : "";
         final String size       = (dataSnapshot.child("size").getValue() != null)? dataSnapshot.child("size").getValue().toString() : "";
 
@@ -117,17 +117,26 @@ public class CommandsChildEventListener implements ChildEventListener {
                             articleData.add("");
                         }
 
-                        if(dataSnapshot.child("color").getValue() != null){
-                            articleData.add(dataSnapshot.child("color").getValue().toString());
+                        if(dataSnapshot.child("colors").getValue() != null){
+                            //Log.i(TAG,dataSnapshot.child("colors").getValue().toString());
+                            articleData.add(dataSnapshot.child("colors").getValue().toString());
+                        }else{
+                            //Log.i(TAG, "No color");
+                            articleData.add("");
+                        }
+
+                        if(dataSnapshot.child("sizes").getValue() != null){
+                            articleData.add(dataSnapshot.child("sizes").getValue().toString());
                         }else{
                             articleData.add("");
                         }
 
-                        if(dataSnapshot.child("size").getValue() != null){
-                            articleData.add(dataSnapshot.child("size").getValue().toString());
+                        if(dataSnapshot.child("pictures").getValue() != null){
+                            articleData.add(dataSnapshot.child("pictures").getValue().toString());
                         }else{
                             articleData.add("");
                         }
+
                         //TODO Use array instead of list
                         data = new Data(articleData.toArray(new String[articleData.size()]), commandKey , commandsDetails);
                         mItemsList.add(data);
