@@ -31,6 +31,7 @@ public class CheckoutFragment extends CustomFragment
 	/** The product list. */
 	private ArrayList<Data> itemsList;
 	private UzaCardAdapter mCardadapter;
+	CommandsChildEventListener mChildEventListener;
 	private TextView total;
 
 	/* (non-Javadoc)
@@ -94,12 +95,20 @@ public class CheckoutFragment extends CustomFragment
 		mDatabase.keepSynced(true);
 
 
-		CommandsChildEventListener mChildEventListener = new CommandsChildEventListener(itemsList, mCardadapter, mDatabase, this.getActivity());
+		mChildEventListener = new CommandsChildEventListener(itemsList, mCardadapter, mDatabase, this.getActivity());
 		Query itemsQuery = getQuery(mDatabase);
 		itemsQuery.addChildEventListener(mChildEventListener);
 	}
 
 	public Query getQuery(DatabaseReference databaseReference) {
 		return databaseReference.child("users-data").child(getUid()).child("commands");
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		if(mChildEventListener != null){
+			mChildEventListener = null;
+		}
 	}
 }

@@ -78,4 +78,10 @@ public class FavoritesFragment extends CustomFragment {
     public Query getQuery(DatabaseReference databaseReference) {
         return databaseReference.child("users-data").child(getUid()).child("likes");
     }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mChildEventListener = null;
+    }
 }

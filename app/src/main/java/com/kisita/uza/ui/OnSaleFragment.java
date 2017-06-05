@@ -34,6 +34,7 @@ public class OnSaleFragment extends CustomFragment
 	private UzaCardAdapter mCardadapter;
 	private ArrayList<Data> itemsList;
 	private DatabaseReference mDatabase;
+	private ItemChildEventListener mChildEventListener;
 	private String mQuery;
 
 	private FloatingActionButton mMenu0;
@@ -211,7 +212,7 @@ public class OnSaleFragment extends CustomFragment
 		mDatabase = FirebaseDatabase.getInstance().getReference();
 		mDatabase.keepSynced(true);
 
-		ItemChildEventListener mChildEventListener = new ItemChildEventListener(itemsList, mCardadapter);
+		mChildEventListener = new ItemChildEventListener(itemsList, mCardadapter);
 		Query itemsQuery = getQuery(mDatabase);
 		itemsQuery.addChildEventListener(mChildEventListener);
 	}
@@ -221,5 +222,11 @@ public class OnSaleFragment extends CustomFragment
 				.orderByChild("category")
 				.startAt(mQuery)
 				.endAt(mQuery);
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		mChildEventListener = null;
 	}
 }
