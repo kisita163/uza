@@ -6,4 +6,5 @@
     <string name="Cancel">Cancel</string>
     <string name="Quantity_field">Quantity is required!</string>
     <string name="RemoveCommand">Would you really remove this article from the cart?</string>
+    <string name="uza_currency_position">uza_currency_position</string>
 </resources>

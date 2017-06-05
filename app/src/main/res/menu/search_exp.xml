@@ -13,6 +13,12 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/store"
+        android:icon="@drawable/ic_store_black_24dp"
+        android:title="@string/store"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_explore"
         android:icon="@drawable/ic_nav1_sel"
         app:showAsAction="never"
