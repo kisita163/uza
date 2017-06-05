@@ -37,12 +37,17 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 	}
 
 	void setView(View v){
+		Context  context = getContext();
+		SharedPreferences sharedPref = context.getSharedPreferences(context.getResources().getString(R.string.uza_keys),
+				Context.MODE_PRIVATE);
+		int pos = sharedPref.getInt(context.getString(R.string.uza_currency_position),0);
+
 		mSpinner = (Spinner)v.findViewById(R.id.spinner);
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(),
 				R.array.currency, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		mSpinner.setAdapter(adapter);
-
+		mSpinner.setSelection(pos);
 		mSpinner.setOnItemSelectedListener(this);
 	}
 
@@ -63,6 +68,7 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 		SharedPreferences sharedPref = getActivity().getSharedPreferences(getResources().getString(R.string.uza_keys),Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
 		editor.putString(getString(R.string.uza_currency),parent.getItemAtPosition(position).toString());
+		editor.putInt(getString(R.string.uza_currency_position),position);
 		editor.commit();
 	}
 
