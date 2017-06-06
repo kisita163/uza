@@ -49,6 +49,7 @@ import java.util.Random;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static com.kisita.uza.model.Data.UZA.*;
+import static com.kisita.uza.utils.UzaCardAdapter.setPrice;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -366,7 +367,6 @@ public class DetailFragment extends CustomFragment{
         TextView item_name  = (TextView)v.findViewById(R.id.item_name);
         TextView  item_price  = (TextView)v.findViewById(R.id.item_price);
         TextView  item_description  = (TextView)v.findViewById(R.id.item_description);
-        ImageView item_picture = (ImageView) v.findViewById(R.id.imageView1);
 
         add = (FloatingActionButton) v.findViewById(R.id.fabCart);
         add.setOnClickListener(this);
@@ -377,9 +377,11 @@ public class DetailFragment extends CustomFragment{
         mComment.setOnClickListener(this);
 
         if(mDescription != null) {
+            String price;
+            price = setPrice(mDescription[CURRENCY],mDescription[PRICE],getContext());
             mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + mDescription[UID] + "/android.png");
             item_name.setText(mDescription[NAME] + " | " + mDescription[SELLER]);
-            item_price.setText(mDescription[PRICE] + " "+mCurrency);
+            item_price.setText(price + " "+mCurrency);
             item_description.setText(mDescription[DESCRIPTION]);
         }
         initPager(v);
