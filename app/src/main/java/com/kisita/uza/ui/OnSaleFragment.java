@@ -92,7 +92,7 @@ public class OnSaleFragment extends CustomFragment
 				mMenu5.setLabelText("Perfumes & Beauty");
 				mTypes = new String []{"Clothing","Shoes & Bags","Watches & Accessories","Perfumes & Beauty"};
 				break;
-			case "Kid":
+			case "Kids":
 				mMenu0.setLabelText("All");
 				mMenu1.setLabelText("Clothing");
 				mMenu1.setImageResource(R.drawable.toys_baby);

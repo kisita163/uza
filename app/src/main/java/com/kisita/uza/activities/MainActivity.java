@@ -86,7 +86,7 @@ public class MainActivity extends CustomActivity
 			private final Fragment[] mFragments = new Fragment[] {
                     OnSaleFragment.newInstance("Men"),
                     OnSaleFragment.newInstance("Women"),
-                    OnSaleFragment.newInstance("Kid"),
+                    OnSaleFragment.newInstance("Kids"),
                     OnSaleFragment.newInstance("Electronic"),
             };
 			private final String[] mFragmentNames = new String[] {
