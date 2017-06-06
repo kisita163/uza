@@ -86,7 +86,7 @@ public class UzaCardAdapter extends
         holder.lbl3.setText(d.getTexts()[BRAND]);
         if (hasRemove) {
             holder.lbl0.setText(setCommandString(d.getCommandDetails()));
-            Log.i(TAG,"details length is : "+d.getCommandDetails().length);
+            //Log.i(TAG,"details length is : "+d.getCommandDetails().length);
             if(!d.getCommandDetails()[1].equalsIgnoreCase(""))
                 holder.lbl4.setBackgroundColor(Color.parseColor(d.getCommandDetails()[1].trim()));
             else
@@ -264,7 +264,7 @@ public class UzaCardAdapter extends
 
     private String setCommandString(String [] commandDetails){
         String s = "Qty: "+ commandDetails[0];
-        Log.i(TAG,""+commandDetails[0]+"-"+commandDetails[1]+"-"+commandDetails[2]);
+        //Log.i(TAG,""+commandDetails[0]+"-"+commandDetails[1]+"-"+commandDetails[2]);
         if(!commandDetails[2].equalsIgnoreCase("")) {
             if(!commandDetails[2].equalsIgnoreCase("size"))
                 s = s + " | size: " + commandDetails[2];
