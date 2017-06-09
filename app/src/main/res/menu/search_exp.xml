@@ -12,11 +12,11 @@
         android:title="@string/grid"
         app:showAsAction="always" />
 
-    <item
+    <!--<item
         android:id="@+id/store"
         android:icon="@drawable/ic_store_black_24dp"
         android:title="@string/store"
-        app:showAsAction="always" />
+        app:showAsAction="always" />-->
 
     <item
         android:id="@+id/action_explore"
