@@ -150,7 +150,7 @@ public class UzaCardAdapter extends
     public static String setPrice(String currency,String price,Context context) {
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.CEILING);
-        //Get ratio from firebase
+        //TODO Get ratio from firebase
         // euros to cdf
         double eur_cdf = 1623.58;// 1 euros = 1623.58 fc;
         // usd to cdf
@@ -163,7 +163,7 @@ public class UzaCardAdapter extends
         String mCurrency = getCurrency(context);
 
 
-        if(mCurrency == currency) {
+        if(mCurrency.equalsIgnoreCase(currency)) {
             return price;
         }else if(currency.equalsIgnoreCase("CDF") && mCurrency.equalsIgnoreCase("EUR")){
             p = p/eur_cdf;
