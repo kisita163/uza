@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -83,5 +86,10 @@ public class FavoritesFragment extends CustomFragment {
     public void onDetach() {
         super.onDetach();
         mChildEventListener = null;
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        MenuItem item = menu.findItem(R.id.favourite);
+        item.setVisible(false);
     }
 }
