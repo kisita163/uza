@@ -101,11 +101,6 @@ public class CustomFragment extends Fragment implements OnClickListener
 				intent = new Intent(getActivity(), MainActivity.class);
 				getActivity().startActivity(intent);
 				break;
-			case(R.id.store):
-				intent = new Intent(getActivity(), UzaActivity.class);
-				intent.putExtra("fragment", 4);
-				startActivity(intent);
-				break;
 			default:
 				break;
 
