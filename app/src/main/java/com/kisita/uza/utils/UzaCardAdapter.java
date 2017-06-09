@@ -258,7 +258,7 @@ public class UzaCardAdapter extends
         String currency;
         SharedPreferences sharedPref = context.getSharedPreferences(context.getResources().getString(R.string.uza_keys),
                 Context.MODE_PRIVATE);
-        currency = sharedPref.getString(context.getString(R.string.uza_currency),"EUR");
+        currency = sharedPref.getString(context.getString(R.string.uza_currency),"CDF");
         return currency;
     }
 
