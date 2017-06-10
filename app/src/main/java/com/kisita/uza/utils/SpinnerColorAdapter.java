@@ -6,16 +6,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.kisita.uza.R;
 
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.zip.Inflater;
 
 /**
  * Created by Hugues on 04/06/2017.
@@ -53,7 +49,7 @@ public class SpinnerColorAdapter extends BaseAdapter {
         View row = convertView;
         if(row == null)
         {
-            row = inflter.inflate(R.layout.color_item, null);
+            row = inflter.inflate(R.layout.color_layout, null);
         }
 
         ImageView  img = (ImageView)row.findViewById(R.id.color_item);

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="42dp"
+    android:layout_height="42dp"
+    android:layout_marginLeft="@dimen/pad_5dp"
+    android:background="@drawable/border"
+    android:clickable="true"
+    android:src="@drawable/ic_add_black_24dp"
+    android:foreground="?android:selectableItemBackground"
+    android:id="@+id/color_item"/>

@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.kisita.uza"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
         multiDexEnabled true
     }
@@ -21,7 +21,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
         debug {
-                debuggable false
+                debuggable true
         }
     }
     sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/anim'] } }
@@ -44,6 +44,11 @@ dependencies {
 
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.android.support:design:25.3.1'
+
+    compile 'com.braintreepayments.api:braintree:2.0.1'
+    compile 'com.braintreepayments.api:drop-in:2.0.1'
+    compile 'com.loopj.android:android-async-http:1.4.9'
+
     compile project(':library')
 }
 

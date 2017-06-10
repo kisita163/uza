@@ -5,12 +5,14 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -27,8 +29,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +37,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
+import com.kisita.uza.utils.ColorSizeAdapter;
 import com.kisita.uza.utils.PageAdapter;
 import com.kisita.uza.utils.SpinnerColorAdapter;
 
@@ -45,7 +46,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static com.kisita.uza.model.Data.UZA.*;
@@ -81,24 +81,41 @@ public class DetailFragment extends CustomFragment{
     /** The view that hold dots. */
     private LinearLayout vDots;
 
-    private String mColor = "";
+    private String mColor = new String("");
 
-    private String mSize = "";
+    private String mSize = new String("");
 
     private OnFragmentInteractionListener mListener;
 
     private Boolean mLiked = false;
 
     private DatabaseReference commands;
+
     private DatabaseReference likes;
+
     private FirebaseStorage mStorage;
+
     private StorageReference mStorageRef;
+
     private String mCurrency;
+
     private AlertDialog mDialog;
+
     private boolean mCommand = false;
+
 
     /*Number of available pictures*/
     private int mPictures;
+
+    private LinearLayout mColorsContainer;
+
+    private LinearLayout mSizesContainer;
+
+    private ColorSizeAdapter colorAdapter;
+
+    private ColorSizeAdapter sizeAdapter;
+
+    private TextView quantity;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -197,140 +214,8 @@ public class DetailFragment extends CustomFragment{
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_detail, null);
         setHasOptionsMenu(true);
-        setDialogView();
+        //setDialogView();
         return setupView(v);
-    }
-
-    private void setDialogView() {
-        //Preparing views
-        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.purchase_details, null);
-
-        //layout_root should be the name of the "top-level" layout node in the dialog_layout.xml file.
-        final Spinner size = (Spinner) layout.findViewById(R.id.size);
-        final TextView tsize = (TextView) layout.findViewById(R.id.size_text);
-
-        final Spinner color = (Spinner) layout.findViewById(R.id.color);
-        final TextView tcolor = (TextView) layout.findViewById(R.id.color_text);
-
-        final View separator1 = layout.findViewById(R.id.separator1);
-        final View separator2 = layout.findViewById(R.id.separator2);
-
-
-        if(!mDescription[COLOR].equalsIgnoreCase("")){
-
-            ArrayList<String> spinnerArray =  new ArrayList<>();
-            mDescription[COLOR] = mDescription[COLOR].replace("[","");
-            mDescription[COLOR] = mDescription[COLOR].replace("]","");
-            final List<String> colorList = new ArrayList<>(Arrays.asList(mDescription[COLOR].split(",")));
-
-            for(String s:colorList){
-                spinnerArray.add(s);
-            }
-
-            SpinnerColorAdapter colorAdapter = new SpinnerColorAdapter(getContext(),spinnerArray);
-            color.setAdapter(colorAdapter);
-            color.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    //Log.i(TAG,"count ="+ parent.getCount() + " - position = "+position + " - "+colorList.get(position));
-                    mColor = colorList.get(position);
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-        }else{
-            tcolor.setVisibility(View.GONE);
-            color.setVisibility(View.GONE);
-            separator2.setVisibility(View.GONE);
-        }
-
-        if(!mDescription[SIZE].equalsIgnoreCase("")){
-            List<String> spinnerArray =  new ArrayList<>();
-            mDescription[SIZE] = mDescription[SIZE].replace("[","");
-            mDescription[SIZE] = mDescription[SIZE].replace("]","");
-            List<String> sizeList = new ArrayList<>(Arrays.asList(mDescription[SIZE].split(",")));
-
-            for(String s:sizeList){
-                spinnerArray.add(s);
-            }
-
-            ArrayAdapter<String> sizeAdapter = new ArrayAdapter<>(this.getActivity()
-                    ,android.R.layout.simple_spinner_item,spinnerArray);
-            sizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            size.setAdapter(sizeAdapter);
-            size.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    mSize = parent.getItemAtPosition(position).toString();
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-        }else{
-            tsize.setVisibility(View.GONE);
-            size.setVisibility(View.GONE);
-            separator1.setVisibility(View.GONE);
-        }
-
-
-        final EditText quantity = (EditText) layout.findViewById(R.id.quantity);
-        quantity.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // Check if edittext is empty
-                if (TextUtils.isEmpty(s)) {
-                    // Disable ok button
-                    mDialog.getButton(
-                            AlertDialog.BUTTON_POSITIVE).setClickable(false);
-                    quantity.setError( getString(R.string.Quantity_field) );
-                } else {
-                    // Something into edit text. Enable the button.
-                    mDialog.getButton(
-                            AlertDialog.BUTTON_POSITIVE).setClickable(true);
-                }
-            }
-        });
-
-        //Building dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setView(layout);
-        builder.setTitle("Details");
-        builder.setIcon(R.drawable.ic_launcher);
-        builder.setPositiveButton(R.string.Save, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //Log.i(TAG,"Color = "+mColor+", Size = "+mSize);
-
-                dialog.dismiss();
-                setAddButton();
-                String[] details = {mDescription[UID], mSize, mColor, quantity.getText().toString()};
-                onButtonPressed(details);
-            }
-        });
-        builder.setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        mDialog = builder.create();
     }
 
     public void onButtonPressed(String[] details) {
@@ -364,8 +249,8 @@ public class DetailFragment extends CustomFragment{
     private View setupView(View v)
     {
 
-        TextView item_name  = (TextView)v.findViewById(R.id.item_name);
-        TextView  item_price  = (TextView)v.findViewById(R.id.item_price);
+        TextView  item_name         = (TextView)v.findViewById(R.id.item_name);
+        TextView  item_price        = (TextView)v.findViewById(R.id.item_price);
         TextView  item_description  = (TextView)v.findViewById(R.id.item_description);
 
         add = (FloatingActionButton) v.findViewById(R.id.fabCart);
@@ -376,6 +261,10 @@ public class DetailFragment extends CustomFragment{
         mComment = (ImageView) v.findViewById(R.id.btnComment);
         mComment.setOnClickListener(this);
 
+        setColorsContainer(v);
+        setSizesContainer(v);
+        setQuantityContainer(v);
+
         if(mDescription != null) {
             String price;
             price = setPrice(mDescription[CURRENCY],mDescription[PRICE],getContext());
@@ -385,9 +274,77 @@ public class DetailFragment extends CustomFragment{
             item_description.setText(mDescription[DESCRIPTION]);
         }
         initPager(v);
-
-        //TODO "Show more pictures" button
         return v;
+    }
+
+    private void setQuantityContainer(View v) {
+        quantity  = (TextView)v.findViewById(R.id.integer_number);
+        ImageView increase = (ImageView)v.findViewById(R.id.increase);
+        final ImageView decrease = (ImageView)v.findViewById(R.id.decrease);
+        increase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int qty = Integer.valueOf(quantity.getText().toString());
+                qty += 1;
+                quantity.setText(String.valueOf(qty));
+            }
+        });
+
+        decrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int qty = Integer.valueOf(quantity.getText().toString());
+                if(qty == 0){
+                    return;
+                }else{
+                    qty -= 1;
+                    quantity.setText(String.valueOf(qty));
+                }
+            }
+        });
+    }
+
+    private void setSizesContainer(View v) {
+        mDescription[SIZE] = mDescription[SIZE].replace("[","");
+        mDescription[SIZE] = mDescription[SIZE].replace("]","");
+        mSizesContainer = (LinearLayout) v.findViewById(R.id.sizes_container);
+        mSizesContainer.setVisibility(View.GONE);
+
+        if(!mDescription[SIZE].equalsIgnoreCase("")){
+            mSizesContainer.setVisibility(View.VISIBLE);
+            List<String> sizeList = new ArrayList<>(Arrays.asList(mDescription[SIZE].split(",")));
+            Log.i(TAG,mDescription[SIZE] + "  " + sizeList.size());
+            //Then get the ListView
+            RecyclerView listView = (RecyclerView) v.findViewById(R.id.sizesList);
+            listView.setHasFixedSize(true);
+            sizeAdapter = new ColorSizeAdapter(getContext(),sizeList,ColorSizeAdapter.SIZE);
+
+            listView.setAdapter(sizeAdapter);
+            GridLayoutManager llm = new GridLayoutManager(getContext(),sizeList.size(),LinearLayoutManager.VERTICAL,false);
+            listView.setLayoutManager(llm);
+        }
+    }
+
+    private void setColorsContainer(View v) {
+        mDescription[COLOR] = mDescription[COLOR].replace("[","");
+        mDescription[COLOR] = mDescription[COLOR].replace("]","");
+        mColorsContainer = (LinearLayout) v.findViewById(R.id.colors_container);
+        mColorsContainer.setVisibility(View.GONE);
+
+        if(!mDescription[COLOR].equalsIgnoreCase("")){
+            mColorsContainer.setVisibility(View.VISIBLE);
+            List<String> colorList = new ArrayList<>(Arrays.asList(mDescription[COLOR].split(",")));
+            Log.i(TAG,mDescription[COLOR] + "  " + colorList.size());
+            mColor = colorList.get(0);
+            //Then get the ListView
+            RecyclerView listView = (RecyclerView) v.findViewById(R.id.colorsList);
+            listView.setHasFixedSize(true);
+            colorAdapter = new ColorSizeAdapter(getContext(),colorList,ColorSizeAdapter.COLOR);
+
+            listView.setAdapter(colorAdapter);
+            GridLayoutManager llm = new GridLayoutManager(getContext(),colorList.size(),LinearLayoutManager.VERTICAL,false);
+            listView.setLayoutManager(llm);
+        }
     }
 
     /**
@@ -459,7 +416,29 @@ public class DetailFragment extends CustomFragment{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fabCart:
-                mDialog.show();
+                String selectedColor = "";
+                String selectedSize = "";
+                String selectedQty  = quantity.getText().toString();
+
+                if(colorAdapter != null){
+                    selectedColor = colorAdapter.getResource();
+                    if(selectedColor.equalsIgnoreCase("")){
+                        Toast.makeText(getContext(),"You need to select a color",Toast.LENGTH_LONG).show();
+                        break;
+                    }
+                }
+
+                if(sizeAdapter != null){
+                    selectedSize = sizeAdapter.getResource();
+                    if(selectedSize.equalsIgnoreCase("")){
+                        Toast.makeText(getContext(),"You need to select a size",Toast.LENGTH_LONG).show();
+                        break;
+                    }
+                }
+                Log.i(TAG,colorAdapter.getResource() + " " +  sizeAdapter.getResource() + " " + quantity.getText().toString());
+                String[] details = {mDescription[UID],selectedSize, selectedColor, selectedQty};
+                setAddButton();
+                onButtonPressed(details);
                 break;
             case R.id.btnLike:
                 likePressed();
@@ -527,6 +506,32 @@ public class DetailFragment extends CustomFragment{
         }
         if(mCommand){
             setAddButton();
+        }
+    }
+
+    public static class ColorSize{
+        private String name;
+        private boolean selected = false;
+
+        public ColorSize(String name, boolean selected){
+            this.name = name;
+            this.selected = selected;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public boolean isSelected() {
+            return selected;
+        }
+
+        public void setSelected(boolean selected) {
+            this.selected = selected;
         }
     }
 }

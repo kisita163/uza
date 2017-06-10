@@ -87,8 +87,10 @@ public class UzaCardAdapter extends
         if (hasRemove) {
             holder.lbl0.setText(setCommandString(d.getCommandDetails()));
             //Log.i(TAG,"details length is : "+d.getCommandDetails().length);
-            if(!d.getCommandDetails()[1].equalsIgnoreCase(""))
+            if(!d.getCommandDetails()[2].equalsIgnoreCase("")) {
+                Log.i(TAG,"color is : "+d.getCommandDetails()[2] + " uid is :"+d.getCommandDetails()[0]);
                 holder.lbl4.setBackgroundColor(Color.parseColor(d.getCommandDetails()[1].trim()));
+            }
             else
                 holder.lbl4.setVisibility(View.GONE);
             holder.mRemove.setOnClickListener(new View.OnClickListener() {
