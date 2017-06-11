@@ -15,6 +15,7 @@ import com.kisita.uza.utils.UzaCardAdapter;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static com.kisita.uza.model.Data.UZA.PRICE;
 
@@ -108,6 +109,7 @@ public class ItemChildEventListener implements ChildEventListener{
         //TODO Give list array to data object instead of string array
         data = new Data(articleData.toArray(new String[articleData.size()]));
         mItemsList.add(data);
+        Collections.reverse(mItemsList);
         mAdapter.notifyDataSetChanged();
     }
 

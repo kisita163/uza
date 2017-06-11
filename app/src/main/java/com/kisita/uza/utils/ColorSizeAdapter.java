@@ -33,19 +33,32 @@ public class ColorSizeAdapter extends RecyclerView.Adapter<ColorSizeAdapter.Card
 
     private List<DetailFragment.ColorSize> objects;
 
+    private DetailFragment fragment;
+
     private String resource = "";
 
     private int itemSelectedPosition = -1;
 
-    public ColorSizeAdapter(Context context, List<String> colorList, int item) {
+    private OnFieldChangedListener mListener;
+
+    public ColorSizeAdapter(DetailFragment fragment , Context context, List<String> colorList, int item,String resource) {
         this.itemList = colorList;
         this.item = item;
         this.context = context;
         this.adapter = this;
+        this.resource = resource;
+        this.fragment = fragment;
 
         objects = new ArrayList<>();
         for(String s:colorList){
             objects.add(new DetailFragment.ColorSize(s,false));
+        }
+
+        try {
+            mListener = (OnFieldChangedListener) fragment;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(fragment.toString()
+                    + " must implement onFieldChangedListener");
         }
     }
 
@@ -64,25 +77,30 @@ public class ColorSizeAdapter extends RecyclerView.Adapter<ColorSizeAdapter.Card
 
     @Override
     public void onBindViewHolder(ColorSizeAdapter.CardViewHolder holder, final int position) {
-        Log.i("ColorSizeAdapter","New data");
         // save information in holder, we have one type in this adapter
         if(holder.mColor != null) {
             try {
-                if(position == itemSelectedPosition){
-                    holder.mColor.setImageResource(R.drawable.ic_done_black_24dp);
+                int color = Color.parseColor(itemList.get(position).trim());
+                Log.i("ColorSizeAdapter","New data. color is  : "+color);
+                holder.mColor.setBackgroundColor(color);
+                if(objects.get(position).getName().equalsIgnoreCase(resource)){
+                    if(color < -8388607 ) // couleurs sombres
+                        holder.mColor.setImageResource(R.drawable.ic_done_white_24dp);
+                    else
+                        holder.mColor.setImageResource(R.drawable.ic_done_black_24dp);
                 }else{
                     holder.mColor.setImageResource(0);
                 }
-                holder.mColor.setBackgroundColor(Color.parseColor(itemList.get(position).trim()));
                 holder.mColor.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        onFieldChanged();
                         Log.i("ColorSizeAdapter",""+objects.get(position).isSelected());
                         if(objects.get(position).isSelected()) {
                             Log.i("ColorSizeAdapter", "remove the border");
                             objects.get(position).setSelected(false);
                             itemSelectedPosition = -1;
+                            resource="";
                         }
                         else{
                             Log.i("ColorSizeAdapter", "Add the border. Value = "+objects.get(position).getName());
@@ -96,11 +114,12 @@ public class ColorSizeAdapter extends RecyclerView.Adapter<ColorSizeAdapter.Card
                     }
                 });
             } catch (IllegalArgumentException e) {
+                Log.i("ColorSizeAdapter","the received color is "+itemList.get(position));
                 holder.mColor.setBackgroundColor(Color.BLACK);
             }
         }
         if(holder.mSize != null){
-            if(position == itemSelectedPosition){
+            if(objects.get(position).getName().equalsIgnoreCase(resource)){
                 holder.mSize.setBackground(context.getResources().getDrawable(R.drawable.border));
             }else{
                 holder.mSize.setBackground(null);
@@ -109,11 +128,13 @@ public class ColorSizeAdapter extends RecyclerView.Adapter<ColorSizeAdapter.Card
             holder.mSize.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    onFieldChanged();
                     Log.i("ColorSizeAdapter",""+itemList.get(position));
                     if(objects.get(position).isSelected()) {
                         Log.i("ColorSizeAdapter", "remove the border");
                         objects.get(position).setSelected(false);
                         itemSelectedPosition = -1;
+                        resource = "";
                     }
                     else{
                         Log.i("ColorSizeAdapter", "Add the border. Value = "+objects.get(position).getName());
@@ -158,5 +179,21 @@ public class ColorSizeAdapter extends RecyclerView.Adapter<ColorSizeAdapter.Card
 
     public String getResource(){
         return this.resource;
+    }
+
+    public void setResource(String resource) {
+        this.resource = resource;
+    }
+    /* This interface allow  a fargment to be informed about any changes within a field*/
+
+    public interface OnFieldChangedListener {
+        void onFieldChangedListener();
+    }
+
+
+    public void onFieldChanged() {
+        if (mListener != null) {
+            mListener.onFieldChangedListener();
+        }
     }
 }

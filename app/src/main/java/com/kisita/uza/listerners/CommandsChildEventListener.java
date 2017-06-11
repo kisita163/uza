@@ -59,6 +59,7 @@ public class CommandsChildEventListener implements ChildEventListener {
         final String quantity   = (dataSnapshot.child("quantity").getValue() != null)? dataSnapshot.child("quantity").getValue().toString() : "1";
         final String color      = (dataSnapshot.child("color").getValue() != null)? dataSnapshot.child("color").getValue().toString() : "";
         final String size       = (dataSnapshot.child("size").getValue() != null)? dataSnapshot.child("size").getValue().toString() : "";
+        final String comment       = (dataSnapshot.child("comment").getValue() != null)? dataSnapshot.child("comment").getValue().toString() : "";
 
         final String[] commandsDetails = new String[]{quantity,color,size};
 
@@ -161,7 +162,7 @@ public class CommandsChildEventListener implements ChildEventListener {
     private void getCurrency(){
         SharedPreferences sharedPref = mContext.getSharedPreferences(mContext.getResources().getString(R.string.uza_keys),
                 Context.MODE_PRIVATE);
-        mCurrency = sharedPref.getString(mContext.getString(R.string.uza_currency),"EUR");
+        mCurrency = sharedPref.getString(mContext.getString(R.string.uza_currency),"CDF");
     }
 
     @Override

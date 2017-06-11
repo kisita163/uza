@@ -57,7 +57,7 @@ public class UzaActivity extends CustomActivity {
                 break;
             case(3):
                 title = getIntent().getStringArrayExtra("details")[NAME];
-                f = DetailFragment.newInstance(getIntent().getStringArrayExtra("details"), getIntent().getByteArrayExtra("picture"));
+                f = DetailFragment.newInstance(getIntent().getStringArrayExtra("details"));
                 break;
             case(4):
                 title = "My store";

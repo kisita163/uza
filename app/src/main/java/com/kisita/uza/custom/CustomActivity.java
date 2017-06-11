@@ -193,15 +193,18 @@ public class CustomActivity extends AppCompatActivity implements
 	}
 
 	@Override
-	public void onFragmentInteraction(String[] details) {
-		count++;
-		String command = getDb().child("users").push().getKey(); // New command id
+	public void onFragmentInteraction(String[] details,boolean update) {
+		Log.i(TAG,"key = " + details[5] + " update = "+update);
+        if(update != true)
+			count++;
+
 		Map<String, Object> childUpdates = new HashMap<>();
 
-		childUpdates.put("/users-data/" + getUid() + "/commands/"+command+"/key",details[0]);
-		childUpdates.put("/users-data/" + getUid() + "/commands/"+command+"/size",details[1]);
-		childUpdates.put("/users-data/" + getUid() + "/commands/"+command+"/color",details[2]);
-		childUpdates.put("/users-data/" + getUid() + "/commands/"+command+"/quantity",details[3]);
+		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/key",details[0]);
+		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/size",details[1]);
+		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/color",details[2]);
+		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/quantity",details[3]);
+		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/comment",details[4]);
 		getDb().updateChildren(childUpdates);
 		setBadgeCount(this, mIcon, String.valueOf(count));
 	}

@@ -31,6 +31,8 @@ import com.kisita.uza.model.Data;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import static com.kisita.uza.model.Data.UZA.*;
 
@@ -87,12 +89,12 @@ public class UzaCardAdapter extends
         if (hasRemove) {
             holder.lbl0.setText(setCommandString(d.getCommandDetails()));
             //Log.i(TAG,"details length is : "+d.getCommandDetails().length);
-            if(!d.getCommandDetails()[2].equalsIgnoreCase("")) {
-                Log.i(TAG,"color is : "+d.getCommandDetails()[2] + " uid is :"+d.getCommandDetails()[0]);
-                holder.lbl4.setBackgroundColor(Color.parseColor(d.getCommandDetails()[1].trim()));
+            if (d.getCommandDetails().length > 0){
+                if (!d.getCommandDetails()[1].equalsIgnoreCase("")) {
+                    holder.lbl4.setBackgroundColor(Color.parseColor(d.getCommandDetails()[1].trim()));
+                } else
+                    holder.lbl4.setVisibility(View.GONE);
             }
-            else
-                holder.lbl4.setVisibility(View.GONE);
             holder.mRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -266,7 +268,7 @@ public class UzaCardAdapter extends
 
     private String setCommandString(String [] commandDetails){
         String s = "Qty: "+ commandDetails[0];
-        //Log.i(TAG,""+commandDetails[0]+"-"+commandDetails[1]+"-"+commandDetails[2]);
+        Log.i(TAG,""+commandDetails[0]+"-"+commandDetails[1]+"-"+commandDetails[2]);
         if(!commandDetails[2].equalsIgnoreCase("")) {
             if(!commandDetails[2].equalsIgnoreCase("size"))
                 s = s + " | size: " + commandDetails[2];

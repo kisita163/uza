@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/pad_20dp"
-        android:src="@drawable/ic_add_black_24dp"
+        android:src="@drawable/ic_shopping_cart_black_24dp"
         app:backgroundTint="@color/main_color" />
 
     <ScrollView
@@ -105,7 +105,7 @@
                         android:background="?attr/selectableItemBackground"
                         android:clickable="true"
                         android:scaleType="center"
-                        android:src="@drawable/ic_favorite_border_black_24dp" />
+                        android:src="@drawable/ic_favorite_black_24dp" />
 
                     <ImageView
                         android:id="@+id/btnComment"
@@ -115,7 +115,7 @@
                         android:background="?attr/selectableItemBackground"
                         android:clickable="true"
                         android:scaleType="center"
-                        android:src="@drawable/ic_chat_bubble_outline_black_24dp" />
+                        android:src="@drawable/ic_question_answer_black_24dp" />
 
                     <ImageView
                         android:id="@+id/btnMore"
@@ -199,7 +199,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/divider"
                     android:layout_marginBottom="@dimen/pad_10dp"
-                    android:layout_marginTop="@dimen/pad_10dp"
+                    android:layout_marginTop="@dimen/pad_5dp"
                     android:background="@color/main_grey_lt" />
 
                 <TextView
@@ -236,7 +236,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/divider"
                         android:layout_marginBottom="@dimen/pad_10dp"
-                        android:layout_marginTop="@dimen/pad_10dp"
+                        android:layout_marginTop="@dimen/pad_5dp"
                         android:background="@color/main_grey_lt" />
 
                     <TextView
@@ -252,14 +252,15 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/divider"
-                        android:layout_marginBottom="@dimen/pad_10dp"
+                        android:layout_marginBottom="@dimen/pad_5dp"
                         android:layout_marginTop="@dimen/pad_10dp"
                         android:background="@color/main_grey_lt" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
+                        android:layout_marginBottom="@dimen/pad_5dp"
+                        android:layout_marginLeft="@dimen/pad_5dp"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -281,7 +282,6 @@
                             android:layout_marginRight="40dp"
                             android:layout_marginTop="10dp"
                             android:text="0"
-                            android:textStyle="bold"
                             android:textSize="25sp" />
 
                         <ImageView
@@ -294,6 +294,34 @@
                             android:foreground="?android:selectableItemBackground"
                             android:src="@drawable/ic_add_black_24dp"/>
                     </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/divider"
+                        android:layout_marginBottom="@dimen/pad_5dp"
+                        android:background="@color/main_grey_lt" />
+                    <TextView
+                        android:id="@+id/title_comment"
+                        style="@style/lbl_setting2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/pad_5dp"
+                        android:paddingLeft="@dimen/pad_10dp"
+                        android:text="Comment"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/txt_14sp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/divider"
+                        android:layout_marginTop="@dimen/pad_10dp"
+                        android:background="@color/main_grey_lt" />
+                    <EditText
+                        android:id="@+id/command_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:hint="Enter your comment here"
+                        android:maxLength="200"
+                        android:lines="3"/>
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>

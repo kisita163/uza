@@ -3,29 +3,23 @@ package com.kisita.uza.ui;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,12 +28,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.utils.ColorSizeAdapter;
 import com.kisita.uza.utils.PageAdapter;
-import com.kisita.uza.utils.SpinnerColorAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,7 +39,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static com.kisita.uza.model.Data.UZA.*;
 import static com.kisita.uza.utils.UzaCardAdapter.setPrice;
 
@@ -59,7 +50,7 @@ import static com.kisita.uza.utils.UzaCardAdapter.setPrice;
  * Use the {@link DetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetailFragment extends CustomFragment{
+public class DetailFragment extends CustomFragment implements ColorSizeAdapter.OnFieldChangedListener{
     // the fragment initialization parameters
     private static final String TAG = "### DetailFragment";
 
@@ -95,11 +86,8 @@ public class DetailFragment extends CustomFragment{
 
     private FirebaseStorage mStorage;
 
-    private StorageReference mStorageRef;
-
     private String mCurrency;
 
-    private AlertDialog mDialog;
 
     private boolean mCommand = false;
 
@@ -111,11 +99,21 @@ public class DetailFragment extends CustomFragment{
 
     private LinearLayout mSizesContainer;
 
+    private LinearLayout mQuantityContainer;
+
     private ColorSizeAdapter colorAdapter;
 
     private ColorSizeAdapter sizeAdapter;
 
     private TextView quantity;
+
+    private EditText  commandComment;
+
+    private String    sizeResource = "";
+
+    private String    colorResource = "";
+
+    private String commandKey = "";
 
     public DetailFragment() {
         // Required empty public constructor
@@ -126,10 +124,9 @@ public class DetailFragment extends CustomFragment{
      * this fragment using the provided parameters.
      *
      * @param description Parameter 1.
-     * @param picture Parameter 2.
      * @return A new instance of fragment DetailFragment.
      */
-    public static DetailFragment newInstance(String[] description, byte[] picture) {
+    public static DetailFragment newInstance(String[] description) {
         DetailFragment fragment = new DetailFragment();
         Bundle args = new Bundle();
         args.putStringArray(DESCR, description);
@@ -165,14 +162,44 @@ public class DetailFragment extends CustomFragment{
             commands.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    //Log.i(TAG,"***" + dataSnapshot.child("key").toString());
                     if(dataSnapshot.hasChildren()) {
                         //Log.i(TAG, "***" + dataSnapshot.getValue().toString());
                         for(DataSnapshot d :  dataSnapshot.getChildren()){
                             //Log.i(TAG,"***" + d.child("key").getValue().toString());
                             if(d.child("key").getValue().toString().equalsIgnoreCase(mDescription[UID])){
+                                //Log.i(TAG,"***" + d.getKey());
+                                commandKey = d.getKey();
                                 setAddButton();
                                 mCommand = true;
+                                if(colorAdapter != null) {
+                                    try {
+                                        colorAdapter.setResource(d.child("color").getValue().toString());
+                                    }catch (NullPointerException e){
+                                        colorAdapter.setResource("");
+                                    }
+                                    colorAdapter.notifyDataSetChanged();
+                                }
+
+                                if(sizeAdapter != null) {
+                                    try {
+                                        sizeAdapter.setResource(d.child("size").getValue().toString());
+                                    }catch (NullPointerException e){
+                                        sizeAdapter.setResource("");
+                                    }
+                                    sizeAdapter.notifyDataSetChanged();
+                                }
+
+                                if(quantity != null){
+                                    quantity.setText(d.child("quantity").getValue().toString());
+                                }
+
+                                if(commandComment != null){
+                                    try {
+                                        commandComment.setText(d.child("comment").getValue().toString());
+                                    }catch (NullPointerException e){
+                                        commandComment.setText("");
+                                    }
+                                }
                                 break;
                             }
                         }
@@ -218,9 +245,9 @@ public class DetailFragment extends CustomFragment{
         return setupView(v);
     }
 
-    public void onButtonPressed(String[] details) {
+    public void onButtonPressed(String[] details,boolean update) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(details);
+            mListener.onFragmentInteraction(details,update);
         }
     }
 
@@ -252,6 +279,7 @@ public class DetailFragment extends CustomFragment{
         TextView  item_name         = (TextView)v.findViewById(R.id.item_name);
         TextView  item_price        = (TextView)v.findViewById(R.id.item_price);
         TextView  item_description  = (TextView)v.findViewById(R.id.item_description);
+        commandComment              = (EditText)v.findViewById(R.id.command_comment);
 
         add = (FloatingActionButton) v.findViewById(R.id.fabCart);
         add.setOnClickListener(this);
@@ -268,7 +296,6 @@ public class DetailFragment extends CustomFragment{
         if(mDescription != null) {
             String price;
             price = setPrice(mDescription[CURRENCY],mDescription[PRICE],getContext());
-            mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + mDescription[UID] + "/android.png");
             item_name.setText(mDescription[NAME] + " | " + mDescription[SELLER]);
             item_price.setText(price + " "+mCurrency);
             item_description.setText(mDescription[DESCRIPTION]);
@@ -278,7 +305,24 @@ public class DetailFragment extends CustomFragment{
     }
 
     private void setQuantityContainer(View v) {
+        mQuantityContainer = (LinearLayout)v.findViewById(R.id.quantity_container);
         quantity  = (TextView)v.findViewById(R.id.integer_number);
+        quantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                onFieldChangedListener();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         ImageView increase = (ImageView)v.findViewById(R.id.increase);
         final ImageView decrease = (ImageView)v.findViewById(R.id.decrease);
         increase.setOnClickListener(new View.OnClickListener() {
@@ -311,16 +355,19 @@ public class DetailFragment extends CustomFragment{
         mSizesContainer.setVisibility(View.GONE);
 
         if(!mDescription[SIZE].equalsIgnoreCase("")){
-            mSizesContainer.setVisibility(View.VISIBLE);
             List<String> sizeList = new ArrayList<>(Arrays.asList(mDescription[SIZE].split(",")));
             Log.i(TAG,mDescription[SIZE] + "  " + sizeList.size());
+            if(sizeList.size() == 1 && sizeList.get(0).equalsIgnoreCase("Size")){
+                return;
+            }
+            mSizesContainer.setVisibility(View.VISIBLE);
             //Then get the ListView
             RecyclerView listView = (RecyclerView) v.findViewById(R.id.sizesList);
             listView.setHasFixedSize(true);
-            sizeAdapter = new ColorSizeAdapter(getContext(),sizeList,ColorSizeAdapter.SIZE);
+            sizeAdapter = new ColorSizeAdapter(this,getContext(),sizeList,ColorSizeAdapter.SIZE ,sizeResource);
 
             listView.setAdapter(sizeAdapter);
-            GridLayoutManager llm = new GridLayoutManager(getContext(),sizeList.size(),LinearLayoutManager.VERTICAL,false);
+            GridLayoutManager llm = new GridLayoutManager(getContext(),(sizeList.size()/3)+1,LinearLayoutManager.VERTICAL,false);
             listView.setLayoutManager(llm);
         }
     }
@@ -339,10 +386,10 @@ public class DetailFragment extends CustomFragment{
             //Then get the ListView
             RecyclerView listView = (RecyclerView) v.findViewById(R.id.colorsList);
             listView.setHasFixedSize(true);
-            colorAdapter = new ColorSizeAdapter(getContext(),colorList,ColorSizeAdapter.COLOR);
+            colorAdapter = new ColorSizeAdapter(this,getContext(),colorList,ColorSizeAdapter.COLOR,colorResource);
 
             listView.setAdapter(colorAdapter);
-            GridLayoutManager llm = new GridLayoutManager(getContext(),colorList.size(),LinearLayoutManager.VERTICAL,false);
+            GridLayoutManager llm = new GridLayoutManager(getContext(),(colorList.size()/2)+1,LinearLayoutManager.VERTICAL,false);
             listView.setLayoutManager(llm);
         }
     }
@@ -409,17 +456,19 @@ public class DetailFragment extends CustomFragment{
     private void setAddButton() {
         //Log.i(TAG, "Setting add button");
         add.setVisibility(View.INVISIBLE);
-        Toast.makeText(getContext(), "Item in the cart", Toast.LENGTH_LONG).show();
+        add.setImageResource(R.drawable.ic_mode_edit_black_24dp);
+        Toast.makeText(getContext(), R.string.item_in_the_cart, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fabCart:
+                String[] details;
                 String selectedColor = "";
                 String selectedSize = "";
                 String selectedQty  = quantity.getText().toString();
-
+                //check the selected color
                 if(colorAdapter != null){
                     selectedColor = colorAdapter.getResource();
                     if(selectedColor.equalsIgnoreCase("")){
@@ -427,7 +476,7 @@ public class DetailFragment extends CustomFragment{
                         break;
                     }
                 }
-
+                //check the selected size
                 if(sizeAdapter != null){
                     selectedSize = sizeAdapter.getResource();
                     if(selectedSize.equalsIgnoreCase("")){
@@ -435,10 +484,21 @@ public class DetailFragment extends CustomFragment{
                         break;
                     }
                 }
-                Log.i(TAG,colorAdapter.getResource() + " " +  sizeAdapter.getResource() + " " + quantity.getText().toString());
-                String[] details = {mDescription[UID],selectedSize, selectedColor, selectedQty};
+                // check the quantity
+                if(selectedQty.equalsIgnoreCase("0")){
+                    selectedQty = "1";
+                }
+                if(mCommand == false){
+                    commandKey = getDb().child("users").push().getKey(); // New command id
+                    details = new String[]{mDescription[UID], selectedSize, selectedColor, selectedQty, commandComment.getText().toString(), commandKey};
+                    onButtonPressed(details,mCommand);
+                    mCommand = true; //update case
+                }else{
+                    details = new String[]{mDescription[UID], selectedSize, selectedColor, selectedQty, commandComment.getText().toString(), commandKey};
+                    onButtonPressed(details,mCommand);
+                }
+                Log.i(TAG,selectedColor + " " +  selectedSize + " " +  selectedQty);
                 setAddButton();
-                onButtonPressed(details);
                 break;
             case R.id.btnLike:
                 likePressed();
@@ -457,6 +517,23 @@ public class DetailFragment extends CustomFragment{
         }
     }
 
+    /*private void setDetailsFields() {
+        //Disable fields
+        setLayoutFields(mColorsContainer,false);
+        setLayoutFields(mSizesContainer,false);
+        setLayoutFields(mQuantityContainer,false);
+        //Set values ???
+    }
+
+    private void setLayoutFields(LinearLayout layout,boolean state){
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            Log.i(TAG,"disable/enable child :"+layout.getChildAt(i).toString());
+            View child = layout.getChildAt(i);
+            child.setActivated(state);
+            child.setAlpha(0.2f);
+        }
+    }*/
+
     private void likePressed() {
         //Log.i(TAG, "button like pressed (case)");
         Map<String, Object> childUpdates = new HashMap<>();
@@ -472,7 +549,14 @@ public class DetailFragment extends CustomFragment{
             //Log.i(TAG, "mlike is true - key = "+key);
             likes.child(key).removeValue();
             mLiked = false;
-            mlike.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+            mlike.setImageResource(R.drawable.ic_favorite_black_24dp);
+        }
+    }
+
+    public void onFieldChangedListener() {
+        if(mCommand == true) {
+            add.setImageResource(R.drawable.ic_mode_edit_black_24dp);
+            add.setVisibility(View.VISIBLE);
         }
     }
 
@@ -487,14 +571,14 @@ public class DetailFragment extends CustomFragment{
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        public void onFragmentInteraction(String[] details);
+         void onFragmentInteraction(String[] details,boolean update);
     }
 
     private void getCurrency(){
         Context mContext = getContext();
         SharedPreferences sharedPref = mContext.getSharedPreferences(mContext.getResources().getString(R.string.uza_keys),
                 Context.MODE_PRIVATE);
-        mCurrency = sharedPref.getString(mContext.getString(R.string.uza_currency),"EUR");
+        mCurrency = sharedPref.getString(mContext.getString(R.string.uza_currency),"CDF");
     }
 
     @Override
