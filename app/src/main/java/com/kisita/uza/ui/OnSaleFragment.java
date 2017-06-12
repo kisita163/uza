@@ -88,9 +88,9 @@ public class OnSaleFragment extends CustomFragment
 				mMenu1.setLabelText("Clothing");
 				mMenu2.setLabelText("Shoes & Bags");
 				mMenu3.setLabelText("Watches & Accessories");
-				//mMenu4.setLabelText("Accessories");
+				mMenu4.setLabelText("Stores");
 				mMenu5.setLabelText("Perfumes & Beauty");
-				mTypes = new String []{"Clothing","Shoes & Bags","Watches & Accessories","Perfumes & Beauty"};
+				mTypes = new String []{"Store","Clothing","Shoes & Bags","Watches & Accessories","Perfumes & Beauty"};
 				break;
 			case "Kids":
 				mMenu0.setLabelText("All");
@@ -102,11 +102,11 @@ public class OnSaleFragment extends CustomFragment
 
 				mMenu3.setLabelText("Toys & Accessories");
 				mMenu3.setImageResource(R.drawable.clothing_baby);
-				//mMenu4.setLabelText("Accessories");
+				mMenu4.setLabelText("Stores");
 
 				mMenu5.setLabelText("Bathing  & Skin care");
 				mMenu5.setImageResource(R.drawable.bath_baby);
-				mTypes = new String []{"Clothing","Shoes & Bags","Toys & Accessories","Bathing  & Skin care"};
+				mTypes = new String []{"Store","Clothing","Shoes & Bags","Toys & Accessories","Bathing  & Skin care"};
 				break;
 			case "Electronic":
 				mMenu0.setLabelText("All");
@@ -120,9 +120,11 @@ public class OnSaleFragment extends CustomFragment
 				mMenu3.setLabelText("Phones & Accessories");
 				mMenu3.setImageResource(R.drawable.phone);
 
+				mMenu4.setLabelText("Stores");
+
 				mMenu5.setLabelText("Computers & Tablets");
 				mMenu5.setImageResource(R.drawable.laptop);
-				mTypes = new String []{"Home","Video games","Phones & Accessories","Computers & Tablets"};
+				mTypes = new String []{"Store","Home","Video games","Phones & Accessories","Computers & Tablets"};
 				break;
 		}
 	}
@@ -140,17 +142,20 @@ public class OnSaleFragment extends CustomFragment
 				mCardadapter.setItemsList(itemsList);
 				mCardadapter.notifyDataSetChanged();
 				return;
-			case(R.id.menu_1):
-				s = mTypes[0];
+			case(R.id.menu_4): // get stores
+				//s = mTypes[0];
 				break;
-			case(R.id.menu_2):
+			case(R.id.menu_1): // get clothes
 				s = mTypes[1];
 				break;
-			case(R.id.menu_3):
+			case(R.id.menu_2):
 				s = mTypes[2];
 				break;
-			case(R.id.menu_5):
+			case(R.id.menu_3):
 				s = mTypes[3];
+				break;
+			case(R.id.menu_5):
+				s = mTypes[4];
 				break;
 		}
 		for (Data d : itemsList) {
