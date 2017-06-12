@@ -19,7 +19,7 @@
     <string name="db_items">items</string>
     <string name="db_users_commands">users_commands</string>
 
-    
+
     <string name="create_acc">Create Account</string>
     <string name="sign_in">Sign in</string>
     <string name="email">Email Address</string>
@@ -47,15 +47,15 @@
         <item>black</item>
         <item>yellow</item>
     </string-array>
-    
+
     <string-array name="arr_email">
-        <item >example@gmail.com</item>
-        <item >example1@gmail.com</item>
-        <item >example2@gmail.com</item>
-    </string-array> 
-        <string name="credit_cards">Credit Cards</string>
-        <string name="email1">Email</string>
-        <string name="detail_temp">Moto 360 stays true to the timeless form of the classic wristwatch. A round ... That\'s why all the leather used for Moto 360 comes from American leather crafters.\n\nThe 203 Series is a comprehensive update of the 200 collection. With many design details drawn from the 302 Series chrongraph, the 203 Series still maintains reference to the engineering dials it was inspired by. The 40mm two-part case features a lugless design and a chamfered bezel.</string>
+        <item>example@gmail.com</item>
+        <item>example1@gmail.com</item>
+        <item>example2@gmail.com</item>
+    </string-array>
+    <string name="credit_cards">Credit Cards</string>
+    <string name="email1">Email</string>
+    <string name="detail_temp">Moto 360 stays true to the timeless form of the classic wristwatch. A round ... That\'s why all the leather used for Moto 360 comes from American leather crafters.\n\nThe 203 Series is a comprehensive update of the 200 collection. With many design details drawn from the 302 Series chrongraph, the 203 Series still maintains reference to the engineering dials it was inspired by. The 40mm two-part case features a lugless design and a chamfered bezel.</string>
     <string name="detail">ItemDetail</string>
     <string name="title_activity_main2">Main2Activity</string>
 
@@ -91,4 +91,11 @@
     <string name="uza_currency_position">uza_currency_position</string>
     <string name="store">Store</string>
     <string name="item_in_the_cart">Item in the cart</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="title_activity_stores">StoresActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

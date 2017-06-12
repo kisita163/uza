@@ -36,6 +36,15 @@
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_store_black_24dp"
+            fab:fab_colorNormal="@color/main_color"
+            fab:fab_label="Menu item 1"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,15 +70,6 @@
             fab:fab_colorNormal="@color/main_color"
             fab:fab_label="Menu item 2"
             fab:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/menu_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit"
-            android:visibility="gone"
-            fab:fab_label="Menu item 1"
-            fab:fab_size="normal" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_5"

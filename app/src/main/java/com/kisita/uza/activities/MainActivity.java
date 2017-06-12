@@ -25,6 +25,7 @@ import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.ui.LeftNavAdapter;
 import com.kisita.uza.ui.OnSaleFragment;
+import com.kisita.uza.ui.StoresFragment;
 
 import java.util.ArrayList;
 
@@ -36,7 +37,7 @@ import java.util.ArrayList;
  * items on Drawer layout.
  */
 @SuppressLint("InlinedApi")
-public class MainActivity extends CustomActivity
+public class MainActivity extends CustomActivity implements OnSaleFragment.OnFragmentInteractionListener, StoresFragment.OnFragmentInteractionListener
 {
 	/** The toolbar. */
 	public Toolbar toolbar;
@@ -118,32 +119,6 @@ public class MainActivity extends CustomActivity
 		return super.onOptionsItemSelected(item);
     }
 
-    private void setDrawerOpenCloseEvent() {
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,
-                mDrawerLayout,
-                R.string.drawer_open,
-                R.string.drawer_close) {
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-        };
-        // Set the drawer toggle as the DrawerListener
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-    }
-
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -164,5 +139,9 @@ public class MainActivity extends CustomActivity
     protected void onResume() {
         commandsCount();
         super.onResume();
+    }
+
+    @Override
+    public void onFragmentInteraction() {
     }
 }

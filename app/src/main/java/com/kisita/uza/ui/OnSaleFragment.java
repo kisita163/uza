@@ -1,10 +1,10 @@
 package com.kisita.uza.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +43,9 @@ public class OnSaleFragment extends CustomFragment
 	private FloatingActionButton mMenu3;
 	private FloatingActionButton mMenu4;
 	private FloatingActionButton mMenu5;
+
+	private OnFragmentInteractionListener mListener;
+
 	private String[]  mTypes;
 
 	/* (non-Javadoc)
@@ -143,7 +146,8 @@ public class OnSaleFragment extends CustomFragment
 				mCardadapter.notifyDataSetChanged();
 				return;
 			case(R.id.menu_4): // get stores
-				//s = mTypes[0];
+				//Start new fragments  containing all supported stores
+                onStoresPressed();
 				break;
 			case(R.id.menu_1): // get clothes
 				s = mTypes[1];
@@ -233,5 +237,38 @@ public class OnSaleFragment extends CustomFragment
 	public void onDetach() {
 		super.onDetach();
 		mChildEventListener = null;
+        mListener = null;
+	}
+	/**
+	 * This interface must be implemented by activities that contain this
+	 * fragment to allow an interaction in this fragment to be communicated
+	 * to the activity and potentially other fragments contained in that
+	 * activity.
+	 * <p>
+	 * See the Android Training lesson <a href=
+	 * "http://developer.android.com/training/basics/fragments/communicating.html"
+	 * >Communicating with Other Fragments</a> for more information.
+	 */
+	public interface OnFragmentInteractionListener {
+		// TODO: Update argument type and name
+		void onFragmentInteraction();
+	}
+
+	// TODO: Rename method, update argument and hook method into UI event
+	public void onStoresPressed() {
+		if (mListener != null) {
+			mListener.onFragmentInteraction();
+		}
+	}
+
+	@Override
+	public void onAttach(Context context) {
+		super.onAttach(context);
+		if (context instanceof OnFragmentInteractionListener) {
+			mListener = (OnFragmentInteractionListener) context;
+		} else {
+			throw new RuntimeException(context.toString()
+					+ " must implement OnFragmentInteractionListener");
+		}
 	}
 }
