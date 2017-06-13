@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -13,10 +14,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -355,6 +359,10 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
         mSizesContainer.setVisibility(View.GONE);
 
         if(!mDescription[SIZE].equalsIgnoreCase("")){
+            int screenSize = getResources().getConfiguration().screenLayout &
+                    Configuration.SCREENLAYOUT_SIZE_MASK;
+            int divider;
+
             List<String> sizeList = new ArrayList<>(Arrays.asList(mDescription[SIZE].split(",")));
             Log.i(TAG,mDescription[SIZE] + "  " + sizeList.size());
             if(sizeList.size() == 1 && sizeList.get(0).equalsIgnoreCase("Size")){
@@ -367,7 +375,8 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
             sizeAdapter = new ColorSizeAdapter(this,getContext(),sizeList,ColorSizeAdapter.SIZE ,sizeResource);
 
             listView.setAdapter(sizeAdapter);
-            GridLayoutManager llm = new GridLayoutManager(getContext(),(sizeList.size()/3)+1,LinearLayoutManager.VERTICAL,false);
+
+            GridLayoutManager llm = new GridLayoutManager(getContext(),getDivider(getScreenWidth(getContext())),LinearLayoutManager.VERTICAL,false);
             listView.setLayoutManager(llm);
         }
     }
@@ -389,7 +398,7 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
             colorAdapter = new ColorSizeAdapter(this,getContext(),colorList,ColorSizeAdapter.COLOR,colorResource);
 
             listView.setAdapter(colorAdapter);
-            GridLayoutManager llm = new GridLayoutManager(getContext(),(colorList.size()/2)+1,LinearLayoutManager.VERTICAL,false);
+            GridLayoutManager llm = new GridLayoutManager(getContext(),getDivider(getScreenWidth(getContext())),LinearLayoutManager.VERTICAL,false);
             listView.setLayoutManager(llm);
         }
     }
@@ -617,5 +626,28 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
         public void setSelected(boolean selected) {
             this.selected = selected;
         }
+    }
+
+    private static int getScreenWidth(Context context)
+    {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+
+        return metrics.widthPixels;
+    }
+
+    private int getDivider(int width){
+        int divider = 0;
+        if(width < 500){
+            divider = 5;
+        }else if(width >= 500 && width < 1200) {
+            divider = 6;
+        }else{
+            divider = 7;
+        }
+
+        return divider;
     }
 }
