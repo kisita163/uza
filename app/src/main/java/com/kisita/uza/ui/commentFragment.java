@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,8 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
-import com.kisita.uza.model.Data;
-import com.kisita.uza.utils.commentRecyclerViewAdapter;
+import com.kisita.uza.utils.CommentRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,7 +43,7 @@ public class commentFragment extends CustomFragment {
     private int mColumnCount = 1;
     private String mItemUid;
     private OnListFragmentInteractionListener mListener;
-    private commentRecyclerViewAdapter mAdapter;
+    private CommentRecyclerViewAdapter mAdapter;
     private DatabaseReference mComments;
     private FirebaseStorage mStorage;
     private ArrayList<ArticleComment> mList;
@@ -122,7 +119,7 @@ public class commentFragment extends CustomFragment {
 
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
-        mAdapter = new commentRecyclerViewAdapter(mList,null,getContext(),llm);
+        mAdapter = new CommentRecyclerViewAdapter(mList,null,getContext(),llm);
         recList.setAdapter(mAdapter);
 
 

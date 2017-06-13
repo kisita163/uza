@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -31,8 +32,6 @@ import com.kisita.uza.model.Data;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 import static com.kisita.uza.model.Data.UZA.*;
 
@@ -49,7 +48,7 @@ public class UzaCardAdapter extends
     private FirebaseStorage mStorage;
     private StorageReference mStorageRef;
     private DatabaseReference mCommands;
-    private Boolean hasRemove = false;
+    private Boolean isCheckout = false;
 
     public UzaCardAdapter(Context context,ArrayList<Data> items) {
         this.mContext = context;
@@ -61,7 +60,7 @@ public class UzaCardAdapter extends
         this.mContext = context;
         this.itemsList = items;
         mStorage = FirebaseStorage.getInstance();
-        hasRemove = remove;
+        isCheckout = remove;
     }
 
     public void setItemsList(ArrayList<Data> itemsList) {
@@ -70,8 +69,14 @@ public class UzaCardAdapter extends
 
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        int rId;
+        if(isCheckout)
+            rId = R.layout.grid_item1; // layout for checkout fragment
+        else
+            rId = R.layout.grid_item;  //
+
         View itemView = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.grid_item, viewGroup, false);
+                .inflate(rId, viewGroup, false);
         return new CardViewHolder(itemView,this);
     }
 
@@ -82,20 +87,17 @@ public class UzaCardAdapter extends
 
         mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/" + d.getUid() + "/android.png");
 
-        holder.lbl1.setText(d.getTexts()[NAME]); // Name
-        String price = setPrice(d.getTexts()[CURRENCY], d.getTexts()[PRICE],mContext);
-        holder.lbl2.setText(price + " "+getCurrency(mContext));
-        holder.lbl3.setText(d.getTexts()[BRAND]);
-        if (hasRemove) {
-            holder.lbl0.setText(setCommandString(d.getCommandDetails()));
+        if (isCheckout) {
+            setCommandString(holder,d.getCommandDetails());
             //Log.i(TAG,"details length is : "+d.getCommandDetails().length);
             if (d.getCommandDetails().length > 0){
                 if (!d.getCommandDetails()[1].equalsIgnoreCase("")) {
-                    holder.lbl4.setBackgroundColor(Color.parseColor(d.getCommandDetails()[1].trim()));
+                    holder.color.setBackgroundColor(Color.parseColor(d.getCommandDetails()[1].trim()));
                 } else
-                    holder.lbl4.setVisibility(View.GONE);
+                    holder.color.setVisibility(View.GONE);
             }
-            holder.mRemove.setOnClickListener(new View.OnClickListener() {
+            holder.name.setText(d.getTexts()[NAME]);
+            holder.remove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //Log.i(TAG, "Remove pressed - " + d.getUid());
@@ -122,16 +124,28 @@ public class UzaCardAdapter extends
                     dialog.show();
                 }
             });
+            //holder.img.setVisibility(View.GONE);
+           /* Glide.with(mContext)
+                    .using(new FirebaseImageLoader())
+                    .load(mStorageRef)
+                    .fitCenter()
+                    .dontTransform()
+                    .error(R.drawable.on_sale_item6)
+                    .into(holder.img);*/
+        }else{
+            holder.lbl1.setText(d.getTexts()[NAME]); // Name
+            String price = setPrice(d.getTexts()[CURRENCY], d.getTexts()[PRICE],mContext);
+            holder.lbl2.setText(price + " "+getCurrency(mContext));
+            holder.lbl3.setText(d.getTexts()[BRAND]);
+            // Load the image using Glide
+            Glide.with(mContext)
+                    .using(new FirebaseImageLoader())
+                    .load(mStorageRef)
+                    .fitCenter()
+                    .dontTransform()
+                    .error(R.drawable.on_sale_item6)
+                    .into(holder.img);
         }
-        // Load the image using Glide
-        Glide.with(mContext)
-                .using(new FirebaseImageLoader())
-                .load(mStorageRef)
-                .fitCenter()
-                .dontTransform()
-                .error(R.drawable.on_sale_item6)
-                .into(holder.img);
-
 
         mOnItemClickListener = new AdapterView.OnItemClickListener() {
             @Override
@@ -201,6 +215,7 @@ public class UzaCardAdapter extends
         }
     }
 
+
     @Override
     public void onFailure(@NonNull Exception e) {
         String errorMessage = e.getMessage();
@@ -218,11 +233,14 @@ public class UzaCardAdapter extends
     public class CardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         /** The lbl3. */
-        private TextView lbl0,lbl1, lbl2, lbl3;
+        private TextView lbl1, lbl2, lbl3; //TODO rename these fields
         /** The img. */
-        private ImageView img,lbl4;
-        private ImageView mRemove;
+        private ImageView img;
         UzaCardAdapter mAdapter;
+
+        // Checkout stuff
+        private TextView name, quantity , size, sizeTag, colorTag;
+        private ImageView color, remove;
 
         /**
          * Instantiates a new card view holder.
@@ -234,21 +252,22 @@ public class UzaCardAdapter extends
         {
             super(v);
             this.mAdapter = adapter;
-            lbl0 = (TextView) v.findViewById(R.id.lbl0);
-            lbl1 = (TextView) v.findViewById(R.id.lbl1);
-            lbl2 = (TextView) v.findViewById(R.id.lbl2);
-            lbl3 = (TextView) v.findViewById(R.id.lbl3);
-            lbl4 = (ImageView) v.findViewById(R.id.lbl4);
-            img = (ImageView) v.findViewById(R.id.img);
-            mRemove = (ImageView) v.findViewById(R.id.remove);
-            if (!hasRemove){
-                mRemove.setVisibility(View.GONE);
-                lbl0.setVisibility(View.GONE);
-                lbl4.setVisibility(View.GONE);
+            if(!isCheckout) { // Common presentation
+                img = (ImageView) v.findViewById(R.id.img);
+                lbl1 = (TextView) v.findViewById(R.id.lbl1);
+                lbl2 = (TextView) v.findViewById(R.id.lbl2);
+                lbl3 = (TextView) v.findViewById(R.id.lbl3);
+            }else{      // Ticket style presentation
+
+                name = (TextView) v.findViewById(R.id.item_name);
+                size = (TextView) v.findViewById(R.id.item_size);
+                quantity = (TextView) v.findViewById(R.id.item_quantity);
+                color = (ImageView) v.findViewById(R.id.item_color);
+                remove = (ImageView) v.findViewById(R.id.remove);
+
+                colorTag = (TextView) v.findViewById(R.id.color_tag);
+                sizeTag = (TextView) v.findViewById(R.id.size_tag);
             }
-
-
-
             v.setOnClickListener(this);
         }
 
@@ -266,16 +285,24 @@ public class UzaCardAdapter extends
         return currency;
     }
 
-    private String setCommandString(String [] commandDetails){
-        String s = "Qty: "+ commandDetails[0];
-        Log.i(TAG,""+commandDetails[0]+"-"+commandDetails[1]+"-"+commandDetails[2]);
-        if(!commandDetails[2].equalsIgnoreCase("")) {
-            if(!commandDetails[2].equalsIgnoreCase("size"))
-                s = s + " | size: " + commandDetails[2];
-        }
-        if(!commandDetails[1].equalsIgnoreCase(""))
-            s = s + " | color :";
+    private void setCommandString(UzaCardAdapter.CardViewHolder holder,String [] commandDetails){
+        holder.quantity.setText(commandDetails[0]);
+        holder.size.setVisibility(View.GONE);
+        holder.color.setVisibility(View.GONE);
+        holder.colorTag.setVisibility(View.GONE);
+        holder.sizeTag.setVisibility(View.GONE);
 
-        return s;
+        Log.i(TAG,""+commandDetails[0]+"-"+commandDetails[1]+"-"+commandDetails[2]);
+        if(!commandDetails[2].equalsIgnoreCase("")) { //There is a size
+            if(!commandDetails[2].equalsIgnoreCase("size")){
+                holder.size.setVisibility(View.VISIBLE);
+                holder.sizeTag.setVisibility(View.VISIBLE);
+                holder.size.setText(commandDetails[2]);
+            }
+        }
+        if(!commandDetails[1].equalsIgnoreCase("")){ //There is a color
+            holder.colorTag.setVisibility(View.VISIBLE);
+            holder.color.setVisibility(View.VISIBLE);
+        }
     }
 }

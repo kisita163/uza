@@ -2,8 +2,10 @@ package com.kisita.uza.ui;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -45,6 +47,7 @@ public class CheckoutFragment extends CustomFragment
 	private TextView total;
     private String clientToken;
     private static final int REQUEST_CODE = Menu.FIRST;
+	private OnFragmentInteractionListener mListener;
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
@@ -88,14 +91,15 @@ public class CheckoutFragment extends CustomFragment
 		checkout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-                PaymentRequest paymentRequest = new PaymentRequest()
+				onCheckoutPressed();
+                /*PaymentRequest paymentRequest = new PaymentRequest()
                         .clientToken(clientToken) // TODO Firebase token doesn't work here
                         .amount(total.getText().toString())
                         .primaryDescription("Secure payment")
                         .secondaryDescription("Uza")
                         .actionBarTitle("Payment")
                         .submitButtonText("Pay");
-                startActivityForResult(paymentRequest.getIntent(getActivity()), REQUEST_CODE);
+                startActivityForResult(paymentRequest.getIntent(getActivity()), REQUEST_CODE);*/
 			}
 		});
 
@@ -106,9 +110,12 @@ public class CheckoutFragment extends CustomFragment
 		setHasOptionsMenu(true);
 
 		StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1,
-				StaggeredGridLayoutManager.HORIZONTAL);
+				StaggeredGridLayoutManager.VERTICAL);
 
-		llm.setOrientation(LinearLayoutManager.VERTICAL);
+		DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recList.getContext(),
+				DividerItemDecoration.VERTICAL);
+		recList.addItemDecoration(dividerItemDecoration);
+
 		recList.setLayoutManager(llm);
 		mCardadapter = new UzaCardAdapter(this.getContext(), itemsList, true);
 		recList.setAdapter(mCardadapter);
@@ -136,9 +143,8 @@ public class CheckoutFragment extends CustomFragment
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		if(mChildEventListener != null){
-			mChildEventListener = null;
-		}
+		mChildEventListener = null;
+		mListener = null;
 	}
 
     @Override
@@ -165,6 +171,39 @@ public class CheckoutFragment extends CustomFragment
             });*/
         }
     }
+
+	/**
+	 * This interface must be implemented by activities that contain this
+	 * fragment to allow an interaction in this fragment to be communicated
+	 * to the activity and potentially other fragments contained in that
+	 * activity.
+	 * <p>
+	 * See the Android Training lesson <a href=
+	 * "http://developer.android.com/training/basics/fragments/communicating.html"
+	 * >Communicating with Other Fragments</a> for more information.
+	 */
+	public interface OnFragmentInteractionListener {
+		// TODO: Update argument type and name
+		void onFragmentInteraction();
+	}
+
+	// TODO: Rename method, update argument and hook method into UI event
+	public void onCheckoutPressed() {
+		if (mListener != null) {
+			mListener.onFragmentInteraction();
+		}
+	}
+
+	@Override
+	public void onAttach(Context context) {
+		super.onAttach(context);
+		if (context instanceof OnFragmentInteractionListener) {
+			mListener = (OnFragmentInteractionListener) context;
+		} else {
+			throw new RuntimeException(context.toString()
+					+ " must implement OnFragmentInteractionListener");
+		}
+	}
 
 
     private void getToken() {

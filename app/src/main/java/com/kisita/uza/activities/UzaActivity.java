@@ -5,19 +5,20 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.ui.CheckoutFragment;
 import com.kisita.uza.ui.DetailFragment;
 import com.kisita.uza.ui.FavoritesFragment;
+import com.kisita.uza.ui.PaymentMethodsFragment;
 import com.kisita.uza.ui.SellingFragment;
 import com.kisita.uza.ui.SettingsFragment;
+import com.kisita.uza.ui.dummy.PaymentContent;
 
 import static com.kisita.uza.model.Data.UZA.NAME;
 
-public class UzaActivity extends CustomActivity {
+public class UzaActivity extends CustomActivity implements CheckoutFragment.OnFragmentInteractionListener,PaymentMethodsFragment.OnListFragmentInteractionListener{
     /** The toolbar. */
     public Toolbar toolbar;
     @Override
@@ -78,7 +79,23 @@ public class UzaActivity extends CustomActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        //Log.i(TAG,"***** back pressed");
         getFragmentManager().popBackStackImmediate();
+    }
+
+    @Override
+    public void onFragmentInteraction() {
+        // Call from Checkout fragment
+        toolbar.setTitle("Payment method");
+        PaymentMethodsFragment f = PaymentMethodsFragment.newInstance(1 /*Number of column count*/);
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_left,R.anim.slide_in_left,R.anim.slide_out_right)
+                .addToBackStack(null)
+                .replace(R.id.content_frame, f)
+                .commit();
+    }
+
+    @Override
+    public void onListFragmentInteraction(PaymentContent.PaymentItem item) {
+        //Data from PaymentMethods adapter
     }
 }
