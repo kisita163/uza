@@ -14,11 +14,21 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="108dp">
 
+        <!-- <ImageView
+            android:id="@+id/img"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:scaleType="fitXY"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/lldetails"
+            android:layout_toLeftOf="@+id/lldetails"
+            android:padding="@dimen/pad_10dp"
+            android:src="@drawable/on_sale_item1" />
 
-
-        <!--<TextView
+        <TextView
             android:id="@+id/lbl1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,60 +44,68 @@
             android:id="@+id/lldetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:layout_alignParentTop="true"
             android:columnCount="2"
             android:padding="@dimen/pad_10dp"
-            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/remove"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
 
             <TextView
-                android:text="Name"
-                android:layout_column="0"/>
+                android:layout_column="0"
+                android:fontFamily="sans-serif-thin"
+                android:text="Name" />
 
             <TextView
                 android:id="@+id/item_name"
-                android:text="Kisita"
-                android:layout_marginLeft="10dp"
+                android:layout_column="1"
                 android:layout_marginBottom="5dp"
-                android:layout_column="1"/>
+                android:layout_marginLeft="10dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="Kisita"
+                android:textStyle="bold" />
 
             <TextView
-                android:text="Quantity"
-                android:layout_column="0"/>
+                android:layout_column="0"
+                android:fontFamily="sans-serif-thin"
+                android:text="Quantity" />
 
             <TextView
                 android:id="@+id/item_quantity"
-                android:text="Kisita"
-                android:layout_marginLeft="10dp"
+                android:layout_column="1"
                 android:layout_marginBottom="5dp"
-                android:layout_column="1"/>
+                android:layout_marginLeft="10dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="Kisita" />
 
             <TextView
                 android:id="@+id/size_tag"
-                android:text="Size"
-                android:layout_column="0"/>
+                android:layout_column="0"
+                android:fontFamily="sans-serif-thin"
+                android:text="Size" />
 
             <TextView
                 android:id="@+id/item_size"
-                android:text="Kisita"
-                android:layout_marginLeft="10dp"
+                android:layout_column="1"
                 android:layout_marginBottom="5dp"
-                android:layout_column="1"/>
+                android:layout_marginLeft="10dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="Kisita" />
 
             <TextView
                 android:id="@+id/color_tag"
-                android:text="Color"
-                android:layout_column="0"/>
+                android:layout_column="0"
+                android:fontFamily="sans-serif-thin"
+                android:text="Color" />
 
             <ImageView
                 android:id="@+id/item_color"
-                android:text="Kisita"
+                android:layout_width="68dp"
                 android:layout_height="20dp"
-                android:layout_width="20dp"
+                android:layout_column="1"
                 android:layout_marginLeft="10dp"
                 android:background="@color/black"
-                android:layout_column="1"/>
+                android:text="Kisita" />
 
         </GridLayout>
 
@@ -95,13 +113,12 @@
             android:id="@+id/remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_highlight_off_black_36dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/lldetails" />
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="18dp"
+            android:layout_marginRight="18dp"
+            android:background="@drawable/ic_highlight_off_black_36dp" />
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>
