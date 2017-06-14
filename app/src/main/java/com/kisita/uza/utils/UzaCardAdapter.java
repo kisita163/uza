@@ -97,6 +97,9 @@ public class UzaCardAdapter extends
                     holder.color.setVisibility(View.GONE);
             }
             holder.name.setText(d.getTexts()[NAME]);
+            String price = setPrice(d.getTexts()[CURRENCY], d.getTexts()[PRICE],mContext);
+            price = getPriceTimeQuantity(price,d.getCommandDetails()[0]);
+            holder.price.setText(price + " "+getCurrency(mContext));
             holder.remove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -168,7 +171,7 @@ public class UzaCardAdapter extends
     public static String setPrice(String currency,String price,Context context) {
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.CEILING);
-        //TODO Get ratio from firebase
+        //TODO Get ratio from server
         // euros to cdf
         double eur_cdf = 1623.58;// 1 euros = 1623.58 fc;
         // usd to cdf
@@ -239,7 +242,7 @@ public class UzaCardAdapter extends
         UzaCardAdapter mAdapter;
 
         // Checkout stuff
-        private TextView name, quantity , size, sizeTag, colorTag;
+        private TextView name, quantity , size, sizeTag, colorTag, price;
         private ImageView color, remove;
 
         /**
@@ -262,6 +265,7 @@ public class UzaCardAdapter extends
                 name = (TextView) v.findViewById(R.id.item_name);
                 size = (TextView) v.findViewById(R.id.item_size);
                 quantity = (TextView) v.findViewById(R.id.item_quantity);
+                price = (TextView) v.findViewById(R.id.item_price);
                 color = (ImageView) v.findViewById(R.id.item_color);
                 remove = (ImageView) v.findViewById(R.id.remove);
 
@@ -304,5 +308,17 @@ public class UzaCardAdapter extends
             holder.colorTag.setVisibility(View.VISIBLE);
             holder.color.setVisibility(View.VISIBLE);
         }
+    }
+
+    private String getPriceTimeQuantity(String price, String quantity) {
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
+
+        double p = Double.valueOf(price);
+        double q = Double.valueOf(quantity);
+
+        double res = q*p;
+
+        return df.format(res);
     }
 }
