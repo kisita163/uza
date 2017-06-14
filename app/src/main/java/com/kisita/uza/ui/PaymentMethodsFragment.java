@@ -8,6 +8,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -60,7 +63,7 @@ public class PaymentMethodsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
-
+        setHasOptionsMenu(true);
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -111,4 +114,19 @@ public class PaymentMethodsFragment extends Fragment {
         // TODO: Update argument type and name
         void onListFragmentInteraction(PaymentItem item);
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        MenuItem item = menu.findItem(R.id.action_cart);
+        item.setVisible(false);
+        item = menu.findItem(R.id.favourite);
+        item.setVisible(false);
+        item = menu.findItem(R.id.action_explore);
+        item.setVisible(false);
+        item = menu.findItem(R.id.action_settings);
+        item.setVisible(false);
+        item = menu.findItem(R.id.action_logout);
+        item.setVisible(false);
+    }
 }
+
