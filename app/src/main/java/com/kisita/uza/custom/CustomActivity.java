@@ -158,10 +158,7 @@ public class CustomActivity extends AppCompatActivity implements
 		} else {
 			badge = new CartDrawable(context);
 		}
-		if(Double.valueOf(count) > 9)
-			badge.setCount(count,6);
-		else
-			badge.setCount(count, 0);
+		badge.setCount(count);
 		icon.mutate();
 		icon.setDrawableByLayerId(R.id.ic_badge, badge);
 	}
