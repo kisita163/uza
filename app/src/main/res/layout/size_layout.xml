@@ -9,5 +9,6 @@
     android:textSize="20dp"
     android:clickable="true"
     android:foreground="?android:selectableItemBackground"
+    android:fontFamily="sans-serif-light"
     android:id="@+id/size_item">
 </TextView>

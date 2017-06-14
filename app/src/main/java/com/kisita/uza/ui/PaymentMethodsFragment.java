@@ -15,9 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kisita.uza.R;
+import com.kisita.uza.model.UzaListItem;
 import com.kisita.uza.ui.dummy.PaymentContent;
-import com.kisita.uza.ui.dummy.PaymentContent.PaymentItem;
-import com.kisita.uza.utils.PaymentMethodsAdapter;
+import com.kisita.uza.utils.UzaListAdapter;
 
 /**
  * A fragment representing a list of Items.
@@ -77,7 +77,7 @@ public class PaymentMethodsFragment extends Fragment {
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                     DividerItemDecoration.VERTICAL);
             recyclerView.addItemDecoration(dividerItemDecoration);
-            recyclerView.setAdapter(new PaymentMethodsAdapter(PaymentContent.ITEMS, mListener));
+            recyclerView.setAdapter(new UzaListAdapter(PaymentContent.ITEMS, mListener));
         }
         return view;
     }
@@ -112,7 +112,7 @@ public class PaymentMethodsFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(PaymentItem item);
+        void onListFragmentInteraction(UzaListItem item);
     }
 
     @Override

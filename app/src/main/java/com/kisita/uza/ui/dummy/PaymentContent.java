@@ -1,6 +1,7 @@
 package com.kisita.uza.ui.dummy;
 
 import com.kisita.uza.R;
+import com.kisita.uza.model.UzaListItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,12 +22,12 @@ public class PaymentContent {
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<PaymentItem> ITEMS = new ArrayList<PaymentItem>();
+    public static final List<UzaListItem> ITEMS = new ArrayList<UzaListItem>();
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    public static final Map<String, PaymentItem> ITEM_MAP = new HashMap<String, PaymentItem>();
+    public static final Map<String, UzaListItem> ITEM_MAP = new HashMap<String, UzaListItem>();
 
     private static final int COUNT = methods.length;
 
@@ -36,30 +37,12 @@ public class PaymentContent {
 
     static {
         for(int i = 0 ; i < COUNT ; i ++ ){
-            addItem(new PaymentItem(methods[i],icons[i]));
+            addItem(new UzaListItem(methods[i],icons[i]));
         }
     }
 
-    private static void addItem(PaymentItem item) {
+    private static void addItem(UzaListItem item) {
         ITEMS.add(item);
         ITEM_MAP.put(item.name, item);
-    }
-
-    /**
-     * A dummy item representing a piece of content.
-     */
-    public static class PaymentItem {
-        public final String name;
-        public final int icon;
-
-        public PaymentItem(String id, int icon) {
-            this.name = id;
-            this.icon = icon;
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
     }
 }

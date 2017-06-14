@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/pad_10dp"
     android:foreground="?android:selectableItemBackground"
@@ -24,6 +24,7 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/payment_icon"
         android:layout_toEndOf="@+id/payment_icon"
+        android:fontFamily="sans-serif-light"
         android:layout_marginLeft="27dp"
         android:layout_marginStart="27dp" />
 </RelativeLayout>

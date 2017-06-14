@@ -79,18 +79,21 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mPagerAdapter);
+		mViewPager.setCurrentItem(1);
         commandsCount();
     }
 
 	private void setPagerAdapter() {
 		mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
 			private final Fragment[] mFragments = new Fragment[] {
+					StoresFragment.newInstance(),
                     OnSaleFragment.newInstance("Men"),
                     OnSaleFragment.newInstance("Women"),
                     OnSaleFragment.newInstance("Kids"),
                     OnSaleFragment.newInstance("Electronic"),
             };
 			private final String[] mFragmentNames = new String[] {
+					"Stores",
 					"Men",
 					"Women",
 					"Kids",

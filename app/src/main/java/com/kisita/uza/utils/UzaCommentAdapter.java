@@ -17,14 +17,14 @@ import com.kisita.uza.ui.commentFragment.OnListFragmentInteractionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecyclerViewAdapter.ViewHolder> {
+public class UzaCommentAdapter extends RecyclerView.Adapter<UzaCommentAdapter.ViewHolder> {
 
     private final List<commentFragment.ArticleComment> mValues;
     private final OnListFragmentInteractionListener mListener;
     private final Context mContext;
     private final StaggeredGridLayoutManager mGridManager;
 
-    public CommentRecyclerViewAdapter(ArrayList<commentFragment.ArticleComment> items, OnListFragmentInteractionListener listener, Context context, StaggeredGridLayoutManager llm) {
+    public UzaCommentAdapter(ArrayList<commentFragment.ArticleComment> items, OnListFragmentInteractionListener listener, Context context, StaggeredGridLayoutManager llm) {
         mValues = items;
         mListener = listener;
         mContext = context;

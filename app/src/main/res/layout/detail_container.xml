@@ -76,6 +76,7 @@
                     style="@style/lbl_setting2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
                     android:paddingLeft="@dimen/pad_10dp"
                     android:paddingTop="@dimen/pad_10dp"
                     android:text="Moto 360 | Uniform Wares" />
@@ -153,6 +154,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/pad_10dp"
                     android:text="@string/detail_temp"
+                    android:fontFamily="sans-serif-light"
                     android:textSize="@dimen/txt_14sp" />
                 <LinearLayout
                     android:id="@+id/colors_container"
@@ -320,6 +322,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
                         android:hint="Enter your comment here"
+                        android:fontFamily="sans-serif-thin"
                         android:maxLength="200"
                         android:lines="3"/>
                 </LinearLayout>

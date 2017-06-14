@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
-import com.kisita.uza.utils.CommentRecyclerViewAdapter;
+import com.kisita.uza.utils.UzaCommentAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,7 +43,7 @@ public class commentFragment extends CustomFragment {
     private int mColumnCount = 1;
     private String mItemUid;
     private OnListFragmentInteractionListener mListener;
-    private CommentRecyclerViewAdapter mAdapter;
+    private UzaCommentAdapter mAdapter;
     private DatabaseReference mComments;
     private FirebaseStorage mStorage;
     private ArrayList<ArticleComment> mList;
@@ -119,7 +119,7 @@ public class commentFragment extends CustomFragment {
 
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
-        mAdapter = new CommentRecyclerViewAdapter(mList,null,getContext(),llm);
+        mAdapter = new UzaCommentAdapter(mList,null,getContext(),llm);
         recList.setAdapter(mAdapter);
 
 

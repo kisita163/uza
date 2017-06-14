@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
+import com.kisita.uza.model.UzaListItem;
 import com.kisita.uza.ui.CheckoutFragment;
 import com.kisita.uza.ui.DetailFragment;
 import com.kisita.uza.ui.FavoritesFragment;
@@ -95,7 +96,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnFr
     }
 
     @Override
-    public void onListFragmentInteraction(PaymentContent.PaymentItem item) {
+    public void onListFragmentInteraction(UzaListItem item) {
         //Data from PaymentMethods adapter
     }
 }

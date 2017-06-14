@@ -8,4 +8,7 @@
     <string name="RemoveCommand">Would you really remove this article from the cart?</string>
     <string name="uza_currency_position">uza_currency_position</string>
     <string name="item_in_the_cart">Item in the cart</string>
+    <string name="checkout_quantity">Quantity</string>
+    <string name="checkout_size">Size</string>
+    <string name="checkout_price">Price</string>
 </resources>

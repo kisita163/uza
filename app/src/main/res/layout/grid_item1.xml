@@ -61,7 +61,7 @@
                 android:layout_column="1"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
-                android:fontFamily="sans-serif-thin"
+                android:fontFamily="sans-serif-light"
                 android:text="Kisita"
                 android:textStyle="bold" />
 
@@ -75,7 +75,7 @@
                 android:layout_column="1"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
-                android:fontFamily="sans-serif-thin"
+                android:fontFamily="sans-serif-light"
                 android:text="Kisita" />
 
             <TextView
@@ -89,7 +89,8 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/red_light"
-                android:fontFamily="sans-serif-thin"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="bold"
                 android:text="Kisita" />
 
             <TextView
@@ -103,7 +104,7 @@
                 android:layout_column="1"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
-                android:fontFamily="sans-serif-thin"
+                android:fontFamily="sans-serif-light"
                 android:text="Kisita" />
 
             <TextView

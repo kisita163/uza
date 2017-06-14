@@ -8,24 +8,34 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kisita.uza.R;
+import com.kisita.uza.model.UzaListItem;
 import com.kisita.uza.ui.PaymentMethodsFragment.OnListFragmentInteractionListener;
-import com.kisita.uza.ui.dummy.PaymentContent.PaymentItem;
+import com.kisita.uza.ui.StoresFragment;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link PaymentItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link UzaListItem} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
+ *
  */
-public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAdapter.ViewHolder> {
+public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHolder> {
 
-    private final List<PaymentItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final List<UzaListItem> mValues;
 
-    public PaymentMethodsAdapter(List<PaymentItem> items, OnListFragmentInteractionListener listener) {
+    private final OnListFragmentInteractionListener mPaymentListener;
+    private final StoresFragment.OnFragmentInteractionListener mStoresListener;
+
+    public UzaListAdapter(List<UzaListItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
-        mListener = listener;
+        mPaymentListener = listener;
+        mStoresListener = null;
+    }
+
+    public UzaListAdapter(List<UzaListItem> items, StoresFragment.OnFragmentInteractionListener listener) {
+        mValues = items;
+        mStoresListener = listener;
+        mPaymentListener = null;
     }
 
     @Override
@@ -44,10 +54,16 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
+                if (null != mPaymentListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mPaymentListener.onListFragmentInteraction(holder.mItem);
+                }
+
+                if (null != mStoresListener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mStoresListener.onFragmentInteraction();
                 }
             }
         });
@@ -62,7 +78,7 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
         public final View mView;
         public final ImageView mPaymentIcon;
         public final TextView mPaymentName;
-        public PaymentItem mItem;
+        public UzaListItem mItem;
 
         public ViewHolder(View view) {
             super(view);
