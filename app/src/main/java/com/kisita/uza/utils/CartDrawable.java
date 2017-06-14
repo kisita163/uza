@@ -24,14 +24,13 @@ public class CartDrawable extends Drawable {
     private Paint mBadgePaint1;
     private Paint mTextPaint;
     private Rect mTxtRect = new Rect();
-    private float mdiff = 0;
     private Context mContext;
 
     private String mCount = "";
     private boolean mWillDraw;
 
     public CartDrawable(Context context) {
-        float mTextSize = context.getResources().getDimension(R.dimen.abc_action_bar_content_inset_material);
+        float mTextSize = context.getResources().getDimension(R.dimen.pad_10dp);
 
         mBadgePaint = new Paint();
         mBadgePaint.setColor(Color.WHITE);
@@ -68,7 +67,7 @@ public class CartDrawable extends Drawable {
 
 	        /*Using Math.max rather than Math.min */
 
-        float radius = (((Math.max(width, height) / 2)) / 2) + mdiff;
+        float radius = (((Math.max(width, height) / 2)) / 3);
         float centerX = (width - radius - 1);
         float centerY = radius ;
         if(mCount.length() <= 2){
@@ -94,10 +93,8 @@ public class CartDrawable extends Drawable {
     /*
     Sets the count (i.e notifications) to display.
      */
-    public void setCount(String count,float diff) {
+    public void setCount(String count) {
         mCount = count;
-        mdiff = diff;
-
         // Only draw a badge if there are notifications.
         mWillDraw = true;
         if(mCount.equalsIgnoreCase("0")){
