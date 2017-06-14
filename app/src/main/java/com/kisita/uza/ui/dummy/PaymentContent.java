@@ -15,9 +15,9 @@ import java.util.Map;
  */
 public class PaymentContent {
 
-    private static final String [] methods = {"Credit card","Cash"};
+    private static final String [] methods = {"Credit card","Cash","Mobile money"};
 
-    private static final int [] icons = {R.drawable.ic_credit_card_black_24dp,R.drawable.cash};
+    private static final int [] icons = {R.drawable.ic_credit_card_black_24dp,R.drawable.cash,R.drawable.mobile_money};
     /**
      * An array of sample (dummy) items.
      */
