@@ -103,7 +103,7 @@ public class StoresFragment extends CustomFragment {
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                     DividerItemDecoration.VERTICAL);
             recyclerView.addItemDecoration(dividerItemDecoration);
-            mCardadapter = new UzaListAdapter(itemsList, mListener);
+            mCardadapter = new UzaListAdapter(context,itemsList, mListener);
             recyclerView.setAdapter(mCardadapter);
             loadData();
         }
@@ -117,7 +117,7 @@ public class StoresFragment extends CustomFragment {
                 Log.i(TAG,dataSnapshot.getValue().toString());
                 for(DataSnapshot d : dataSnapshot.getChildren()){
                     Log.i(TAG,d.getKey().toString());
-                    itemsList.add(new UzaListItem(d.getKey().toString(),R.drawable.ic_store_black_24dp));
+                    itemsList.add(new UzaListItem(d.getKey().toString(),R.drawable.amazon));
                 }
                 mCardadapter.notifyDataSetChanged();
             }

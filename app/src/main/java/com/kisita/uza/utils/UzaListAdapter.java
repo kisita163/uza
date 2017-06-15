@@ -1,12 +1,18 @@
 package com.kisita.uza.utils;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.model.UzaListItem;
 import com.kisita.uza.ui.PaymentMethodsFragment.OnListFragmentInteractionListener;
@@ -23,19 +29,30 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
 
     private final List<UzaListItem> mValues;
 
+    private FirebaseStorage mStorage;
+    private StorageReference mStorageRef;
+
     private final OnListFragmentInteractionListener mPaymentListener;
     private final StoresFragment.OnFragmentInteractionListener mStoresListener;
 
-    public UzaListAdapter(List<UzaListItem> items, OnListFragmentInteractionListener listener) {
+    private final String TAG = "### UzaListAdapter";
+
+    private Context mContext;
+
+    public UzaListAdapter(Context context, List<UzaListItem> items, OnListFragmentInteractionListener listener) {
+        mStorage = FirebaseStorage.getInstance();
         mValues = items;
         mPaymentListener = listener;
         mStoresListener = null;
+        mContext = context;
     }
 
-    public UzaListAdapter(List<UzaListItem> items, StoresFragment.OnFragmentInteractionListener listener) {
+    public UzaListAdapter(Context context,List<UzaListItem> items, StoresFragment.OnFragmentInteractionListener listener) {
+        mStorage = FirebaseStorage.getInstance();
         mValues = items;
         mStoresListener = listener;
         mPaymentListener = null;
+        mContext = context;
     }
 
     @Override
@@ -47,9 +64,21 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        String path = "gs://glam-afc14.appspot.com/merchants_icons/" + mValues.get(position).name + "/drawable-xxhdpi/"+mValues.get(position).name.toLowerCase()+".png";
+        Log.i(TAG,path);
+        mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/merchants_icons/" + mValues.get(position).name + "/drawable-xxhdpi/"+mValues.get(position).name.toLowerCase()+".png");
         holder.mItem = mValues.get(position);
         holder.mPaymentName.setText(mValues.get(position).name);
-        holder.mPaymentIcon.setImageResource(mValues.get(position).icon);//.                     setText(mValues.get(position).content);
+        if(mStoresListener == null) {
+            holder.mPaymentIcon.setImageResource(mValues.get(position).icon);//.
+        }else {
+            Glide.with(mContext)
+                    .using(new FirebaseImageLoader())
+                    .load(mStorageRef)
+                    .dontTransform()
+                    .error(R.drawable.ic_store_black_24dp)
+                    .into(holder.mPaymentIcon);
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

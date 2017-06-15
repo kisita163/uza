@@ -77,7 +77,7 @@ public class PaymentMethodsFragment extends Fragment {
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                     DividerItemDecoration.VERTICAL);
             recyclerView.addItemDecoration(dividerItemDecoration);
-            recyclerView.setAdapter(new UzaListAdapter(PaymentContent.ITEMS, mListener));
+            recyclerView.setAdapter(new UzaListAdapter(context,PaymentContent.ITEMS, mListener));
         }
         return view;
     }
