@@ -4,30 +4,22 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.Toast;
 
-import com.facebook.login.LoginManager;
-import com.google.firebase.auth.FirebaseAuth;
+
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
-import com.kisita.uza.model.Data;
-import com.kisita.uza.ui.LeftNavAdapter;
 import com.kisita.uza.ui.OnSaleFragment;
 import com.kisita.uza.ui.StoresFragment;
-
-import java.util.ArrayList;
 
 
 /**
@@ -47,19 +39,13 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
      * View pager
      **/
     private ViewPager mViewPager;
-    /**
-     * Drawer ListView
-     **/
-    private ListView drawerLeft;
-    /**
-     * Drawer layout
-     **/
-    private DrawerLayout mDrawerLayout;
-
-    private ActionBarDrawerToggle mDrawerToggle;
-
-    private Context mContext;
-    private FirebaseAuth mAuth;
+	/*
+	 */
+	private StoresFragment storesFragment;
+	private OnSaleFragment menFragment;
+	private OnSaleFragment womenFragment;
+	private OnSaleFragment kidsFragment;
+	private OnSaleFragment electronicsFragment;
 
     /* (non-Javadoc)
      * @see com.newsfeeder.custom.CustomActivity#onCreate(android.os.Bundle)
@@ -75,8 +61,6 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 
         setPagerAdapter();
 
-        mContext = this;
-
 		mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mPagerAdapter);
 		mViewPager.setCurrentItem(1);
@@ -84,13 +68,19 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
     }
 
 	private void setPagerAdapter() {
+		storesFragment      = StoresFragment.newInstance();
+		menFragment         = OnSaleFragment.newInstance("Men");
+		womenFragment       = OnSaleFragment.newInstance("Women");
+		kidsFragment        = OnSaleFragment.newInstance("Kids");
+		electronicsFragment = OnSaleFragment.newInstance("Electronic");
+
 		mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
 			private final Fragment[] mFragments = new Fragment[] {
-					StoresFragment.newInstance(),
-                    OnSaleFragment.newInstance("Men"),
-                    OnSaleFragment.newInstance("Women"),
-                    OnSaleFragment.newInstance("Kids"),
-                    OnSaleFragment.newInstance("Electronic"),
+					storesFragment,
+                    menFragment,
+                    womenFragment,
+                    kidsFragment,
+                    electronicsFragment
             };
 			private final String[] mFragmentNames = new String[] {
 					"Stores",
@@ -99,6 +89,12 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 					"Kids",
 					"Electronics"
 			};
+
+			@Override
+			public int getItemPosition(Object object) {
+				return POSITION_NONE;
+			}
+
 			@Override
 			public Fragment getItem(int position) {
 				return mFragments[position];
@@ -146,5 +142,45 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 
     @Override
     public void onFragmentInteraction() {
+
     }
+
+	@Override
+	public void onFragmentInteraction(String store) {
+		Log.i(TAG,"###### Selected store is : "+store);
+
+		SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.uza_keys),Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+		editor.putString(getString(R.string.uza_store),store);
+		editor.apply();
+
+		showProgressDialog();
+		new Thread(new Runnable() {
+			@Override
+			public void run()
+			{
+
+				try
+				{
+
+					Thread.sleep(2000);
+
+				} catch (Exception e)
+				{
+					e.printStackTrace();
+				} finally
+				{
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run()
+						{
+							hideProgressDialog();
+							mViewPager.setCurrentItem(1);
+							mPagerAdapter.notifyDataSetChanged();
+						}
+					});
+				}
+			}
+		}).start();
+	}
 }

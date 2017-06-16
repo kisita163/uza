@@ -64,11 +64,10 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        String path = "gs://glam-afc14.appspot.com/merchants_icons/" + mValues.get(position).name + "/drawable-xxhdpi/"+mValues.get(position).name.toLowerCase()+".png";
-        Log.i(TAG,path);
+        final String name = mValues.get(position).name;
         mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/merchants_icons/" + mValues.get(position).name + "/drawable-xxhdpi/"+mValues.get(position).name.toLowerCase()+".png");
         holder.mItem = mValues.get(position);
-        holder.mPaymentName.setText(mValues.get(position).name);
+        holder.mPaymentName.setText(name);
         if(mStoresListener == null) {
             holder.mPaymentIcon.setImageResource(mValues.get(position).icon);//.
         }else {
@@ -92,7 +91,7 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
                 if (null != mStoresListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mStoresListener.onFragmentInteraction();
+                    mStoresListener.onFragmentInteraction(name);
                 }
             }
         });

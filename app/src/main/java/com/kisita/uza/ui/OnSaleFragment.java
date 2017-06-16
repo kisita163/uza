@@ -2,9 +2,11 @@ package com.kisita.uza.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import com.kisita.uza.utils.UzaCardAdapter;
 
 import java.util.ArrayList;
 
+import static com.kisita.uza.model.Data.UZA.SELLER;
 import static com.kisita.uza.model.Data.UZA.TYPE;
 
 
@@ -33,6 +36,9 @@ public class OnSaleFragment extends CustomFragment
 	final static String QUERY = "QUERY";
 	private UzaCardAdapter mCardadapter;
 	private ArrayList<Data> itemsList;
+	private ArrayList<Data> catList;
+	private ArrayList<Data> storeList;
+
 	private DatabaseReference mDatabase;
 	private ItemChildEventListener mChildEventListener;
 	private String mQuery;
@@ -218,10 +224,13 @@ public class OnSaleFragment extends CustomFragment
 	 */
 	private void  loadData()
 	{
+		SharedPreferences sharedPref = getContext().getSharedPreferences(getContext().getResources().getString(R.string.uza_keys),
+				Context.MODE_PRIVATE);
+		String store = sharedPref.getString(getContext().getString(R.string.uza_store),"All");
 		mDatabase = FirebaseDatabase.getInstance().getReference();
 		mDatabase.keepSynced(true);
 
-		mChildEventListener = new ItemChildEventListener(itemsList, mCardadapter);
+		mChildEventListener = new ItemChildEventListener(itemsList, mCardadapter,store);
 		Query itemsQuery = getQuery(mDatabase);
 		itemsQuery.addChildEventListener(mChildEventListener);
 	}

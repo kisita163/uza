@@ -102,4 +102,5 @@
     <string name="checkout_size">Size</string>
     <string name="checkout_color">Color</string>
     <string name="checkout_price">Price</string>
+    <string name="uza_store">uza_store</string>
 </resources>

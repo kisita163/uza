@@ -130,9 +130,9 @@ public class StoresFragment extends CustomFragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed() {
+    public void onButtonPressed(String store) {
         if (mListener != null) {
-            mListener.onFragmentInteraction();
+            mListener.onFragmentInteraction(store);
         }
     }
 
@@ -165,6 +165,6 @@ public class StoresFragment extends CustomFragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction();
+        void onFragmentInteraction(String store);
     }
 }

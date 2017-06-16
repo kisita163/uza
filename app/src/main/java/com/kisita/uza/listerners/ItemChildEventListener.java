@@ -1,5 +1,7 @@
 package com.kisita.uza.listerners;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -29,10 +31,12 @@ public class ItemChildEventListener implements ChildEventListener{
     private ArrayList<Data> mItemsList;
     private UzaCardAdapter mAdapter;
     private Data data;
+    private String mStore;
 
-    public ItemChildEventListener(ArrayList<Data> itemsList, UzaCardAdapter adapter) {
+    public ItemChildEventListener(ArrayList<Data> itemsList, UzaCardAdapter adapter,String store) {
         this.mAdapter = adapter;
         this.mItemsList = itemsList;
+        this.mStore = store;
     }
 
     @Override
@@ -71,7 +75,12 @@ public class ItemChildEventListener implements ChildEventListener{
         }
 
         if(dataSnapshot.child("seller").getValue() != null){
-            articleData.add(dataSnapshot.child("seller").getValue().toString());
+            String seller = dataSnapshot.child("seller").getValue().toString();
+            if(!mStore.equalsIgnoreCase("All")) {
+                if (!mStore.equalsIgnoreCase(seller))
+                    return;
+            }
+            articleData.add(seller);
         }else{
             articleData.add("");
         }
@@ -109,7 +118,6 @@ public class ItemChildEventListener implements ChildEventListener{
         //TODO Give list array to data object instead of string array
         data = new Data(articleData.toArray(new String[articleData.size()]));
         mItemsList.add(data);
-        Collections.reverse(mItemsList);
         mAdapter.notifyDataSetChanged();
     }
 
