@@ -124,14 +124,17 @@ public class ColorSizeAdapter extends RecyclerView.Adapter<ColorSizeAdapter.Card
             }else{
                 holder.mSize.setBackground(null);
             }
+            if(itemList.get(position).length()> 4){
+                holder.mSize.setTextSize(12);
+            }
             holder.mSize.setText(itemList.get(position));
             holder.mSize.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onFieldChanged();
-                    Log.i("ColorSizeAdapter",""+itemList.get(position));
+                    //Log.i("ColorSizeAdapter",""+itemList.get(position));
                     if(objects.get(position).isSelected()) {
-                        Log.i("ColorSizeAdapter", "remove the border");
+                        //Log.i("ColorSizeAdapter", "remove the border");
                         objects.get(position).setSelected(false);
                         itemSelectedPosition = -1;
                         resource = "";
