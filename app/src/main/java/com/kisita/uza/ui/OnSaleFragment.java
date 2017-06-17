@@ -12,9 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.listerners.ItemChildEventListener;
@@ -226,13 +229,25 @@ public class OnSaleFragment extends CustomFragment
 	{
 		SharedPreferences sharedPref = getContext().getSharedPreferences(getContext().getResources().getString(R.string.uza_keys),
 				Context.MODE_PRIVATE);
-		String store = sharedPref.getString(getContext().getString(R.string.uza_store),"All");
+		final String store = sharedPref.getString(getContext().getString(R.string.uza_store),"All");
 		mDatabase = FirebaseDatabase.getInstance().getReference();
 		mDatabase.keepSynced(true);
 
 		mChildEventListener = new ItemChildEventListener(itemsList, mCardadapter,store);
-		Query itemsQuery = getQuery(mDatabase);
-		itemsQuery.addChildEventListener(mChildEventListener);
+		final Query itemsQuery = getQuery(mDatabase);
+        itemsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ItemChildEventListener.initItemlist(dataSnapshot,itemsList,store);
+                mCardadapter.notifyDataSetChanged();
+                itemsQuery.addChildEventListener(mChildEventListener);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 	}
 
 	public Query getQuery(DatabaseReference databaseReference) {

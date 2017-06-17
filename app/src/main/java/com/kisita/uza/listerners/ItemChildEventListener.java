@@ -30,7 +30,6 @@ public class ItemChildEventListener implements ChildEventListener{
     private static final String TAG = "## ItemChildListener";
     private ArrayList<Data> mItemsList;
     private UzaCardAdapter mAdapter;
-    private Data data;
     private String mStore;
 
     public ItemChildEventListener(ArrayList<Data> itemsList, UzaCardAdapter adapter,String store) {
@@ -41,6 +40,25 @@ public class ItemChildEventListener implements ChildEventListener{
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        //Log.i(TAG,"Received string is : "+s + " list size is  : "+mItemsList.size());
+        ArrayList<Data> tmp = (ArrayList<Data>)mItemsList.clone();
+        for (Data d : tmp) {
+            if(s != null){
+                if (d.getUid().equalsIgnoreCase(s)) {
+                    //Log.i(TAG, "Child not added");
+                    return;
+                }
+            }else{
+                return;
+            }
+        }
+        //Log.i(TAG, "adding new child");
+        handleReceivedData(dataSnapshot,mItemsList,mStore);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private static void handleReceivedData(DataSnapshot dataSnapshot,ArrayList<Data> list,String store) {
+
         ArrayList<String> articleData = new ArrayList<>();
         articleData.add(dataSnapshot.getKey());
 
@@ -76,8 +94,8 @@ public class ItemChildEventListener implements ChildEventListener{
 
         if(dataSnapshot.child("seller").getValue() != null){
             String seller = dataSnapshot.child("seller").getValue().toString();
-            if(!mStore.equalsIgnoreCase("All")) {
-                if (!mStore.equalsIgnoreCase(seller))
+            if(!store.equalsIgnoreCase("All")) {
+                if (!store.equalsIgnoreCase(seller))
                     return;
             }
             articleData.add(seller);
@@ -116,9 +134,7 @@ public class ItemChildEventListener implements ChildEventListener{
         }
 
         //TODO Give list array to data object instead of string array
-        data = new Data(articleData.toArray(new String[articleData.size()]));
-        mItemsList.add(data);
-        mAdapter.notifyDataSetChanged();
+        list.add(new Data(articleData.toArray(new String[articleData.size()])));
     }
 
     @Override
@@ -146,5 +162,12 @@ public class ItemChildEventListener implements ChildEventListener{
     @Override
     public void onCancelled(DatabaseError databaseError) {
 
+    }
+
+    public static void initItemlist(DataSnapshot dataSnapshot,ArrayList<Data> itemList,String store){
+        for(DataSnapshot d :  dataSnapshot.getChildren()){
+            handleReceivedData(d,itemList,store);
+        }
+        Collections.reverse(itemList);
     }
 }
