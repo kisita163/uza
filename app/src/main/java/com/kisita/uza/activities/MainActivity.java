@@ -59,6 +59,10 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 		toolbar = (Toolbar) findViewById(R.id.main_toolbar);
 		setSupportActionBar(toolbar);
 
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
+		//getSupportActionBar().setIcon(R.drawable.);
+		getSupportActionBar().setTitle("");
+
         setPagerAdapter();
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
