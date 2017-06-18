@@ -233,13 +233,14 @@ public class OnSaleFragment extends CustomFragment
 		mDatabase = FirebaseDatabase.getInstance().getReference();
 		mDatabase.keepSynced(true);
 
-		mChildEventListener = new ItemChildEventListener(itemsList, mCardadapter,store);
 		final Query itemsQuery = getQuery(mDatabase);
         itemsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                itemsList.clear();
                 ItemChildEventListener.initItemlist(dataSnapshot,itemsList,store);
                 mCardadapter.notifyDataSetChanged();
+                mChildEventListener = new ItemChildEventListener(itemsList, mCardadapter,store);
                 itemsQuery.addChildEventListener(mChildEventListener);
             }
 

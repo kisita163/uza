@@ -30,31 +30,26 @@ public class ItemChildEventListener implements ChildEventListener{
     private static final String TAG = "## ItemChildListener";
     private ArrayList<Data> mItemsList;
     private UzaCardAdapter mAdapter;
-    private String mStore;
 
     public ItemChildEventListener(ArrayList<Data> itemsList, UzaCardAdapter adapter,String store) {
         this.mAdapter = adapter;
         this.mItemsList = itemsList;
-        this.mStore = store;
+    }
+
+    @Override
+    public void onChildRemoved(DataSnapshot dataSnapshot) {
+        //Log.i(TAG, "onChildRemoved - " + dataSnapshot.getKey().toString());
+        for (Data d : mItemsList) {
+            if (d.getUid().equalsIgnoreCase(dataSnapshot.getKey().toString())){
+                mItemsList.remove(d);
+                mAdapter.notifyDataSetChanged();
+                break;
+            }
+        }
     }
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        //Log.i(TAG,"Received string is : "+s + " list size is  : "+mItemsList.size());
-        ArrayList<Data> tmp = (ArrayList<Data>)mItemsList.clone();
-        for (Data d : tmp) {
-            if(s != null){
-                if (d.getUid().equalsIgnoreCase(s)) {
-                    //Log.i(TAG, "Child not added");
-                    return;
-                }
-            }else{
-                return;
-            }
-        }
-        //Log.i(TAG, "adding new child");
-        handleReceivedData(dataSnapshot,mItemsList,mStore);
-        mAdapter.notifyDataSetChanged();
     }
 
     private static void handleReceivedData(DataSnapshot dataSnapshot,ArrayList<Data> list,String store) {
@@ -142,17 +137,6 @@ public class ItemChildEventListener implements ChildEventListener{
         //TODO Update the changed item in the list (see database app)
     }
 
-    @Override
-    public void onChildRemoved(DataSnapshot dataSnapshot) {
-        //Log.i(TAG, "onChildRemoved - " + dataSnapshot.getKey().toString());
-        for (Data d : mItemsList) {
-            if (d.getUid().equalsIgnoreCase(dataSnapshot.getKey().toString())){
-                mItemsList.remove(d);
-                mAdapter.notifyDataSetChanged();
-                break;
-            }
-        }
-    }
 
     @Override
     public void onChildMoved(DataSnapshot dataSnapshot, String s) {
