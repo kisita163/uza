@@ -296,7 +296,7 @@ public class UzaCardAdapter extends
         holder.colorTag.setVisibility(View.GONE);
         holder.sizeTag.setVisibility(View.GONE);
 
-        Log.i(TAG,""+commandDetails[0]+"-"+commandDetails[1]+"-"+commandDetails[2]);
+        //Log.i(TAG,""+commandDetails[0]+"-"+commandDetails[1]+"-"+commandDetails[2]);
         if(!commandDetails[2].equalsIgnoreCase("")) { //There is a size
             if(!commandDetails[2].equalsIgnoreCase("size")){
                 holder.size.setVisibility(View.VISIBLE);

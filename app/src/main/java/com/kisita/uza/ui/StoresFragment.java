@@ -116,7 +116,7 @@ public class StoresFragment extends CustomFragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.i(TAG,dataSnapshot.getValue().toString());
                 for(DataSnapshot d : dataSnapshot.getChildren()){
-                    Log.i(TAG,d.getKey().toString());
+                    //Log.i(TAG,d.getKey().toString());
                     itemsList.add(new UzaListItem(d.getKey().toString(),R.drawable.amazon));
                 }
                 mCardadapter.notifyDataSetChanged();

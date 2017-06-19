@@ -17,10 +17,18 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:elevation="0dp"
-            android:logo="@drawable/ic_launcher"
             android:minHeight="?attr/actionBarSize"
             app:titleTextColor="@color/black"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" >
+            <TextView
+                android:id="@+id/item_description"
+                style="@style/lbl_setting2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/pad_10dp"
+                android:text="UZA"
+                android:fontFamily="sans-serif-light"
+                android:textSize="@dimen/txt_14sp" />
         </android.support.v7.widget.Toolbar>
         <FrameLayout
             android:id="@+id/frame"

@@ -2,8 +2,10 @@ package com.kisita.uza.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.widget.ForwardingListener;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.kisita.uza.R;
+import com.kisita.uza.activities.ChoicesActivity;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.listerners.ItemChildEventListener;
 import com.kisita.uza.model.Data;
@@ -26,7 +30,6 @@ import com.kisita.uza.utils.UzaCardAdapter;
 
 import java.util.ArrayList;
 
-import static com.kisita.uza.model.Data.UZA.SELLER;
 import static com.kisita.uza.model.Data.UZA.TYPE;
 
 
@@ -52,6 +55,8 @@ public class OnSaleFragment extends CustomFragment
 	private FloatingActionButton mMenu3;
 	private FloatingActionButton mMenu4;
 	private FloatingActionButton mMenu5;
+    private FloatingActionMenu  fabMenu;
+    private android.support.design.widget.FloatingActionButton foodButton;
 
 	private OnFragmentInteractionListener mListener;
 
@@ -102,7 +107,7 @@ public class OnSaleFragment extends CustomFragment
 				mMenu3.setLabelText("Watches & Accessories");
 				mMenu4.setLabelText("Stores");
 				mMenu5.setLabelText("Perfumes & Beauty");
-				mTypes = new String []{"Store","Clothing","Shoes & Bags","Watches & Accessories","Perfumes & Beauty"};
+				mTypes = new String []{"Clothing","Shoes & Bags","Watches & Accessories","Perfumes & Beauty"};
 				break;
 			case "Kids":
 				mMenu0.setLabelText("All");
@@ -118,7 +123,7 @@ public class OnSaleFragment extends CustomFragment
 
 				mMenu5.setLabelText("Bathing  & Skin care");
 				mMenu5.setImageResource(R.drawable.bath_baby);
-				mTypes = new String []{"Store","Clothing","Shoes & Bags","Toys & Accessories","Bathing  & Skin care"};
+				mTypes = new String []{"Clothing","Shoes & Bags","Toys & Accessories","Bathing  & Skin care"};
 				break;
 			case "Electronic":
 				mMenu0.setLabelText("All");
@@ -136,8 +141,31 @@ public class OnSaleFragment extends CustomFragment
 
 				mMenu5.setLabelText("Computers & Tablets");
 				mMenu5.setImageResource(R.drawable.laptop);
-				mTypes = new String []{"Store","Home","Video games","Phones & Accessories","Computers & Tablets"};
+				mTypes = new String []{"Home","Video games","Phones & Accessories","Computers & Tablets"};
 				break;
+			case "Home":
+				mMenu0.setLabelText("All");
+
+				mMenu1.setLabelText("Living & Dining room");
+				mMenu1.setImageResource(R.drawable.livingroom);
+
+				mMenu2.setLabelText("Bedroom");
+				mMenu2.setImageResource(R.drawable.bedroom);
+
+				mMenu3.setLabelText("Kitchen & Bath room");
+				mMenu3.setImageResource(R.drawable.kitchen);
+
+				//mMenu4.setLabelText("Stores");
+				mMenu4.setVisibility(View.GONE);
+
+				mMenu5.setLabelText("Garden");
+				mMenu5.setImageResource(R.drawable.garden);
+
+				mTypes = new String []{"Living & Dining room","Bedroom","Kitchen & Bath room","Garden"};
+				break;
+            case "Food":
+                fabMenu.setVisibility(View.GONE);
+                break;
 		}
 	}
 
@@ -156,23 +184,23 @@ public class OnSaleFragment extends CustomFragment
 				return;
 			case(R.id.menu_4): // get stores
 				//Start new fragments  containing all supported stores
-                onStoresPressed();
+                //onStoresPressed();
 				break;
 			case(R.id.menu_1): // get clothes
-				s = mTypes[1];
+				s = mTypes[0];
 				break;
 			case(R.id.menu_2):
-				s = mTypes[2];
+				s = mTypes[1];
 				break;
 			case(R.id.menu_3):
-				s = mTypes[3];
+				s = mTypes[2];
 				break;
 			case(R.id.menu_5):
-				s = mTypes[4];
+				s = mTypes[3];
 				break;
 		}
 		for (Data d : itemsList) {
-			//Log.i(TAG, "Item clicked. type = " + d.getTexts()[TYPE]);
+			Log.i(TAG, "Item clicked. type = " + d.getTexts()[TYPE] + " selected is  : "+s);
 			if (d.getTexts()[TYPE].equalsIgnoreCase(s)) {
 				tmpList.add(d);
 			}
@@ -200,6 +228,22 @@ public class OnSaleFragment extends CustomFragment
 		mMenu3 = (FloatingActionButton)v.findViewById(R.id.menu_3);
 		mMenu4 = (FloatingActionButton)v.findViewById(R.id.menu_4);
 		mMenu5 = (FloatingActionButton)v.findViewById(R.id.menu_5);
+
+        fabMenu= (FloatingActionMenu)v.findViewById(R.id.menu_labels_right) ;
+
+		foodButton = (android.support.design.widget.FloatingActionButton)v.findViewById(R.id.fabCart);
+
+		if(mQuery.equalsIgnoreCase("food")){
+			foodButton.setVisibility(View.VISIBLE);
+			foodButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					startActivity(new Intent(getActivity(), ChoicesActivity.class));
+				}
+			});
+		}else{
+			foodButton.setVisibility(View.GONE);
+		}
 
 		mMenu0.setOnClickListener(this);
 		mMenu1.setOnClickListener(this);

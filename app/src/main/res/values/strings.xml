@@ -103,4 +103,5 @@
     <string name="checkout_color">Color</string>
     <string name="checkout_price">Price</string>
     <string name="uza_store">uza_store</string>
+    <string name="title_activity_choices">ChoicesActivity</string>
 </resources>

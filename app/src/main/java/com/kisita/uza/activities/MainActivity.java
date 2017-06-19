@@ -46,6 +46,8 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 	private OnSaleFragment womenFragment;
 	private OnSaleFragment kidsFragment;
 	private OnSaleFragment electronicsFragment;
+	private OnSaleFragment foodFragment;
+	private OnSaleFragment homeFragment;
 
     /* (non-Javadoc)
      * @see com.newsfeeder.custom.CustomActivity#onCreate(android.os.Bundle)
@@ -77,6 +79,8 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 		womenFragment       = OnSaleFragment.newInstance("Women");
 		kidsFragment        = OnSaleFragment.newInstance("Kids");
 		electronicsFragment = OnSaleFragment.newInstance("Electronic");
+		homeFragment        = OnSaleFragment.newInstance("Home");
+		foodFragment        = OnSaleFragment.newInstance("Food");
 
 		mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
 			private final Fragment[] mFragments = new Fragment[] {
@@ -84,14 +88,18 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
                     menFragment,
                     womenFragment,
                     kidsFragment,
-                    electronicsFragment
+                    electronicsFragment,
+					homeFragment,
+					foodFragment
             };
 			private final String[] mFragmentNames = new String[] {
 					"Stores",
 					"Men",
 					"Women",
 					"Kids",
-					"Electronics"
+					"Electronics",
+					"Home",
+
 			};
 
 			@Override
@@ -101,6 +109,7 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 
 			@Override
 			public Fragment getItem(int position) {
+
 				return mFragments[position];
 			}
 			@Override

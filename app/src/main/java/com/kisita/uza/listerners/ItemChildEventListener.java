@@ -50,6 +50,7 @@ public class ItemChildEventListener implements ChildEventListener{
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        Log.i(TAG,"");
     }
 
     private static void handleReceivedData(DataSnapshot dataSnapshot,ArrayList<Data> list,String store) {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,6 +12,7 @@
         android:layout_height="match_parent"
         android:layout_margin="@dimen/pad_5dp"
        />
+
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu_labels_right"
@@ -81,4 +83,13 @@
             fab:fab_size="mini" />
 
     </com.github.clans.fab.FloatingActionMenu>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/pad_20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_shopping_cart_black_24dp"
+        fab:backgroundTint="@color/main_color" />
 </RelativeLayout> 
