@@ -2,8 +2,6 @@
 <resources>
 
     <string name="app_name">Uza</string>
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
     <string name="search">Search</string>
     <string name="explore">Explore</string>
     <string name="grid">Grid</string>
@@ -25,7 +23,7 @@
     <string name="email">Email Address</string>
     <string name="password">Password</string>
     <string name="forget_pwd">Forgot Password?</string>
-    <string name="sign_up">&lt;u>New here? Sign up&lt;/u></string>
+    <string name="sign_up">New here? Sign up</string>
     <string name="sign_in_fb">Sign in with Facebook</string>
 
     <string-array name="currency">
@@ -80,7 +78,7 @@
     <string name="title_activity_favorites">FavoritesActivity</string>
 
     <string name="facebook_app_id">638132053058512</string>
-    <string name="phone_number">Phone number (Ex : +243818116889)</string>
+    <string name="phone_number">Phone Number</string>
     <string name="uza_currency">EUR</string>
     <string name="uza_keys">uza_keys</string>
     <string name="Save">Save</string>
@@ -106,4 +104,7 @@
     <string name="title_activity_choices">ChoicesActivity</string>
     <string name="food_type">food_type</string>
     <string name="uza_main_fragments">selected_fragments</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="name">Name</string>
+    <string name="submit">Submit</string>
 </resources>
