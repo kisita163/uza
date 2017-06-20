@@ -21,6 +21,7 @@ import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.ui.OnSaleFragment;
 import com.kisita.uza.ui.StoresFragment;
+import com.kisita.uza.utils.MainPagerAdapter;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,7 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 	/** The toolbar. */
 	public Toolbar toolbar;
 
-	private FragmentStatePagerAdapter mPagerAdapter;
+	private MainPagerAdapter mPagerAdapter;
     /**
      * View pager
      **/
@@ -52,7 +53,24 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 	private OnSaleFragment foodFragment;
 	private OnSaleFragment homeFragment;
 
-	private String mSelectedFragments = null;
+	public final static int STORE = 0;
+	public final static int MEN = 1;
+	public final static int WOMEN = 2;
+	public final static int KIDS = 3;
+	public final static int ELECTRONICS = 4;
+	public final static int HOME = 5;
+	public final static int FOOD = 6;
+
+	public final String[] fragmentNames = new String[] {
+			"Stores",
+			"Men",
+			"Women",
+			"Kids",
+			"Electronics",
+			"Home",
+			"Food"
+	};
+
 
     /* (non-Javadoc)
      * @see com.newsfeeder.custom.CustomActivity#onCreate(android.os.Bundle)
@@ -79,6 +97,14 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
     }
 
 	private void setPagerAdapter() {
+		ArrayList<Fragment> fragments = new ArrayList<>();
+		ArrayList<String> fragmentNames = new ArrayList<>();
+
+		SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.uza_keys),
+				Context.MODE_PRIVATE);
+		String selectedFragments = sharedPref.getString(getString(R.string.uza_main_fragments),null);
+		Log.i(TAG,"Selected fragments are :"+selectedFragments);
+
 		storesFragment      = StoresFragment.newInstance();
 		menFragment         = OnSaleFragment.newInstance("Men");
 		womenFragment       = OnSaleFragment.newInstance("Women");
@@ -87,51 +113,8 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 		homeFragment        = OnSaleFragment.newInstance("Home");
 		foodFragment        = OnSaleFragment.newInstance("Food");
 
-		final ArrayList<Fragment> fragments = new ArrayList<>();
-		final ArrayList<String> fragmentNames = new ArrayList<>();
-
-		mPagerAdapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
-			private final Fragment[] mFragments = new Fragment[] {
-					storesFragment,
-                    menFragment,
-                    womenFragment,
-                    kidsFragment,
-                    electronicsFragment,
-					homeFragment,
-					foodFragment
-            };
-
-
-			private final String[] mFragmentNames = new String[] {
-					"Stores",
-					"Men",
-					"Women",
-					"Kids",
-					"Electronics",
-					"Home",
-					"Food"
-			};
-
-
-			@Override
-			public int getItemPosition(Object object) {
-				return POSITION_NONE;
-			}
-
-			@Override
-			public Fragment getItem(int position) {
-
-				return mFragments[position];
-			}
-			@Override
-			public int getCount() {
-				return mFragments.length;
-			}
-			@Override
-			public CharSequence getPageTitle(int position) {
-				return mFragmentNames[position];
-			}
-		};
+		mPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(),fragments,fragmentNames);
+		setPagerAdapter(selectedFragments);
 	}
 
 	@Override
@@ -171,24 +154,25 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 
 	@Override
 	public void onStoreSelectedListener(String store,String selectedFragments) {
-		Log.i(TAG,"###### Selected store is : "+store+ " and selected fragments are  : "+selectedFragments);
+		//Log.i(TAG,"###### Selected store is : "+store+ " and selected fragments are  : "+selectedFragments);
 
-		mSelectedFragments = selectedFragments;
+		setPagerAdapter(selectedFragments);
 
 		SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.uza_keys),Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
 		editor.putString(getString(R.string.uza_store),store);
+		editor.putString(getString(R.string.uza_main_fragments),selectedFragments);
 		editor.apply();
 
 		showProgressDialog();
+		mPagerAdapter.notifyDataSetChanged();
+		mViewPager.setCurrentItem(1);
 		new Thread(new Runnable() {
 			@Override
 			public void run()
 			{
-
 				try
 				{
-
 					Thread.sleep(2000);
 
 				} catch (Exception e)
@@ -201,12 +185,42 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 						public void run()
 						{
 							hideProgressDialog();
-							mViewPager.setCurrentItem(1);
-							mPagerAdapter.notifyDataSetChanged();
 						}
 					});
 				}
 			}
 		}).start();
+	}
+
+	private void setPagerAdapter(String selectedFragments) {
+		mPagerAdapter.clean();
+		mPagerAdapter.add(storesFragment,fragmentNames[STORE]);
+		if(selectedFragments == null){
+			mPagerAdapter.add(menFragment,fragmentNames[MEN]);
+			mPagerAdapter.add(womenFragment,fragmentNames[WOMEN]);
+			mPagerAdapter.add(kidsFragment,fragmentNames[KIDS]);
+			mPagerAdapter.add(electronicsFragment,fragmentNames[ELECTRONICS]);
+			mPagerAdapter.add(homeFragment,fragmentNames[HOME]);
+			mPagerAdapter.add(foodFragment,fragmentNames[FOOD]);
+		}else {
+
+			if (selectedFragments.contains("Men=1"))
+				mPagerAdapter.add(menFragment, fragmentNames[MEN]);
+
+			if (selectedFragments.contains("Women=1"))
+				mPagerAdapter.add(womenFragment, fragmentNames[WOMEN]);
+
+			if (selectedFragments.contains("Kids=1"))
+				mPagerAdapter.add(kidsFragment, fragmentNames[KIDS]);
+
+			if (selectedFragments.contains("Electronics=1"))
+				mPagerAdapter.add(electronicsFragment, fragmentNames[ELECTRONICS]);
+
+			if (selectedFragments.contains("Home=1"))
+				mPagerAdapter.add(homeFragment, fragmentNames[HOME]);
+
+			if (selectedFragments.contains("Food=1"))
+				mPagerAdapter.add(foodFragment, fragmentNames[FOOD]);
+		}
 	}
 }
