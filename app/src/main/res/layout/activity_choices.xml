@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment"
     android:layout_margin="20dp"
-    android:name="com.kisita.uza.activities.ChoicesActivityFragment"
+    android:name="com.kisita.uza.ui.ChoicesActivityFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:layout="@layout/fragment_choices" />

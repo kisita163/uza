@@ -90,6 +90,6 @@
         android:layout_margin="@dimen/pad_20dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_shopping_cart_black_24dp"
+        android:src="@drawable/ic_add_black_24dp"
         fab:backgroundTint="@color/main_color" />
 </RelativeLayout> 

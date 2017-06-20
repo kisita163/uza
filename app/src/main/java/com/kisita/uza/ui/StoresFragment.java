@@ -4,10 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +18,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.UzaListItem;
-import com.kisita.uza.ui.dummy.PaymentContent;
 import com.kisita.uza.utils.UzaListAdapter;
 
 import java.util.ArrayList;
@@ -114,10 +111,12 @@ public class StoresFragment extends CustomFragment {
         merchants.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.i(TAG,dataSnapshot.getValue().toString());
+                //Log.i(TAG,dataSnapshot.getValue().toString());
                 for(DataSnapshot d : dataSnapshot.getChildren()){
-                    //Log.i(TAG,d.getKey().toString());
-                    itemsList.add(new UzaListItem(d.getKey().toString(),R.drawable.amazon));
+                    String selectedFragment = null;
+                    if(d.child("Types").getValue() != null)
+                        selectedFragment = d.child("Types").getValue().toString();
+                    itemsList.add(new UzaListItem(d.getKey().toString(),R.drawable.amazon,selectedFragment));
                 }
                 mCardadapter.notifyDataSetChanged();
             }
@@ -130,9 +129,9 @@ public class StoresFragment extends CustomFragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(String store) {
+    public void onButtonPressed(String store,String selectedFragments) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(store);
+            mListener.onStoreSelectedListener(store,selectedFragments);
         }
     }
 
@@ -165,6 +164,6 @@ public class StoresFragment extends CustomFragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(String store);
+        void onStoreSelectedListener(String store,String selectedFragments);
     }
 }

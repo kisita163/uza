@@ -15,6 +15,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.model.UzaListItem;
+import com.kisita.uza.ui.ChoicesActivityFragment;
 import com.kisita.uza.ui.PaymentMethodsFragment.OnListFragmentInteractionListener;
 import com.kisita.uza.ui.StoresFragment;
 
@@ -28,15 +29,15 @@ import java.util.List;
 public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHolder> {
 
     private final List<UzaListItem> mValues;
+    private ChoicesActivityFragment.OnFoodSelectedListener mFoodListener = null;
 
-    private FirebaseStorage mStorage;
-    private StorageReference mStorageRef;
+    private FirebaseStorage mStorage = null;
+    private StorageReference mStorageRef = null;
 
-    private final OnListFragmentInteractionListener mPaymentListener;
-    private final StoresFragment.OnFragmentInteractionListener mStoresListener;
+    private  OnListFragmentInteractionListener mPaymentListener = null;
+    private StoresFragment.OnFragmentInteractionListener mStoresListener = null;
 
     private final String TAG = "### UzaListAdapter";
-
     private Context mContext;
 
     public UzaListAdapter(Context context, List<UzaListItem> items, OnListFragmentInteractionListener listener) {
@@ -55,6 +56,12 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
         mContext = context;
     }
 
+    public UzaListAdapter(Context context, List<UzaListItem> items, ChoicesActivityFragment.OnFoodSelectedListener listener) {
+        this.mValues = items;
+        this.mContext = context;
+        this.mFoodListener = listener;
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -63,12 +70,16 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final String name = mValues.get(position).name;
-        mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/merchants_icons/" + mValues.get(position).name + "/drawable-xxhdpi/"+mValues.get(position).name.toLowerCase()+".png");
+        if(mStorage != null) {
+            mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/merchants_icons/" + mValues.get(position).name +
+                                                       "/drawable-xxhdpi/" + mValues.get(position).name.toLowerCase() + ".png");
+        }
         holder.mItem = mValues.get(position);
         holder.mPaymentName.setText(name);
-        if(mStoresListener == null) {
+        // Check which fragment we are working on
+        if(mStoresListener == null) { // Case of payment fragment or food choices fragment
             holder.mPaymentIcon.setImageResource(mValues.get(position).icon);//.
         }else {
             Glide.with(mContext)
@@ -82,6 +93,7 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(TAG,"Item selected");
                 if (null != mPaymentListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
@@ -91,7 +103,14 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
                 if (null != mStoresListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mStoresListener.onFragmentInteraction(name);
+                    mStoresListener.onStoreSelectedListener(name,mValues.get(position).selectedFragments);
+                }
+
+                if (null != mFoodListener) {
+                    Log.i(TAG,"Food selected");
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mFoodListener.onFoodSelectedListener(name);
                 }
             }
         });

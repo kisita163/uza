@@ -40,6 +40,7 @@ public class OnSaleFragment extends CustomFragment
 {
 	final static String TAG = "### OnSaleFragment";
 	final static String QUERY = "QUERY";
+	private static final int RESULT_CODE = 1;
 	private UzaCardAdapter mCardadapter;
 	private ArrayList<Data> itemsList;
 	private ArrayList<Data> catList;
@@ -238,7 +239,7 @@ public class OnSaleFragment extends CustomFragment
 			foodButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					startActivity(new Intent(getActivity(), ChoicesActivity.class));
+					startActivityForResult(new Intent(getActivity(), ChoicesActivity.class),1);
 				}
 			});
 		}else{
@@ -338,6 +339,16 @@ public class OnSaleFragment extends CustomFragment
 		} else {
 			throw new RuntimeException(context.toString()
 					+ " must implement OnFragmentInteractionListener");
+		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode==RESULT_CODE)
+		{
+			String food_type=data.getStringExtra(getString(R.string.food_type));
+			Log.i(TAG,"received food type is  : "+food_type);
 		}
 	}
 }

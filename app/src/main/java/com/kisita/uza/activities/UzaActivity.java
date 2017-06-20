@@ -15,7 +15,6 @@ import com.kisita.uza.ui.FavoritesFragment;
 import com.kisita.uza.ui.PaymentMethodsFragment;
 import com.kisita.uza.ui.SellingFragment;
 import com.kisita.uza.ui.SettingsFragment;
-import com.kisita.uza.ui.dummy.PaymentContent;
 
 import static com.kisita.uza.model.Data.UZA.NAME;
 

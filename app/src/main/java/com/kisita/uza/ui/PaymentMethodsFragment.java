@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 
 import com.kisita.uza.R;
 import com.kisita.uza.model.UzaListItem;
-import com.kisita.uza.ui.dummy.PaymentContent;
+import com.kisita.uza.ui.FixedContents.PaymentContent;
 import com.kisita.uza.utils.UzaListAdapter;
 
 /**

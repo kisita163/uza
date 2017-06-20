@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -20,6 +21,8 @@ import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.ui.OnSaleFragment;
 import com.kisita.uza.ui.StoresFragment;
+
+import java.util.ArrayList;
 
 
 /**
@@ -34,7 +37,7 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 	/** The toolbar. */
 	public Toolbar toolbar;
 
-	private FragmentPagerAdapter mPagerAdapter;
+	private FragmentStatePagerAdapter mPagerAdapter;
     /**
      * View pager
      **/
@@ -48,6 +51,8 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 	private OnSaleFragment electronicsFragment;
 	private OnSaleFragment foodFragment;
 	private OnSaleFragment homeFragment;
+
+	private String mSelectedFragments = null;
 
     /* (non-Javadoc)
      * @see com.newsfeeder.custom.CustomActivity#onCreate(android.os.Bundle)
@@ -82,7 +87,10 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 		homeFragment        = OnSaleFragment.newInstance("Home");
 		foodFragment        = OnSaleFragment.newInstance("Food");
 
-		mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+		final ArrayList<Fragment> fragments = new ArrayList<>();
+		final ArrayList<String> fragmentNames = new ArrayList<>();
+
+		mPagerAdapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
 			private final Fragment[] mFragments = new Fragment[] {
 					storesFragment,
                     menFragment,
@@ -92,6 +100,8 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 					homeFragment,
 					foodFragment
             };
+
+
 			private final String[] mFragmentNames = new String[] {
 					"Stores",
 					"Men",
@@ -99,8 +109,9 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 					"Kids",
 					"Electronics",
 					"Home",
-
+					"Food"
 			};
+
 
 			@Override
 			public int getItemPosition(Object object) {
@@ -159,8 +170,10 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
     }
 
 	@Override
-	public void onFragmentInteraction(String store) {
-		Log.i(TAG,"###### Selected store is : "+store);
+	public void onStoreSelectedListener(String store,String selectedFragments) {
+		Log.i(TAG,"###### Selected store is : "+store+ " and selected fragments are  : "+selectedFragments);
+
+		mSelectedFragments = selectedFragments;
 
 		SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.uza_keys),Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
