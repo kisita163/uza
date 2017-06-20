@@ -21,14 +21,15 @@
             app:titleTextColor="@color/black"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" >
             <TextView
-                android:id="@+id/item_description"
+                android:id="@+id/title_view"
                 style="@style/lbl_setting2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/pad_10dp"
                 android:text="UZA"
-                android:fontFamily="sans-serif-light"
-                android:textSize="@dimen/txt_14sp" />
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
+                android:textSize="@dimen/txt_25sp" />
         </android.support.v7.widget.Toolbar>
         <FrameLayout
             android:id="@+id/frame"
