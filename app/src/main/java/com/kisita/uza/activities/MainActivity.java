@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -22,6 +23,8 @@ import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.ui.OnSaleFragment;
 import com.kisita.uza.ui.StoresFragment;
 import com.kisita.uza.utils.MainPagerAdapter;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -45,6 +48,9 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
     private ViewPager mViewPager;
 	/*
 	 */
+	/* Title view */
+	private TextView mTitle;
+
 	private StoresFragment storesFragment;
 	private OnSaleFragment menFragment;
 	private OnSaleFragment womenFragment;
@@ -88,9 +94,11 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 		//getSupportActionBar().setIcon(R.drawable.);
 		getSupportActionBar().setTitle("");
 
-        setPagerAdapter();
-
 		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mTitle     = (TextView) findViewById(R.id.title_view);
+
+		setPagerAdapter();
+
         mViewPager.setAdapter(mPagerAdapter);
 		mViewPager.setCurrentItem(1);
         commandsCount();
@@ -103,6 +111,10 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 		SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.uza_keys),
 				Context.MODE_PRIVATE);
 		String selectedFragments = sharedPref.getString(getString(R.string.uza_main_fragments),null);
+		String title = sharedPref.getString(getString(R.string.uza_store),"UZA");
+
+		mTitle.setText(title);
+
 		Log.i(TAG,"Selected fragments are :"+selectedFragments);
 
 		storesFragment      = StoresFragment.newInstance();
@@ -155,7 +167,7 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 	@Override
 	public void onStoreSelectedListener(String store,String selectedFragments) {
 		//Log.i(TAG,"###### Selected store is : "+store+ " and selected fragments are  : "+selectedFragments);
-
+		mTitle.setText(store);
 		setPagerAdapter(selectedFragments);
 
 		SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.uza_keys),Context.MODE_PRIVATE);
