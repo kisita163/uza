@@ -359,10 +359,6 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
         mSizesContainer.setVisibility(View.GONE);
 
         if(!mDescription[SIZE].equalsIgnoreCase("")){
-            int screenSize = getResources().getConfiguration().screenLayout &
-                    Configuration.SCREENLAYOUT_SIZE_MASK;
-            int divider;
-
             List<String> sizeList = new ArrayList<>(Arrays.asList(mDescription[SIZE].split(",")));
             Log.i(TAG,mDescription[SIZE] + "  " + sizeList.size());
             if(sizeList.size() == 1 && sizeList.get(0).equalsIgnoreCase("Size")){

@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -39,7 +38,6 @@ import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.model.User;
-import com.facebook.FacebookSdk;
 
 /**
  * The Activity LoginActivity is launched after the Home screen. You need to write your
@@ -59,9 +57,14 @@ public class LoginActivity extends CustomActivity
 	private EditText mEmailField;
 	private EditText mPasswordField;
 	private Button mSignInButton;
+	private Button mSignUpButton;
+	private Button mForgotButton;
+	private EditText mName;
+	private EditText mPhoneNumber;
+	private EditText mConfirmPassword;
 
-	/** The pager. */
-	private ViewPager pager;
+	private boolean signUp = false;
+
 
 	/** The view that hold dots. */
 	private LinearLayout vDots;
@@ -120,10 +123,26 @@ public class LoginActivity extends CustomActivity
 	private void setupView()
 	{
 		// Views
+		//Name in case of sign up
+		mName = (EditText) findViewById(R.id.field_name);
+		mName.setVisibility(View.GONE);
+
+		//Phone number in case of sign up
+		mPhoneNumber = (EditText) findViewById(R.id.field_number);
+		mPhoneNumber.setVisibility(View.GONE);
+
+		//Email
 		mEmailField = (EditText) findViewById(R.id.field_email);
 		mPasswordField = (EditText) findViewById(R.id.field_password);
 
+		//Confirm password
+		mConfirmPassword = (EditText) findViewById(R.id.field_confirm_password);
+		mConfirmPassword.setVisibility(View.GONE);
+
 		mSignInButton = (Button) findViewById(R.id.button_sign_in);
+		mSignInButton.setOnClickListener(this);
+
+		mForgotButton= (Button)findViewById(R.id.btnForget);
 
 		loginButton = (LoginButton)findViewById(R.id.login_button);
 		loginButton.setReadPermissions("email");
@@ -145,11 +164,8 @@ public class LoginActivity extends CustomActivity
 
 			} });
 
-		Button b = (Button) setTouchNClick(R.id.btnReg);
-		b.setText(Html.fromHtml(getString(R.string.sign_up)));
-
-		setTouchNClick(R.id.button_sign_in);
-		setTouchNClick(R.id.btnForget);
+		mSignUpButton = (Button) findViewById(R.id.btnReg);
+		mSignUpButton.setOnClickListener(this);
 
 		initPager();
 	}
@@ -159,7 +175,8 @@ public class LoginActivity extends CustomActivity
 	 */
 	private void initPager()
 	{
-		pager = (ViewPager) findViewById(R.id.pager);
+		/* The pager. */
+		ViewPager pager = (ViewPager) findViewById(R.id.pager);
 		pager.setPageMargin(10);
 
 		pager.setOnPageChangeListener(new OnPageChangeListener() {
@@ -230,8 +247,75 @@ public class LoginActivity extends CustomActivity
 			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(i);
 			finish();*/
-			signIn();
+			if(signUp){
+				signUp();
+			}else{
+				signIn();
+			}
 		}
+
+		if(v.getId() == R.id.btnReg){
+			mName.setVisibility(View.VISIBLE);
+			mPhoneNumber.setVisibility(View.VISIBLE);
+			mConfirmPassword.setVisibility(View.VISIBLE);
+
+			loginButton.setVisibility(View.GONE);
+			mForgotButton.setVisibility(View.GONE);
+			mSignUpButton.setVisibility(View.GONE);
+
+			signUp = true;
+
+			mSignInButton.setText(R.string.submit);
+		}
+	}
+
+	private boolean validateSignUpForm() {
+		boolean result = true;
+		if (TextUtils.isEmpty(mName.getText().toString())) {
+			mName.setError("Required");
+			result = false;
+		} else {
+			mName.setError(null);
+		}
+
+		if (TextUtils.isEmpty(mPhoneNumber.getText().toString())) {
+			mPhoneNumber.setError("Required");
+			result = false;
+		} else {
+			mPhoneNumber.setError(null);
+		}
+
+		if (TextUtils.isEmpty(mEmailField.getText().toString())) {
+			mEmailField.setError("Required");
+			result = false;
+		} else {
+			mEmailField.setError(null);
+		}
+
+		if (TextUtils.isEmpty(mPasswordField.getText().toString())) {
+			mPasswordField.setError("Required");
+			result = false;
+		} else {
+			mPasswordField.setError(null);
+		}
+
+		if (TextUtils.isEmpty(mConfirmPassword.getText().toString())) {
+			mConfirmPassword.setError("Required");
+			result = false;
+		} else {
+			mConfirmPassword.setError(null);
+		}
+
+		if(!mConfirmPassword.getText().toString().equals(mPasswordField.getText().toString())){
+			mConfirmPassword.setError("Entered passwords are not equal");
+			result = false;
+		} else {
+			mPasswordField.setError(null);
+			mConfirmPassword.setError(null);
+		}
+
+
+		return result;
 	}
 
 	private boolean validateForm() {
@@ -253,8 +337,40 @@ public class LoginActivity extends CustomActivity
 		return result;
 	}
 
+	private void signUp() {
+		if (!validateSignUpForm()) {
+			return;
+		}
+		showProgressDialog();
+
+		/*String name = mName.getText().toString();
+		String phone = mPhoneNumber.getText().toString();*/
+		String email = mEmailField.getText().toString();
+		String password = mPasswordField.getText().toString();
+
+		mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+			@Override
+			public void onComplete(@NonNull Task<AuthResult> task) {
+				if (task.isSuccessful()) {
+					// Sign in success, update UI with the signed-in user's information
+					Log.d(TAG, "createUserWithEmail:success");
+					FirebaseUser user = mAuth.getCurrentUser();
+					onAuthSuccess(user);
+					hideProgressDialog();
+				} else {
+					// If sign in fails, display a message to the user.
+					Log.w(TAG, "createUserWithEmail:failure", task.getException());
+					Toast.makeText(LoginActivity.this, "Authentication failed. "+task.getException().getMessage(),
+							Toast.LENGTH_LONG).show();
+					//updateUI(null);
+					hideProgressDialog();
+				}
+			}
+		});
+	}
+
 	private void signIn() {
-		Log.d(TAG, "signIn");
+		//Log.d(TAG, "signIn");
 		if (!validateForm()) {
 			return;
 		}
@@ -331,20 +447,6 @@ public class LoginActivity extends CustomActivity
 					android.view.ViewGroup.LayoutParams.MATCH_PARENT,
 					android.view.ViewGroup.LayoutParams.MATCH_PARENT);
 			return img;
-		}
-
-		/* (non-Javadoc)
-		 * @see android.support.v4.view.PagerAdapter#destroyItem(android.view.ViewGroup, int, java.lang.Object)
-		 */
-		@Override
-		public void destroyItem(ViewGroup container, int position, Object object) {
-			try {
-				// super.destroyItem(container, position, object);
-				// if(container.getChildAt(position)!=null)
-				// container.removeViewAt(position);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
 
 		/* (non-Javadoc)
