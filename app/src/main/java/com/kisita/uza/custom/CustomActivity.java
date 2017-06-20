@@ -25,7 +25,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kisita.uza.R;
 import com.kisita.uza.ui.DetailFragment;
-import com.kisita.uza.ui.SellingFragment;
 import com.kisita.uza.ui.commentFragment;
 import com.kisita.uza.utils.CartDrawable;
 import com.kisita.uza.utils.TouchEffect;
@@ -38,7 +37,7 @@ import java.util.Map;
  * inherit the common behaviors like setting a Theme to activity.
  */
 public class CustomActivity extends AppCompatActivity implements
-		OnClickListener,DetailFragment.OnFragmentInteractionListener,commentFragment.OnListFragmentInteractionListener,SellingFragment.OnFragmentInteractionListener
+		OnClickListener,DetailFragment.OnFragmentInteractionListener,commentFragment.OnListFragmentInteractionListener
 {
 
 	public static final TouchEffect TOUCH = new TouchEffect();
@@ -220,9 +219,4 @@ public class CustomActivity extends AppCompatActivity implements
     public void onListFragmentInteraction(commentFragment.ArticleComment item) {
 
     }
-
-	@Override
-	public void onFragmentInteraction(Uri uri) {
-
-	}
 }

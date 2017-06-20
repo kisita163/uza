@@ -13,7 +13,6 @@ import com.kisita.uza.ui.CheckoutFragment;
 import com.kisita.uza.ui.DetailFragment;
 import com.kisita.uza.ui.FavoritesFragment;
 import com.kisita.uza.ui.PaymentMethodsFragment;
-import com.kisita.uza.ui.SellingFragment;
 import com.kisita.uza.ui.SettingsFragment;
 
 import static com.kisita.uza.model.Data.UZA.NAME;
@@ -60,10 +59,10 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnFr
                 title = getIntent().getStringArrayExtra("details")[NAME];
                 f = DetailFragment.newInstance(getIntent().getStringArrayExtra("details"));
                 break;
-            case(4):
+            /*case(4):
                 title = "My store";
                 f = new SellingFragment();
-                break;
+                break;*/
             default:
                 break;
         }
