@@ -105,4 +105,5 @@
     <string name="uza_store">uza_store</string>
     <string name="title_activity_choices">ChoicesActivity</string>
     <string name="food_type">food_type</string>
+    <string name="uza_main_fragments">selected_fragments</string>
 </resources>
