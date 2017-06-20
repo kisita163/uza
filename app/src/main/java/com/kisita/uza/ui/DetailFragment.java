@@ -499,11 +499,25 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
                 }
                 if(mCommand == false){
                     commandKey = getDb().child("users").push().getKey(); // New command id
-                    details = new String[]{mDescription[UID], selectedSize, selectedColor, selectedQty, commandComment.getText().toString(), commandKey};
+                    details = new String[]{mDescription[UID],
+                                                selectedSize,
+                                               selectedColor,
+                                                 selectedQty,
+                            commandComment.getText().toString(),
+                                                     commandKey,
+                                                       getUid(),
+                                                      mDescription[SELLER]};
                     onButtonPressed(details,mCommand);
                     mCommand = true; //update case
                 }else{
-                    details = new String[]{mDescription[UID], selectedSize, selectedColor, selectedQty, commandComment.getText().toString(), commandKey};
+                    details = new String[]{mDescription[UID],
+                                                selectedSize,
+                                               selectedColor,
+                                                 selectedQty,
+                            commandComment.getText().toString(),
+                                                     commandKey,
+                                                        getUid(),
+                                                        mDescription[SELLER]};
                     onButtonPressed(details,mCommand);
                 }
                 Log.i(TAG,selectedColor + " " +  selectedSize + " " +  selectedQty);
