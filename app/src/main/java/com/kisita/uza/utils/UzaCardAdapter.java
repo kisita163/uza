@@ -48,6 +48,7 @@ public class UzaCardAdapter extends
     private FirebaseStorage mStorage;
     private StorageReference mStorageRef;
     private DatabaseReference mCommands;
+    private DatabaseReference mCommands1;
     private Boolean isCheckout = false;
 
     public UzaCardAdapter(Context context,ArrayList<Data> items) {
@@ -109,6 +110,12 @@ public class UzaCardAdapter extends
                             .child("users-data")
                             .child(getUid())
                             .child("commands");
+
+                    mCommands1 = FirebaseDatabase.getInstance()
+                            .getReference()
+                            .child("commands")
+                            .child(d.getKey());
+
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                     builder.setMessage(R.string.RemoveCommand)
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -121,6 +128,7 @@ public class UzaCardAdapter extends
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     mCommands.child(d.getKey()).removeValue();
+                                    mCommands1.removeValue();
                                 }
                             });
                     AlertDialog dialog = builder.create();
