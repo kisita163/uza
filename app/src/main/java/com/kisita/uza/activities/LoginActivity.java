@@ -255,17 +255,41 @@ public class LoginActivity extends CustomActivity
 		}
 
 		if(v.getId() == R.id.btnReg){
+			showProgressDialog();
 			mName.setVisibility(View.VISIBLE);
 			mPhoneNumber.setVisibility(View.VISIBLE);
 			mConfirmPassword.setVisibility(View.VISIBLE);
 
-			loginButton.setVisibility(View.GONE);
+			//loginButton.setVisibility(View.GONE);
 			mForgotButton.setVisibility(View.GONE);
 			mSignUpButton.setVisibility(View.GONE);
 
 			signUp = true;
 
 			mSignInButton.setText(R.string.submit);
+			new Thread(new Runnable() {
+				@Override
+				public void run()
+				{
+					try
+					{
+						Thread.sleep(2000);
+
+					} catch (Exception e)
+					{
+						e.printStackTrace();
+					} finally
+					{
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run()
+							{
+								hideProgressDialog();
+							}
+						});
+					}
+				}
+			}).start();
 		}
 	}
 

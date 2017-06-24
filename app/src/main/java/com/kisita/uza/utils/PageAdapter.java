@@ -92,15 +92,6 @@ public class PageAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object)
     {
-        try
-        {
-            // super.destroyItem(container, position, object);
-            // if(container.getChildAt(position)!=null)
-            // container.removeViewAt(position);
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
     }
 
     /* (non-Javadoc)

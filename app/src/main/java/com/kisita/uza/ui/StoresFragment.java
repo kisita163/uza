@@ -142,7 +142,7 @@ public class StoresFragment extends CustomFragment {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnNewArticleInteractionListener");
         }
     }
 

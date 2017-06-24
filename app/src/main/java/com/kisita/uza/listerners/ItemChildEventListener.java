@@ -155,4 +155,11 @@ public class ItemChildEventListener implements ChildEventListener{
         }
         Collections.reverse(itemList);
     }
+
+    public static void initCommandlist(DataSnapshot dataSnapshot,ArrayList<Data> itemList,String store){
+
+        handleReceivedData(dataSnapshot,itemList,store);
+
+        Collections.reverse(itemList);
+    }
 }

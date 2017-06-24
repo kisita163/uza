@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -262,7 +261,7 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnNewArticleInteractionListener");
         }
     }
 
@@ -524,7 +523,7 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
                 break;
             case R.id.btnComment:
                 //Log.i(TAG,"Start comment fragment");
-                commentFragment f = commentFragment.newInstance(1,mDescription[UID]);
+                CommentFragment f = CommentFragment.newInstance(1,mDescription[UID]);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_left,R.anim.slide_in_left,R.anim.slide_out_right)
                         .addToBackStack(null)
@@ -535,23 +534,6 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
                 Toast.makeText(this.getContext(), "Unknown error occured", Toast.LENGTH_LONG).show();
         }
     }
-
-    /*private void setDetailsFields() {
-        //Disable fields
-        setLayoutFields(mColorsContainer,false);
-        setLayoutFields(mSizesContainer,false);
-        setLayoutFields(mQuantityContainer,false);
-        //Set values ???
-    }
-
-    private void setLayoutFields(LinearLayout layout,boolean state){
-        for (int i = 0; i < layout.getChildCount(); i++) {
-            Log.i(TAG,"disable/enable child :"+layout.getChildAt(i).toString());
-            View child = layout.getChildAt(i);
-            child.setActivated(state);
-            child.setAlpha(0.2f);
-        }
-    }*/
 
     private void likePressed() {
         //Log.i(TAG, "button like pressed (case)");
@@ -636,28 +618,5 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
         public void setSelected(boolean selected) {
             this.selected = selected;
         }
-    }
-
-    private static int getScreenWidth(Context context)
-    {
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        DisplayMetrics metrics = new DisplayMetrics();
-        display.getMetrics(metrics);
-
-        return metrics.widthPixels;
-    }
-
-    private int getDivider(int width){
-        int divider = 0;
-        if(width < 500){
-            divider = 5;
-        }else if(width >= 500 && width < 1200) {
-            divider = 6;
-        }else{
-            divider = 7;
-        }
-
-        return divider;
     }
 }

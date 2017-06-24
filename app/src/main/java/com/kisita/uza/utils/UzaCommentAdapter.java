@@ -11,20 +11,20 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.kisita.uza.R;
-import com.kisita.uza.ui.commentFragment;
-import com.kisita.uza.ui.commentFragment.OnListFragmentInteractionListener;
+import com.kisita.uza.ui.CommentFragment;
+import com.kisita.uza.ui.CommentFragment.OnListFragmentInteractionListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UzaCommentAdapter extends RecyclerView.Adapter<UzaCommentAdapter.ViewHolder> {
 
-    private final List<commentFragment.ArticleComment> mValues;
+    private final List<CommentFragment.ArticleComment> mValues;
     private final OnListFragmentInteractionListener mListener;
     private final Context mContext;
     private final StaggeredGridLayoutManager mGridManager;
 
-    public UzaCommentAdapter(ArrayList<commentFragment.ArticleComment> items, OnListFragmentInteractionListener listener, Context context, StaggeredGridLayoutManager llm) {
+    public UzaCommentAdapter(ArrayList<CommentFragment.ArticleComment> items, OnListFragmentInteractionListener listener, Context context, StaggeredGridLayoutManager llm) {
         mValues = items;
         mListener = listener;
         mContext = context;
@@ -71,7 +71,7 @@ public class UzaCommentAdapter extends RecyclerView.Adapter<UzaCommentAdapter.Vi
         public final TextView mIdView;
         public final TextView mContentView;
         public final LinearLayout mIdLayout;
-        public commentFragment.ArticleComment mItem;
+        public CommentFragment.ArticleComment mItem;
 
         public ViewHolder(View view) {
             super(view);

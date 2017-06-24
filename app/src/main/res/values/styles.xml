@@ -47,6 +47,29 @@
         <item name="android:textColor">@color/main_grey_dk</item>
         <item name="android:textColorHint">@color/main_grey</item>
         <item name="android:textSize">@dimen/txt_15sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="text" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:background">@drawable/edittext_bg</item>
+        <item name="android:paddingLeft">@dimen/pad_10dp</item>
+        <item name="android:paddingRight">@dimen/pad_10dp</item>
+        <item name="android:drawablePadding">@dimen/pad_20dp</item>
+        <item name="android:textColor">@color/main_grey_dk</item>
+        <item name="android:textColorHint">@color/main_grey</item>
+        <item name="android:textSize">@dimen/txt_15sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="spinner" parent="android:Widget.Holo.Light.Spinner">
+        <item name="android:background">@drawable/edittext_bg</item>
+        <item name="android:paddingLeft">@dimen/pad_10dp</item>
+        <item name="android:paddingRight">@dimen/pad_10dp</item>
+        <item name="android:drawablePadding">@dimen/pad_20dp</item>
+        <item name="android:textColor">@color/main_grey_dk</item>
+        <item name="android:textColorHint">@color/main_grey</item>
+        <item name="android:textSize">@dimen/txt_15sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
     <style name="btn" parent="android:Widget.Holo.Light.Button">
@@ -59,11 +82,13 @@
         <item name="android:textColor">@color/side_menu_divider</item>
         <item name="android:textSize">@dimen/txt_16sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
     <style name="lbl_setting2" parent="android:Widget.Holo.Light.TextView">
         <item name="android:textColor">@color/gray_dk</item>
         <item name="android:textSize">@dimen/txt_16sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
     <style name="switch_custom">
@@ -97,7 +122,6 @@
     </style>
 
     <style name="card_disable" parent="android:Widget.Holo.Light.TextView">
-        <item name="android:drawableLeft">@drawable/credit_card_diabled</item>
         <item name="android:drawablePadding">@dimen/pad_20dp</item>
         <item name="android:padding">@dimen/pad_10dp</item>
         <item name="android:textColor">@color/main_grey_lt</item>
@@ -106,7 +130,6 @@
     </style>
 
     <style name="card_enabled" parent="@style/card_disable">
-        <item name="android:drawableLeft">@drawable/credit_card_enabled</item>
         <item name="android:drawableRight">@drawable/icon_checked</item>
         <item name="android:textColor">@color/main_grey_dk1</item>
     </style>

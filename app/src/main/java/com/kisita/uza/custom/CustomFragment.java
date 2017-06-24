@@ -1,15 +1,18 @@
 package com.kisita.uza.custom;
 
-import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +31,8 @@ import com.kisita.uza.activities.UzaActivity;
 public class CustomFragment extends Fragment implements OnClickListener
 {
 	private FirebaseAuth mAuth;
+	private ProgressDialog mProgressDialog;
+
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
@@ -101,10 +106,52 @@ public class CustomFragment extends Fragment implements OnClickListener
 				intent = new Intent(getActivity(), MainActivity.class);
 				getActivity().startActivity(intent);
 				break;
+			case(R.id.action_store):
+				break;
 			default:
 				break;
 
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+	public void showProgressDialog() {
+		if (mProgressDialog == null) {
+			mProgressDialog = new ProgressDialog(getContext());
+			mProgressDialog.setCancelable(false);
+			mProgressDialog.setMessage("Loading...");
+		}
+
+		mProgressDialog.show();
+	}
+
+	public void hideProgressDialog() {
+		if (mProgressDialog != null && mProgressDialog.isShowing()) {
+			mProgressDialog.dismiss();
+		}
+	}
+
+	public static int getScreenWidth(Context context)
+	{
+		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		Display display = wm.getDefaultDisplay();
+		DisplayMetrics metrics = new DisplayMetrics();
+		display.getMetrics(metrics);
+
+		return metrics.widthPixels;
+	}
+
+	public int getDivider(int width){
+		int divider = 0;
+		if(width < 500){
+			divider = 5;
+		}else if(width >= 500 && width < 1200) {
+			divider = 6;
+		}else{
+			divider = 7;
+		}
+
+		return divider;
+	}
+
 }

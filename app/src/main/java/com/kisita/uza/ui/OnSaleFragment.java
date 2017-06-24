@@ -43,8 +43,6 @@ public class OnSaleFragment extends CustomFragment
 	private static final int RESULT_CODE = 1;
 	private UzaCardAdapter mCardadapter;
 	private ArrayList<Data> itemsList;
-	private ArrayList<Data> catList;
-	private ArrayList<Data> storeList;
 
 	private DatabaseReference mDatabase;
 	private ItemChildEventListener mChildEventListener;
@@ -54,7 +52,6 @@ public class OnSaleFragment extends CustomFragment
 	private FloatingActionButton mMenu1;
 	private FloatingActionButton mMenu2;
 	private FloatingActionButton mMenu3;
-	private FloatingActionButton mMenu4;
 	private FloatingActionButton mMenu5;
     private FloatingActionMenu  fabMenu;
     private android.support.design.widget.FloatingActionButton foodButton;
@@ -106,7 +103,6 @@ public class OnSaleFragment extends CustomFragment
 				mMenu1.setLabelText("Clothing");
 				mMenu2.setLabelText("Shoes & Bags");
 				mMenu3.setLabelText("Watches & Accessories");
-				mMenu4.setLabelText("Stores");
 				mMenu5.setLabelText("Perfumes & Beauty");
 				mTypes = new String []{"Clothing","Shoes & Bags","Watches & Accessories","Perfumes & Beauty"};
 				break;
@@ -120,7 +116,6 @@ public class OnSaleFragment extends CustomFragment
 
 				mMenu3.setLabelText("Toys & Accessories");
 				mMenu3.setImageResource(R.drawable.clothing_baby);
-				mMenu4.setLabelText("Stores");
 
 				mMenu5.setLabelText("Bathing  & Skin care");
 				mMenu5.setImageResource(R.drawable.bath_baby);
@@ -138,8 +133,6 @@ public class OnSaleFragment extends CustomFragment
 				mMenu3.setLabelText("Phones & Accessories");
 				mMenu3.setImageResource(R.drawable.phone);
 
-				mMenu4.setLabelText("Stores");
-
 				mMenu5.setLabelText("Computers & Tablets");
 				mMenu5.setImageResource(R.drawable.laptop);
 				mTypes = new String []{"Home","Video games","Phones & Accessories","Computers & Tablets"};
@@ -156,9 +149,6 @@ public class OnSaleFragment extends CustomFragment
 				mMenu3.setLabelText("Kitchen & Bath room");
 				mMenu3.setImageResource(R.drawable.kitchen);
 
-				//mMenu4.setLabelText("Stores");
-				mMenu4.setVisibility(View.GONE);
-
 				mMenu5.setLabelText("Garden");
 				mMenu5.setImageResource(R.drawable.garden);
 
@@ -167,6 +157,10 @@ public class OnSaleFragment extends CustomFragment
             case "Food":
                 fabMenu.setVisibility(View.GONE);
                 break;
+			case "Commands":
+				fabMenu.setVisibility(View.GONE);
+				foodButton.setVisibility(View.GONE);
+				break;
 		}
 	}
 
@@ -183,10 +177,6 @@ public class OnSaleFragment extends CustomFragment
 				mCardadapter.setItemsList(itemsList);
 				mCardadapter.notifyDataSetChanged();
 				return;
-			case(R.id.menu_4): // get stores
-				//Start new fragments  containing all supported stores
-                //onStoresPressed();
-				break;
 			case(R.id.menu_1): // get clothes
 				s = mTypes[0];
 				break;
@@ -227,7 +217,6 @@ public class OnSaleFragment extends CustomFragment
 		mMenu1 = (FloatingActionButton)v.findViewById(R.id.menu_1);
 		mMenu2 = (FloatingActionButton)v.findViewById(R.id.menu_2);
 		mMenu3 = (FloatingActionButton)v.findViewById(R.id.menu_3);
-		mMenu4 = (FloatingActionButton)v.findViewById(R.id.menu_4);
 		mMenu5 = (FloatingActionButton)v.findViewById(R.id.menu_5);
 
         fabMenu= (FloatingActionMenu)v.findViewById(R.id.menu_labels_right) ;
@@ -250,7 +239,6 @@ public class OnSaleFragment extends CustomFragment
 		mMenu1.setOnClickListener(this);
 		mMenu2.setOnClickListener(this);
 		mMenu3.setOnClickListener(this);
-		mMenu4.setOnClickListener(this);
 		mMenu5.setOnClickListener(this);
 
 		setupFab();
@@ -264,7 +252,72 @@ public class OnSaleFragment extends CustomFragment
 		recList.setLayoutManager(llm);
 		mCardadapter = new UzaCardAdapter(this.getContext(),itemsList);
 		recList.setAdapter(mCardadapter);
-		loadData();
+		if(mQuery.equalsIgnoreCase("Commands")){
+			showProgressDialog();
+			loadCommandData();
+		}else{
+			loadData();
+		}
+	}
+
+	/*load command data */
+	private void  loadCommandData()
+	{
+		// get the seller id
+		mDatabase = FirebaseDatabase.getInstance().getReference();
+		mDatabase.keepSynced(true);
+
+		final Query itemsQuery = getCommandsQuery(mDatabase);
+		itemsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot) {
+				itemsList.clear();
+				for(DataSnapshot d : dataSnapshot.getChildren()){
+					Log.i(TAG,d.child("key").getValue().toString());
+					getDb().child("items").child(d.child("key").getValue().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+						@Override
+						public void onDataChange(DataSnapshot dataSnapshot) {
+							Log.i(TAG,dataSnapshot.toString());
+							ItemChildEventListener.initCommandlist(dataSnapshot,itemsList,"All");
+							mCardadapter.notifyDataSetChanged();
+							new Thread(new Runnable() {
+								@Override
+								public void run()
+								{
+									try
+									{
+										Thread.sleep(2000);
+
+									} catch (Exception e)
+									{
+										e.printStackTrace();
+									} finally
+									{
+										getActivity().runOnUiThread(new Runnable() {
+											@Override
+											public void run()
+											{
+												hideProgressDialog();
+											}
+										});
+									}
+								}
+							}).start();
+						}
+
+						@Override
+						public void onCancelled(DatabaseError databaseError) {
+
+						}
+					});
+				}
+			}
+
+			@Override
+			public void onCancelled(DatabaseError databaseError) {
+
+			}
+		});
 	}
 
 	/**
@@ -283,6 +336,7 @@ public class OnSaleFragment extends CustomFragment
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 itemsList.clear();
+				Log.i(TAG,dataSnapshot.toString());
                 ItemChildEventListener.initItemlist(dataSnapshot,itemsList,store);
                 mCardadapter.notifyDataSetChanged();
                 mChildEventListener = new ItemChildEventListener(itemsList, mCardadapter,store);
@@ -297,10 +351,17 @@ public class OnSaleFragment extends CustomFragment
 	}
 
 	public Query getQuery(DatabaseReference databaseReference) {
-		return databaseReference.child("items")
-				.orderByChild("category")
-				.startAt(mQuery)
-				.endAt(mQuery);
+			return databaseReference.child("items")
+					.orderByChild("category")
+					.startAt(mQuery)
+					.endAt(mQuery);
+	}
+
+	public Query getCommandsQuery(DatabaseReference databaseReference) {
+		return databaseReference.child("commands")
+				.orderByChild("seller")
+				.startAt("Kitea")
+				.endAt("Kitea");
 	}
 
 	@Override
@@ -338,7 +399,7 @@ public class OnSaleFragment extends CustomFragment
 			mListener = (OnFragmentInteractionListener) context;
 		} else {
 			throw new RuntimeException(context.toString()
-					+ " must implement OnFragmentInteractionListener");
+					+ " must implement OnNewArticleInteractionListener");
 		}
 	}
 

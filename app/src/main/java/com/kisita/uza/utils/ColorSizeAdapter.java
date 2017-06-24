@@ -50,15 +50,20 @@ public class ColorSizeAdapter extends RecyclerView.Adapter<ColorSizeAdapter.Card
         this.fragment = fragment;
 
         objects = new ArrayList<>();
-        for(String s:colorList){
-            objects.add(new DetailFragment.ColorSize(s,false));
+
+        if(colorList != null) {
+            for (String s : colorList) {
+                objects.add(new DetailFragment.ColorSize(s, false));
+            }
         }
 
-        try {
-            mListener = (OnFieldChangedListener) fragment;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(fragment.toString()
-                    + " must implement onFieldChangedListener");
+        if(fragment != null ) {
+            try {
+                mListener = (OnFieldChangedListener) fragment;
+            } catch (ClassCastException e) {
+                throw new ClassCastException(fragment.toString()
+                        + " must implement onFieldChangedListener");
+            }
         }
     }
 

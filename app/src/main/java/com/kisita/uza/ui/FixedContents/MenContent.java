@@ -14,24 +14,24 @@ import java.util.Map;
  * <p>
  * TODO: Replace all uses of this class before publishing your app.
  */
-public class FoodContent {
+public class MenContent {
 
-    public static final String [] categories = {"Meat, Fish & Eggs","Dairy products","Fat","Vegetables and fruits","Cereals & Derivatives","Drinks","Sweet products"};
+    public static final String [] categories = {"Clothing","Shoes & Bags","Watches & Accessories","Perfumes & Beauty"};
 
-    public static final int [] icons = {R.drawable.meat,R.drawable.dairy ,R.drawable.mobile_money, R.drawable.fruits,R.drawable.cereals,R.drawable.drinks,R.drawable.sweet};
+    private static final int [] icons = {R.drawable.clothing,R.drawable.shoes,R.drawable.watch,R.drawable.perfumes};
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<UzaListItem> ITEMS = new ArrayList<UzaListItem>();
+    private static final List<UzaListItem> ITEMS = new ArrayList<UzaListItem>();
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    public static final Map<String, UzaListItem> ITEM_MAP = new HashMap<String, UzaListItem>();
+    private static final Map<String, UzaListItem> ITEM_MAP = new HashMap<String, UzaListItem>();
 
     private static final int COUNT = categories.length;
 
-    public FoodContent() {
+    public MenContent() {
 
     }
 

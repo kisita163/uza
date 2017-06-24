@@ -1,30 +1,25 @@
 package com.kisita.uza.activities;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
+import com.kisita.uza.ui.NewArticleFragment;
 import com.kisita.uza.ui.OnSaleFragment;
 import com.kisita.uza.ui.StoresFragment;
 import com.kisita.uza.utils.MainPagerAdapter;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -36,7 +31,7 @@ import java.util.ArrayList;
  * items on Drawer layout.
  */
 @SuppressLint("InlinedApi")
-public class MainActivity extends CustomActivity implements OnSaleFragment.OnFragmentInteractionListener, StoresFragment.OnFragmentInteractionListener
+public class MainActivity extends CustomActivity implements OnSaleFragment.OnFragmentInteractionListener, StoresFragment.OnFragmentInteractionListener, NewArticleFragment.OnNewArticleInteractionListener
 {
 	/** The toolbar. */
 	public Toolbar toolbar;
@@ -51,6 +46,7 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 	/* Title view */
 	private TextView mTitle;
 
+	// Customer fragment
 	private StoresFragment storesFragment;
 	private OnSaleFragment menFragment;
 	private OnSaleFragment womenFragment;
@@ -58,6 +54,9 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 	private OnSaleFragment electronicsFragment;
 	private OnSaleFragment foodFragment;
 	private OnSaleFragment homeFragment;
+	// Merchant fragment
+	private OnSaleFragment commandsFragment;
+	private NewArticleFragment newArticleFragment;
 
 	public final static int STORE = 0;
 	public final static int MEN = 1;
@@ -67,7 +66,7 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 	public final static int HOME = 5;
 	public final static int FOOD = 6;
 
-	public final String[] fragmentNames = new String[] {
+	public final String[] customerFragmentNames = new String[] {
 			"Stores",
 			"Men",
 			"Women",
@@ -75,6 +74,11 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 			"Electronics",
 			"Home",
 			"Food"
+	};
+
+	public final String[] merchantFragmentNames = new String[] {
+			"Commands",
+			"New Article"
 	};
 
 
@@ -116,7 +120,7 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 		mTitle.setText(title);
 
 		Log.i(TAG,"Selected fragments are :"+selectedFragments);
-
+		//Customer fragments
 		storesFragment      = StoresFragment.newInstance();
 		menFragment         = OnSaleFragment.newInstance("Men");
 		womenFragment       = OnSaleFragment.newInstance("Women");
@@ -124,6 +128,11 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 		electronicsFragment = OnSaleFragment.newInstance("Electronic");
 		homeFragment        = OnSaleFragment.newInstance("Home");
 		foodFragment        = OnSaleFragment.newInstance("Food");
+		//Merchant fragments
+		commandsFragment    = OnSaleFragment.newInstance("Commands");
+		newArticleFragment  = NewArticleFragment.newInstance();
+
+
 
 		mPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(),fragments,fragmentNames);
 		setPagerAdapter(selectedFragments);
@@ -131,9 +140,13 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-       /* if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-		}*/
+		if(item.getItemId() == R.id.action_store){
+			Log.i(TAG,"Store pressed ... ");
+			mPagerAdapter.clean();
+			mPagerAdapter.add(commandsFragment, merchantFragmentNames[0]);
+			mPagerAdapter.add(newArticleFragment, merchantFragmentNames[1]);
+			mPagerAdapter.notifyDataSetChanged();
+		}
 		return super.onOptionsItemSelected(item);
     }
 
@@ -206,33 +219,38 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 
 	private void setPagerAdapter(String selectedFragments) {
 		mPagerAdapter.clean();
-		mPagerAdapter.add(storesFragment,fragmentNames[STORE]);
+		mPagerAdapter.add(storesFragment, customerFragmentNames[STORE]);
 		if(selectedFragments == null){
-			mPagerAdapter.add(menFragment,fragmentNames[MEN]);
-			mPagerAdapter.add(womenFragment,fragmentNames[WOMEN]);
-			mPagerAdapter.add(kidsFragment,fragmentNames[KIDS]);
-			mPagerAdapter.add(electronicsFragment,fragmentNames[ELECTRONICS]);
-			mPagerAdapter.add(homeFragment,fragmentNames[HOME]);
-			mPagerAdapter.add(foodFragment,fragmentNames[FOOD]);
+			mPagerAdapter.add(menFragment, customerFragmentNames[MEN]);
+			mPagerAdapter.add(womenFragment, customerFragmentNames[WOMEN]);
+			mPagerAdapter.add(kidsFragment, customerFragmentNames[KIDS]);
+			mPagerAdapter.add(electronicsFragment, customerFragmentNames[ELECTRONICS]);
+			mPagerAdapter.add(homeFragment, customerFragmentNames[HOME]);
+			mPagerAdapter.add(foodFragment, customerFragmentNames[FOOD]);
 		}else {
 
 			if (selectedFragments.contains("Men=1"))
-				mPagerAdapter.add(menFragment, fragmentNames[MEN]);
+				mPagerAdapter.add(menFragment, customerFragmentNames[MEN]);
 
 			if (selectedFragments.contains("Women=1"))
-				mPagerAdapter.add(womenFragment, fragmentNames[WOMEN]);
+				mPagerAdapter.add(womenFragment, customerFragmentNames[WOMEN]);
 
 			if (selectedFragments.contains("Kids=1"))
-				mPagerAdapter.add(kidsFragment, fragmentNames[KIDS]);
+				mPagerAdapter.add(kidsFragment, customerFragmentNames[KIDS]);
 
 			if (selectedFragments.contains("Electronics=1"))
-				mPagerAdapter.add(electronicsFragment, fragmentNames[ELECTRONICS]);
+				mPagerAdapter.add(electronicsFragment, customerFragmentNames[ELECTRONICS]);
 
 			if (selectedFragments.contains("Home=1"))
-				mPagerAdapter.add(homeFragment, fragmentNames[HOME]);
+				mPagerAdapter.add(homeFragment, customerFragmentNames[HOME]);
 
 			if (selectedFragments.contains("Food=1"))
-				mPagerAdapter.add(foodFragment, fragmentNames[FOOD]);
+				mPagerAdapter.add(foodFragment, customerFragmentNames[FOOD]);
 		}
+	}
+
+	@Override
+	public void onNewArticleInteraction(Uri uri) {
+
 	}
 }

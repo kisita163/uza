@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -25,7 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kisita.uza.R;
 import com.kisita.uza.ui.DetailFragment;
-import com.kisita.uza.ui.commentFragment;
+import com.kisita.uza.ui.CommentFragment;
 import com.kisita.uza.utils.CartDrawable;
 import com.kisita.uza.utils.TouchEffect;
 
@@ -37,7 +36,7 @@ import java.util.Map;
  * inherit the common behaviors like setting a Theme to activity.
  */
 public class CustomActivity extends AppCompatActivity implements
-		OnClickListener,DetailFragment.OnFragmentInteractionListener,commentFragment.OnListFragmentInteractionListener
+		OnClickListener,DetailFragment.OnFragmentInteractionListener,CommentFragment.OnListFragmentInteractionListener
 {
 
 	public static final TouchEffect TOUCH = new TouchEffect();
@@ -225,7 +224,7 @@ public class CustomActivity extends AppCompatActivity implements
 	}
 
     @Override
-    public void onListFragmentInteraction(commentFragment.ArticleComment item) {
+    public void onListFragmentInteraction(CommentFragment.ArticleComment item) {
 
     }
 }

@@ -4,6 +4,9 @@
     android:versionCode="5"
     android:versionName="2.1">
 
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-feature
@@ -98,16 +101,6 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity
-            android:name=".activities.StoresActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_stores"
-            android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/FullscreenTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.kisita.uza.activities.MainActivity" />
-        </activity>
         <activity
             android:name=".activities.ChoicesActivity"
             android:label="@string/title_activity_choices"></activity>

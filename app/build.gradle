@@ -50,6 +50,10 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.9'
 
     compile project(':library')
+
+    compile 'com.pes.materialcolorpicker:library:1.2.0'
+
+    compile 'com.thebluealliance:spectrum:0.7.1'
 }
 
 

@@ -34,7 +34,7 @@ import java.util.Map;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class commentFragment extends CustomFragment {
+public class CommentFragment extends CustomFragment {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private static final String ARG_ITEM_UID = "item-uid";
@@ -56,12 +56,12 @@ public class commentFragment extends CustomFragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public commentFragment() {
+    public CommentFragment() {
     }
 
     //@SuppressWarnings("unused")
-    public static commentFragment newInstance(int columnCount,String uid) {
-        commentFragment fragment = new commentFragment();
+    public static CommentFragment newInstance(int columnCount, String uid) {
+        CommentFragment fragment = new CommentFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         args.putString(ARG_ITEM_UID, uid);
