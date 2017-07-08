@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -56,8 +57,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/name" >
-
-                    <requestFocus />
                 </EditText>
 
                 <EditText
@@ -67,8 +66,6 @@
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:hint="@string/brand" >
-
-                    <requestFocus />
                 </EditText>
 
                 <EditText
@@ -78,8 +75,6 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:hint="@string/checkout_price" >
-
-                    <requestFocus />
                 </EditText>
 
 
@@ -146,21 +141,78 @@
                         android:spinnerMode="dialog"/>
                 </LinearLayout>
 
-                <CheckBox
-                    android:id="@+id/has_colors"
-                    style="@style/spinner"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Add color(s) ?" />
+                    android:orientation="horizontal">
+
+                    <Button
+                        style="@style/btn"
+                        android:id="@+id/add_color"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Add color(s)" />
+
+                    <Button
+                        style="@style/btn"
+                        android:id="@+id/remove_color"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Remove color" />
+
+                </LinearLayout>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/colorsList"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/pad_5dp"
+                    android:background="@drawable/edittext_bg"
                     />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        style="@style/btn"
+                        android:id="@+id/add_size"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/add_size" />
+
+                    <Button
+                        style="@style/btn"
+                        android:id="@+id/remove_size"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/remove_size" />
+
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/sizesList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/pad_5dp"
+                    android:background="@drawable/edittext_bg"
+                    />
+
+                <EditText
+                    android:id="@+id/field_description"
+                    style="@style/edittext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:maxLength="200"
+                    android:lines="3"
+                    android:hint="@string/description" >
+                </EditText>
                 <Button
                     android:id="@+id/button_sign_in"
                     style="@style/btn_blue"

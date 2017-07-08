@@ -83,45 +83,49 @@ public class ColorSizeAdapter extends RecyclerView.Adapter<ColorSizeAdapter.Card
     @Override
     public void onBindViewHolder(ColorSizeAdapter.CardViewHolder holder, final int position) {
         // save information in holder, we have one type in this adapter
+        //Handling available colors in detail fragment
+        int color = 0;
         if(holder.mColor != null) {
-            try {
-                int color = Color.parseColor(itemList.get(position).trim());
-                Log.i("ColorSizeAdapter","New data. color is  : "+color);
-                holder.mColor.setBackgroundColor(color);
-                if(objects.get(position).getName().equalsIgnoreCase(resource)){
-                    if(color < -8388607 ) // couleurs sombres
-                        holder.mColor.setImageResource(R.drawable.ic_done_white_24dp);
-                    else
-                        holder.mColor.setImageResource(R.drawable.ic_done_black_24dp);
-                }else{
-                    holder.mColor.setImageResource(0);
-                }
-                holder.mColor.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onFieldChanged();
-                        Log.i("ColorSizeAdapter",""+objects.get(position).isSelected());
-                        if(objects.get(position).isSelected()) {
-                            Log.i("ColorSizeAdapter", "remove the border");
-                            objects.get(position).setSelected(false);
-                            itemSelectedPosition = -1;
-                            resource="";
-                        }
-                        else{
-                            Log.i("ColorSizeAdapter", "Add the border. Value = "+objects.get(position).getName());
-                            objects.get(position).setSelected(true);
-                            if(itemSelectedPosition != -1)
-                                objects.get(itemSelectedPosition).setSelected(false);
-                            itemSelectedPosition = position;
-                            resource = objects.get(position).getName();
-                        }
-                        notifyDataSetChanged();
-                    }
-                });
+            try { // Start by trying to convert the received color string into an integer
+                color = Color.parseColor(itemList.get(position).trim());
             } catch (IllegalArgumentException e) {
                 Log.i("ColorSizeAdapter","the received color is "+itemList.get(position));
                 holder.mColor.setBackgroundColor(Color.BLACK);
             }
+            //Log.i("ColorSizeAdapter","New data. color is  : "+color);
+            // When converted, set the color holder with the calculated color integer
+            holder.mColor.setBackgroundColor(color);
+
+            if(objects.get(position).getName().equalsIgnoreCase(resource)){ // A selected object (color or size view), has the same name than the resource
+                if(color < -8388607 ) // Dark colors
+                    holder.mColor.setImageResource(R.drawable.ic_done_white_24dp);
+                else
+                    holder.mColor.setImageResource(R.drawable.ic_done_black_24dp);
+            }else{
+                holder.mColor.setImageResource(0);
+            }
+            holder.mColor.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onFieldChanged();
+                    Log.i("ColorSizeAdapter",""+objects.get(position).isSelected());
+                    if(objects.get(position).isSelected()) {
+                        Log.i("ColorSizeAdapter", "remove the border");
+                        objects.get(position).setSelected(false);
+                        itemSelectedPosition = -1;
+                        resource="";
+                    }
+                    else{
+                        Log.i("ColorSizeAdapter", "Add the border. Value = "+objects.get(position).getName());
+                        objects.get(position).setSelected(true);
+                        if(itemSelectedPosition != -1)
+                            objects.get(itemSelectedPosition).setSelected(false);
+                        itemSelectedPosition = position;
+                        resource = objects.get(position).getName(); // Set the resource name with the object name
+                    }
+                    notifyDataSetChanged();
+                }
+            });
         }
         if(holder.mSize != null){
             if(objects.get(position).getName().equalsIgnoreCase(resource)){
@@ -157,6 +161,41 @@ public class ColorSizeAdapter extends RecyclerView.Adapter<ColorSizeAdapter.Card
             });
         }
 
+    }
+
+    public void setColorSizeObjects(String item){
+        objects.add(new DetailFragment.ColorSize(item, false));
+    }
+
+    public void removeSelectedColorSizeObjects(){
+        if(objects.size() < 1)
+            return;
+
+        DetailFragment.ColorSize objectToDelete = null;
+        String colorToDelete = null;
+
+        for(DetailFragment.ColorSize o : objects) {
+            if (o.isSelected()) {
+                Log.i("ColorSizeAdapter","update the Object !!!!");
+                objectToDelete = o; //Save the reference object to delete in objectToDelete
+                break;
+            }
+        }
+        if(objectToDelete != null) {
+            for (String s : itemList) {
+                if (s.equalsIgnoreCase(objectToDelete.getName())) {
+                    Log.i("ColorSizeAdapter","update the list !!!!");
+                    colorToDelete = s;
+                }
+            }
+        }
+
+        itemList.remove(colorToDelete);
+        objects.remove(objectToDelete);
+        notifyDataSetChanged();
+        itemSelectedPosition  = -1;
+        Log.i("ColorSizeAdapter",objects.size()+"");
+        Log.i("ColorSizeAdapter",itemList.size()+"");
     }
 
     @Override

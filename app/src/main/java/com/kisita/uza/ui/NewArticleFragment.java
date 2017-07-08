@@ -1,6 +1,8 @@
 package com.kisita.uza.ui;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -10,6 +12,7 @@ import android.support.annotation.ColorInt;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,14 +21,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import com.kisita.uza.ui.FixedContents.ElectronicsContent;
 import com.kisita.uza.ui.FixedContents.FoodContent;
+import com.kisita.uza.ui.FixedContents.HomeContent;
+import com.kisita.uza.ui.FixedContents.KidsContent;
 import com.kisita.uza.ui.FixedContents.MenContent;
 import com.kisita.uza.utils.ColorSizeAdapter;
 import com.kisita.uza.utils.UzaSpinnerAdapter;
@@ -69,8 +73,14 @@ public class NewArticleFragment extends CustomFragment {
 
     UzaSpinnerAdapter typeAdapter;
 
-    private CheckBox colorsCheckBox;
+    private Button addColorButton;
+    private Button removeColorButton;
+
     private List<String> colorList;
+
+
+    private Button addSizeButton;
+    private Button removeSizeButton;
 
 
     ImageView [] uploadedImages = {uploadedImg0,uploadedImg1,uploadedImg2,uploadedImg3,uploadedImg4};
@@ -80,6 +90,7 @@ public class NewArticleFragment extends CustomFragment {
     private PageAdapter mPagerAdapter;
     private ViewPager mPager;
     private ColorSizeAdapter colorAdapter;
+    private ArrayList mSelectedItems; // Where we track the selected items
 
     public NewArticleFragment() {
         // Required empty public constructor
@@ -112,11 +123,62 @@ public class NewArticleFragment extends CustomFragment {
         setCurrencyView(v);
         setCategoryView(v);
         setTypeView(v);
-        setColorsCheckBox(v);
+        setColorsButtons(v);
+        setSizesButtons(v);
         setColorsContainer(v);
         return v;
     }
 
+    private void setSizesButtons(View v) {
+        final String [] sizeSystems = getResources().getStringArray(R.array.sizeSystems);
+        addSizeButton = (Button)v.findViewById(R.id.add_size);
+        removeSizeButton = (Button)v.findViewById(R.id.remove_size);
+        addSizeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.dialog);
+                builder.setTitle("Select size system")
+                        .setSingleChoiceItems(R.array.sizeSystems, 0, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.i("Selected system is : ",sizeSystems[which]) ;
+                                selecteSizesDialog(sizeSystems[which]);
+                            }
+                        })
+                        // Set the action buttons
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User clicked OK, so save the mSelectedItems results somewhere
+                                // or return them to the component that opened the dialog
+
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+
+                            }
+                        });
+                builder.create();
+                builder.show();
+            }
+        });
+
+        removeColorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
+    private void selecteSizesDialog(String sizeSystem) {
+        mSelectedItems = new ArrayList(); // Where we track the selected items
+
+    }
+
+    /* This function set the currency field*/
     private void setCurrencyView(View v) {
         currencySpinner = (Spinner)v.findViewById(R.id.currency);
         UzaSpinnerAdapter adapter = new UzaSpinnerAdapter(getContext(),android.R.layout.simple_spinner_item);
@@ -125,7 +187,6 @@ public class NewArticleFragment extends CustomFragment {
         adapter.addAll(new String[]{"CDF","EUR","USD"});
 
         currencySpinner.setAdapter(adapter);
-        currencySpinner.setSelection(adapter.getCount()); //display hint
     }
 
     private void setCategoryView(View v) {
@@ -150,17 +211,17 @@ public class NewArticleFragment extends CustomFragment {
                         break;
                     case "Kids":
                         typeAdapter.clear();
-                        typeAdapter.addAll(new String []{"Clothing","Shoes & Bags","Toys & Accessories","Bathing  & Skin care"});
+                        typeAdapter.addAll(KidsContent.categories);
                         typeAdapter.notifyDataSetChanged();
                         break;
                     case "Electronics":
                         typeAdapter.clear();
-                        typeAdapter.addAll(new String []{"Home","Video games","Phones & Accessories","Computers & Tablets"});
+                        typeAdapter.addAll(ElectronicsContent.categories);
                         typeAdapter.notifyDataSetChanged();
                         break;
                     case "Home":
                         typeAdapter.clear();
-                        typeAdapter.addAll(new String []{"Living & Dining room","Bedroom","Kitchen & Bath room","Garden"});
+                        typeAdapter.addAll(HomeContent.categories);
                         typeAdapter.notifyDataSetChanged();
                         break;
                     case "Food":
@@ -189,25 +250,38 @@ public class NewArticleFragment extends CustomFragment {
         typeSpinner.setEnabled(false);
     }
 
-    private void setColorsCheckBox(View v) {
-        colorsCheckBox = (CheckBox)v.findViewById(R.id.has_colors);
-        colorsCheckBox.setOnClickListener(new View.OnClickListener() {
+    private void setColorsButtons(View v) {
+        addColorButton = (Button)v.findViewById(R.id.add_color);
+        removeColorButton = (Button)v.findViewById(R.id.remove_color);
+        addColorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(colorsCheckBox.isChecked()){
-                    final ColorPicker cp = new ColorPicker(getActivity());
-                    cp.show();
-                    cp.setCallback(new ColorPickerCallback() {
-                        @Override
-                        public void onColorChosen(@ColorInt int color) {
-                            Log.i("Selected color is :",color+"");
-                            cp.cancel();
-                        }
-                    });
-                }
+                final ColorPicker cp = new ColorPicker(getActivity());
+                cp.show();
+                cp.setCallback(new ColorPickerCallback() {
+                    @Override
+                    public void onColorChosen(@ColorInt int color) {
+                        Log.i("Selected color is :",color+"");
+                        String strColor = String.format("#%06X", 0xFFFFFF & color);
+                        Log.i("Selected color is :",strColor+"");
+                        colorList.add(strColor);
+                        colorAdapter.setColorSizeObjects(strColor); // For visualization
+                        colorAdapter.notifyDataSetChanged();
+                        cp.cancel();
+                    }
+                });
             }
         });
 
+        removeColorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*if(colorList.size() >= 1)
+                    colorList.remove(colorList.size()-1);*/
+                colorAdapter.removeSelectedColorSizeObjects(); // For visualization
+                colorAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void setColorsContainer(View v) {

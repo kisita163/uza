@@ -137,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/pad_10dp"
                     android:paddingLeft="@dimen/pad_10dp"
-                    android:text="Description"
+                    android:text="@string/description"
                     android:textStyle="bold"
                     android:textSize="@dimen/txt_14sp" />
 
