@@ -1,7 +1,5 @@
 package com.kisita.uza.ui;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,7 +13,6 @@ import android.widget.Spinner;
 
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
-import com.kisita.uza.model.Data;
 
 /**
  * The Class SettingsFragment is the fragment that shows various settings options.
@@ -63,13 +60,21 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 		// parent.getItemAtPosition(pos)
-		//Log.i("Settings",parent.getItemAtPosition(position).toString());
+		Log.i("Settings", parent.getItemAtPosition(position).toString());
 
-		SharedPreferences sharedPref = getActivity().getSharedPreferences(getResources().getString(R.string.uza_keys),Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = sharedPref.edit();
-		editor.putString(getString(R.string.uza_currency),parent.getItemAtPosition(position).toString());
-		editor.putInt(getString(R.string.uza_currency_position),position);
-		editor.commit();
+		SharedPreferences sharedPref = getActivity().getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
+
+		int pos = sharedPref.getInt(getResources().getString(R.string.uza_currency_position), 0);
+
+		if (pos != position) {
+
+			SharedPreferences.Editor editor = sharedPref.edit();
+			editor.putString(getString(R.string.uza_currency), parent.getItemAtPosition(position).toString());
+			editor.putInt(getString(R.string.uza_currency_position), position);
+			editor.commit();
+			// Update app
+			update_app();
+		}
 	}
 
 	@Override
