@@ -52,7 +52,7 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 	private OnSaleFragment womenFragment;
 	private OnSaleFragment kidsFragment;
 	private OnSaleFragment electronicsFragment;
-	private OnSaleFragment foodFragment;
+	private OnSaleFragment booksFragment;
 	private OnSaleFragment homeFragment;
 	// Merchant fragment
 	private OnSaleFragment commandsFragment;
@@ -65,21 +65,22 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 	public final static int ELECTRONICS = 4;
 	public final static int HOME = 5;
 	public final static int FOOD = 6;
+	public final static int BOOKS = 7;
 
 	public final String[] customerFragmentNames = new String[] {
-			"Stores",
+			//"Stores",
 			"Men",
 			"Women",
 			"Kids",
 			"Electronics",
-			"Home",
-			"Food"
+			//"Home",
+			"Books"
 	};
 
-	public final String[] merchantFragmentNames = new String[] {
+	/*public final String[] merchantFragmentNames = new String[] {
 			"Commands",
 			"New Article"
-	};
+	};*/
 
 
     /* (non-Javadoc)
@@ -104,7 +105,7 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 		setPagerAdapter();
 
         mViewPager.setAdapter(mPagerAdapter);
-		mViewPager.setCurrentItem(1);
+		mViewPager.setCurrentItem(0);
         commandsCount();
     }
 
@@ -126,11 +127,12 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 		womenFragment       = OnSaleFragment.newInstance("Women");
 		kidsFragment        = OnSaleFragment.newInstance("Kids");
 		electronicsFragment = OnSaleFragment.newInstance("Electronic");
-		homeFragment        = OnSaleFragment.newInstance("Home");
-		foodFragment        = OnSaleFragment.newInstance("Food");
+		//homeFragment        = OnSaleFragment.newInstance("Home");
+		booksFragment        = OnSaleFragment.newInstance("Food");
+
 		//Merchant fragments
-		commandsFragment    = OnSaleFragment.newInstance("Commands");
-		newArticleFragment  = NewArticleFragment.newInstance();
+		//commandsFragment    = OnSaleFragment.newInstance("Commands");
+		//newArticleFragment  = NewArticleFragment.newInstance();
 
 
 
@@ -143,8 +145,8 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 		if(item.getItemId() == R.id.action_store){
 			Log.i(TAG,"Store pressed ... ");
 			mPagerAdapter.clean();
-			mPagerAdapter.add(commandsFragment, merchantFragmentNames[0]);
-			mPagerAdapter.add(newArticleFragment, merchantFragmentNames[1]);
+			//mPagerAdapter.add(commandsFragment, merchantFragmentNames[0]);
+			//mPagerAdapter.add(newArticleFragment, merchantFragmentNames[1]);
 			mPagerAdapter.notifyDataSetChanged();
 		}
 		return super.onOptionsItemSelected(item);
@@ -219,15 +221,15 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 
 	private void setPagerAdapter(String selectedFragments) {
 		mPagerAdapter.clean();
-		mPagerAdapter.add(storesFragment, customerFragmentNames[STORE]);
-		if(selectedFragments == null){
-			mPagerAdapter.add(menFragment, customerFragmentNames[MEN]);
-			mPagerAdapter.add(womenFragment, customerFragmentNames[WOMEN]);
-			mPagerAdapter.add(kidsFragment, customerFragmentNames[KIDS]);
-			mPagerAdapter.add(electronicsFragment, customerFragmentNames[ELECTRONICS]);
-			mPagerAdapter.add(homeFragment, customerFragmentNames[HOME]);
-			mPagerAdapter.add(foodFragment, customerFragmentNames[FOOD]);
-		}else {
+		//mPagerAdapter.add(storesFragment, customerFragmentNames[STORE]);
+		//if(selectedFragments == null){
+			mPagerAdapter.add(menFragment, customerFragmentNames[0]);
+			mPagerAdapter.add(womenFragment, customerFragmentNames[1]);
+			mPagerAdapter.add(kidsFragment, customerFragmentNames[2]);
+			mPagerAdapter.add(electronicsFragment, customerFragmentNames[3]);
+			//mPagerAdapter.add(homeFragment, customerFragmentNames[HOME]);
+			mPagerAdapter.add(booksFragment, customerFragmentNames[4]);
+		/*}else {
 
 			if (selectedFragments.contains("Men=1"))
 				mPagerAdapter.add(menFragment, customerFragmentNames[MEN]);
@@ -245,8 +247,8 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
 				mPagerAdapter.add(homeFragment, customerFragmentNames[HOME]);
 
 			if (selectedFragments.contains("Food=1"))
-				mPagerAdapter.add(foodFragment, customerFragmentNames[FOOD]);
-		}
+				mPagerAdapter.add(booksFragment, customerFragmentNames[BOOKS]);
+		}*/
 	}
 
 	@Override
