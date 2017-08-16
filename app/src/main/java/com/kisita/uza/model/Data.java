@@ -1,9 +1,12 @@
 package com.kisita.uza.model;
 
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 import static com.kisita.uza.model.Data.UZA.UID;
 
-public class Data
+public class Data implements Serializable
 {
 	private String uid;
 
@@ -15,6 +18,8 @@ public class Data
 	private String key = null;
 
 	private String[] commandDetails;
+
+	private ArrayList<String> pictures;
 
 
 	/**
@@ -46,6 +51,12 @@ public class Data
 		this.key = key;
 		this.commandDetails = commandDetails;
 	}
+
+	public Data(String[] texts, ArrayList<String> pictures) {
+		this.texts = texts;
+		this.pictures = pictures;
+	}
+
 	/**
 	 * Gets the texts.
 	 *
@@ -87,6 +98,10 @@ public class Data
 
 	public String[] getCommandDetails() {
 		return commandDetails;
+	}
+
+	public ArrayList<String> getPictures() {
+		return pictures;
 	}
 
 	public class UZA {

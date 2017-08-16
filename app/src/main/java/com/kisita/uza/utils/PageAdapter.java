@@ -16,6 +16,8 @@ import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.ui.DetailFragment;
 
+import java.util.ArrayList;
+
 /**
  * Created by Hugues on 27/04/2017.
  */
@@ -25,6 +27,7 @@ public class PageAdapter extends PagerAdapter {
     private FirebaseStorage mReference;
     private String key;
     private int len;
+    private ArrayList<String> urls;
 
 
 
@@ -35,13 +38,25 @@ public class PageAdapter extends PagerAdapter {
         this.len = len;
     }
 
+    public PageAdapter(Context context, FirebaseStorage reference,String key,int len,ArrayList<String> urls) {
+        this.mContext = context;
+        this.mReference = reference;
+        this.key = key;
+        this.len = len;
+        this.urls = urls;
+    }
+
     /* (non-Javadoc)
          * @see android.support.v4.view.PagerAdapter#getCount()
          */
     @Override
     public int getCount()
     {
-        return len;
+        if(urls.size() > 0){
+            return urls.size();
+        }else{
+            return len;
+        }
     }
 
     /* (non-Javadoc)
@@ -60,12 +75,21 @@ public class PageAdapter extends PagerAdapter {
         else
             ref = "gs://glam-afc14.appspot.com/" + key + "/android"+pos+".png";
 
-        Glide.with(mContext)
-                .using(new FirebaseImageLoader())
-                .load(mReference.getReferenceFromUrl(ref))
-                .fitCenter()
-                .error(R.drawable.on_sale_item6)
-                .into(img);
+
+        if(urls.size() > 0){
+            Glide.with(mContext)
+                    .load(urls.get(arg0))
+                    .fitCenter()
+                    .error(R.drawable.on_sale_item6)
+                    .into(img);
+        }else {
+            Glide.with(mContext)
+                    .using(new FirebaseImageLoader())
+                    .load(mReference.getReferenceFromUrl(ref))
+                    .fitCenter()
+                    .error(R.drawable.on_sale_item6)
+                    .into(img);
+        }
 
 
         //img.setImageResource(R.drawable.product_detail_bottom_banner);

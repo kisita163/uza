@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
+import com.kisita.uza.model.Data;
 import com.kisita.uza.model.UzaListItem;
 import com.kisita.uza.ui.CheckoutFragment;
 import com.kisita.uza.ui.DetailFragment;
@@ -56,8 +57,8 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnFr
                 f = new SettingsFragment();
                 break;
             case(3):
-                title = getIntent().getStringArrayExtra("details")[NAME];
-                f = DetailFragment.newInstance(getIntent().getStringArrayExtra("details"));
+                //title = getIntent().getStringArrayExtra("details")[NAME];
+                f = DetailFragment.newInstance((Data)getIntent().getSerializableExtra("details"));
                 break;
             /*case(4):
                 title = "My store";

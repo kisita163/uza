@@ -273,11 +273,11 @@ public class OnSaleFragment extends CustomFragment
 			public void onDataChange(DataSnapshot dataSnapshot) {
 				itemsList.clear();
 				for(DataSnapshot d : dataSnapshot.getChildren()){
-					Log.i(TAG,d.child("key").getValue().toString());
+					//Log.i(TAG,d.child("key").getValue().toString());
 					getDb().child("items").child(d.child("key").getValue().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
 						@Override
 						public void onDataChange(DataSnapshot dataSnapshot) {
-							Log.i(TAG,dataSnapshot.toString());
+							//Log.i(TAG,dataSnapshot.toString());
 							ItemChildEventListener.initCommandlist(dataSnapshot,itemsList,"All");
 							mCardadapter.notifyDataSetChanged();
 							new Thread(new Runnable() {
@@ -336,7 +336,7 @@ public class OnSaleFragment extends CustomFragment
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 itemsList.clear();
-				Log.i(TAG,dataSnapshot.toString());
+				//Log.i(TAG,dataSnapshot.toString());
                 ItemChildEventListener.initItemlist(dataSnapshot,itemsList,store);
                 mCardadapter.notifyDataSetChanged();
                 mChildEventListener = new ItemChildEventListener(itemsList, mCardadapter,store);

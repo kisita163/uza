@@ -29,6 +29,7 @@ import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.model.Data;
 
+import java.io.Serializable;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -149,13 +150,22 @@ public class UzaCardAdapter extends
             holder.lbl2.setText(price + " "+getCurrency(mContext));
             holder.lbl3.setText(d.getTexts()[BRAND]);
             // Load the image using Glide
-            Glide.with(mContext)
-                    .using(new FirebaseImageLoader())
-                    .load(mStorageRef)
-                    .fitCenter()
-                    .dontTransform()
-                    .error(R.drawable.on_sale_item6)
-                    .into(holder.img);
+            if(d.getPictures().size() > 0){
+                Glide.with(mContext)
+                        .load(d.getPictures().get(d.getPictures().size()-1))
+                        .fitCenter()
+                        .dontTransform()
+                        .error(R.drawable.on_sale_item6)
+                        .into(holder.img);
+            } else {
+                Glide.with(mContext)
+                        .using(new FirebaseImageLoader())
+                        .load(mStorageRef)
+                        .fitCenter()
+                        .dontTransform()
+                        .error(R.drawable.on_sale_item6)
+                        .into(holder.img);
+            }
         }
 
         mOnItemClickListener = new AdapterView.OnItemClickListener() {
@@ -163,7 +173,7 @@ public class UzaCardAdapter extends
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(mContext, UzaActivity.class);
                 intent.putExtra("fragment",3);
-                intent.putExtra("details", itemsList.get(i).getTexts());
+                intent.putExtra("details", itemsList.get(i));
                 mContext.startActivity(intent);
             }
         };

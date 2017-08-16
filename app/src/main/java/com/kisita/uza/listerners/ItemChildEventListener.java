@@ -56,6 +56,7 @@ public class ItemChildEventListener implements ChildEventListener{
     private static void handleReceivedData(DataSnapshot dataSnapshot,ArrayList<Data> list,String store) {
 
         ArrayList<String> articleData = new ArrayList<>();
+        ArrayList<String> pictures = new ArrayList<>();
         articleData.add(dataSnapshot.getKey());
 
         if(dataSnapshot.child("name").getValue() != null){
@@ -119,18 +120,24 @@ public class ItemChildEventListener implements ChildEventListener{
 
         if(dataSnapshot.child("sizes").getValue() != null){
             articleData.add(dataSnapshot.child("sizes").getValue().toString());
+            //Log.i(TAG,dataSnapshot.child("sizes").getValue().toString());
         }else{
             articleData.add("");
         }
 
         if(dataSnapshot.child("pictures").getValue() != null){
+            for(DataSnapshot d  : dataSnapshot.child("pictures").getChildren()){
+                //Log.i(TAG,d.getValue().toString());
+                pictures.add(d.getValue().toString());
+            }
             articleData.add(dataSnapshot.child("pictures").getValue().toString());
+            //Log.i(TAG,dataSnapshot.child("pictures").getValue().toString());
         }else{
             articleData.add("");
         }
 
         //TODO Give list array to data object instead of string array
-        list.add(new Data(articleData.toArray(new String[articleData.size()])));
+        list.add(new Data(articleData.toArray(new String[articleData.size()]),pictures));
     }
 
     @Override

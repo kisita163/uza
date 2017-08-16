@@ -73,7 +73,7 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 			editor.putInt(getString(R.string.uza_currency_position), position);
 			editor.commit();
 			// Update app
-			update_app();
+			//update_app();
 		}
 	}
 

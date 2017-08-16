@@ -136,7 +136,7 @@ public class NewArticleFragment extends CustomFragment {
         addSizeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.dialog);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());//,R.style.dialog);
                 builder.setTitle("Select size system")
                         .setSingleChoiceItems(R.array.sizeSystems, 0, new DialogInterface.OnClickListener() {
                             @Override

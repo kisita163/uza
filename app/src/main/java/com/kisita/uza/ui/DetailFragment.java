@@ -33,9 +33,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
+import com.kisita.uza.model.Data;
 import com.kisita.uza.utils.ColorSizeAdapter;
 import com.kisita.uza.utils.PageAdapter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -58,6 +60,7 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
     private static final String TAG = "### DetailFragment";
 
     private static final String DESCR = "description";
+    private static final String ITEM_DATA = "ITEM_DATA";
 
     private String [] mDescription;
 
@@ -118,6 +121,8 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
 
     private String commandKey = "";
 
+    private Data itemData;
+
     public DetailFragment() {
         // Required empty public constructor
     }
@@ -126,13 +131,14 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param description Parameter 1.
+     * @param data Item's data.
      * @return A new instance of fragment DetailFragment.
      */
-    public static DetailFragment newInstance(String[] description) {
+    public static DetailFragment newInstance(Data data) {
         DetailFragment fragment = new DetailFragment();
         Bundle args = new Bundle();
-        args.putStringArray(DESCR, description);
+        args.putStringArray(DESCR, data.getTexts());
+        args.putSerializable(ITEM_DATA,data);
         fragment.setArguments(args);
         return fragment;
     }
@@ -142,6 +148,7 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mDescription = getArguments().getStringArray(DESCR);
+            itemData     = (Data)getArguments().getSerializable(ITEM_DATA);
             // get user data
             commands = getDb().child("users-data").child(getUid()).child("commands");
             likes = getDb().child("users-data").child(getUid()).child("likes");
@@ -153,6 +160,9 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
 
             if(mDescription[PICTURES].equalsIgnoreCase("")){
                 mPictures = 1;
+            }else if(itemData.getPictures().size() > 0 ){
+
+                mPictures = itemData.getPictures().size();
             }else{
                 try {
                     mPictures = Integer.valueOf(mDescription[PICTURES]);
@@ -429,7 +439,7 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
         });
         vDots = (LinearLayout) v.findViewById(R.id.vDots);
 
-        pager.setAdapter(new PageAdapter(getContext(),mStorage,mDescription[UID],mPictures));
+        pager.setAdapter(new PageAdapter(getContext(),mStorage,mDescription[UID],mPictures,itemData.getPictures()));
         setupDotbar(v);
     }
 
