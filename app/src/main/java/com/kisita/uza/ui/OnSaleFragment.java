@@ -56,8 +56,6 @@ public class OnSaleFragment extends CustomFragment
     private FloatingActionMenu  fabMenu;
     private android.support.design.widget.FloatingActionButton foodButton;
 
-	private OnFragmentInteractionListener mListener;
-
 	private String[]  mTypes;
 
 	/* (non-Javadoc)
@@ -252,72 +250,7 @@ public class OnSaleFragment extends CustomFragment
 		recList.setLayoutManager(llm);
 		mCardadapter = new UzaCardAdapter(this.getContext(),itemsList);
 		recList.setAdapter(mCardadapter);
-		if(mQuery.equalsIgnoreCase("Commands")){
-			showProgressDialog();
-			loadCommandData();
-		}else{
-			loadData();
-		}
-	}
-
-	/*load command data */
-	private void  loadCommandData()
-	{
-		// get the seller id
-		mDatabase = FirebaseDatabase.getInstance().getReference();
-		mDatabase.keepSynced(true);
-
-		final Query itemsQuery = getCommandsQuery(mDatabase);
-		itemsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-			@Override
-			public void onDataChange(DataSnapshot dataSnapshot) {
-				itemsList.clear();
-				for(DataSnapshot d : dataSnapshot.getChildren()){
-					//Log.i(TAG,d.child("key").getValue().toString());
-					getDb().child("items").child(d.child("key").getValue().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
-						@Override
-						public void onDataChange(DataSnapshot dataSnapshot) {
-							//Log.i(TAG,dataSnapshot.toString());
-							ItemChildEventListener.initCommandlist(dataSnapshot,itemsList,"All");
-							mCardadapter.notifyDataSetChanged();
-							new Thread(new Runnable() {
-								@Override
-								public void run()
-								{
-									try
-									{
-										Thread.sleep(2000);
-
-									} catch (Exception e)
-									{
-										e.printStackTrace();
-									} finally
-									{
-										getActivity().runOnUiThread(new Runnable() {
-											@Override
-											public void run()
-											{
-												hideProgressDialog();
-											}
-										});
-									}
-								}
-							}).start();
-						}
-
-						@Override
-						public void onCancelled(DatabaseError databaseError) {
-
-						}
-					});
-				}
-			}
-
-			@Override
-			public void onCancelled(DatabaseError databaseError) {
-
-			}
-		});
+		loadData();
 	}
 
 	/**
@@ -332,22 +265,8 @@ public class OnSaleFragment extends CustomFragment
 		mDatabase.keepSynced(true);
 
 		final Query itemsQuery = getQuery(mDatabase);
-        itemsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                itemsList.clear();
-				//Log.i(TAG,dataSnapshot.toString());
-                ItemChildEventListener.initItemlist(dataSnapshot,itemsList,store);
-                mCardadapter.notifyDataSetChanged();
-                mChildEventListener = new ItemChildEventListener(itemsList, mCardadapter,store);
-                itemsQuery.addChildEventListener(mChildEventListener);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+		mChildEventListener = new ItemChildEventListener(itemsList, mCardadapter,store);
+		itemsQuery.addChildEventListener(mChildEventListener);
 	}
 
 	public Query getQuery(DatabaseReference databaseReference) {
@@ -357,51 +276,12 @@ public class OnSaleFragment extends CustomFragment
 					.endAt(mQuery);
 	}
 
-	public Query getCommandsQuery(DatabaseReference databaseReference) {
-		return databaseReference.child("commands")
-				.orderByChild("seller")
-				.startAt("Kitea")
-				.endAt("Kitea");
-	}
-
 	@Override
 	public void onDetach() {
 		super.onDetach();
 		mChildEventListener = null;
-        mListener = null;
-	}
-	/**
-	 * This interface must be implemented by activities that contain this
-	 * fragment to allow an interaction in this fragment to be communicated
-	 * to the activity and potentially other fragments contained in that
-	 * activity.
-	 * <p>
-	 * See the Android Training lesson <a href=
-	 * "http://developer.android.com/training/basics/fragments/communicating.html"
-	 * >Communicating with Other Fragments</a> for more information.
-	 */
-	public interface OnFragmentInteractionListener {
-		// TODO: Update argument type and name
-		void onFragmentInteraction();
 	}
 
-	// TODO: Rename method, update argument and hook method into UI event
-	public void onStoresPressed() {
-		if (mListener != null) {
-			mListener.onFragmentInteraction();
-		}
-	}
-
-	@Override
-	public void onAttach(Context context) {
-		super.onAttach(context);
-		if (context instanceof OnFragmentInteractionListener) {
-			mListener = (OnFragmentInteractionListener) context;
-		} else {
-			throw new RuntimeException(context.toString()
-					+ " must implement OnNewArticleInteractionListener");
-		}
-	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {

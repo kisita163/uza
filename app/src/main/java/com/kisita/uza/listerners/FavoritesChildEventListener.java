@@ -47,6 +47,7 @@ public class FavoritesChildEventListener implements ChildEventListener {
                         if (!dataSnapshot.exists())
                             return;
                         ArrayList<String> articleData = new ArrayList<>();
+                        ArrayList<String> pictures = new ArrayList<>();
                         articleData.add(dataSnapshot.getKey());
 
                         if(dataSnapshot.child("name").getValue() != null){
@@ -110,13 +111,18 @@ public class FavoritesChildEventListener implements ChildEventListener {
                         }
 
                         if(dataSnapshot.child("pictures").getValue() != null){
+                            for(DataSnapshot d  : dataSnapshot.child("pictures").getChildren()){
+                                //Log.i(TAG,d.getValue().toString());
+                                pictures.add(d.getValue().toString());
+                            }
                             articleData.add(dataSnapshot.child("pictures").getValue().toString());
+                            //Log.i(TAG,dataSnapshot.child("pictures").getValue().toString());
                         }else{
                             articleData.add("");
                         }
 
 
-                        data = new Data(articleData.toArray(new String[articleData.size()]), commandKey);
+                        data = new Data(articleData.toArray(new String[articleData.size()]), commandKey, pictures);
                         mItemsList.add(data);
                         mAdapter.notifyDataSetChanged();
                     }
