@@ -50,7 +50,9 @@ public class ItemChildEventListener implements ChildEventListener{
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        Log.i(TAG,"");
+        Log.i(TAG,""+s);
+        handleReceivedData(dataSnapshot,mItemsList,"All");
+        mAdapter.notifyDataSetChanged();
     }
 
     private static void handleReceivedData(DataSnapshot dataSnapshot,ArrayList<Data> list,String store) {
@@ -137,12 +139,12 @@ public class ItemChildEventListener implements ChildEventListener{
         }
 
         //TODO Give list array to data object instead of string array
-        list.add(new Data(articleData.toArray(new String[articleData.size()]),pictures));
+        shiftRight(new Data(articleData.toArray(new String[articleData.size()]),pictures),list);
     }
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        //TODO Update the changed item in the list (see database app)
+        //Log.i(TAG, "onChildChanged - " + dataSnapshot.getKey().toString());
     }
 
 
@@ -156,17 +158,32 @@ public class ItemChildEventListener implements ChildEventListener{
 
     }
 
-    public static void initItemlist(DataSnapshot dataSnapshot,ArrayList<Data> itemList,String store){
-        for(DataSnapshot d :  dataSnapshot.getChildren()){
-            handleReceivedData(d,itemList,store);
-        }
-        Collections.reverse(itemList);
-    }
 
     public static void initCommandlist(DataSnapshot dataSnapshot,ArrayList<Data> itemList,String store){
 
         handleReceivedData(dataSnapshot,itemList,store);
 
         Collections.reverse(itemList);
+    }
+
+
+    public static void shiftRight(Data newValue,ArrayList<Data> listValues)
+    {
+        //make temp variable to hold last element
+        if(listValues.size() > 0) {
+            Data temp = listValues.get(listValues.size() - 1);
+            //make a loop to run through the array list
+            for(int i = listValues.size()-1; i > 0; i--)
+            {
+                //set the last element to the value of the 2nd to last element
+                listValues.set(i,listValues.get(i-1));
+            }
+            //set the first element to be the last element
+            listValues.set(0, newValue);
+            listValues.add(temp);
+
+        }else{
+            listValues.add(newValue);
+        }
     }
 }

@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * items on Drawer layout.
  */
 @SuppressLint("InlinedApi")
-public class MainActivity extends CustomActivity implements OnSaleFragment.OnFragmentInteractionListener, StoresFragment.OnFragmentInteractionListener, NewArticleFragment.OnNewArticleInteractionListener
+public class MainActivity extends CustomActivity implements  StoresFragment.OnFragmentInteractionListener, NewArticleFragment.OnNewArticleInteractionListener
 {
 	/** The toolbar. */
 	public Toolbar toolbar;
@@ -172,11 +172,6 @@ public class MainActivity extends CustomActivity implements OnSaleFragment.OnFra
     protected void onResume() {
         commandsCount();
         super.onResume();
-    }
-
-    @Override
-    public void onFragmentInteraction() {
-
     }
 
 	@Override
