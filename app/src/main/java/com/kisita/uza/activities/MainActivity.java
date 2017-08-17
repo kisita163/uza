@@ -142,13 +142,6 @@ public class MainActivity extends CustomActivity implements  StoresFragment.OnFr
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if(item.getItemId() == R.id.action_store){
-			Log.i(TAG,"Store pressed ... ");
-			mPagerAdapter.clean();
-			//mPagerAdapter.add(commandsFragment, merchantFragmentNames[0]);
-			//mPagerAdapter.add(newArticleFragment, merchantFragmentNames[1]);
-			mPagerAdapter.notifyDataSetChanged();
-		}
 		return super.onOptionsItemSelected(item);
     }
 
