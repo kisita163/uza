@@ -36,10 +36,11 @@ public class Data implements Serializable
 		this.resources = resources;
 	}
 	// Data in cart
-	public Data(String[] texts, String key)
+	public Data(String[] texts, String key, ArrayList<String> pictures )
 	{
 		this.texts = texts;
 		this.key = key;
+		this.pictures = pictures;
 	}
 
 	public Data(String[] texts) {
