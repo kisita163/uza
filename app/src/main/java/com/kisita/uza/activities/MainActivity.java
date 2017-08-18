@@ -2,6 +2,7 @@ package com.kisita.uza.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -44,28 +47,14 @@ public class MainActivity extends CustomActivity implements  StoresFragment.OnFr
 	/*
 	 */
 	/* Title view */
-	private TextView mTitle;
+	private ImageView explore;
 
 	// Customer fragment
-	private StoresFragment storesFragment;
 	private OnSaleFragment menFragment;
 	private OnSaleFragment womenFragment;
 	private OnSaleFragment kidsFragment;
 	private OnSaleFragment electronicsFragment;
 	private OnSaleFragment booksFragment;
-	private OnSaleFragment homeFragment;
-	// Merchant fragment
-	private OnSaleFragment commandsFragment;
-	private NewArticleFragment newArticleFragment;
-
-	public final static int STORE = 0;
-	public final static int MEN = 1;
-	public final static int WOMEN = 2;
-	public final static int KIDS = 3;
-	public final static int ELECTRONICS = 4;
-	public final static int HOME = 5;
-	public final static int FOOD = 6;
-	public final static int BOOKS = 7;
 
 	public final String[] customerFragmentNames = new String[] {
 			//"Stores",
@@ -100,7 +89,15 @@ public class MainActivity extends CustomActivity implements  StoresFragment.OnFr
 		getSupportActionBar().setTitle("");
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
-		mTitle     = (TextView) findViewById(R.id.title_view);
+		explore     = (ImageView) findViewById(R.id.explore);
+
+       explore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
 		setPagerAdapter();
 
@@ -118,11 +115,10 @@ public class MainActivity extends CustomActivity implements  StoresFragment.OnFr
 		String selectedFragments = sharedPref.getString(getString(R.string.uza_main_fragments),null);
 		String title = sharedPref.getString(getString(R.string.uza_store),"UZA");
 
-		mTitle.setText(title);
+		//mTitle.setText(title);
 
 		Log.i(TAG,"Selected fragments are :"+selectedFragments);
 		//Customer fragments
-		storesFragment      = StoresFragment.newInstance();
 		menFragment         = OnSaleFragment.newInstance(getString(R.string.men));
 		womenFragment       = OnSaleFragment.newInstance(getString(R.string.women));
 		kidsFragment        = OnSaleFragment.newInstance(getString(R.string.kids));
@@ -170,7 +166,7 @@ public class MainActivity extends CustomActivity implements  StoresFragment.OnFr
 	@Override
 	public void onStoreSelectedListener(String store,String selectedFragments) {
 		//Log.i(TAG,"###### Selected store is : "+store+ " and selected fragments are  : "+selectedFragments);
-		mTitle.setText(store);
+		//mTitle.setText(store);
 		setPagerAdapter(selectedFragments);
 
 		SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.uza_keys),Context.MODE_PRIVATE);
