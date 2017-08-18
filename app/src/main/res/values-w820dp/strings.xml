@@ -12,7 +12,7 @@
     <string name="checkout_size">Size</string>
     <string name="checkout_price">Price</string>
     <string name="uza_store">uza_store</string>
-    <string name="food_type">food_type</string>
+    <string name="choice">choice</string>
     <string name="uza_main_fragments">selected_fragments</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="name">Name</string>

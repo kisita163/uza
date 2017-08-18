@@ -68,6 +68,7 @@ public class CommandsChildEventListener implements ChildEventListener {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        ArrayList<String> pictures = new ArrayList<>();
                         if (!dataSnapshot.exists())
                             return;
                         ArrayList<String> articleData = new ArrayList<>();
@@ -138,13 +139,18 @@ public class CommandsChildEventListener implements ChildEventListener {
                         }
 
                         if(dataSnapshot.child("pictures").getValue() != null){
+                            for(DataSnapshot d  : dataSnapshot.child("pictures").getChildren()){
+                                //Log.i(TAG,d.getValue().toString());
+                                pictures.add(d.getValue().toString());
+                            }
                             articleData.add(dataSnapshot.child("pictures").getValue().toString());
+                            //Log.i(TAG,dataSnapshot.child("pictures").getValue().toString());
                         }else{
                             articleData.add("");
                         }
 
                         //TODO Use array instead of list
-                        data = new Data(articleData.toArray(new String[articleData.size()]), commandKey , commandsDetails);
+                        data = new Data(articleData.toArray(new String[articleData.size()]), commandKey , commandsDetails,pictures);
                         mItemsList.add(data);
                         mPriceView = (TextView) (((UzaActivity)mContext).findViewById(R.id.total));
                         if(mPriceView != null)

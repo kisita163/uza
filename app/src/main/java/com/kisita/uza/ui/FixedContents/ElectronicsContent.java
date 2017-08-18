@@ -16,18 +16,18 @@ import java.util.Map;
  */
 public class ElectronicsContent {
 
-    public static final String [] categories = {"Home","Video games","Phones & Accessories","Computers & Tablets"};
+    public static final int [] categories = {R.string.all,R.string.home,R.string.video_game,R.string.phones_accesories,R.string.computers_tablets};
 
-    private static final int [] icons = {R.drawable.clothing,R.drawable.shoes,R.drawable.watch,R.drawable.perfumes};
+    private static final int [] icons = {R.drawable.ic_apps_black_24dp,R.drawable.light,R.drawable.game,R.drawable.phone,R.drawable.laptop};
     /**
      * An array of sample (dummy) items.
      */
-    private static final List<UzaListItem> ITEMS = new ArrayList<UzaListItem>();
+    public  static final List<UzaListItem> ITEMS = new ArrayList<UzaListItem>();
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    private static final Map<String, UzaListItem> ITEM_MAP = new HashMap<String, UzaListItem>();
+    private static final Map<Integer, UzaListItem> ITEM_MAP = new HashMap<Integer, UzaListItem>();
 
     private static final int COUNT = categories.length;
 

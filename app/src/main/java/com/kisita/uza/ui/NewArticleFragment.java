@@ -206,17 +206,17 @@ public class NewArticleFragment extends CustomFragment {
                     case "Men":
                     case "Women":
                         typeAdapter.clear();
-                        typeAdapter.addAll(MenContent.categories);
+                        //typeAdapter.addAll(MenContent.categories);
                         typeAdapter.notifyDataSetChanged();
                         break;
                     case "Kids":
                         typeAdapter.clear();
-                        typeAdapter.addAll(KidsContent.categories);
+                        //typeAdapter.addAll(KidsContent.categories);
                         typeAdapter.notifyDataSetChanged();
                         break;
                     case "Electronics":
                         typeAdapter.clear();
-                        typeAdapter.addAll(ElectronicsContent.categories);
+                        //typeAdapter.addAll(ElectronicsContent.categories);
                         typeAdapter.notifyDataSetChanged();
                         break;
                     case "Home":

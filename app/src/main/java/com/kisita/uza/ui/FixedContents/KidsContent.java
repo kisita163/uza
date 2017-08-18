@@ -15,19 +15,18 @@ import java.util.Map;
  * TODO: Replace all uses of this class before publishing your app.
  */
 public class KidsContent {
+    public static final int [] categories = {R.string.all,R.string.clothing,R.string.shoes_bags,R.string.toys_accessories,R.string.bathing_skincare};
 
-    public static final String [] categories = {"Clothing","Shoes & Bags","Toys & Accessories","Bathing  & Skin care"};
-
-    private static final int [] icons = {R.drawable.clothing,R.drawable.shoes,R.drawable.watch,R.drawable.perfumes};
+    private static final int [] icons = {R.drawable.ic_apps_black_24dp,R.drawable.clothing,R.drawable.baby_shoes,R.drawable.toys_baby,R.drawable.bath_baby};
     /**
      * An array of sample (dummy) items.
      */
-    private static final List<UzaListItem> ITEMS = new ArrayList<UzaListItem>();
+    public static final List<UzaListItem> ITEMS = new ArrayList<UzaListItem>();
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    private static final Map<String, UzaListItem> ITEM_MAP = new HashMap<String, UzaListItem>();
+    private static final Map<Integer, UzaListItem> ITEM_MAP = new HashMap<Integer, UzaListItem>();
 
     private static final int COUNT = categories.length;
 

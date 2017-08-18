@@ -30,8 +30,6 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
 
     private final List<UzaListItem> mValues;
     private ChoicesActivityFragment.OnFoodSelectedListener mFoodListener = null;
-
-    private FirebaseStorage mStorage = null;
     private StorageReference mStorageRef = null;
 
     private  OnListFragmentInteractionListener mPaymentListener = null;
@@ -41,7 +39,6 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
     private Context mContext;
 
     public UzaListAdapter(Context context, List<UzaListItem> items, OnListFragmentInteractionListener listener) {
-        mStorage = FirebaseStorage.getInstance();
         mValues = items;
         mPaymentListener = listener;
         mStoresListener = null;
@@ -49,7 +46,6 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
     }
 
     public UzaListAdapter(Context context,List<UzaListItem> items, StoresFragment.OnFragmentInteractionListener listener) {
-        mStorage = FirebaseStorage.getInstance();
         mValues = items;
         mStoresListener = listener;
         mPaymentListener = null;
@@ -71,11 +67,8 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final String name = mValues.get(position).name;
-        if(mStorage != null) {
-            mStorageRef = mStorage.getReferenceFromUrl("gs://glam-afc14.appspot.com/merchants_icons/" + mValues.get(position).name +
-                                                       "/drawable-xxhdpi/" + mValues.get(position).name.toLowerCase() + ".png");
-        }
+        final String name = mContext.getString( mValues.get(position).name);
+
         holder.mItem = mValues.get(position);
         holder.mPaymentName.setText(name);
         // Check which fragment we are working on
@@ -100,17 +93,10 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
                     mPaymentListener.onListFragmentInteraction(holder.mItem);
                 }
 
-                if (null != mStoresListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mStoresListener.onStoreSelectedListener(name,mValues.get(position).selectedFragments);
-                }
-
                 if (null != mFoodListener) {
-                    Log.i(TAG,"Food selected");
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mFoodListener.onFoodSelectedListener(name);
+                    mFoodListener.onChoiceMadeListener(name);
                 }
             }
         });

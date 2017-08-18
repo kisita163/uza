@@ -45,15 +45,15 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnFr
         Fragment f = null;
         switch (fid){
             case(0):
-                title = "Favorites";
+                title = getString(R.string.favourites);
                 f = new FavoritesFragment();
                 break;
             case(1):
-                title = "Checkout";
+                title = getString(R.string.checkout);
                 f = new CheckoutFragment();
                 break;
             case(2):
-                title = "Settings";
+                title = getString(R.string.settings);
                 f = new SettingsFragment();
                 break;
             case(3):

@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class PaymentContent {
 
-    private static final String [] methods = {"Credit card","Cash","Mobile money"};
+    private static final int [] methods = {R.string.credit_card,R.string.cash,R.string.mobile_money};
 
     private static final int [] icons = {R.drawable.ic_credit_card_black_24dp,R.drawable.cash,R.drawable.mobile_money};
     /**
@@ -27,7 +27,7 @@ public class PaymentContent {
     /**
      * A map of sample (dummy) items, by ID.
      */
-    public static final Map<String, UzaListItem> ITEM_MAP = new HashMap<String, UzaListItem>();
+    public static final Map<Integer, UzaListItem> ITEM_MAP = new HashMap<Integer, UzaListItem>();
 
     private static final int COUNT = methods.length;
 

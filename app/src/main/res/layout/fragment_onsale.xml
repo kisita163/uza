@@ -13,67 +13,6 @@
         android:layout_margin="@dimen/pad_5dp"
        />
 
-
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/menu_labels_right"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        fab:menu_backgroundColor="#ccffffff"
-        fab:menu_colorNormal="@color/main_color"
-        fab:menu_labels_ellipsize="end"
-        fab:menu_labels_position="left"
-        fab:menu_labels_singleLine="true">
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/menu_0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_apps_black_24dp"
-            fab:fab_colorNormal="@color/main_color"
-            fab:fab_label="Menu item 0"
-            fab:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/menu_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/clothing"
-            fab:fab_colorNormal="@color/main_color"
-            fab:fab_label="Menu item 1"
-            fab:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/menu_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/shoes"
-            fab:fab_colorNormal="@color/main_color"
-            fab:fab_label="Menu item 1"
-            fab:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/menu_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/watch"
-            fab:fab_colorNormal="@color/main_color"
-            fab:fab_label="Menu item 2"
-            fab:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/menu_5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/perfumes"
-            fab:fab_colorNormal="@color/main_color"
-            fab:fab_label="Menu item 3"
-            fab:fab_size="mini" />
-
-    </com.github.clans.fab.FloatingActionMenu>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabCart"
         android:layout_width="wrap_content"

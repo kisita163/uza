@@ -47,10 +47,11 @@ public class Data implements Serializable
 		this.texts = texts;
 	}
 
-	public Data(String[] texts,String key,String[] commandDetails) {
+	public Data(String[] texts,String key,String[] commandDetails,  ArrayList<String> pictures) {
 		this.texts = texts;
 		this.key = key;
 		this.commandDetails = commandDetails;
+        this.pictures = pictures;
 	}
 
 	public Data(String[] texts, ArrayList<String> pictures) {

@@ -116,7 +116,7 @@ public class StoresFragment extends CustomFragment {
                     String selectedFragment = null;
                     if(d.child("Types").getValue() != null)
                         selectedFragment = d.child("Types").getValue().toString();
-                    itemsList.add(new UzaListItem(d.getKey().toString(),R.drawable.amazon,selectedFragment));
+                    //itemsList.add(new UzaListItem(d.getKey().toString(),R.drawable.amazon,selectedFragment));
                 }
                 mCardadapter.notifyDataSetChanged();
             }

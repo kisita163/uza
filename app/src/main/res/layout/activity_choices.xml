@@ -1,8 +1,9 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment"
-    android:layout_margin="20dp"
-    android:name="com.kisita.uza.ui.ChoicesActivityFragment"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:layout="@layout/fragment_choices" />
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white" />
+    </LinearLayout>

@@ -37,12 +37,12 @@ public class HomeContent {
 
     static {
         for(int i = 0 ; i < COUNT ; i ++ ){
-            addItem(new UzaListItem(categories[i],icons[i]));
+            //addItem(new UzaListItem(categories[i],icons[i]));
         }
     }
 
     private static void addItem(UzaListItem item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.name, item);
+        //ITEM_MAP.put(item.name, item);
     }
 }

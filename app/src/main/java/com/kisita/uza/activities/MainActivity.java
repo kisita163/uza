@@ -123,12 +123,12 @@ public class MainActivity extends CustomActivity implements  StoresFragment.OnFr
 		Log.i(TAG,"Selected fragments are :"+selectedFragments);
 		//Customer fragments
 		storesFragment      = StoresFragment.newInstance();
-		menFragment         = OnSaleFragment.newInstance("Men");
-		womenFragment       = OnSaleFragment.newInstance("Women");
-		kidsFragment        = OnSaleFragment.newInstance("Kids");
-		electronicsFragment = OnSaleFragment.newInstance("Electronic");
+		menFragment         = OnSaleFragment.newInstance(getString(R.string.men));
+		womenFragment       = OnSaleFragment.newInstance(getString(R.string.women));
+		kidsFragment        = OnSaleFragment.newInstance(getString(R.string.kids));
+		electronicsFragment = OnSaleFragment.newInstance(getString(R.string.electronic));
 		//homeFragment        = OnSaleFragment.newInstance("Home");
-		booksFragment        = OnSaleFragment.newInstance("Food");
+		booksFragment        = OnSaleFragment.newInstance(getString(R.string.books));
 
 		//Merchant fragments
 		//commandsFragment    = OnSaleFragment.newInstance("Commands");

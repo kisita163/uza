@@ -8,9 +8,9 @@
     android:layout_margin="@dimen/pad_3dp"
     android:clickable="true"
     android:foreground="?android:selectableItemBackground"
-    app:cardElevation="@dimen/pad_5dp"
+    app:cardElevation="0dp"
     app:cardPreventCornerOverlap="false"
-    card_view:cardCornerRadius="@dimen/pad_5dp" >
+    card_view:cardCornerRadius="@dimen/pad_5dp"  >
 
     <RelativeLayout
         android:layout_width="match_parent"
