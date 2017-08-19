@@ -197,7 +197,7 @@ public class UzaCardAdapter extends
 
         double usd_eur = 0.889098;
 
-        double p = Double.valueOf(price);
+        double p = Double.valueOf(price.replace(",","."));
 
         String mCurrency = getCurrency(context);
 
