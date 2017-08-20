@@ -188,14 +188,19 @@ public class UzaCardAdapter extends
 
     public static String setPrice(String currency,String price,Context context) {
         DecimalFormat df = new DecimalFormat("#.##");
-        df.setRoundingMode(RoundingMode.CEILING);
-        //TODO Get ratio from server
-        // euros to cdf
-        double eur_cdf = 1623.58;// 1 euros = 1623.58 fc;
-        // usd to cdf
-        double usd_cdf = 1443.86;// 1 usd   = 1443.86 fc;
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
 
-        double usd_eur = 0.889098;
+        Log.i(TAG,sharedPref.getString("eur-cdf","") + "**** done");
+        Log.i(TAG,sharedPref.getString("usd-cdf","") + "**** done");
+        Log.i(TAG,sharedPref.getString("usf-eur","") + "**** done");
+
+        df.setRoundingMode(RoundingMode.CEILING);
+        // euros to cdf
+        double eur_cdf = Double.valueOf(sharedPref.getString("eur-cdf","1623.58"));//1623.58;// 1 euros = 1623.58 fc;
+        // usd to cdf
+        double usd_cdf = Double.valueOf(sharedPref.getString("usd-cdf","1443.86"));//1443.86;// 1 usd   = 1443.86 fc;
+
+        double usd_eur = Double.valueOf(sharedPref.getString("usd-eur","0.889098"));//0.889098;
 
         double p = Double.valueOf(price.replace(",","."));
 
