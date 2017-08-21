@@ -138,6 +138,12 @@ public class ItemChildEventListener implements ChildEventListener{
             articleData.add("");
         }
 
+        if(dataSnapshot.child("weight").getValue() != null){
+            articleData.add(dataSnapshot.child("weight").getValue().toString());
+        }else{
+            articleData.add("");
+        }
+
         //TODO Give list array to data object instead of string array
         shiftRight(new Data(articleData.toArray(new String[articleData.size()]),pictures),list);
     }
@@ -157,15 +163,6 @@ public class ItemChildEventListener implements ChildEventListener{
     public void onCancelled(DatabaseError databaseError) {
 
     }
-
-
-    public static void initCommandlist(DataSnapshot dataSnapshot,ArrayList<Data> itemList,String store){
-
-        handleReceivedData(dataSnapshot,itemList,store);
-
-        Collections.reverse(itemList);
-    }
-
 
     public static void shiftRight(Data newValue,ArrayList<Data> listValues)
     {
