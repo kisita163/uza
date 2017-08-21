@@ -175,7 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/pad_10dp"
-                    android:text="Colors"
+                    android:text="@string/colors"
                     android:textStyle="bold"
                     android:textSize="@dimen/txt_14sp" />
                     <View
@@ -211,7 +211,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/pad_10dp"
-                    android:text="Sizes"
+                    android:text="@string/sizes"
                     android:textStyle="bold"
                     android:textSize="@dimen/txt_14sp" />
 
@@ -248,7 +248,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/pad_10dp"
-                        android:text="Quantity"
+                        android:text="@string/quantity"
                         android:textStyle="bold"
                         android:textSize="@dimen/txt_14sp" />
 
@@ -322,7 +322,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
-                        android:hint="Enter your comment here"
+                        android:hint="@string/enter_your_comment_here"
                         android:fontFamily="sans-serif-thin"
                         android:maxLength="200"
                         android:lines="3"/>

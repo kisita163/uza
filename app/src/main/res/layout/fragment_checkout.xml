@@ -10,7 +10,7 @@
     <ScrollView
         android:id="@+id/sa"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1" >
 
         <LinearLayout
@@ -20,76 +20,110 @@
             android:gravity="center_horizontal"
             android:orientation="vertical" >
             <android.support.v7.widget.RecyclerView
-        android:id="@+id/cardList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/pad_5dp" />
-
-
-
-            <!--<View
-                android:id="@+id/view1"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/pad_1dp"
-                android:background="@color/main_grey_lt" />
-
-            <TextView
-                android:id="@+id/textView2"
-                style="@style/card_disable"
+                android:id="@+id/cardList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="****  ****  ****  2345" />
+                android:layout_margin="@dimen/pad_5dp" />
 
-            <View
-                android:id="@+id/view1"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/pad_1dp"
-                android:background="@color/main_grey_lt" />
-
-            <TextView
-                android:id="@+id/textView2"
-                style="@style/card_enabled"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="****  ****  ****  3344" />
-
-            <View
-                android:id="@+id/view1"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/pad_1dp"
-                android:background="@color/main_grey_lt" />
-
-            <TextView
+            <!--<TextView
                 android:id="@+id/newPmt"
                 style="@style/card_disable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_plus_gray"
-                android:text="New Payment Method" /> -->
+                android:text="New Payment Method" />-->
         </LinearLayout>
     </ScrollView>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_margin="@dimen/pad_10dp"
         android:layout_marginBottom="@dimen/pad_15dp">
 
+        <!--<View
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/pad_1dp"
+    android:background="@color/main_grey_lt" />-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+        <TextView
+            android:id="@+id/order_amount_label"
+            style="@style/card_enabled"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:text="@string/order_amount" />
+        <TextView
+            android:id="@+id/order_amount_value"
+            style="@style/card_enabled"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_orange_dark"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:text="" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pad_1dp"
+            android:background="@color/main_grey_lt" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+            <TextView
+                android:id="@+id/shipping_cost_label"
+                style="@style/card_enabled"
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/shipping_cost" />
+
+            <TextView
+                android:id="@+id/shipping_cost_value"
+                style="@style/card_enabled"
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:textColor="@android:color/holo_orange_dark"
+                android:layout_height="match_parent"
+                android:text="" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pad_1dp"
+            android:background="@color/main_grey_lt" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
         <TextView
             android:id="@+id/textView1"
-            android:layout_width="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="TOTAL : "
+            android:textStyle="bold"
+            style="@style/card_enabled"
+            android:text="@string/total"
             android:textColor="@color/main_grey_dk1"
             android:textSize="@dimen/txt_18sp" />
 
         <TextView
             android:id="@+id/total"
-            android:layout_width="wrap_content"
+            android:layout_weight="0.5"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/pad_10dp"
             android:text=""
+            style="@style/card_enabled"
             android:textColor="@android:color/holo_orange_dark"
-            android:textSize="@dimen/txt_18sp" />
+            android:layout_width="0dp" />
+        </LinearLayout>
     </LinearLayout>
 
     <Button
@@ -98,6 +132,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:text="Complete Purchase" />
+        android:text="@string/complete_purchase" />
 
 </LinearLayout>

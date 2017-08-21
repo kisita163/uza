@@ -1,6 +1,8 @@
 package com.kisita.uza.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
@@ -31,8 +33,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
@@ -89,6 +95,60 @@ public class LoginActivity extends CustomActivity
 		}
 		mDatabase = FirebaseDatabase.getInstance().getReference();
 		mAuth = FirebaseAuth.getInstance();
+
+		mDatabase = FirebaseDatabase.getInstance().getReference();
+		mDatabase.keepSynced(true);
+		/*
+			This listener get exchange rate and shipping cost from firebase database
+		 */
+		final Query itemsQuery = getMoneyQuery(mDatabase);
+		itemsQuery.addChildEventListener(new ChildEventListener() {
+			@Override
+			public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+				SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
+
+				SharedPreferences.Editor editor = sharedPref.edit();
+
+				for(DataSnapshot d  :  dataSnapshot.getChildren()){
+					Log.i(TAG,"******* key = "+d.getKey() + " value = "+d.getValue());
+					if(d.getKey().equalsIgnoreCase("eur-cdf")){
+						editor.putString("eur-cdf",d.getValue().toString());
+					}else if(d.getKey().equalsIgnoreCase("usd-cdf")){
+						editor.putString("usd-cdf",d.getValue().toString());
+					}else if(d.getKey().equalsIgnoreCase("usd-eur")){
+						editor.putString("usd-eur",d.getValue().toString());
+					}else if(d.getKey().equalsIgnoreCase("region1")){
+						editor.putString("region1",d.getValue().toString());
+					}else if(d.getKey().equalsIgnoreCase("region2")){
+						editor.putString("region2",d.getValue().toString());
+					}else if(d.getKey().equalsIgnoreCase("region3")){
+						editor.putString("region3",d.getValue().toString());
+					}
+				}
+				editor.apply();
+			}
+
+			@Override
+			public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+				System.out.println("Something changed in money" + dataSnapshot.getKey());
+			}
+
+			@Override
+			public void onChildRemoved(DataSnapshot dataSnapshot) {
+				System.out.println("Something removed in money");
+			}
+
+			@Override
+			public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+				System.out.println("Something moved in money");
+			}
+
+			@Override
+			public void onCancelled(DatabaseError databaseError) {
+
+			}
+		});
+
 		callbackManager = CallbackManager.Factory.create();
 
 		setupView();
@@ -296,42 +356,42 @@ public class LoginActivity extends CustomActivity
 	private boolean validateSignUpForm() {
 		boolean result = true;
 		if (TextUtils.isEmpty(mName.getText().toString())) {
-			mName.setError("Required");
+			mName.setError(getString(R.string.required));
 			result = false;
 		} else {
 			mName.setError(null);
 		}
 
 		if (TextUtils.isEmpty(mPhoneNumber.getText().toString())) {
-			mPhoneNumber.setError("Required");
+			mPhoneNumber.setError(getString(R.string.required));
 			result = false;
 		} else {
 			mPhoneNumber.setError(null);
 		}
 
 		if (TextUtils.isEmpty(mEmailField.getText().toString())) {
-			mEmailField.setError("Required");
+			mEmailField.setError(getString(R.string.required));
 			result = false;
 		} else {
 			mEmailField.setError(null);
 		}
 
 		if (TextUtils.isEmpty(mPasswordField.getText().toString())) {
-			mPasswordField.setError("Required");
+			mPasswordField.setError(getString(R.string.required));
 			result = false;
 		} else {
 			mPasswordField.setError(null);
 		}
 
 		if (TextUtils.isEmpty(mConfirmPassword.getText().toString())) {
-			mConfirmPassword.setError("Required");
+			mConfirmPassword.setError(getString(R.string.required));
 			result = false;
 		} else {
 			mConfirmPassword.setError(null);
 		}
 
 		if(!mConfirmPassword.getText().toString().equals(mPasswordField.getText().toString())){
-			mConfirmPassword.setError("Entered passwords are not equal");
+			mConfirmPassword.setError(getString(R.string.password_not_equal));
 			result = false;
 		} else {
 			mPasswordField.setError(null);
@@ -345,14 +405,14 @@ public class LoginActivity extends CustomActivity
 	private boolean validateForm() {
 		boolean result = true;
 		if (TextUtils.isEmpty(mEmailField.getText().toString())) {
-			mEmailField.setError("Required");
+			mEmailField.setError(getString(R.string.required));
 			result = false;
 		} else {
 			mEmailField.setError(null);
 		}
 
 		if (TextUtils.isEmpty(mPasswordField.getText().toString())) {
-			mPasswordField.setError("Required");
+			mPasswordField.setError(getString(R.string.required));
 			result = false;
 		} else {
 			mPasswordField.setError(null);
@@ -383,8 +443,8 @@ public class LoginActivity extends CustomActivity
 					hideProgressDialog();
 				} else {
 					// If sign in fails, display a message to the user.
-					Log.w(TAG, "createUserWithEmail:failure", task.getException());
-					Toast.makeText(LoginActivity.this, "Authentication failed. "+task.getException().getMessage(),
+					//Log.w(TAG, "createUserWithEmail:failure", task.getException());
+					Toast.makeText(LoginActivity.this, getString(R.string.authentication_failed)+task.getException().getMessage(),
 							Toast.LENGTH_LONG).show();
 					//updateUI(null);
 					hideProgressDialog();
@@ -507,5 +567,9 @@ public class LoginActivity extends CustomActivity
 						}
 					}
 				});
+	}
+
+	public Query getMoneyQuery(DatabaseReference databaseReference) {
+		return databaseReference.child("money");
 	}
 }
