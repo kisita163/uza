@@ -85,7 +85,7 @@ public class MainActivity extends CustomActivity implements  StoresFragment.OnFr
 		setSupportActionBar(toolbar);
 
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
-		//getSupportActionBar().setIcon(R.drawable.);
+		//getSupportActionBar().setIcon(R.drawable.ic_apps_black_24dp);
 		getSupportActionBar().setTitle("");
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -95,6 +95,7 @@ public class MainActivity extends CustomActivity implements  StoresFragment.OnFr
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
