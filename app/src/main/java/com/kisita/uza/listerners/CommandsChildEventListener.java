@@ -3,7 +3,6 @@ package com.kisita.uza.listerners;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
@@ -14,20 +13,19 @@ import com.google.firebase.database.ValueEventListener;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.model.Data;
-import com.kisita.uza.ui.CheckoutFragment;
 import com.kisita.uza.utils.UzaCardAdapter;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 import static com.kisita.uza.model.Data.UZA.CURRENCY;
 import static com.kisita.uza.model.Data.UZA.PRICE;
+import static com.kisita.uza.model.Data.UZA.WEIGHT;
 import static com.kisita.uza.utils.UzaCardAdapter.setFormat;
 import static com.kisita.uza.utils.UzaCardAdapter.setPrice;
 
-/**
+/*
  * Created by Hugues on 30/04/2017.
  */
 public class CommandsChildEventListener implements ChildEventListener {
@@ -36,8 +34,14 @@ public class CommandsChildEventListener implements ChildEventListener {
     private UzaCardAdapter mAdapter;
     private  DatabaseReference mDatabase;
     private Context mContext;
-    private double mPrice = 0;
-    TextView mPriceView;
+    private double mPrice  = 0;
+    private double mWeight = 0;
+    private double costPerWeight = 0 ;
+    private double shippingCost = 0;
+
+    private TextView mPriceView;
+    private TextView mShippingView;
+    private TextView mTotalView;
 
     private Data data;
     private String mCurrency = "";
@@ -54,12 +58,13 @@ public class CommandsChildEventListener implements ChildEventListener {
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         //Log.i(TAG, "Command added : " + dataSnapshot.getKey().toString());
+        final SharedPreferences sharedPref = mContext.getSharedPreferences(mContext.getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
+        costPerWeight = Double.valueOf(sharedPref.getString("region1","0.0"));
 
-        final String commandKey = dataSnapshot.getKey().toString();
+        final String commandKey = dataSnapshot.getKey();
         final String quantity   = (dataSnapshot.child("quantity").getValue() != null)? dataSnapshot.child("quantity").getValue().toString() : "1";
         final String color      = (dataSnapshot.child("color").getValue() != null)? dataSnapshot.child("color").getValue().toString() : "";
         final String size       = (dataSnapshot.child("size").getValue() != null)? dataSnapshot.child("size").getValue().toString() : "";
-        final String comment       = (dataSnapshot.child("comment").getValue() != null)? dataSnapshot.child("comment").getValue().toString() : "";
 
         final String[] commandsDetails = new String[]{quantity,color,size};
 
@@ -149,12 +154,39 @@ public class CommandsChildEventListener implements ChildEventListener {
                             articleData.add("");
                         }
 
+                        if(dataSnapshot.child("weight").getValue() != null){
+                            double time = Double.valueOf(quantity);
+                            String weight  = dataSnapshot.child("weight").getValue().toString();
+                            articleData.add(weight);
+                            mWeight +=  (time*(Double.valueOf(weight.replace(",","."))));
+                            //Log.i(TAG,"************ weight  = "+mWeight);
+                        }else{
+                            articleData.add("");
+                        }
+
                         //TODO Use array instead of list
                         data = new Data(articleData.toArray(new String[articleData.size()]), commandKey , commandsDetails,pictures);
                         mItemsList.add(data);
-                        mPriceView = (TextView) (((UzaActivity)mContext).findViewById(R.id.total));
-                        if(mPriceView != null)
+                        mPriceView    = (TextView) (((UzaActivity)mContext).findViewById(R.id.order_amount_value));
+                        mShippingView = (TextView) (((UzaActivity)mContext).findViewById(R.id.shipping_cost_value));
+                        mTotalView    = (TextView) (((UzaActivity)mContext).findViewById(R.id.total));
+
+                        if(mPriceView != null) {
                             mPriceView.setText(setFormat(String.valueOf(mPrice)) + " " + mCurrency);
+                        }
+
+                        if(mShippingView != null){
+                             // shipping cost per kg
+                            //Log.i(TAG, "**** current cost is "+ costPerWeight *mWeight);
+                            String cost_string = setPrice("EUR",setFormat(String.valueOf(costPerWeight *mWeight)),mContext);
+                            //Log.i(TAG, "**** current cost string is "+cost_string);
+                            shippingCost = Double.valueOf(cost_string);
+                            mShippingView.setText(cost_string + " " + mCurrency);
+                        }
+
+                        if(mTotalView != null) {
+                            mTotalView.setText(setFormat(String.valueOf(shippingCost + mPrice)) + " " + mCurrency);
+                        }
                         mAdapter.notifyDataSetChanged();
                     }
 
@@ -184,9 +216,17 @@ public class CommandsChildEventListener implements ChildEventListener {
                 mItemsList.remove(d);
                 mAdapter.notifyDataSetChanged();
 
-                mPriceView = (TextView) (((UzaActivity)mContext).findViewById(R.id.total));
-                if(mPriceView != null)
+                mPriceView = (TextView) (((UzaActivity)mContext).findViewById(R.id.order_amount_value));
+                if(mShippingView != null){
+                    mShippingView.setText(getNewShippingCost(d) + " " + mCurrency);
+                }
+                if(mPriceView != null) {
                     mPriceView.setText(getNewPrice(d) + " " + mCurrency);
+                }
+
+                if(mTotalView != null) {
+                    mTotalView.setText(setFormat(String.valueOf(shippingCost + mPrice)) + " " + mCurrency);
+                }
                 ((UzaActivity) mContext).commandsCount();
                 break;
             }
@@ -194,15 +234,34 @@ public class CommandsChildEventListener implements ChildEventListener {
     }
 
     private String getNewPrice(Data d) {
-
-        DecimalFormat df = new DecimalFormat("#.####");
+        double time = 0;
+        DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.CEILING);
-        double time = Double.valueOf(d.getCommandDetails()[0]);
+        try {
+            time = Double.valueOf(d.getCommandDetails()[0]);
+        }catch (NumberFormatException e){
+            // Do Nothing
+        }
         mPrice -= time*Double.valueOf(setPrice(d.getTexts()[CURRENCY],d.getTexts()[PRICE],mContext));
 
-        //mPrice -= getPrice
-
         return  df.format(mPrice);
+    }
+
+    private String getNewShippingCost(Data d) {
+        double time = 0;
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
+
+        try {
+            time = Double.valueOf(d.getCommandDetails()[0]);
+            mWeight -= time*Double.valueOf(d.getTexts()[WEIGHT]);
+        }catch (NumberFormatException e){
+            // Do Nothing
+        }
+
+        shippingCost = Double.valueOf(setPrice("EUR",String.valueOf(costPerWeight *mWeight),mContext));
+
+        return  df.format(shippingCost);
     }
 
     @Override
