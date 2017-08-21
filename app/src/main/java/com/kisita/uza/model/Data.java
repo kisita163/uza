@@ -119,5 +119,6 @@ public class Data implements Serializable
         public static final int COLOR       = 9;
         public static final int SIZE        = 10;
         public static final int PICTURES    = 11;
+        public static final int WEIGHT      = 12;
     }
 }
