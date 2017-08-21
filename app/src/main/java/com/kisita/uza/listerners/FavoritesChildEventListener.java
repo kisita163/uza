@@ -121,6 +121,11 @@ public class FavoritesChildEventListener implements ChildEventListener {
                             articleData.add("");
                         }
 
+                        if(dataSnapshot.child("weight").getValue() != null){
+                            articleData.add(dataSnapshot.child("weight").getValue().toString());
+                        }else{
+                            articleData.add("");
+                        }
 
                         data = new Data(articleData.toArray(new String[articleData.size()]), commandKey, pictures);
                         mItemsList.add(data);
