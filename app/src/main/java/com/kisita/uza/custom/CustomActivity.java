@@ -3,6 +3,7 @@ package com.kisita.uza.custom;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
@@ -227,4 +228,10 @@ public class CustomActivity extends AppCompatActivity implements
     public void onListFragmentInteraction(CommentFragment.ArticleComment item) {
 
     }
+
+	public  String getCurrency(){
+		SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.uza_keys),
+				Context.MODE_PRIVATE);
+		return sharedPref.getString(getString(R.string.uza_currency),"CDF");
+	}
 }
