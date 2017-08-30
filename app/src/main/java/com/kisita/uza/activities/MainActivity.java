@@ -1,11 +1,15 @@
 package com.kisita.uza.activities;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +23,7 @@ import android.widget.TextView;
 
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
+import com.kisita.uza.services.Token;
 import com.kisita.uza.ui.NewArticleFragment;
 import com.kisita.uza.ui.OnSaleFragment;
 import com.kisita.uza.ui.StoresFragment;
@@ -34,7 +39,7 @@ import java.util.ArrayList;
  * items on Drawer layout.
  */
 @SuppressLint("InlinedApi")
-public class MainActivity extends CustomActivity implements  StoresFragment.OnFragmentInteractionListener, NewArticleFragment.OnNewArticleInteractionListener
+public class MainActivity extends CustomActivity implements  StoresFragment.OnFragmentInteractionListener
 {
 	/** The toolbar. */
 	public Toolbar toolbar;
@@ -56,21 +61,12 @@ public class MainActivity extends CustomActivity implements  StoresFragment.OnFr
 	private OnSaleFragment electronicsFragment;
 	private OnSaleFragment booksFragment;
 
-	public final String[] customerFragmentNames = new String[] {
-			//"Stores",
-			"Men",
-			"Women",
-			"Kids",
-			"Electronics",
-			//"Home",
-			"Books"
-	};
+	// Alarm manager
 
-	/*public final String[] merchantFragmentNames = new String[] {
-			"Commands",
-			"New Article"
-	};*/
-
+	public static final long ALARM_TRIGGER_AT_TIME = SystemClock.elapsedRealtime(); // Start now
+	public static final long ALARM_INTERVAL = AlarmManager.INTERVAL_HALF_DAY ;
+	private AlarmManager alarmManager;
+	private PendingIntent pendingIntent;
 
     /* (non-Javadoc)
      * @see com.newsfeeder.custom.CustomActivity#onCreate(android.os.Bundle)
@@ -105,6 +101,8 @@ public class MainActivity extends CustomActivity implements  StoresFragment.OnFr
         mViewPager.setAdapter(mPagerAdapter);
 		mViewPager.setCurrentItem(0);
         commandsCount();
+
+		setAlarmManager();
     }
 
 	private void setPagerAdapter() {
@@ -208,12 +206,12 @@ public class MainActivity extends CustomActivity implements  StoresFragment.OnFr
 		mPagerAdapter.clean();
 		//mPagerAdapter.add(storesFragment, customerFragmentNames[STORE]);
 		//if(selectedFragments == null){
-			mPagerAdapter.add(menFragment, customerFragmentNames[0]);
-			mPagerAdapter.add(womenFragment, customerFragmentNames[1]);
-			mPagerAdapter.add(kidsFragment, customerFragmentNames[2]);
-			mPagerAdapter.add(electronicsFragment, customerFragmentNames[3]);
+			mPagerAdapter.add(menFragment,getString(R.string.men));
+			mPagerAdapter.add(womenFragment,getString(R.string.women));
+			mPagerAdapter.add(kidsFragment, getString(R.string.kids));
+			mPagerAdapter.add(electronicsFragment,getString(R.string.electronic));
 			//mPagerAdapter.add(homeFragment, customerFragmentNames[HOME]);
-			mPagerAdapter.add(booksFragment, customerFragmentNames[4]);
+			mPagerAdapter.add(booksFragment,getString(R.string.books));
 		/*}else {
 
 			if (selectedFragments.contains("Men=1"))
@@ -236,8 +234,17 @@ public class MainActivity extends CustomActivity implements  StoresFragment.OnFr
 		}*/
 	}
 
-	@Override
-	public void onNewArticleInteraction(Uri uri) {
+	private void setAlarmManager(){
+		alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+		Intent tokenIntent = new Intent(this, Token.class);
+		pendingIntent = PendingIntent.getService(this, 0, tokenIntent, 0);
+		alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+				                     ALARM_TRIGGER_AT_TIME,ALARM_INTERVAL,pendingIntent);
+	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		alarmManager.cancel(pendingIntent);
 	}
 }
