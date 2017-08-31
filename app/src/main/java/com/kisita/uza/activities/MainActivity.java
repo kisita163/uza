@@ -39,7 +39,7 @@ import java.util.ArrayList;
  * items on Drawer layout.
  */
 @SuppressLint("InlinedApi")
-public class MainActivity extends CustomActivity implements  StoresFragment.OnFragmentInteractionListener
+public class MainActivity extends CustomActivity
 {
 	/** The toolbar. */
 	public Toolbar toolbar;
@@ -96,7 +96,7 @@ public class MainActivity extends CustomActivity implements  StoresFragment.OnFr
             }
         });
 
-		setPagerAdapter();
+		setFragments();
 
         mViewPager.setAdapter(mPagerAdapter);
 		mViewPager.setCurrentItem(0);
@@ -109,30 +109,14 @@ public class MainActivity extends CustomActivity implements  StoresFragment.OnFr
 		ArrayList<Fragment> fragments = new ArrayList<>();
 		ArrayList<String> fragmentNames = new ArrayList<>();
 
-		SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.uza_keys),
-				Context.MODE_PRIVATE);
-		String selectedFragments = sharedPref.getString(getString(R.string.uza_main_fragments),null);
-		String title = sharedPref.getString(getString(R.string.uza_store),"UZA");
-
-		//mTitle.setText(title);
-
-		Log.i(TAG,"Selected fragments are :"+selectedFragments);
 		//Customer fragments
 		menFragment         = OnSaleFragment.newInstance(getString(R.string.men));
 		womenFragment       = OnSaleFragment.newInstance(getString(R.string.women));
 		kidsFragment        = OnSaleFragment.newInstance(getString(R.string.kids));
 		electronicsFragment = OnSaleFragment.newInstance(getString(R.string.electronic));
-		//homeFragment        = OnSaleFragment.newInstance("Home");
 		booksFragment        = OnSaleFragment.newInstance(getString(R.string.books));
-
-		//Merchant fragments
-		//commandsFragment    = OnSaleFragment.newInstance("Commands");
-		//newArticleFragment  = NewArticleFragment.newInstance();
-
-
-
 		mPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(),fragments,fragmentNames);
-		setPagerAdapter(selectedFragments);
+		setFragments();
 	}
 
 	@Override
@@ -162,76 +146,14 @@ public class MainActivity extends CustomActivity implements  StoresFragment.OnFr
         super.onResume();
     }
 
-	@Override
-	public void onStoreSelectedListener(String store,String selectedFragments) {
-		//Log.i(TAG,"###### Selected store is : "+store+ " and selected fragments are  : "+selectedFragments);
-		//mTitle.setText(store);
-		setPagerAdapter(selectedFragments);
 
-		SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.uza_keys),Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = sharedPref.edit();
-		editor.putString(getString(R.string.uza_store),store);
-		editor.putString(getString(R.string.uza_main_fragments),selectedFragments);
-		editor.apply();
-
-		showProgressDialog();
-		mPagerAdapter.notifyDataSetChanged();
-		mViewPager.setCurrentItem(1);
-		new Thread(new Runnable() {
-			@Override
-			public void run()
-			{
-				try
-				{
-					Thread.sleep(2000);
-
-				} catch (Exception e)
-				{
-					e.printStackTrace();
-				} finally
-				{
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run()
-						{
-							hideProgressDialog();
-						}
-					});
-				}
-			}
-		}).start();
-	}
-
-	private void setPagerAdapter(String selectedFragments) {
+	private void setFragments() {
 		mPagerAdapter.clean();
-		//mPagerAdapter.add(storesFragment, customerFragmentNames[STORE]);
-		//if(selectedFragments == null){
-			mPagerAdapter.add(menFragment,getString(R.string.men));
-			mPagerAdapter.add(womenFragment,getString(R.string.women));
-			mPagerAdapter.add(kidsFragment, getString(R.string.kids));
-			mPagerAdapter.add(electronicsFragment,getString(R.string.electronic));
-			//mPagerAdapter.add(homeFragment, customerFragmentNames[HOME]);
-			mPagerAdapter.add(booksFragment,getString(R.string.books));
-		/*}else {
-
-			if (selectedFragments.contains("Men=1"))
-				mPagerAdapter.add(menFragment, customerFragmentNames[MEN]);
-
-			if (selectedFragments.contains("Women=1"))
-				mPagerAdapter.add(womenFragment, customerFragmentNames[WOMEN]);
-
-			if (selectedFragments.contains("Kids=1"))
-				mPagerAdapter.add(kidsFragment, customerFragmentNames[KIDS]);
-
-			if (selectedFragments.contains("Electronics=1"))
-				mPagerAdapter.add(electronicsFragment, customerFragmentNames[ELECTRONICS]);
-
-			if (selectedFragments.contains("Home=1"))
-				mPagerAdapter.add(homeFragment, customerFragmentNames[HOME]);
-
-			if (selectedFragments.contains("Food=1"))
-				mPagerAdapter.add(booksFragment, customerFragmentNames[BOOKS]);
-		}*/
+		mPagerAdapter.add(menFragment,getString(R.string.men));
+		mPagerAdapter.add(womenFragment,getString(R.string.women));
+		mPagerAdapter.add(kidsFragment, getString(R.string.kids));
+		mPagerAdapter.add(electronicsFragment,getString(R.string.electronic));
+		mPagerAdapter.add(booksFragment,getString(R.string.books));
 	}
 
 	private void setAlarmManager(){
