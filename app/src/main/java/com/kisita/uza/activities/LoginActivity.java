@@ -315,7 +315,7 @@ public class LoginActivity extends CustomActivity
 		}
 
 		if(v.getId() == R.id.btnReg){
-			showProgressDialog();
+			showProgressDialog(getString(R.string.please_wait));
 			mName.setVisibility(View.VISIBLE);
 			mPhoneNumber.setVisibility(View.VISIBLE);
 			mConfirmPassword.setVisibility(View.VISIBLE);
@@ -425,7 +425,7 @@ public class LoginActivity extends CustomActivity
 		if (!validateSignUpForm()) {
 			return;
 		}
-		showProgressDialog();
+		showProgressDialog(getString(R.string.please_wait));
 
 		/*String name = mName.getText().toString();
 		String phone = mPhoneNumber.getText().toString();*/
@@ -459,7 +459,7 @@ public class LoginActivity extends CustomActivity
 			return;
 		}
 
-		showProgressDialog();
+		showProgressDialog(getString(R.string.please_wait));
 		String email = mEmailField.getText().toString();
 		String password = mPasswordField.getText().toString();
 
