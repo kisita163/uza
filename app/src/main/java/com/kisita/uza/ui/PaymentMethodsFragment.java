@@ -22,16 +22,16 @@ import com.kisita.uza.utils.UzaListAdapter;
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link OnPaymentListFragmentInteractionListener}
  * interface.
  */
 public class PaymentMethodsFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
+    private static final String ARG_AMOUNT = "amount";
     private int mColumnCount = 2;
-    private OnListFragmentInteractionListener mListener;
+    private OnPaymentListFragmentInteractionListener mListener;
+    private String mAmount;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -42,10 +42,11 @@ public class PaymentMethodsFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static PaymentMethodsFragment newInstance(int columnCount) {
+    public static PaymentMethodsFragment newInstance(int columnCount, String amount) {
         PaymentMethodsFragment fragment = new PaymentMethodsFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putString(ARG_AMOUNT, amount);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,6 +57,7 @@ public class PaymentMethodsFragment extends Fragment {
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            mAmount      = getArguments().getString(ARG_AMOUNT);
         }
     }
 
@@ -77,7 +79,7 @@ public class PaymentMethodsFragment extends Fragment {
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                     DividerItemDecoration.VERTICAL);
             recyclerView.addItemDecoration(dividerItemDecoration);
-            recyclerView.setAdapter(new UzaListAdapter(context,PaymentContent.ITEMS, mListener));
+            recyclerView.setAdapter(new UzaListAdapter(context,PaymentContent.ITEMS, mListener , mAmount));
         }
         return view;
     }
@@ -86,8 +88,8 @@ public class PaymentMethodsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
+        if (context instanceof OnPaymentListFragmentInteractionListener) {
+            mListener = (OnPaymentListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
@@ -110,9 +112,9 @@ public class PaymentMethodsFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnListFragmentInteractionListener {
+    public interface OnPaymentListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(UzaListItem item);
+        void onPayementListFragmentInteraction(UzaListItem item,String amount);
     }
 
     @Override
