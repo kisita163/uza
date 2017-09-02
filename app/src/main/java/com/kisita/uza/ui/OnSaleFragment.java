@@ -48,6 +48,10 @@ public class OnSaleFragment extends CustomFragment
 
 	private String[]  mTypes;
 
+
+	/* Hanle search button */
+	private boolean choiceButtonActivated = true;
+
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
@@ -95,15 +99,19 @@ public class OnSaleFragment extends CustomFragment
 
 		RecyclerView recList = (RecyclerView) v.findViewById(R.id.cardList);
 
-        choicesButton = (android.support.design.widget.FloatingActionButton)v.findViewById(R.id.fabCart);
-        choicesButton.setOnClickListener(new View.OnClickListener() {
+		if(choiceButtonActivated) {
+			choicesButton = (android.support.design.widget.FloatingActionButton) v.findViewById(R.id.fabCart);
+			choicesButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-                    Intent choices  = new Intent(getActivity(), ChoicesActivity.class);
-                    choices.putExtra(getString(R.string.choices),mQuery);
+					Intent choices = new Intent(getActivity(), ChoicesActivity.class);
+					choices.putExtra(getString(R.string.choices), mQuery);
 					startActivityForResult(choices, RESULT_CODE);
 				}
 			});
+		}else{
+			choicesButton.setVisibility(View.GONE);
+		}
 
 		itemsList = new ArrayList<>();
 		recList.setHasFixedSize(true);
