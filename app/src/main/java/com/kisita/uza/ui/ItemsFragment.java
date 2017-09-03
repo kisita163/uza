@@ -2,12 +2,10 @@ package com.kisita.uza.ui;
 
 import android.annotation.SuppressLint;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -20,7 +18,6 @@ import com.google.firebase.database.Query;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.ChoicesActivity;
 import com.kisita.uza.custom.CustomFragment;
-import com.kisita.uza.listerners.ItemEventListener;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.utils.UzaCardAdapter;
 
@@ -44,7 +41,6 @@ public abstract class ItemsFragment extends CustomFragment
     private UzaCardAdapter mCardAdapter;
     private ArrayList<Data> itemsList;
 
-    private ItemEventListener mItemListener;
     private String mQuery;
     private android.support.design.widget.FloatingActionButton choicesButton;
 
@@ -131,7 +127,6 @@ public abstract class ItemsFragment extends CustomFragment
     @Override
     public void onDetach() {
         super.onDetach();
-        mItemListener = null;
         mListener = null;
 
     }
@@ -145,10 +140,6 @@ public abstract class ItemsFragment extends CustomFragment
 
     public ArrayList<Data> getItemsList() {
         return itemsList;
-    }
-
-    public ItemEventListener getItemListener() {
-        return mItemListener;
     }
 
     public String getQuery() {
