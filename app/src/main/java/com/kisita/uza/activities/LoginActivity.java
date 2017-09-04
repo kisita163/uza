@@ -1,5 +1,6 @@
 package com.kisita.uza.activities;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,6 +45,7 @@ import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.model.User;
+import com.kisita.uza.services.FirebaseService;
 
 /**
  * The Activity LoginActivity is launched after the Home screen. You need to write your
@@ -95,9 +97,12 @@ public class LoginActivity extends CustomActivity
 		}
 		mDatabase = FirebaseDatabase.getInstance().getReference();
 		mAuth = FirebaseAuth.getInstance();
-
-		mDatabase = FirebaseDatabase.getInstance().getReference();
 		mDatabase.keepSynced(true);
+
+		if(!isMyServiceRunning(FirebaseService.class)){
+			Log.i(TAG,"Firebase service is not running. Start it now");
+			startService(new Intent(LoginActivity.this,FirebaseService.class));
+		}
 		/*
 			This listener get exchange rate and shipping cost from firebase database
 		 */
@@ -571,5 +576,19 @@ public class LoginActivity extends CustomActivity
 
 	public Query getMoneyQuery(DatabaseReference databaseReference) {
 		return databaseReference.child("money");
+	}
+
+	private boolean isMyServiceRunning(Class<?> serviceClass) {
+		Log.i(TAG,"isMyServiceRunning ?");
+		ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+		for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+			Log.i(TAG,"Service : "+service.service.getClassName());
+			if (serviceClass.getName().equals(service.service.getClassName())) {
+				Log.i(TAG,"Service found !!! ");
+				return true;
+			}
+		}
+		Log.i(TAG,"Research finished !!!");
+		return false;
 	}
 }
