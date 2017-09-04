@@ -96,7 +96,7 @@ public class MainActivity extends CustomActivity
             }
         });
 
-		setFragments();
+		setPagerAdapter();
 
         mViewPager.setAdapter(mPagerAdapter);
 		mViewPager.setCurrentItem(0);
