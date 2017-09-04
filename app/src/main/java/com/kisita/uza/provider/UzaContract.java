@@ -109,7 +109,13 @@ public class UzaContract {
         // Type
         public static final String COLUMN_TYPE        = "type";
 
-        public static final String COLUMN_URL         = "locality";
+        public static final String COLUMN_URL         = "url";
+
+        public static final String COLUMN_COLOR       = "color";
+
+        public static final String COLUMN_SIZE        = "size";
+
+        public static final String COLUMN_WEIGHT      = "weight";
 
         public static Uri buildPlaceUri() {
             return CONTENT_URI;
