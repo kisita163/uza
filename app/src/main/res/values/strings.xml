@@ -157,4 +157,28 @@
     <string name="perfumes_beauty"><![CDATA[Perfumes & Beauty]]></string>
     <string name="toys_accessories"><![CDATA[Toys & Accessories]]></string>
     <string name="bathing_skincare"><![CDATA[Bathing  & Skin care]]></string>
+    <string name="delivery">Delivery</string>
+    <string name="colors">Colors</string>
+    <string name="sizes">Sizes</string>
+    <string name="enter_your_comment_here">Enter your comment here</string>
+    <string name="total">TOTAL</string>
+    <string name="complete_purchase">Complete Purchase</string>
+    <string name="order_amount">Order Amount</string>
+    <string name="shipping_cost">Shipping cost</string>
+    <string name="authentication_failed">Authentication failed.</string>
+    <string name="required">Required</string>
+    <string name="password_not_equal">Entered passwords are not equal</string>
+    <string name="secure_payement">Secure payment</string>
+    <string name="payement">Payment</string>
+    <string name="payment_mthod">Payment method</string>
+    <string name="failed_to_get_token">Application failed to get a payment token. Please check your internet connection</string>
+    <string name="pay">Pay</string>
+    <string name="fail_to_contact_payment_server">Application fails to contact payment server. Please check your network connection</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="transaction_rejected">Transaction rejected !</string>
+    <string name="commands">Commands</string>
+    <string name="action_commands">Commands</string>
+
+    <!-- Provider -->
+    <string name="content_authority">com.kisita.uza</string>
 </resources>

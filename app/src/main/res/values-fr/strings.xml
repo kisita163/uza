@@ -110,7 +110,6 @@
     <string name="remove_size">Remove size</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="books">Books</string>
 
     <!-- Books content -->
     <string-array name="books_content">
@@ -146,10 +145,6 @@
 
     <!-- choices -->
     <string name="choices">Choix</string>
-    <string name="men">Hommes</string>
-    <string name="women">Femmes</string>
-    <string name="electronic">Electronique</string>
-    <string name="clothing">Vêtements</string>
     <string name="shoes_bags"><![CDATA[Chaussures & Sacs]]></string>
     <string name="watches_accessories"><![CDATA[Montres & Accessoires]]></string>
     <string name="perfumes_beauty"><![CDATA[Perfumes & Beauty]]></string>
@@ -173,4 +168,7 @@
     <string name="pay">Payer</string>
     <string name="fail_to_contact_payment_server">L\'application n\'a pas reussi à contacter le serveur de payement. Veuillez verifier votre connexion internet</string>
     <string name="please_wait">Veuillez patienter svp...</string>
+    <string name="transaction_rejected">Transaction rejected !</string>
+    <string name="commands">Commands</string>
+    <string name="action_commands">Commands</string>
 </resources>
