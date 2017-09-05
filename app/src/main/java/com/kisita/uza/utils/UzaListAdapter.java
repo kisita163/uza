@@ -16,14 +16,15 @@ import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.model.UzaListItem;
 import com.kisita.uza.ui.ChoicesActivityFragment;
-import com.kisita.uza.ui.PaymentMethodsFragment.OnListFragmentInteractionListener;
+import com.kisita.uza.ui.PaymentMethodsFragment;
+import com.kisita.uza.ui.PaymentMethodsFragment.OnPaymentListFragmentInteractionListener;
 import com.kisita.uza.ui.StoresFragment;
 
 import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link UzaListItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
+ * specified {@link OnPaymentListFragmentInteractionListener}.
  *
  */
 public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHolder> {
@@ -32,17 +33,19 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
     private ChoicesActivityFragment.OnFoodSelectedListener mFoodListener = null;
     private StorageReference mStorageRef = null;
 
-    private  OnListFragmentInteractionListener mPaymentListener = null;
+    private PaymentMethodsFragment.OnPaymentListFragmentInteractionListener mPaymentListener = null;
     private StoresFragment.OnFragmentInteractionListener mStoresListener = null;
 
     private final String TAG = "### UzaListAdapter";
     private Context mContext;
+    private String mAmount = "0.0";
 
-    public UzaListAdapter(Context context, List<UzaListItem> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
+    public UzaListAdapter(Context context, List<UzaListItem> items, OnPaymentListFragmentInteractionListener listener, String amount) {
+        mValues          = items;
         mPaymentListener = listener;
-        mStoresListener = null;
-        mContext = context;
+        mStoresListener  = null;
+        mContext         = context;
+        mAmount          = amount;
     }
 
     public UzaListAdapter(Context context,List<UzaListItem> items, StoresFragment.OnFragmentInteractionListener listener) {
@@ -90,7 +93,7 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
                 if (null != mPaymentListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mPaymentListener.onListFragmentInteraction(holder.mItem);
+                    mPaymentListener.onPayementListFragmentInteraction(holder.mItem,mAmount);
                 }
 
                 if (null != mFoodListener) {
