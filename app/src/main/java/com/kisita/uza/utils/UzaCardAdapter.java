@@ -337,8 +337,8 @@ public class UzaCardAdapter extends
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.CEILING);
 
-        double p = Double.valueOf(price);
-        double q = Double.valueOf(quantity);
+        double p = Double.valueOf(price.replace(",","."));
+        double q = Double.valueOf(quantity.replace(",","."));
 
         double res = q*p;
 
