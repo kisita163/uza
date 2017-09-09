@@ -99,6 +99,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
                 f = DetailFragment.newInstance((Data) getIntent().getSerializableExtra("details"));
                 break;
             case(4):
+                toolbar.setTitle(R.string.commands);
                 f =  CommandsFragment.newInstance("",false);
                 break;
             default:
@@ -207,7 +208,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
                         toolbar.setTitle(R.string.commands);
                         // Go to the fragment that shows commands in processing
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.content_frame, CommandsFragment.newInstance("Men",false))
+                                .replace(R.id.content_frame, CommandsFragment.newInstance("",false))
                                 .commit();
                     }else{
                         Toast.makeText(getBaseContext(), R.string.transaction_rejected, Toast.LENGTH_LONG).show();
