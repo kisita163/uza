@@ -102,6 +102,11 @@ public class CustomFragment extends Fragment implements OnClickListener
 				intent.putExtra("fragment",2);
 				getActivity().startActivity(intent);
 				break;
+			case(R.id.action_commands):
+				intent = new Intent(getActivity(), UzaActivity.class);
+				intent.putExtra("fragment",4);
+				getActivity().startActivity(intent);
+				break;
 			case(R.id.action_explore):
 				intent = new Intent(getActivity(), MainActivity.class);
 				getActivity().startActivity(intent);
@@ -148,7 +153,6 @@ public class CustomFragment extends Fragment implements OnClickListener
 		}else{
 			divider = 7;
 		}
-
 		return divider;
 	}
 
