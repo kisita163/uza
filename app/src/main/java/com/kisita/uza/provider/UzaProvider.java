@@ -11,6 +11,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import static com.kisita.uza.services.FirebaseUtils.columnsArray2string;
+
 /*
  * Created by HuguesKi on 03-09-17.
  */
@@ -25,6 +27,7 @@ public class UzaProvider extends ContentProvider {
     static final int COMMANDS    = 101;
     static final int FAVOURITES  = 102;
     static final int SEARCH      = 103;
+    static final int CHECKOUT    = 104;
 
 
     @Override
@@ -39,7 +42,7 @@ public class UzaProvider extends ContentProvider {
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         Cursor retCursor;
         switch (sUriMatcher.match(uri)) {
-            // "place"
+
             case SEARCH:{
                 selectionArgs[0] = "%"+selectionArgs[0]+"%";
                 String[] columns = new String[]{"name"};
@@ -55,6 +58,7 @@ public class UzaProvider extends ContentProvider {
                 break;
             }
             case ITEMS: {
+                Log.i(TAG,"** Items query ...");
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         UzaContract.ItemsEntry.TABLE_NAME,
                         projection, // List of columns to return
@@ -67,27 +71,36 @@ public class UzaProvider extends ContentProvider {
                 break;
             }
             case FAVOURITES: {
-                retCursor = mOpenHelper.getReadableDatabase().query(
-                        UzaContract.LikesEntry.TABLE_NAME,
-                        projection, // List of columns to return
-                        selection,  // A filter declaring which rows to return
-                        selectionArgs, // You may include ?s in selection, which will be replaced by the values from selectionArgs
-                        null,
-                        null,
-                        sortOrder
-                );
+                Log.i(TAG,"** Favourites query ...");
+                String sql = "SELECT "+ projection +" FROM " + UzaContract.ItemsEntry.TABLE_NAME     +
+                             " INNER JOIN "   + UzaContract.LikesEntry.TABLE_NAME  +
+                             " ON "           + UzaContract.ItemsEntry.TABLE_NAME  + "." + UzaContract.ItemsEntry._ID +
+                             "="              + UzaContract.LikesEntry.TABLE_NAME  + "." + UzaContract.LikesEntry.COLUMN_LIKES + ";";
+                retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
                 break;
             }
             case COMMANDS: {
-                retCursor = mOpenHelper.getReadableDatabase().query(
-                        UzaContract.CommandsEntry.TABLE_NAME,
-                        projection, // List of columns to return
-                        selection,  // A filter declaring which rows to return
-                        selectionArgs, // You may include ?s in selection, which will be replaced by the values from selectionArgs
-                        null,
-                        null,
-                        sortOrder
-                );
+                Log.i(TAG,"** Command query ...");
+
+                String sql = "SELECT "+ columnsArray2string(projection) +" FROM " + UzaContract.ItemsEntry.TABLE_NAME     +
+                             " INNER JOIN "   + UzaContract.CommandsEntry.TABLE_NAME  +
+                             " ON "           + UzaContract.ItemsEntry.TABLE_NAME     + "." + UzaContract.ItemsEntry._ID +
+                             " =  "           + UzaContract.CommandsEntry.TABLE_NAME  + "." + UzaContract.CommandsEntry.COLUMN_KEY +
+                             " WHERE "        + UzaContract.CommandsEntry.TABLE_NAME  + "." + UzaContract.CommandsEntry.COLUMN_STATE + "" +
+                             " = 1 ;";
+                retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
+                break;
+            }
+            case CHECKOUT: {
+                Log.i(TAG, "** Command query ...");
+
+                String sql = "SELECT " + columnsArray2string(projection) + " FROM " + UzaContract.ItemsEntry.TABLE_NAME +
+                        " INNER JOIN " + UzaContract.CommandsEntry.TABLE_NAME +
+                        " ON " + UzaContract.ItemsEntry.TABLE_NAME + "." + UzaContract.ItemsEntry._ID +
+                        " =  " + UzaContract.CommandsEntry.TABLE_NAME + "." + UzaContract.CommandsEntry.COLUMN_KEY +
+                        " WHERE " + UzaContract.CommandsEntry.TABLE_NAME + "." + UzaContract.CommandsEntry.COLUMN_STATE + "" +
+                        " <> 1 ;";
+                retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
                 break;
             }
             default:
@@ -106,7 +119,9 @@ public class UzaProvider extends ContentProvider {
             case ITEMS:
                 return UzaContract.ItemsEntry.CONTENT_TYPE;
             case COMMANDS:
-                return UzaContract.CommandsEntry.CONTENT_TYPE;
+                return UzaContract.CommandsEntry.CONTENT_TYPE_COMMANDS;
+            case CHECKOUT:
+                return UzaContract.CommandsEntry.CONTENT_TYPE_CHECKOUT;
             case FAVOURITES:
                 return UzaContract.LikesEntry.CONTENT_TYPE;
             default:
@@ -123,7 +138,7 @@ public class UzaProvider extends ContentProvider {
 
         switch (match) {
             case ITEMS: {
-                long _id = db.insert(UzaContract.ItemsEntry.TABLE_NAME, null, values);
+                long _id = db.insertWithOnConflict(UzaContract.ItemsEntry.TABLE_NAME, null, values,SQLiteDatabase.CONFLICT_REPLACE);
                 if ( _id > 0 )
                     returnUri = UzaContract.ItemsEntry.buildPlaceUri();
                 else
@@ -131,7 +146,7 @@ public class UzaProvider extends ContentProvider {
                 break;
             }
             case COMMANDS: {
-                long _id = db.insert(UzaContract.CommandsEntry.TABLE_NAME, null, values);
+                long _id = db.insertWithOnConflict(UzaContract.CommandsEntry.TABLE_NAME, null, values,SQLiteDatabase.CONFLICT_REPLACE);
                 if ( _id > 0 )
                     returnUri = UzaContract.CommandsEntry.buildPlaceUri();
                 else
@@ -139,7 +154,7 @@ public class UzaProvider extends ContentProvider {
                 break;
             }
             case FAVOURITES: {
-                long _id = db.insert(UzaContract.LikesEntry.TABLE_NAME, null, values);
+                long _id = db.insertWithOnConflict(UzaContract.LikesEntry.TABLE_NAME, null, values,SQLiteDatabase.CONFLICT_REPLACE);
                 if ( _id > 0 )
                     returnUri = UzaContract.LikesEntry.buildPlaceUri();
                 else
@@ -159,6 +174,7 @@ public class UzaProvider extends ContentProvider {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
         int rowsDeleted;
+        Log.i(TAG,uri.toString());
         // this makes delete all rows return the number of rows deleted
         if ( null == selection ) selection = "1";
         switch (match) {
@@ -231,6 +247,7 @@ testUriMatcher test within TestUriMatcher.
         // For each type of URI you want to add, create a corresponding code.
         matcher.addURI(authority, UzaContract.PATH_ITEMS, ITEMS);
         matcher.addURI(authority, UzaContract.PATH_COMMANDS, COMMANDS);
+        matcher.addURI(authority, UzaContract.PATH_CHECKOUT, CHECKOUT);
         matcher.addURI(authority, UzaContract.PATH_LIKES, FAVOURITES);
         matcher.addURI(authority, UzaContract.PATH_ITEMS + "/" + SearchManager.SUGGEST_URI_PATH_QUERY,SEARCH);
 
