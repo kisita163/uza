@@ -28,6 +28,8 @@ public class UzaContract {
 
     public static final String PATH_COMMANDS = "commands";
 
+    public static final String PATH_CHECKOUT = "checkout";
+
 
     public static final class LikesEntry implements BaseColumns {
         public static final Uri CONTENT_URI =
@@ -40,19 +42,29 @@ public class UzaContract {
 
         public static final String COLUMN_LIKES = "likes";
 
+        public static final String COLUMN_ID    = "id";
+
         public static Uri buildPlaceUri() {
             return CONTENT_URI;
         }
     }
 
     public static final class CommandsEntry implements BaseColumns {
-        public static final Uri CONTENT_URI =
+        public static final Uri CONTENT_URI_COMMANDS =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_COMMANDS).build();
 
-        public static final String CONTENT_TYPE =
+        public static final Uri CONTENT_URI_CHECKOUT =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_CHECKOUT).build();
+
+        public static final String CONTENT_TYPE_COMMANDS =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_COMMANDS;
 
+        public static final String CONTENT_TYPE_CHECKOUT =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_CHECKOUT;
+
         public static final String TABLE_NAME        = "commands";
+
+        public static final String COLUMN_STATE      = "state";
 
         public static final String COLUMN_ID         = "id";
 
@@ -67,8 +79,7 @@ public class UzaContract {
         public static final String COLUMN_COMMENT    = "comment";
 
         public static Uri buildPlaceUri() {
-            return CONTENT_URI;
-        }
+            return CONTENT_URI_CHECKOUT;      }
     }
 
     /* Inner class that defines the table contents of the items table */
@@ -80,7 +91,7 @@ public class UzaContract {
         public static final String CONTENT_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_ITEMS;
 
-        public static final String TABLE_NAME = "items";
+        public static final String TABLE_NAME         = "items";
 
         // Brand
         public static final String COLUMN_BRAND       = "brand";
@@ -94,6 +105,8 @@ public class UzaContract {
 
         // ID
         public static final String COLUMN_ID          = "id";
+
+        public static final String COLUMN_AID         = "aid";
 
         public static final String COLUMN_NAME        = "name";
 
