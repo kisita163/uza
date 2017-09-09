@@ -12,7 +12,7 @@ import android.util.Log;
 public class UzaDbHelper extends SQLiteOpenHelper {
     static final String  TAG = "### UzaDbHelper";
     // If you change the database schema, you must increment the database version.
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 6;
 
     static final String DATABASE_NAME = "uza.db";
 
@@ -26,7 +26,7 @@ public class UzaDbHelper extends SQLiteOpenHelper {
         // Create a table to hold items
         final String SQL_CREATE_ITEMS_TABLE = "CREATE TABLE " + UzaContract.ItemsEntry.TABLE_NAME + " (" +
 
-                UzaContract.ItemsEntry._ID                + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                //UzaContract.ItemsEntry._ID                + " INTEGER AUTOINCREMENT," +
 
                 UzaContract.ItemsEntry.COLUMN_NAME        + " TEXT NOT NULL, " +
                 UzaContract.ItemsEntry.COLUMN_BRAND       + " TEXT NOT NULL, " +
@@ -36,7 +36,8 @@ public class UzaDbHelper extends SQLiteOpenHelper {
                 UzaContract.ItemsEntry.COLUMN_CURRENCY    + " TEXT NOT NULL, " +
                 UzaContract.ItemsEntry.COLUMN_SELLER      + " TEXT NOT NULL, " +
                 UzaContract.ItemsEntry.COLUMN_PICTURES    + " TEXT NOT NULL, " +
-                UzaContract.ItemsEntry.COLUMN_ID          + " TEXT NOT NULL, " +
+                UzaContract.ItemsEntry._ID                + " TEXT PRIMARY KEY NOT NULL, " +
+                UzaContract.ItemsEntry.COLUMN_AID         + " TEXT NOT NULL, " +
                 UzaContract.ItemsEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
                 UzaContract.ItemsEntry.COLUMN_COLOR       + " TEXT NOT NULL, " +
                 UzaContract.ItemsEntry.COLUMN_SIZE        + " TEXT NOT NULL, " +
@@ -49,20 +50,22 @@ public class UzaDbHelper extends SQLiteOpenHelper {
         // Create a table to holds commands
         final String SQL_CREATE_COMMANDS_TABLE = "CREATE TABLE " + UzaContract.CommandsEntry.TABLE_NAME + " (" +
 
-                UzaContract.CommandsEntry._ID                     + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                //UzaContract.CommandsEntry._ID                     + " INTEGER AUTOINCREMENT," +
+                UzaContract.CommandsEntry._ID                     + " TEXT PRIMARY KEY NOT NULL," +
                 UzaContract.CommandsEntry.COLUMN_COLOR            + " TEXT NOT NULL, " +
                 UzaContract.CommandsEntry.COLUMN_SIZE             + " TEXT NOT NULL, " +
                 UzaContract.CommandsEntry.COLUMN_KEY              + " TEXT NOT NULL, " +
                 UzaContract.CommandsEntry.COLUMN_QUANTITY         + " TEXT NOT NULL, " +
                 UzaContract.CommandsEntry.COLUMN_COMMENT          + " TEXT NOT NULL, " +
-                UzaContract.CommandsEntry.COLUMN_ID               + " TEXT NOT NULL" + ");";
+                UzaContract.CommandsEntry.COLUMN_STATE            + " TEXT NOT NULL" + ");";
 
         sqLiteDatabase.execSQL(SQL_CREATE_COMMANDS_TABLE);
         // Create a table to holds favourites
         final String SQL_CREATE_LIKES_TABLE = "CREATE TABLE " + UzaContract.LikesEntry.TABLE_NAME + " (" +
 
-                UzaContract.LikesEntry._ID                     + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                UzaContract.LikesEntry.COLUMN_LIKES            + " TEXT NOT NULL" + ");";
+                //UzaContract.LikesEntry._ID                     + " INTEGER AUTOINCREMENT," +
+                UzaContract.LikesEntry.COLUMN_LIKES            + " TEXT NOT NULL, "  +
+                UzaContract.LikesEntry._ID                     + " TEXT PRIMARY KEY NOT NULL " + ");";
 
         sqLiteDatabase.execSQL(SQL_CREATE_LIKES_TABLE);
     }
