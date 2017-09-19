@@ -140,7 +140,7 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 		shippingCostField.setText("0.0");
 		totalAmount.setText("0.0");*/
 		mOrder = addDoubles(mOrder,Double.valueOf(getCost(newCost,newQantity)));
-		Log.i(TAG,"Total order is : " + mOrder + " " + newCost +  " " + Double.valueOf(getCost(newCost,newQantity)));
+		//Log.i(TAG,"Total order is : " + mOrder + " " + newCost +  " " + Double.valueOf(getCost(newCost,newQantity)));
 		orderAmountField.setText((String.valueOf(mOrder)) + " " + getCurrency(getContext()));
 	}
 
@@ -207,7 +207,7 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 					  data.getString(Data.UZA.QUANTITY)    + " " +
 					  data.getString(Data.UZA.KEY)         + " " +
 					  data.getString(Data.UZA.NAME));*/
-			Log.i(TAG,setPrice(data.getString(Data.UZA.CURRENCY),data.getString(Data.UZA.PRICE),getContext()));
+			//Log.i(TAG,setPrice(data.getString(Data.UZA.CURRENCY),data.getString(Data.UZA.PRICE),getContext()));
 			handleCost(setPrice(data.getString(Data.UZA.CURRENCY),data.getString(Data.UZA.PRICE),getContext()), // The item price in the currency used by the app
 					      data.getString(Data.UZA.QUANTITY)); // item quantity
 
@@ -305,7 +305,7 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 				where,
 				args
 		);
-		Log.i(TAG,"**** "+rowDeleted);
+		//Log.i(TAG,"**** "+rowDeleted);
 		//Log.i(TAG, "onRemovePressedListener " + getTag());
 		onReloadRequest(getTag());
 	}
