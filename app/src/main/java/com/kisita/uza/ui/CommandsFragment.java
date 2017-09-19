@@ -1,27 +1,32 @@
 package com.kisita.uza.ui;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.kisita.uza.R;
-import com.kisita.uza.listerners.CommandsChildEventListener;
-import com.kisita.uza.listerners.ItemChildEventListener;
+import com.kisita.uza.model.Data;
+import com.kisita.uza.provider.UzaContract;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static com.kisita.uza.model.Data.ITEMS_COLUMNS;
+import static com.kisita.uza.utils.UzaFunctions.getPicturesUrls;
+
 
 /**
  * Use the {@link CommandsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CommandsFragment extends ItemsFragment {
+public class CommandsFragment extends ItemsFragment implements  LoaderManager.LoaderCallbacks<Cursor> {
 
     public static CommandsFragment newInstance(String query , boolean choiceButton) {
         Log.i(TAG,"Creating fragment here ......");
@@ -36,18 +41,62 @@ public class CommandsFragment extends ItemsFragment {
     @Override
     void loadData() {
         Log.i(TAG,"Loading data in here ......");
-
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.keepSynced(true);
-
-        final Query itemsQuery = getQuery(mDatabase);
-
-        CommandsChildEventListener    mChildEventListener = new CommandsChildEventListener(getItemsList(), getCardAdapter(), mDatabase, this.getActivity(),true);
-        itemsQuery.addChildEventListener(mChildEventListener);
+        if (getLoaderManager().getLoader(0) == null){
+            getLoaderManager().initLoader(0, null, this);
+        }else{
+            getLoaderManager().restartLoader(0,null,this);
+        }
     }
 
     @Override
-    Query getQuery(DatabaseReference databaseReference) {
-        return databaseReference.child("users-data").child(getUid()).child("commands");
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.i(TAG,"Loader created");
+        Uri PlacesUri = UzaContract.CommandsEntry.CONTENT_URI_COMMANDS;
+
+        return new CursorLoader(getContext(),
+                PlacesUri,
+                ITEMS_COLUMNS,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        Log.i(TAG,"Load finished");
+        while (data.moveToNext()) {
+            String  []  rowData  =  {
+                              data.getString(Data.UZA.UID),
+                              data.getString(Data.UZA.NAME),
+                              data.getString(Data.UZA.PRICE),
+                              data.getString(Data.UZA.CURRENCY),
+                              data.getString(Data.UZA.BRAND),
+                              data.getString(Data.UZA.DESCRIPTION),
+                              data.getString(Data.UZA.SELLER),
+                              data.getString(Data.UZA.CATEGORY),
+                              data.getString(Data.UZA.TYPE),
+                              data.getString(Data.UZA.COLOR),
+                              "",
+                              data.getString(Data.UZA.WEIGHT),
+                              data.getString(Data.UZA.URL),
+
+            };
+            Data d = new Data(rowData,
+                              getPicturesUrls(data.getString(Data.UZA.PICTURES))
+            );
+            getItemsList().add(d);
+            getCardAdapter().notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        MenuItem item = menu.findItem(R.id.action_commands);
+        item.setVisible(false);
     }
 }
