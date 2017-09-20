@@ -3,8 +3,10 @@ package com.kisita.uza.custom;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -28,7 +30,7 @@ import com.kisita.uza.activities.UzaActivity;
  * Fragment classes with this class in case you want to apply common set of
  * rules for those Fragments.
  */
-public class CustomFragment extends Fragment implements OnClickListener
+public abstract class CustomFragment extends Fragment implements OnClickListener,LoaderManager.LoaderCallbacks<Cursor>
 {
 	private FirebaseAuth mAuth;
 	private ProgressDialog mProgressDialog;
@@ -40,6 +42,7 @@ public class CustomFragment extends Fragment implements OnClickListener
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
+		loadData();
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
@@ -156,4 +159,15 @@ public class CustomFragment extends Fragment implements OnClickListener
 		return divider;
 	}
 
+	/**
+	 * Load  product data for displaying on the RecyclerView.
+	 */
+	private void  loadData()
+	{
+		if (getLoaderManager().getLoader(0) == null){
+			getLoaderManager().initLoader(0, null, this);
+		}else{
+			getLoaderManager().restartLoader(0,null,this);
+		}
+	}
 }
