@@ -14,12 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.google.firebase.database.DatabaseReference;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.ChoicesActivity;
 import com.kisita.uza.custom.CustomFragment;
-import com.kisita.uza.listerners.ItemChildEventListener;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.UzaCardAdapter;
@@ -31,7 +28,7 @@ import static com.kisita.uza.model.Data.UZA.TYPE;
 import static com.kisita.uza.utils.UzaFunctions.getPicturesUrls;
 
 
-/**
+/*
  * The Class OnSaleFragment is the fragment that shows the products in GridView.
  */
 public class OnSaleFragment extends CustomFragment implements  LoaderManager.LoaderCallbacks<Cursor>
@@ -45,13 +42,8 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 	private UzaCardAdapter mCardadapter;
 	private ArrayList<Data> itemsList;
 
-	private DatabaseReference mDatabase;
-	private ItemChildEventListener mChildEventListener;
 	private String mQuery;
     private android.support.design.widget.FloatingActionButton choicesButton;
-
-	private String[]  mTypes;
-
 
 	/* Handle search button */
 	private boolean choiceButtonActivated = true;
@@ -102,10 +94,10 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 	private void setupView(View v)
 	{
 
-		RecyclerView recList = (RecyclerView) v.findViewById(R.id.cardList);
+		RecyclerView recList = v.findViewById(R.id.cardList);
 
 		if(choiceButtonActivated) {
-			choicesButton = (android.support.design.widget.FloatingActionButton) v.findViewById(R.id.fabCart);
+			choicesButton = v.findViewById(R.id.fabCart);
 			choicesButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -147,7 +139,6 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		mChildEventListener = null;
 	}
 
 
@@ -185,7 +176,6 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		//Log.i(TAG,"Load finished");
-		ArrayList<String> dataArray = new ArrayList<>();
 		while (data.moveToNext()) {
 			String  []  rowdata  =  {
 					data.getString(Data.UZA.UID),
