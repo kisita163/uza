@@ -1,6 +1,8 @@
 package com.kisita.uza.model;
 
 
+import com.kisita.uza.provider.UzaContract;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -10,14 +12,12 @@ public class Data implements Serializable
 {
 	private String uid;
 
-	/** The texts. This field contains the item name, the brand, the seller's name and a short item description */
-	private String[] texts;
+	/** The data. This field contains the item name, the brand, the seller's name and a short item description */
+	private String[] data;
 	/** The resources. */
 	private int resources[];
 
 	private String key = null;
-
-	private String[] commandDetails;
 
 	private ArrayList<String> pictures;
 
@@ -26,47 +26,41 @@ public class Data implements Serializable
 	 * Instantiates a new data.
 	 *
 	 * @param texts
-	 *            the texts
+	 *            the data
 	 * @param resources
 	 *            the resources
 	 */
 	public Data(String[] texts, int resources[])
 	{
-		this.texts = texts;
+		this.data = texts;
 		this.resources = resources;
 	}
 	// Data in cart
-	public Data(String[] texts, String key, ArrayList<String> pictures )
+	public Data(String[] data, String key, ArrayList<String> pictures )
 	{
-		this.texts = texts;
+		this.data = data;
 		this.key = key;
 		this.pictures = pictures;
 	}
 
 	public Data(String[] texts) {
-		this.texts = texts;
+		this.data = texts;
 	}
 
-	public Data(String[] texts,String key,String[] commandDetails,  ArrayList<String> pictures) {
-		this.texts = texts;
-		this.key = key;
-		this.commandDetails = commandDetails;
-        this.pictures = pictures;
-	}
 
 	public Data(String[] texts, ArrayList<String> pictures) {
-		this.texts = texts;
+		this.data = texts;
 		this.pictures = pictures;
 	}
 
 	/**
-	 * Gets the texts.
+	 * Gets the data.
 	 *
-	 * @return the texts
+	 * @return the data
 	 */
-	public String[] getTexts()
+	public String[] getData()
 	{
-		return texts;
+		return data;
 	}
 
 	/**
@@ -91,22 +85,18 @@ public class Data implements Serializable
 	}
 
 	public String getUid() {
-		return texts[UID];
+		return data[UID];
 	}
 
 	public String getKey() {
 		return key;
 	}
 
-	public String[] getCommandDetails() {
-		return commandDetails;
-	}
-
 	public ArrayList<String> getPictures() {
 		return pictures;
 	}
 
-	public class UZA {
+	public static  class UZA {
         public static final int UID         = 0;
         public static final int NAME        = 1;
         public static final int PRICE       = 2;
@@ -120,5 +110,59 @@ public class Data implements Serializable
         public static final int SIZE        = 10;
         public static final int PICTURES    = 11;
         public static final int WEIGHT      = 12;
+        public static final int URL         = 13;
+        public static final int QUANTITY    = 14;
+        public static final int KEY         = 15;
     }
+
+	public static final String[] ITEMS_COLUMNS = {
+		UzaContract.ItemsEntry.TABLE_NAME + "." + UzaContract.ItemsEntry._ID,
+		UzaContract.ItemsEntry.COLUMN_NAME,
+		UzaContract.ItemsEntry.COLUMN_PRICE,
+		UzaContract.ItemsEntry.COLUMN_CURRENCY,
+		UzaContract.ItemsEntry.COLUMN_BRAND,
+		UzaContract.ItemsEntry.COLUMN_DESCRIPTION,
+		UzaContract.ItemsEntry.COLUMN_SELLER,
+		UzaContract.ItemsEntry.COLUMN_CATEGORY,
+		UzaContract.ItemsEntry.COLUMN_TYPE,
+		UzaContract.ItemsEntry.TABLE_NAME + "." +UzaContract.ItemsEntry.COLUMN_COLOR,
+		UzaContract.ItemsEntry.TABLE_NAME + "." +UzaContract.ItemsEntry.COLUMN_SIZE,
+		UzaContract.ItemsEntry.COLUMN_PICTURES,
+		UzaContract.ItemsEntry.COLUMN_WEIGHT,
+		UzaContract.ItemsEntry.COLUMN_URL
+    };
+
+	public static final String[] ITEMS_COMMANDS_COLUMNS = {
+			UzaContract.ItemsEntry.TABLE_NAME + "." + UzaContract.ItemsEntry._ID,
+			UzaContract.ItemsEntry.COLUMN_NAME,
+			UzaContract.ItemsEntry.COLUMN_PRICE,
+			UzaContract.ItemsEntry.COLUMN_CURRENCY,
+			UzaContract.ItemsEntry.COLUMN_BRAND,
+			UzaContract.ItemsEntry.COLUMN_DESCRIPTION,
+			UzaContract.ItemsEntry.COLUMN_SELLER,
+			UzaContract.ItemsEntry.COLUMN_CATEGORY,
+			UzaContract.ItemsEntry.COLUMN_TYPE,
+			UzaContract.ItemsEntry.TABLE_NAME + "." +UzaContract.ItemsEntry.COLUMN_COLOR,
+			UzaContract.ItemsEntry.TABLE_NAME + "." +UzaContract.ItemsEntry.COLUMN_SIZE,
+			UzaContract.ItemsEntry.COLUMN_PICTURES,
+			UzaContract.ItemsEntry.COLUMN_WEIGHT,
+			UzaContract.ItemsEntry.COLUMN_URL,
+			UzaContract.CommandsEntry.COLUMN_QUANTITY,
+			UzaContract.CommandsEntry.TABLE_NAME + "." +UzaContract.CommandsEntry._ID
+	};
+
+	public static final String [] FAVOURITES_COLUMNS = {
+			UzaContract.LikesEntry.COLUMN_LIKES
+	};
+
+
+	public static final String[] COMMANDS_COLUMNS = {
+			UzaContract.CommandsEntry.TABLE_NAME + "." + UzaContract.CommandsEntry._ID,
+			UzaContract.CommandsEntry.COLUMN_KEY,
+			UzaContract.CommandsEntry.TABLE_NAME + "." +UzaContract.CommandsEntry.COLUMN_SIZE,
+			UzaContract.CommandsEntry.TABLE_NAME + "." +UzaContract.CommandsEntry.COLUMN_COLOR,
+			UzaContract.CommandsEntry.COLUMN_COMMENT,
+			UzaContract.CommandsEntry.COLUMN_QUANTITY,
+			UzaContract.CommandsEntry.COLUMN_STATE
+	};
 }

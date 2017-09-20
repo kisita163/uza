@@ -2,7 +2,9 @@ package com.kisita.uza.ui;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,6 +81,21 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 
 	@Override
 	public void onNothingSelected(AdapterView<?> parent) {
+
+	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		return null;
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
 
 	}
 }

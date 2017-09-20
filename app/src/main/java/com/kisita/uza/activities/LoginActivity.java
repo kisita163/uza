@@ -99,10 +99,6 @@ public class LoginActivity extends CustomActivity
 		mAuth = FirebaseAuth.getInstance();
 		mDatabase.keepSynced(true);
 
-		if(!isMyServiceRunning(FirebaseService.class)){
-			Log.i(TAG,"Firebase service is not running. Start it now");
-			startService(new Intent(LoginActivity.this,FirebaseService.class));
-		}
 		/*
 			This listener get exchange rate and shipping cost from firebase database
 		 */
@@ -177,6 +173,12 @@ public class LoginActivity extends CustomActivity
 
 		// Go to MainActivity
 		startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+		if(!isMyServiceRunning(FirebaseService.class)){
+			Log.i(TAG,"Firebase service is not running. Start it now");
+			startService(new Intent(LoginActivity.this,FirebaseService.class));
+		}
+
 		finish();
 	}
 

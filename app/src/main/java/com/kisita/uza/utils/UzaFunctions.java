@@ -2,6 +2,7 @@ package com.kisita.uza.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.kisita.uza.R;
 import com.kisita.uza.model.Data;
@@ -30,7 +31,7 @@ public class UzaFunctions {
     /* Amount format used for this application*/
     public static String setFormat(String str){
         DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance(Locale.US);
-        DecimalFormat df = new DecimalFormat("#.##",symbols);
+        DecimalFormat df = new DecimalFormat("#,###,###.##",symbols);
         df.setRoundingMode(RoundingMode.CEILING);
 
         return df.format(Double.valueOf(str));
@@ -56,9 +57,7 @@ public class UzaFunctions {
         String mCurrency = getCurrency(context);
 
 
-        if(mCurrency.equalsIgnoreCase(currency)) {
-            return price;
-        }else if(currency.equalsIgnoreCase("CDF") && mCurrency.equalsIgnoreCase("EUR")){
+        if(currency.equalsIgnoreCase("CDF") && mCurrency.equalsIgnoreCase("EUR")){
             p = p/eur_cdf;
         }else if(currency.equalsIgnoreCase("EUR") && mCurrency.equalsIgnoreCase("CDF")){
             p = Math.ceil(p*eur_cdf);
@@ -69,18 +68,21 @@ public class UzaFunctions {
         }else if(currency.equalsIgnoreCase("USD") && mCurrency.equalsIgnoreCase("CDF")) {
             p = Math.ceil(p*usd_cdf);
         }else if(currency.equalsIgnoreCase("CDF") && mCurrency.equalsIgnoreCase("USD")) {
-            p = p/usd_cdf;
-
-        }else{
-            return price;
+            p = p / usd_cdf;
         }
-        return setFormat(String.valueOf(p));
+
+        if(mCurrency.equalsIgnoreCase("CDF")){
+            // round to the next hundredth
+            p = p + 100 - p%100;
+        }
+
+        return String.valueOf(p);
     }
 
     /* Multiply the amount with the item quantity*/
     public static String getCost(String cost,String quantity) {
-        double price   = 0.0;
-        double qty     = 0.0;
+        double price   = 0.00;
+        double qty     = 0.00;
         double newCost;
 
         try {
@@ -91,13 +93,13 @@ public class UzaFunctions {
         }
         newCost  =  price*qty;
 
-        return  setFormat(String.valueOf(newCost));
+        return  String.valueOf(newCost);
     }
 
     public static  String getShippingCost(String weight,String quantity) {
 
-        double wght   = 0.0;
-        double qty     = 0.0;
+        double wght   = 0.00;
+        double qty     = 0.00;
         double shippingCost;
 
         try {
@@ -109,22 +111,29 @@ public class UzaFunctions {
 
         shippingCost = wght*qty;
 
-        return  setFormat(String.valueOf(shippingCost));
+        return  String.valueOf(shippingCost);
     }
 
 
     public static String printItems(ArrayList<Data> items){
-        String data = "";
+        StringBuffer buf = new StringBuffer();
         for(Data d : items){
-            data += d.getKey();
-            data += System.getProperty("line.separator");
+            buf.append(d.getKey());
+            buf.append(System.getProperty("line.separator"));
         }
 
-        return data;
+        return buf.toString();
     }
 
     public static ArrayList<String> getPicturesUrls(String string) {
 
         return  new ArrayList<>(Arrays.asList(string.split(",")));
+    }
+
+    public static double addDoubles(double a,double b){
+        double x  = a  + b ;
+        x = Math.ceil(x * 100) / 100;
+
+        return x;
     }
 }

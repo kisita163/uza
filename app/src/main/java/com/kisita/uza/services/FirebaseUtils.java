@@ -1,5 +1,7 @@
 package com.kisita.uza.services;
 
+import android.util.Log;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 
@@ -15,7 +17,7 @@ import java.util.ArrayList;
 
 public class FirebaseUtils {
     public static String getItemData(DataSnapshot dataSnapshot,String name){
-        if(dataSnapshot.child(name).getValue() != null){
+        if(dataSnapshot.child(name).exists()){
             return (dataSnapshot.child(name).getValue().toString());
         }else{
             return ("");
@@ -23,26 +25,25 @@ public class FirebaseUtils {
     }
 
     public static String getPicures(DataSnapshot dataSnapshot){
-       String pic  =  "";
+        StringBuffer buf = new StringBuffer();
         if(dataSnapshot.child("pictures").getValue() != null){
             for(DataSnapshot s : dataSnapshot.child("pictures").getChildren()){
-                pic += s.getValue();
-                pic += ",";
+                buf.append(s.getValue());
+                buf.append(",");
             }
         }
-        return pic;
+        return buf.toString();
     }
 
     public static String columnsArray2string(String [] projection){
-        String columns = "";
-
+        StringBuffer buf = new StringBuffer();
         for (int i = 0; i < projection.length; i++) {
-            columns += projection[i];
+            buf.append(projection[i]);
             if (i < projection.length - 1)
-                columns += ",";
+                buf.append(",");
         }
 
-        return columns;
+        return buf.toString();
     }
 
     public static String getItemId(DataSnapshot dataSnapshot){

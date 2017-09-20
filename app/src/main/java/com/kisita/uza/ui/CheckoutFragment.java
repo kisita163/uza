@@ -141,7 +141,7 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 		totalAmount.setText("0.0");*/
 		mOrder = addDoubles(mOrder,Double.valueOf(getCost(newCost,newQantity)));
 		//Log.i(TAG,"Total order is : " + mOrder + " " + newCost +  " " + Double.valueOf(getCost(newCost,newQantity)));
-		orderAmountField.setText((String.valueOf(mOrder)) + " " + getCurrency(getContext()));
+		orderAmountField.setText(setFormat(String.valueOf(mOrder)) + " " + getCurrency(getContext()));
 	}
 
 	/**
@@ -246,7 +246,7 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 			weight = "0";
 		}
 		mShippingCost = addDoubles(mShippingCost,Double.valueOf(getShippingCost(weight,quantity)));
-		shippingCostField.setText(String.valueOf(mShippingCost) + " " + getCurrency(getContext()));
+		shippingCostField.setText(setFormat(String.valueOf(mShippingCost)) + " " + getCurrency(getContext()));
 	}
 
 	@Override

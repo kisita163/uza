@@ -132,7 +132,7 @@
     </style>
 
     <style name="card_enabled" parent="@style/card_disable">
-        <item name="android:drawableRight">@drawable/icon_checked</item>
+
         <item name="android:textColor">@color/main_grey_dk1</item>
     </style>
 

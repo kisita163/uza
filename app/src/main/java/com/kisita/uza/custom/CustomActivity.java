@@ -228,10 +228,4 @@ public class CustomActivity extends AppCompatActivity implements
     public void onListFragmentInteraction(CommentFragment.ArticleComment item) {
 
     }
-
-	public  String getCurrency(){
-		SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.uza_keys),
-				Context.MODE_PRIVATE);
-		return sharedPref.getString(getString(R.string.uza_currency),"CDF");
-	}
 }

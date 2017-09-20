@@ -72,17 +72,16 @@ public class UzaProvider extends ContentProvider {
             }
             case FAVOURITES: {
                 Log.i(TAG,"** Favourites query ...");
-                String sql = "SELECT "+ projection +" FROM " + UzaContract.ItemsEntry.TABLE_NAME     +
-                             " INNER JOIN "   + UzaContract.LikesEntry.TABLE_NAME  +
-                             " ON "           + UzaContract.ItemsEntry.TABLE_NAME  + "." + UzaContract.ItemsEntry._ID +
-                             "="              + UzaContract.LikesEntry.TABLE_NAME  + "." + UzaContract.LikesEntry.COLUMN_LIKES + ";";
+                String sql = "SELECT " + columnsArray2string(projection)    +" FROM " + UzaContract.LikesEntry.TABLE_NAME     +
+                             " WHERE " + UzaContract.LikesEntry.TABLE_NAME  + "."     + UzaContract.LikesEntry.COLUMN_LIKES +
+                             "="       + "'" + selection + "'" + ";";
                 retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
                 break;
             }
 
             case CATEGORY: {
-                String sql = "SELECT " + columnsArray2string(projection) +" FROM " + UzaContract.ItemsEntry.TABLE_NAME     +
-                             " WHERE " + UzaContract.ItemsEntry.TABLE_NAME  + "." + UzaContract.ItemsEntry.COLUMN_CATEGORY +
+                String sql = "SELECT " + columnsArray2string(projection)    +" FROM " + UzaContract.ItemsEntry.TABLE_NAME     +
+                             " WHERE " + UzaContract.ItemsEntry.TABLE_NAME  + "."     + UzaContract.ItemsEntry.COLUMN_CATEGORY +
                              " = "     + "'" + selection + "'" + ";";
                 //Log.i(TAG,"** category query ..." + sql);
                 retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);

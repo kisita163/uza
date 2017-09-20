@@ -4,7 +4,7 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-/**
+/*
  * Created by HuguesKi on 03-09-17.
  */
 

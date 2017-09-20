@@ -13,8 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.ChoicesActivity;
 import com.kisita.uza.custom.CustomFragment;
@@ -22,6 +20,7 @@ import com.kisita.uza.model.Data;
 import com.kisita.uza.utils.UzaCardAdapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static com.kisita.uza.model.Data.UZA.TYPE;
 
@@ -45,7 +44,7 @@ public abstract class ItemsFragment extends CustomFragment
     private android.support.design.widget.FloatingActionButton choicesButton;
 
     /* Handle search button */
-    private boolean choiceButtonActivated = true;
+    private boolean choiceButtonActivated = false;
 
 
     private OnItemFragmentInteractionListener mListener;
@@ -85,7 +84,7 @@ public abstract class ItemsFragment extends CustomFragment
      * @param v
      *            the base view of fragment
      */
-    private void setupView(View v)
+    protected void setupView(View v)
     {
 
         RecyclerView recList = v.findViewById(R.id.cardList);
@@ -101,7 +100,8 @@ public abstract class ItemsFragment extends CustomFragment
                 }
             });
         }else{
-            choicesButton.setVisibility(View.GONE);
+            if(choicesButton != null)
+                choicesButton.setVisibility(View.GONE);
         }
 
         itemsList = new ArrayList<>();
@@ -122,8 +122,6 @@ public abstract class ItemsFragment extends CustomFragment
      */
     abstract void  loadData();
 
-    abstract Query getQuery(DatabaseReference databaseReference);
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -131,10 +129,10 @@ public abstract class ItemsFragment extends CustomFragment
 
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onReloadRequest(String title) {
+        Log.i(TAG, "onReloadRequest");
         if (mListener != null) {
-            mListener.onItemFragmentInteraction(uri);
+            mListener.onItemFragmentInteraction(title);
         }
     }
 
@@ -173,7 +171,7 @@ public abstract class ItemsFragment extends CustomFragment
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnItemFragmentInteractionListener {
-        void onItemFragmentInteraction(Uri uri);
+        void onItemFragmentInteraction(String title);
     }
 
 
@@ -186,22 +184,12 @@ public abstract class ItemsFragment extends CustomFragment
             ArrayList<Data> tmpList = new ArrayList<>();
             Log.i(TAG, " selected is  : "+choice);
             for (Data d : itemsList) {
-                if (d.getTexts()[TYPE].equalsIgnoreCase(choice) || choice.equalsIgnoreCase(getString(R.string.all))) {
+                if (d.getData()[TYPE].equalsIgnoreCase(choice) || choice.equalsIgnoreCase(getString(R.string.all))) {
                     tmpList.add(d);
                 }
             }
             mCardAdapter.setItemsList(tmpList);
             mCardAdapter.notifyDataSetChanged();
         }
-    }
-
-    public static String printItems(ArrayList<Data> items){
-        String data = "";
-        for(Data d : items){
-            data += d.getKey();
-            data += System.getProperty("line.separator");
-        }
-
-        return data;
     }
 }

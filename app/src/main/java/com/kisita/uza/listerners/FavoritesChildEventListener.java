@@ -17,7 +17,7 @@ import com.kisita.uza.utils.UzaCardAdapter;
 
 import java.util.ArrayList;
 
-/**
+/*
  * Created by HuguesKi on 26/05/2017.
  */
 

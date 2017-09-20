@@ -4,22 +4,24 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,18 +36,21 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
+import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.ColorSizeAdapter;
 import com.kisita.uza.utils.PageAdapter;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.kisita.uza.model.Data.FAVOURITES_COLUMNS;
 import static com.kisita.uza.model.Data.UZA.*;
-import static com.kisita.uza.utils.UzaCardAdapter.setPrice;
+import static com.kisita.uza.utils.UzaFunctions.getCurrency;
+import static com.kisita.uza.utils.UzaFunctions.setFormat;
+import static com.kisita.uza.utils.UzaFunctions.setPrice;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,17 +83,9 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
     /** The view that hold dots. */
     private LinearLayout vDots;
 
-    private String mColor = new String("");
-
-    private String mSize = new String("");
-
     private OnFragmentInteractionListener mListener;
 
     private Boolean mLiked = false;
-
-    private DatabaseReference commands;
-
-    private DatabaseReference likes;
 
     private FirebaseStorage mStorage;
 
@@ -104,8 +101,6 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
     private LinearLayout mColorsContainer;
 
     private LinearLayout mSizesContainer;
-
-    private LinearLayout mQuantityContainer;
 
     private ColorSizeAdapter colorAdapter;
 
@@ -137,7 +132,7 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
     public static DetailFragment newInstance(Data data) {
         DetailFragment fragment = new DetailFragment();
         Bundle args = new Bundle();
-        args.putStringArray(DESCR, data.getTexts());
+        args.putStringArray(DESCR, data.getData());
         args.putSerializable(ITEM_DATA,data);
         fragment.setArguments(args);
         return fragment;
@@ -149,102 +144,10 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
         if (getArguments() != null) {
             mDescription = getArguments().getStringArray(DESCR);
             itemData     = (Data)getArguments().getSerializable(ITEM_DATA);
-            // get user data
-            commands = getDb().child("users-data").child(getUid()).child("commands");
-            likes = getDb().child("users-data").child(getUid()).child("likes");
-            mStorage = FirebaseStorage.getInstance();
-
-            getCurrency();
-
-            //Log.i(TAG,"***** number of pictures is :"+mDescription[PICTURES]);
-
-            if(mDescription[PICTURES].equalsIgnoreCase("")){
-                mPictures = 1;
-            }else if(itemData.getPictures().size() > 0 ){
-
-                mPictures = itemData.getPictures().size();
-            }else{
-                try {
-                    mPictures = Integer.valueOf(mDescription[PICTURES]);
-                }catch(NumberFormatException e){
-                    Log.e(TAG,e.getMessage());
-                    mPictures = 1;
-                }
-            }
-
-            commands.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.hasChildren()) {
-                        //Log.i(TAG, "***" + dataSnapshot.getValue().toString());
-                        for(DataSnapshot d :  dataSnapshot.getChildren()){
-                            //Log.i(TAG,"***" + d.child("key").getValue().toString());
-                            if(d.child("key").getValue().toString().equalsIgnoreCase(mDescription[UID])){
-                                //Log.i(TAG,"***" + d.getKey());
-                                commandKey = d.getKey();
-                                setAddButton();
-                                mCommand = true;
-                                if(colorAdapter != null) {
-                                    try {
-                                        colorAdapter.setResource(d.child("color").getValue().toString());
-                                    }catch (NullPointerException e){
-                                        colorAdapter.setResource("");
-                                    }
-                                    colorAdapter.notifyDataSetChanged();
-                                }
-
-                                if(sizeAdapter != null) {
-                                    try {
-                                        sizeAdapter.setResource(d.child("size").getValue().toString());
-                                    }catch (NullPointerException e){
-                                        sizeAdapter.setResource("");
-                                    }
-                                    sizeAdapter.notifyDataSetChanged();
-                                }
-
-                                if(quantity != null){
-                                    quantity.setText(d.child("quantity").getValue().toString());
-                                }
-
-                                if(commandComment != null){
-                                    try {
-                                        commandComment.setText(d.child("comment").getValue().toString());
-                                    }catch (NullPointerException e){
-                                        commandComment.setText("");
-                                    }
-                                }
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
-            likes.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.hasChildren()) {
-                        //Log.i(TAG, dataSnapshot.getValue().toString());
-                        for(DataSnapshot d :  dataSnapshot.getChildren()){
-                            //Log.i(TAG,d.getValue().toString());
-                            if(d.getValue().toString().equalsIgnoreCase(mDescription[UID])){
-                                mlike.setImageResource(R.drawable.button_liked);
-                                key = d.getKey();
-                                mLiked = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+            // get Firebase database  reference for pictures
+            mStorage  = FirebaseStorage.getInstance();
+            mPictures = itemData.getPictures().size();
+            mCurrency = getCurrency(getContext());
         }
     }
 
@@ -252,9 +155,9 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        super.onCreateView(inflater,container,savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_detail, null);
         setHasOptionsMenu(true);
-        //setDialogView();
         return setupView(v);
     }
 
@@ -289,93 +192,75 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
     private View setupView(View v)
     {
 
-        TextView  item_name         = (TextView)v.findViewById(R.id.item_name);
-        TextView  item_price        = (TextView)v.findViewById(R.id.item_price);
-        TextView  item_description  = (TextView)v.findViewById(R.id.item_description);
-        commandComment              = (EditText)v.findViewById(R.id.command_comment);
+        TextView  item_name         = v.findViewById(R.id.item_name);
+        TextView  item_price        = v.findViewById(R.id.item_price);
+        TextView  item_description  = v.findViewById(R.id.item_description);
+        commandComment              = v.findViewById(R.id.command_comment);
 
-        add = (FloatingActionButton) v.findViewById(R.id.fabCart);
+        add =  v.findViewById(R.id.fabCart);
         add.setOnClickListener(this);
-        mlike = (ImageView) v.findViewById(R.id.btnLike);
+        mlike =  v.findViewById(R.id.btnLike);
         mlike.setOnClickListener(this);
 
-        mComment = (ImageView) v.findViewById(R.id.btnComment);
+        mComment =  v.findViewById(R.id.btnComment);
         mComment.setOnClickListener(this);
 
         setColorsContainer(v);
         setSizesContainer(v);
         setQuantityContainer(v);
 
-        if(mDescription != null) {
+        if(itemData != null) {
             String price;
-            price = setPrice(mDescription[CURRENCY],mDescription[PRICE],getContext());
-            item_name.setText(mDescription[NAME] + " | " + mDescription[SELLER]);
-            item_price.setText(price + " "+mCurrency);
-            item_description.setText(mDescription[DESCRIPTION]);
+            price = setPrice(itemData.getData()[CURRENCY],itemData.getData()[PRICE],getContext());
+            item_name.setText(itemData.getData()[NAME] + " | " + itemData.getData()[SELLER]);
+            item_price.setText(setFormat(price) + " "+mCurrency);
+            item_description.setText(itemData.getData()[DESCRIPTION]);
         }
         initPager(v);
         return v;
     }
 
     private void setQuantityContainer(View v) {
-        mQuantityContainer = (LinearLayout)v.findViewById(R.id.quantity_container);
-        quantity  = (TextView)v.findViewById(R.id.integer_number);
-        quantity.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        quantity  = v.findViewById(R.id.integer_number);
 
-            }
+        ImageView increase = v.findViewById(R.id.increase);
+        ImageView decrease = v.findViewById(R.id.decrease);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                onFieldChangedListener();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        ImageView increase = (ImageView)v.findViewById(R.id.increase);
-        final ImageView decrease = (ImageView)v.findViewById(R.id.decrease);
         increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int qty = Integer.valueOf(quantity.getText().toString());
-                qty += 1;
-                quantity.setText(String.valueOf(qty));
+                int qty = Integer.parseInt(quantity.getText().toString());
+                Log.i(TAG,"*********************" + qty);
+                quantity.setText(String.valueOf(qty + 1));
             }
         });
 
         decrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int qty = Integer.valueOf(quantity.getText().toString());
-                if(qty == 0){
-                    return;
-                }else{
-                    qty -= 1;
-                    quantity.setText(String.valueOf(qty));
+                int qty = Integer.parseInt(quantity.getText().toString());
+                if(qty > 0){
+                    Log.i(TAG,"*********************" + qty);
+                    quantity.setText(String.valueOf(qty - 1));
                 }
             }
         });
     }
 
     private void setSizesContainer(View v) {
-        mDescription[SIZE] = mDescription[SIZE].replace("[","");
-        mDescription[SIZE] = mDescription[SIZE].replace("]","");
-        mSizesContainer = (LinearLayout) v.findViewById(R.id.sizes_container);
+
+        mSizesContainer =  v.findViewById(R.id.sizes_container);
         mSizesContainer.setVisibility(View.GONE);
 
-        if(!mDescription[SIZE].equalsIgnoreCase("")){
-            List<String> sizeList = new ArrayList<>(Arrays.asList(mDescription[SIZE].split(",")));
-            Log.i(TAG,mDescription[SIZE] + "  " + sizeList.size());
+        if(!itemData.getData()[SIZE].equalsIgnoreCase("")){
+            List<String> sizeList = new ArrayList<>(Arrays.asList(itemData.getData()[SIZE].split(",")));
+            //Log.i(TAG,mDescription[SIZE] + "  " + sizeList.size());
             if(sizeList.size() == 1 && sizeList.get(0).equalsIgnoreCase("Size")){
                 return;
             }
             mSizesContainer.setVisibility(View.VISIBLE);
             //Then get the ListView
-            RecyclerView listView = (RecyclerView) v.findViewById(R.id.sizesList);
+            RecyclerView listView =  v.findViewById(R.id.sizesList);
             listView.setHasFixedSize(true);
             sizeAdapter = new ColorSizeAdapter(this,getContext(),sizeList,ColorSizeAdapter.SIZE ,sizeResource);
 
@@ -387,18 +272,15 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
     }
 
     private void setColorsContainer(View v) {
-        mDescription[COLOR] = mDescription[COLOR].replace("[","");
-        mDescription[COLOR] = mDescription[COLOR].replace("]","");
-        mColorsContainer = (LinearLayout) v.findViewById(R.id.colors_container);
+        mColorsContainer =  v.findViewById(R.id.colors_container);
         mColorsContainer.setVisibility(View.GONE);
 
-        if(!mDescription[COLOR].equalsIgnoreCase("")){
+        if(!itemData.getData()[COLOR].equalsIgnoreCase("")){
             mColorsContainer.setVisibility(View.VISIBLE);
-            List<String> colorList = new ArrayList<>(Arrays.asList(mDescription[COLOR].split(",")));
-            Log.i(TAG,mDescription[COLOR] + "  " + colorList.size());
-            mColor = colorList.get(0);
+            List<String> colorList = new ArrayList<>(Arrays.asList(itemData.getData()[COLOR].split(",")));
+            //Log.i(TAG,mDescription[COLOR] + "  " + colorList.size());
             //Then get the ListView
-            RecyclerView listView = (RecyclerView) v.findViewById(R.id.colorsList);
+            RecyclerView listView =  v.findViewById(R.id.colorsList);
             listView.setHasFixedSize(true);
             colorAdapter = new ColorSizeAdapter(this,getContext(),colorList,ColorSizeAdapter.COLOR,colorResource);
 
@@ -413,7 +295,7 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
      */
     private void initPager(View v)
     {
-        pager = (ViewPager) v.findViewById(R.id.pager);
+        pager =  v.findViewById(R.id.pager);
         pager.setPageMargin(10);
 
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -437,9 +319,9 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
             public void onPageScrollStateChanged(int arg0) {
             }
         });
-        vDots = (LinearLayout) v.findViewById(R.id.vDots);
+        vDots = v.findViewById(R.id.vDots);
 
-        pager.setAdapter(new PageAdapter(getContext(),mStorage,mDescription[UID],mPictures,itemData.getPictures()));
+        pager.setAdapter(new PageAdapter(getContext(),mStorage,itemData));
         setupDotbar(v);
     }
 
@@ -502,7 +384,7 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
                 if(selectedQty.equalsIgnoreCase("0")){
                     selectedQty = "1";
                 }
-                if(mCommand == false){
+                if(!mCommand){
                     commandKey = getDb().child("users").push().getKey(); // New command id
                     details = new String[]{mDescription[UID],
                                                 selectedSize,
@@ -525,7 +407,7 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
                                                         mDescription[SELLER]};
                     onButtonPressed(details,mCommand);
                 }
-                Log.i(TAG,selectedColor + " " +  selectedSize + " " +  selectedQty);
+                //Log.i(TAG,selectedColor + " " +  selectedSize + " " +  selectedQty);
                 setAddButton();
                 break;
             case R.id.btnLike:
@@ -547,6 +429,7 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
 
     private void likePressed() {
         //Log.i(TAG, "button like pressed (case)");
+        DatabaseReference likes = getDb().child("users-data").child(getUid()).child("likes");
         Map<String, Object> childUpdates = new HashMap<>();
         if (!mLiked) {
             //Log.i(TAG, "mlike is false");
@@ -565,10 +448,37 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
     }
 
     public void onFieldChangedListener() {
-        if(mCommand == true) {
+        if(mCommand) {
             add.setImageResource(R.drawable.ic_mode_edit_black_24dp);
             add.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Uri PlacesUri = UzaContract.LikesEntry.CONTENT_URI;
+        Log.i(TAG,itemData.getData()[UID]);
+        return new CursorLoader(getContext(),
+                PlacesUri,
+                FAVOURITES_COLUMNS,
+                itemData.getData()[UID],
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        while (data.moveToNext()) {
+            //Log.i(TAG,data.getString(0) + "  " + itemData.getData()[0]);
+            mlike.setImageResource(R.drawable.button_liked);
+            key = itemData.getData()[UID];
+            mLiked = true;
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 
     /**
@@ -583,13 +493,6 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
      */
     public interface OnFragmentInteractionListener {
          void onFragmentInteraction(String[] details,boolean update);
-    }
-
-    private void getCurrency(){
-        Context mContext = getContext();
-        SharedPreferences sharedPref = mContext.getSharedPreferences(mContext.getResources().getString(R.string.uza_keys),
-                Context.MODE_PRIVATE);
-        mCurrency = sharedPref.getString(mContext.getString(R.string.uza_currency),"CDF");
     }
 
     @Override

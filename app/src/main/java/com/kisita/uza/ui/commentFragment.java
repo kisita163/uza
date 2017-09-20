@@ -1,7 +1,9 @@
 package com.kisita.uza.ui;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -40,12 +42,11 @@ public class CommentFragment extends CustomFragment {
     private static final String ARG_ITEM_UID = "item-uid";
     private static final String TAG = "## CommentFragment";
 
-    private int mColumnCount = 1;
+    //private int mColumnCount = 1;
     private String mItemUid;
     private OnListFragmentInteractionListener mListener;
     private UzaCommentAdapter mAdapter;
     private DatabaseReference mComments;
-    private FirebaseStorage mStorage;
     private ArrayList<ArticleComment> mList;
 
 
@@ -74,12 +75,11 @@ public class CommentFragment extends CustomFragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            //mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
             mItemUid = getArguments().getString(ARG_ITEM_UID);
         }
         mList = new ArrayList<>();
         mComments = getDb().child("items").child(mItemUid).child("comments");
-        mStorage = FirebaseStorage.getInstance();
 
         mComments.addValueEventListener(new ValueEventListener() {
             @Override
@@ -163,6 +163,21 @@ public class CommentFragment extends CustomFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 
     /**

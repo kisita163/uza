@@ -1,8 +1,10 @@
 package com.kisita.uza.ui;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,7 +49,7 @@ public class StoresFragment extends CustomFragment {
 
     private DatabaseReference merchants;
 
-    private final String TAG  = "### StoresFragment";
+    private final static String TAG  = "### StoresFragment";
 
     public StoresFragment() {
         // Required empty public constructor
@@ -150,6 +152,21 @@ public class StoresFragment extends CustomFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 
     /**

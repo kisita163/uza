@@ -28,9 +28,9 @@ public class FirebaseService extends Service {
 
     private ChildEventListener favouritesListener;
 
-    private ContentValues itemsValues    = new ContentValues();
-    private ContentValues commandsValues = new ContentValues();
-    private ContentValues likesValues    = new ContentValues();
+    private ContentValues itemsValues      = new ContentValues();
+    private ContentValues commandsValues   = new ContentValues();
+    private ContentValues favouritesValues = new ContentValues();
 
     public FirebaseService() {
     }
@@ -51,7 +51,12 @@ public class FirebaseService extends Service {
         // Commands
         setCommandsListener();
         getCommandsQuery().addChildEventListener(commandsListener);
+
+        // Favourites
+        setFavouritesListener();
+        getFavouritesQuery().addChildEventListener(favouritesListener);
     }
+
     /* Items Query */
     public Query getItemsQuery() {
         return mDatabase.child("items");
@@ -72,35 +77,51 @@ public class FirebaseService extends Service {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
-    private void setCommandsListener() {
-        commandsListener = new ChildEventListener() {
+
+    private void setFavouritesListener() {
+        favouritesListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                commandsValues.clear();
-                commandsValues.put(UzaContract.CommandsEntry.COLUMN_KEY          ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_KEY));
-                commandsValues.put(UzaContract.CommandsEntry.COLUMN_COLOR        ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_COLOR));
-                commandsValues.put(UzaContract.CommandsEntry.COLUMN_SIZE         ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_SIZE));
-                commandsValues.put(UzaContract.CommandsEntry.COLUMN_COMMENT      ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_COMMENT));
-                commandsValues.put(UzaContract.CommandsEntry.COLUMN_QUANTITY     ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_QUANTITY));
-                commandsValues.put(UzaContract.CommandsEntry.COLUMN_STATE        ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_STATE));
-                commandsValues.put(UzaContract.CommandsEntry._ID                 ,FirebaseUtils.getItemId(dataSnapshot));
-
-                // Finally, insert item's data into the database.
-                Uri insertUri = getApplicationContext().getContentResolver().insert(
-                        UzaContract.CommandsEntry.CONTENT_URI_COMMANDS,
-                        commandsValues
-                );
-                //Log.i(TAG,insertUri.toString());
+                insertFavouritesData(dataSnapshot);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                insertFavouritesData(dataSnapshot);
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                //TODO
+            }
 
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+    }
+
+    private void setCommandsListener() {
+        commandsListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                insertCommandData(dataSnapshot);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                insertCommandData(dataSnapshot);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                //TODO
             }
 
             @Override
@@ -119,45 +140,24 @@ public class FirebaseService extends Service {
         itemsListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                //Log.i(TAG,"onChildAdded " + FirebaseUtils.getItemData(dataSnapshot, UzaContract.ItemsEntry.COLUMN_ID));
-                itemsValues.clear();
-                itemsValues.put(UzaContract.ItemsEntry.COLUMN_NAME           , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_NAME));
-                itemsValues.put(UzaContract.ItemsEntry.COLUMN_BRAND          , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_BRAND));
-                itemsValues.put(UzaContract.ItemsEntry.COLUMN_TYPE           , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_TYPE));
-                itemsValues.put(UzaContract.ItemsEntry.COLUMN_CATEGORY       , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_CATEGORY));
-                itemsValues.put(UzaContract.ItemsEntry.COLUMN_CURRENCY       , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_CURRENCY));
-                itemsValues.put(UzaContract.ItemsEntry.COLUMN_SELLER         , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_SELLER));
-                itemsValues.put(UzaContract.ItemsEntry.COLUMN_DESCRIPTION    , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_DESCRIPTION));
-                itemsValues.put(UzaContract.ItemsEntry._ID                   , FirebaseUtils.getItemId(dataSnapshot));//getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_ID));
-                itemsValues.put(UzaContract.ItemsEntry.COLUMN_AID            , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_ID));//getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_ID));
-                itemsValues.put(UzaContract.ItemsEntry.COLUMN_PICTURES       , FirebaseUtils.getPicures(dataSnapshot));
-                itemsValues.put(UzaContract.ItemsEntry.COLUMN_URL            , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_URL));
-                itemsValues.put(UzaContract.ItemsEntry.COLUMN_COLOR          , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_COLOR));
-                itemsValues.put(UzaContract.ItemsEntry.COLUMN_SIZE           , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_SIZE));
-                itemsValues.put(UzaContract.ItemsEntry.COLUMN_WEIGHT         , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_WEIGHT));
-                itemsValues.put(UzaContract.ItemsEntry.COLUMN_PRICE          , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_PRICE));
-
-                // Finally, insert item's data into the database.
-                Uri insertUri = getApplicationContext().getContentResolver().insert(
-                        UzaContract.ItemsEntry.CONTENT_URI,
-                        itemsValues
-                );
-                //Log.i(TAG,insertUri.toString());
+                insertItemsData(dataSnapshot);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Log.i(TAG,"onChildChanged");
+                //Log.i(TAG,"onChildChanged");
+                insertItemsData(dataSnapshot);
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.i(TAG,"onChildRemoved");
+                //Log.i(TAG,"onChildRemoved");
+                //TODO
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                Log.i(TAG,"onChildMoved");
+                //Log.i(TAG,"onChildMoved");
             }
 
             @Override
@@ -165,5 +165,66 @@ public class FirebaseService extends Service {
                 Log.i(TAG,"onCancelled " + databaseError.getMessage());
             }
         };
+    }
+
+
+    void insertCommandData(DataSnapshot dataSnapshot){
+        commandsValues.clear();
+        commandsValues.put(UzaContract.CommandsEntry.COLUMN_KEY          ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_KEY));
+        commandsValues.put(UzaContract.CommandsEntry.COLUMN_COLOR        ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_COLOR));
+        commandsValues.put(UzaContract.CommandsEntry.COLUMN_SIZE         ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_SIZE));
+        commandsValues.put(UzaContract.CommandsEntry.COLUMN_COMMENT      ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_COMMENT));
+        commandsValues.put(UzaContract.CommandsEntry.COLUMN_QUANTITY     ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_QUANTITY));
+        commandsValues.put(UzaContract.CommandsEntry.COLUMN_STATE        ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_STATE));
+        commandsValues.put(UzaContract.CommandsEntry._ID                 ,FirebaseUtils.getItemId(dataSnapshot));
+
+        // Finally, insert item's data into the database.
+        getApplicationContext().getContentResolver().insert(
+                UzaContract.CommandsEntry.CONTENT_URI_COMMANDS,
+                commandsValues
+        );
+        //Log.i(TAG,insertUri.toString());
+    }
+
+
+    void insertItemsData(DataSnapshot dataSnapshot){
+        //Log.i(TAG,"onChildAdded " + FirebaseUtils.getItemData(dataSnapshot, UzaContract.ItemsEntry.COLUMN_ID));
+        itemsValues.clear();
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_NAME           , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_NAME));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_BRAND          , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_BRAND));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_TYPE           , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_TYPE));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_CATEGORY       , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_CATEGORY));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_CURRENCY       , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_CURRENCY));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_SELLER         , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_SELLER));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_DESCRIPTION    , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_DESCRIPTION));
+        itemsValues.put(UzaContract.ItemsEntry._ID                   , FirebaseUtils.getItemId(dataSnapshot));//getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_ID));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_AID            , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_ID));//getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_ID));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_PICTURES       , FirebaseUtils.getPicures(dataSnapshot));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_URL            , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_URL));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_COLOR          , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_COLOR));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_SIZE           , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_SIZE));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_WEIGHT         , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_WEIGHT));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_PRICE          , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_PRICE));
+
+        // Finally, insert item's data into the database.
+        getApplicationContext().getContentResolver().insert(
+                UzaContract.ItemsEntry.CONTENT_URI,
+                itemsValues
+        );
+        //Log.i(TAG,insertUri.toString());
+    }
+
+    void insertFavouritesData(DataSnapshot dataSnapshot){
+        Log.i(TAG,dataSnapshot.getKey().toString()+" " + dataSnapshot.getValue().toString());
+        favouritesValues.clear();
+        favouritesValues.put(UzaContract.LikesEntry.COLUMN_LIKES        ,dataSnapshot.getValue().toString());
+        favouritesValues.put(UzaContract.LikesEntry._ID                 ,dataSnapshot.getKey().toString());
+
+        // Finally, insert item's data into the database.
+        getApplicationContext().getContentResolver().insert(
+                UzaContract.LikesEntry.CONTENT_URI,
+                favouritesValues
+        );
+        //Log.i(TAG,insertUri.toString());
     }
 }

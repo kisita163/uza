@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -44,6 +45,7 @@ import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 
+import static com.kisita.uza.model.Data.UZA.KEY;
 import static com.kisita.uza.model.Data.UZA.NAME;
 
 public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCheckoutInteractionListener,
@@ -108,7 +110,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
         toolbar.setTitle(title);
         if (f != null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.content_frame, f)
+                    .replace(R.id.content_frame, f , title)
                     .commit();
             commandsCount();
         }
@@ -160,10 +162,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
             //TODO Retry here ?
             return;
         }
-        Log.i(TAG, "Token that will be used is  : " + token);
 
-
-        // TODO convert into USD
         PaymentRequest paymentRequest = new PaymentRequest()
                 .clientToken(token)
                 .amount(mAmount)
@@ -208,7 +207,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
                         toolbar.setTitle(R.string.commands);
                         // Go to the fragment that shows commands in processing
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.content_frame, CommandsFragment.newInstance("",false))
+                                .replace(R.id.content_frame, CommandsFragment.newInstance("",false),"COMMANDS")
                                 .commit();
                     }else{
                         Toast.makeText(getBaseContext(), R.string.transaction_rejected, Toast.LENGTH_LONG).show();
@@ -225,8 +224,15 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
     }
 
     @Override
-    public void onItemFragmentInteraction(Uri uri) {
-
+    public void onItemFragmentInteraction(String title) {
+        //Log.i(TAG,"Reload fragment with tag : "+title);
+        // Reload current fragment
+		Fragment frg = null;
+		frg = getSupportFragmentManager().findFragmentByTag(title);
+		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		ft.detach(frg);
+		ft.attach(frg);
+		ft.commit();
     }
 
 
@@ -234,8 +240,8 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
         Map<String, Object> commandsUpdates = new HashMap<>();
         if(commandsToUpdate != null){
             for(Data d : commandsToUpdate) {
-                commandsUpdates.put("/users-data/" + getUid() + "/commands/" + d.getKey() + "/state","1"); // 1 = command received
-                commandsUpdates.put("/commands/" + d.getKey() + "/state", "1");
+                commandsUpdates.put("/users-data/" + getUid() + "/commands/" + d.getData()[KEY] + "/state","1"); // 1 = command received
+                commandsUpdates.put("/commands/" + d.getData()[KEY] + "/state", "1");
             }
             getDb().updateChildren(commandsUpdates);
         }
