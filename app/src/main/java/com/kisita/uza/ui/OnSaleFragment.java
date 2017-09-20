@@ -1,10 +1,13 @@
 package com.kisita.uza.ui;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -13,24 +16,25 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.ChoicesActivity;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.listerners.ItemChildEventListener;
 import com.kisita.uza.model.Data;
+import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.UzaCardAdapter;
 
 import java.util.ArrayList;
 
+import static com.kisita.uza.model.Data.ITEMS_COLUMNS;
 import static com.kisita.uza.model.Data.UZA.TYPE;
+import static com.kisita.uza.utils.UzaFunctions.getPicturesUrls;
 
 
 /**
  * The Class OnSaleFragment is the fragment that shows the products in GridView.
  */
-public class OnSaleFragment extends CustomFragment
+public class OnSaleFragment extends CustomFragment implements  LoaderManager.LoaderCallbacks<Cursor>
 {
 	final static String TAG = "### OnSaleFragment";
 	final static String QUERY = "QUERY";
@@ -49,7 +53,7 @@ public class OnSaleFragment extends CustomFragment
 	private String[]  mTypes;
 
 
-	/* Hanle search button */
+	/* Handle search button */
 	private boolean choiceButtonActivated = true;
 
 	/* (non-Javadoc)
@@ -86,6 +90,7 @@ public class OnSaleFragment extends CustomFragment
 			mQuery = getArguments().getString(QUERY);
 		}
 	}
+
 	/**
 	 * Setup the view components for this fragment. You write your code for
 	 * initializing the views, setting the adapters, touch and click listeners
@@ -131,23 +136,13 @@ public class OnSaleFragment extends CustomFragment
 	 */
 	private void  loadData()
 	{
-		SharedPreferences sharedPref = getContext().getSharedPreferences(getContext().getResources().getString(R.string.uza_keys),
-				Context.MODE_PRIVATE);
-		final String store = sharedPref.getString(getContext().getString(R.string.uza_store),"All");
-		mDatabase = FirebaseDatabase.getInstance().getReference();
-		mDatabase.keepSynced(true);
-
-		final Query itemsQuery = getQuery(mDatabase);
-		mChildEventListener = new ItemChildEventListener(itemsList, mCardadapter,store);
-		itemsQuery.addChildEventListener(mChildEventListener);
+		if (getLoaderManager().getLoader(0) == null){
+			getLoaderManager().initLoader(0, null, this);
+		}else{
+			getLoaderManager().restartLoader(0,null,this);
+		}
 	}
 
-	public Query getQuery(DatabaseReference databaseReference) {
-			return databaseReference.child("items")
-					.orderByChild("category")
-					.startAt(mQuery)
-					.endAt(mQuery);
-	}
 
 	@Override
 	public void onDetach() {
@@ -165,12 +160,62 @@ public class OnSaleFragment extends CustomFragment
             ArrayList<Data> tmpList = new ArrayList<>();
             Log.i(TAG, " selected is  : "+choice);
             for (Data d : itemsList) {
-                if (d.getTexts()[TYPE].equalsIgnoreCase(choice) || choice.equalsIgnoreCase(getString(R.string.all))) {
+                if (d.getData()[TYPE].equalsIgnoreCase(choice) || choice.equalsIgnoreCase(getString(R.string.all))) {
                     tmpList.add(d);
                 }
             }
             mCardadapter.setItemsList(tmpList);
             mCardadapter.notifyDataSetChanged();
 		}
+	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		//Log.i(TAG,"Loader created");
+		Uri PlacesUri = UzaContract.ItemsEntry.CATEGORY_URI;
+
+		return new CursorLoader(getContext(),
+				PlacesUri,
+				ITEMS_COLUMNS,
+				mQuery,
+				null,
+				null);
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+		//Log.i(TAG,"Load finished");
+		ArrayList<String> dataArray = new ArrayList<>();
+		while (data.moveToNext()) {
+			String  []  rowdata  =  {
+					data.getString(Data.UZA.UID),
+					data.getString(Data.UZA.NAME),
+					data.getString(Data.UZA.PRICE),
+					data.getString(Data.UZA.CURRENCY),
+					data.getString(Data.UZA.BRAND),
+					data.getString(Data.UZA.DESCRIPTION),
+					data.getString(Data.UZA.SELLER),
+					data.getString(Data.UZA.CATEGORY),
+					data.getString(Data.UZA.TYPE),
+					data.getString(Data.UZA.COLOR),
+					data.getString(Data.UZA.SIZE),
+					"",
+					data.getString(Data.UZA.WEIGHT),
+					data.getString(Data.UZA.URL),
+					//data.getString(Data.UZA.QUANTITY),
+					//data.getString(KEY)
+			};
+
+			Data d = new Data(rowdata,
+					getPicturesUrls(data.getString(Data.UZA.PICTURES))
+			);
+			itemsList.add(d);
+			mCardadapter.notifyDataSetChanged();
+		}
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+
 	}
 }
