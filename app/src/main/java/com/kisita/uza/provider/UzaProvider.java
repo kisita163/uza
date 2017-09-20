@@ -28,7 +28,7 @@ public class UzaProvider extends ContentProvider {
     static final int FAVOURITES  = 102;
     static final int SEARCH      = 103;
     static final int CHECKOUT    = 104;
-
+    static final int CATEGORY    = 105;
 
     @Override
     public boolean onCreate() {
@@ -79,6 +79,16 @@ public class UzaProvider extends ContentProvider {
                 retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
                 break;
             }
+
+            case CATEGORY: {
+                String sql = "SELECT " + columnsArray2string(projection) +" FROM " + UzaContract.ItemsEntry.TABLE_NAME     +
+                             " WHERE " + UzaContract.ItemsEntry.TABLE_NAME  + "." + UzaContract.ItemsEntry.COLUMN_CATEGORY +
+                             " = "     + "'" + selection + "'" + ";";
+                //Log.i(TAG,"** category query ..." + sql);
+                retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
+                break;
+            }
+
             case COMMANDS: {
                 Log.i(TAG,"** Command query ...");
 
@@ -88,11 +98,12 @@ public class UzaProvider extends ContentProvider {
                              " =  "           + UzaContract.CommandsEntry.TABLE_NAME  + "." + UzaContract.CommandsEntry.COLUMN_KEY +
                              " WHERE "        + UzaContract.CommandsEntry.TABLE_NAME  + "." + UzaContract.CommandsEntry.COLUMN_STATE + "" +
                              " = 1 ;";
+                //Log.i(TAG,"** Command query : " + sql);
                 retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
                 break;
             }
             case CHECKOUT: {
-                Log.i(TAG, "** Command query ...");
+                Log.i(TAG, "** Checkout query ...");
 
                 String sql = "SELECT " + columnsArray2string(projection) + " FROM " + UzaContract.ItemsEntry.TABLE_NAME +
                         " INNER JOIN " + UzaContract.CommandsEntry.TABLE_NAME +
@@ -100,6 +111,7 @@ public class UzaProvider extends ContentProvider {
                         " =  " + UzaContract.CommandsEntry.TABLE_NAME + "." + UzaContract.CommandsEntry.COLUMN_KEY +
                         " WHERE " + UzaContract.CommandsEntry.TABLE_NAME + "." + UzaContract.CommandsEntry.COLUMN_STATE + "" +
                         " <> 1 ;";
+                //Log.i(TAG,"** Checkout query : " + sql);
                 retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
                 break;
             }
@@ -249,6 +261,7 @@ testUriMatcher test within TestUriMatcher.
         matcher.addURI(authority, UzaContract.PATH_COMMANDS, COMMANDS);
         matcher.addURI(authority, UzaContract.PATH_CHECKOUT, CHECKOUT);
         matcher.addURI(authority, UzaContract.PATH_LIKES, FAVOURITES);
+        matcher.addURI(authority, UzaContract.PATH_CATEGORY, CATEGORY);
         matcher.addURI(authority, UzaContract.PATH_ITEMS + "/" + SearchManager.SUGGEST_URI_PATH_QUERY,SEARCH);
 
         return matcher;

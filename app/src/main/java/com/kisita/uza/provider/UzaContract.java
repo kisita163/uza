@@ -22,13 +22,16 @@ public class UzaContract {
     // looking at item data. content://com.kisita.uza/givemeroot/ will fail,
     // as the ContentProvider hasn't been given any information on what to do with "givemeroot".
     // At least, let's hope not.
-    public static final String PATH_ITEMS    = "items";
+    public static final String PATH_ITEMS      = "items";
 
-    public static final String PATH_LIKES    = "likes";
+    public static final String PATH_LIKES      = "likes";
 
-    public static final String PATH_COMMANDS = "commands";
+    public static final String PATH_COMMANDS   = "commands";
 
-    public static final String PATH_CHECKOUT = "checkout";
+    public static final String PATH_CHECKOUT   = "checkout";
+
+    public static final String PATH_CATEGORY   = "category";
+
 
 
     public static final class LikesEntry implements BaseColumns {
@@ -87,6 +90,10 @@ public class UzaContract {
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_ITEMS).build();
+
+        public static final Uri CATEGORY_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_CATEGORY).build();
+
 
         public static final String CONTENT_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_ITEMS;
