@@ -37,6 +37,29 @@ public class UzaFunctions {
         return df.format(Double.valueOf(str));
     }
 
+    public static String setPriceForPayPal(String price, Context context){
+
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
+
+        double usd_cdf = Double.valueOf(sharedPref.getString("usd-cdf","1443.86"));//1443.86;// 1 usd   = 1443.86 fc;
+
+        double usd_eur = Double.valueOf(sharedPref.getString("usd-eur","0.889098"));//0.889098;
+
+        String mCurrency = getCurrency(context);
+
+        double p = Double.valueOf(price.replace(",",""));
+
+        if(mCurrency.equalsIgnoreCase("EUR")) { // From EUR to USD
+            p = p/usd_eur;
+        }
+
+        if(mCurrency.equalsIgnoreCase("CDF")){  // From CDF to USD
+            p = p / usd_cdf;
+        }
+
+        return setFormat(String.valueOf(p));
+    }
+
     /*Set amount regarding the selected currency */
     public static String setPrice(String currency,String price,Context context) {
         SharedPreferences sharedPref = context.getSharedPreferences(context.getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
@@ -57,17 +80,17 @@ public class UzaFunctions {
         String mCurrency = getCurrency(context);
 
 
-        if(currency.equalsIgnoreCase("CDF") && mCurrency.equalsIgnoreCase("EUR")){
+        if(currency.equalsIgnoreCase("CDF") && mCurrency.equalsIgnoreCase("EUR")){        // From CDF to EUR
             p = p/eur_cdf;
-        }else if(currency.equalsIgnoreCase("EUR") && mCurrency.equalsIgnoreCase("CDF")){
+        }else if(currency.equalsIgnoreCase("EUR") && mCurrency.equalsIgnoreCase("CDF")){  // From EUR to CDF
             p = Math.ceil(p*eur_cdf);
-        }else if(currency.equalsIgnoreCase("USD") && mCurrency.equalsIgnoreCase("EUR")) {
+        }else if(currency.equalsIgnoreCase("USD") && mCurrency.equalsIgnoreCase("EUR")) { // From USD to EUR
             p = p*usd_eur;
-        }else if(currency.equalsIgnoreCase("EUR") && mCurrency.equalsIgnoreCase("USD")) {
+        }else if(currency.equalsIgnoreCase("EUR") && mCurrency.equalsIgnoreCase("USD")) { // From EUR to USD
             p = p/usd_eur;
         }else if(currency.equalsIgnoreCase("USD") && mCurrency.equalsIgnoreCase("CDF")) {
             p = Math.ceil(p*usd_cdf);
-        }else if(currency.equalsIgnoreCase("CDF") && mCurrency.equalsIgnoreCase("USD")) {
+        }else if(currency.equalsIgnoreCase("CDF") && mCurrency.equalsIgnoreCase("USD")) {  // From CDF to USD
             p = p / usd_cdf;
         }
 

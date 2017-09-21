@@ -47,6 +47,7 @@ import cz.msebera.android.httpclient.Header;
 
 import static com.kisita.uza.model.Data.UZA.KEY;
 import static com.kisita.uza.model.Data.UZA.NAME;
+import static com.kisita.uza.utils.UzaFunctions.setPriceForPayPal;
 
 public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCheckoutInteractionListener,
         PaymentMethodsFragment.OnPaymentListFragmentInteractionListener, ItemsFragment.OnItemFragmentInteractionListener {
@@ -137,7 +138,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
 
     @Override
     public void onPayementListFragmentInteraction(UzaListItem item, String amount) {
-        mAmount = amount;
+        mAmount = setPriceForPayPal(amount,this);
         switch (item.name) {
             case R.string.credit_card:
                 paymentRequest();

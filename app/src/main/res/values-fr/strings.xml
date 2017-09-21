@@ -167,8 +167,8 @@
     <string name="authentication_failed">Authentication failed.</string>
     <string name="required">Required</string>
     <string name="password_not_equal">Entered passwords are not equal</string>
-    <string name="secure_payement">Payement securisé</string>
-    <string name="payement">Payment</string>
+    <string name="secure_payement">Payement securisé (USD)</string>
+    <string name="payement">Payment (USD)</string>
     <string name="payment_mthod">Payment method</string>
     <string name="failed_to_get_token">Application failed to get a payment token. Please check your internet connection</string>
     <string name="pay">Payer</string>

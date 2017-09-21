@@ -227,9 +227,9 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 		SharedPreferences sharedPref = getContext().getSharedPreferences(getContext().getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
 		mTotalAmount = addDoubles(mShippingCost,mOrder);
 
-		String amount  = setFormat(String.valueOf(mTotalAmount));
+		String amount  = String.valueOf(mTotalAmount);
 
-		totalAmountField.setText(amount + " " + getCurrency(getContext()));
+		totalAmountField.setText(setFormat(amount) + " " + getCurrency(getContext()));
 		SharedPreferences.Editor editor = sharedPref.edit();
 		editor.putString("total_amount",amount);
 		editor.apply();
