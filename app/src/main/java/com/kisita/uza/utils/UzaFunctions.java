@@ -116,7 +116,7 @@ public class UzaFunctions {
 
 
     public static String printItems(ArrayList<Data> items){
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         for(Data d : items){
             buf.append(d.getKey());
             buf.append(System.getProperty("line.separator"));

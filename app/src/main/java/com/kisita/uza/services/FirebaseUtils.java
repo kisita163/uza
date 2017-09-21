@@ -11,7 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-/**
+/*
  * Created by HuguesKi on 03-09-17.
  */
 
@@ -25,7 +25,7 @@ public class FirebaseUtils {
     }
 
     public static String getPicures(DataSnapshot dataSnapshot){
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         if(dataSnapshot.child("pictures").getValue() != null){
             for(DataSnapshot s : dataSnapshot.child("pictures").getChildren()){
                 buf.append(s.getValue());
@@ -36,7 +36,7 @@ public class FirebaseUtils {
     }
 
     public static String columnsArray2string(String [] projection){
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         for (int i = 0; i < projection.length; i++) {
             buf.append(projection[i]);
             if (i < projection.length - 1)
