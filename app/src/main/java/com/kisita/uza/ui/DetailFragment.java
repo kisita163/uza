@@ -230,7 +230,6 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
             @Override
             public void onClick(View v) {
                 int qty = Integer.parseInt(quantity.getText().toString());
-                Log.i(TAG,"*********************" + qty);
                 quantity.setText(String.valueOf(qty + 1));
             }
         });
@@ -240,7 +239,6 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
             public void onClick(View v) {
                 int qty = Integer.parseInt(quantity.getText().toString());
                 if(qty > 0){
-                    Log.i(TAG,"*********************" + qty);
                     quantity.setText(String.valueOf(qty - 1));
                 }
             }
@@ -457,7 +455,7 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri PlacesUri = UzaContract.LikesEntry.CONTENT_URI;
-        Log.i(TAG,itemData.getData()[UID]);
+        //Log.i(TAG,itemData.getData()[UID]);
         return new CursorLoader(getContext(),
                 PlacesUri,
                 FAVOURITES_COLUMNS,
@@ -471,7 +469,7 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
         while (data.moveToNext()) {
             //Log.i(TAG,data.getString(0) + "  " + itemData.getData()[0]);
             mlike.setImageResource(R.drawable.button_liked);
-            key = itemData.getData()[UID];
+            key = data.getString(0);
             mLiked = true;
         }
     }
