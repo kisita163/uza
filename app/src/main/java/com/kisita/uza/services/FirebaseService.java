@@ -92,7 +92,7 @@ public class FirebaseService extends Service {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                //TODO
+                removeEntryFromTable(dataSnapshot,UzaContract.LikesEntry.CONTENT_URI);
             }
 
             @Override
@@ -121,7 +121,7 @@ public class FirebaseService extends Service {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                //TODO
+                removeEntryFromTable(dataSnapshot,UzaContract.CommandsEntry.CONTENT_URI_COMMANDS);
             }
 
             @Override
@@ -152,7 +152,7 @@ public class FirebaseService extends Service {
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 //Log.i(TAG,"onChildRemoved");
-                //TODO
+                removeEntryFromTable(dataSnapshot,UzaContract.ItemsEntry.CONTENT_URI);
             }
 
             @Override
@@ -166,6 +166,8 @@ public class FirebaseService extends Service {
             }
         };
     }
+
+
 
 
     void insertCommandData(DataSnapshot dataSnapshot){
@@ -215,7 +217,7 @@ public class FirebaseService extends Service {
     }
 
     void insertFavouritesData(DataSnapshot dataSnapshot){
-        Log.i(TAG,dataSnapshot.getKey().toString()+" " + dataSnapshot.getValue().toString());
+        //Log.i(TAG,dataSnapshot.getKey().toString()+" *** " + dataSnapshot.getValue().toString());
         favouritesValues.clear();
         favouritesValues.put(UzaContract.LikesEntry.COLUMN_LIKES        ,dataSnapshot.getValue().toString());
         favouritesValues.put(UzaContract.LikesEntry._ID                 ,dataSnapshot.getKey().toString());
@@ -226,5 +228,15 @@ public class FirebaseService extends Service {
                 favouritesValues
         );
         //Log.i(TAG,insertUri.toString());
+    }
+
+    void removeEntryFromTable(DataSnapshot dataSnapshot,Uri uri){
+        String selection         = "_ID = ?";
+        String [] selectionArgs  = {dataSnapshot.getKey()};
+
+        getApplicationContext().getContentResolver().delete(
+                uri,
+                selection,
+                selectionArgs);
     }
 }

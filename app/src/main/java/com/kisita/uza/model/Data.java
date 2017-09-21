@@ -152,6 +152,7 @@ public class Data implements Serializable
 	};
 
 	public static final String [] FAVOURITES_COLUMNS = {
+			UzaContract.LikesEntry.TABLE_NAME + "." + UzaContract.LikesEntry._ID,
 			UzaContract.LikesEntry.COLUMN_LIKES
 	};
 

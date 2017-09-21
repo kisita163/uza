@@ -3,33 +3,33 @@ package com.kisita.uza.ui;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
-import com.kisita.uza.listerners.FavoritesChildEventListener;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.UzaCardAdapter;
 
 import java.util.ArrayList;
 
+import static com.kisita.uza.model.Data.FAVOURITES_COLUMNS;
 import static com.kisita.uza.model.Data.ITEMS_COLUMNS;
+import static com.kisita.uza.model.Data.UZA.KEY;
+import static com.kisita.uza.utils.UzaFunctions.getPicturesUrls;
 
-/**
+/*
  * A placeholder fragment containing a simple view.
  */
 public class FavoritesFragment extends CustomFragment implements  LoaderManager.LoaderCallbacks<Cursor> {
@@ -38,10 +38,6 @@ public class FavoritesFragment extends CustomFragment implements  LoaderManager.
     private UzaCardAdapter mCardadapter;
     /*The list of items*/
     private ArrayList<Data> itemsList;
-    /*Firebase database*/
-    private DatabaseReference mDatabase;
-    /*likes event listener*/
-    private FavoritesChildEventListener mChildEventListener;
 
     public FavoritesFragment() {
     }
@@ -49,6 +45,7 @@ public class FavoritesFragment extends CustomFragment implements  LoaderManager.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreateView(inflater,container,savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_card, container, false);
         setupView(v);
         return v;
@@ -57,7 +54,7 @@ public class FavoritesFragment extends CustomFragment implements  LoaderManager.
     private void setupView(View v)
     {
 
-        RecyclerView recList = (RecyclerView) v.findViewById(R.id.cardList);
+        RecyclerView recList = v.findViewById(R.id.cardList);
         itemsList = new ArrayList<>();
         recList.setHasFixedSize(true);
 
@@ -68,25 +65,11 @@ public class FavoritesFragment extends CustomFragment implements  LoaderManager.
         recList.setLayoutManager(llm);
         mCardadapter = new UzaCardAdapter(this.getContext(),itemsList);
         recList.setAdapter(mCardadapter);
-        loadData();
-    }
-
-    /**
-     * Load  product data for displaying on the RecyclerView.
-     */
-    private void  loadData()
-    {
-        if (getLoaderManager().getLoader(0) == null){
-            getLoaderManager().initLoader(0, null, this);
-        }else{
-            getLoaderManager().restartLoader(0,null,this);
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mChildEventListener = null;
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -96,21 +79,47 @@ public class FavoritesFragment extends CustomFragment implements  LoaderManager.
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        //Log.i(TAG,"Loader created");
-        Uri PlacesUri = UzaContract.ItemsEntry.CATEGORY_URI;
+        Log.i(TAG,"Loader created");
+        Uri PlacesUri = UzaContract.LikesEntry.CONTENT_URI;
 
         return new CursorLoader(getContext(),
                 PlacesUri,
                 ITEMS_COLUMNS,
-                null,
+                "",
                 null,
                 null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
+        Log.i(TAG,"result "+ data.getCount());
+        while (data.moveToNext()) {
+            String  []  rowdata  =  {
+                    data.getString(Data.UZA.UID),
+                    data.getString(Data.UZA.NAME),
+                    data.getString(Data.UZA.PRICE),
+                    data.getString(Data.UZA.CURRENCY),
+                    data.getString(Data.UZA.BRAND),
+                    data.getString(Data.UZA.DESCRIPTION),
+                    data.getString(Data.UZA.SELLER),
+                    data.getString(Data.UZA.CATEGORY),
+                    data.getString(Data.UZA.TYPE),
+                    data.getString(Data.UZA.COLOR),
+                    data.getString(Data.UZA.SIZE),
+                    "",
+                    data.getString(Data.UZA.WEIGHT),
+                    data.getString(Data.UZA.URL),
+                    //data.getString(Data.UZA.QUANTITY),
+                    //data.getString(KEY)
+            };
+            Data d = new Data(rowdata,
+                    getPicturesUrls(data.getString(Data.UZA.PICTURES))
+            );
+            itemsList.add(d);
+            mCardadapter.notifyDataSetChanged();
+        }
     }
+
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {

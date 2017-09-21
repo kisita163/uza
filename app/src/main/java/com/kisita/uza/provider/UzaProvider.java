@@ -71,10 +71,18 @@ public class UzaProvider extends ContentProvider {
                 break;
             }
             case FAVOURITES: {
-                Log.i(TAG,"** Favourites query ...");
-                String sql = "SELECT " + columnsArray2string(projection)    +" FROM " + UzaContract.LikesEntry.TABLE_NAME     +
-                             " WHERE " + UzaContract.LikesEntry.TABLE_NAME  + "."     + UzaContract.LikesEntry.COLUMN_LIKES +
-                             "="       + "'" + selection + "'" + ";";
+                String whereClause = "";
+                String innerClause = "";
+                if(!selection.equalsIgnoreCase("")){
+                    whereClause = " WHERE " + UzaContract.LikesEntry.TABLE_NAME  + "."     + UzaContract.LikesEntry.COLUMN_LIKES +
+                            "="       + "'" + selection + "'" ;
+                }else { // Favourite fragment
+                    innerClause = " INNER JOIN "   + UzaContract.ItemsEntry.TABLE_NAME  +
+                                  " ON "           + UzaContract.ItemsEntry.TABLE_NAME  + "." + UzaContract.ItemsEntry._ID +
+                                  " =  "           + UzaContract.LikesEntry.TABLE_NAME  + "." + UzaContract.LikesEntry.COLUMN_LIKES;
+                }
+                String sql = "SELECT " + columnsArray2string(projection)    +" FROM " + UzaContract.LikesEntry.TABLE_NAME  + innerClause + whereClause + ";";
+                Log.i(TAG,"** Favourites query ..." + sql);
                 retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
                 break;
             }
