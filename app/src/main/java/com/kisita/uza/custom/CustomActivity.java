@@ -217,10 +217,10 @@ public class CustomActivity extends AppCompatActivity implements
 
     private void  loadData()
     {
-        if (getLoaderManager().getLoader(0) == null){
+        if (getSupportLoaderManager().getLoader(0) == null){
             getSupportLoaderManager().initLoader(0,null,this);
         }else{
-            getSupportLoaderManager().initLoader(0,null,this);
+            getSupportLoaderManager().restartLoader(0,null,this);
         }
     }
 
