@@ -3,11 +3,15 @@ package com.kisita.uza.custom;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,12 +22,10 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.kisita.uza.R;
+import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.ui.DetailFragment;
 import com.kisita.uza.ui.CommentFragment;
 import com.kisita.uza.utils.CartDrawable;
@@ -32,13 +34,14 @@ import com.kisita.uza.utils.TouchEffect;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.kisita.uza.model.Data.ITEMS_COMMANDS_COLUMNS;
+
 /**
  * This is a common activity that all other activities of the app can extend to
  * inherit the common behaviors like setting a Theme to activity.
  */
 public class CustomActivity extends AppCompatActivity implements
-		OnClickListener,DetailFragment.OnFragmentInteractionListener,CommentFragment.OnListFragmentInteractionListener
-{
+		OnClickListener,DetailFragment.OnFragmentInteractionListener,CommentFragment.OnListFragmentInteractionListener, LoaderManager.LoaderCallbacks<Cursor> {
 
 	public static final TouchEffect TOUCH = new TouchEffect();
 	/**
@@ -63,6 +66,7 @@ public class CustomActivity extends AppCompatActivity implements
 	{
 		super.onCreate(arg0);
 		setupActionBar();
+        loadData();
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
@@ -162,24 +166,6 @@ public class CustomActivity extends AppCompatActivity implements
 		icon.setDrawableByLayerId(R.id.ic_badge, badge);
 	}
 
-	public void commandsCount() {
-		DatabaseReference commands = getDb().child("users-data").child(getUid()).child("commands");
-		commands.addListenerForSingleValueEvent(new ValueEventListener() {
-			@Override
-			public void onDataChange(DataSnapshot dataSnapshot) {
-				//Log.i(TAG, "Child added. count = " + dataSnapshot.getChildrenCount());
-				count = dataSnapshot.getChildrenCount();
-				if (mIcon != null)
-					setBadgeCount(getApplicationContext(), mIcon, String.valueOf(dataSnapshot.getChildrenCount()));
-			}
-
-			@Override
-			public void onCancelled(DatabaseError databaseError) {
-
-			}
-		});
-	}
-
 	public String getUid() {
 		return FirebaseAuth.getInstance().getCurrentUser().getUid();
 	}
@@ -226,6 +212,38 @@ public class CustomActivity extends AppCompatActivity implements
 
     @Override
     public void onListFragmentInteraction(CommentFragment.ArticleComment item) {
+
+    }
+
+    private void  loadData()
+    {
+        if (getLoaderManager().getLoader(0) == null){
+            getSupportLoaderManager().initLoader(0,null,this);
+        }else{
+            getSupportLoaderManager().initLoader(0,null,this);
+        }
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Uri PlacesUri = UzaContract.CommandsEntry.CONTENT_URI_CHECKOUT;
+
+        return new CursorLoader(this,
+                PlacesUri,
+                ITEMS_COMMANDS_COLUMNS,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        count = data.getCount();
+        //setBadgeCount(getApplicationContext(), mIcon, String.valueOf(count));
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
 
     }
 }

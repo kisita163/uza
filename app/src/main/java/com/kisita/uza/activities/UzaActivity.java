@@ -113,7 +113,6 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.content_frame, f , title)
                     .commit();
-            commandsCount();
         }
     }
 
