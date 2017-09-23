@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static com.kisita.uza.model.Data.ITEMS_COLUMNS;
+import static com.kisita.uza.model.Data.ITEMS_COMMANDS_COLUMNS;
 import static com.kisita.uza.utils.UzaFunctions.getPicturesUrls;
 
 
@@ -40,7 +41,8 @@ public class CommandsFragment extends ItemsFragment implements  LoaderManager.Lo
 
     @Override
     void loadData() {
-        Log.i(TAG,"Loading data in here ......");
+        //Log.i(TAG,"Loading data in here ......");
+        getCardAdapter().setAdapterListener(this);
         if (getLoaderManager().getLoader(0) == null){
             getLoaderManager().initLoader(0, null, this);
         }else{
@@ -55,7 +57,7 @@ public class CommandsFragment extends ItemsFragment implements  LoaderManager.Lo
 
         return new CursorLoader(getContext(),
                 PlacesUri,
-                ITEMS_COLUMNS,
+                ITEMS_COMMANDS_COLUMNS,
                 null,
                 null,
                 null);
@@ -76,9 +78,12 @@ public class CommandsFragment extends ItemsFragment implements  LoaderManager.Lo
                               data.getString(Data.UZA.CATEGORY),
                               data.getString(Data.UZA.TYPE),
                               data.getString(Data.UZA.COLOR),
+                              data.getString(Data.UZA.SIZE),
                               "",
                               data.getString(Data.UZA.WEIGHT),
                               data.getString(Data.UZA.URL),
+                              "",
+                              data.getString(Data.UZA.KEY),
 
             };
             Data d = new Data(rowData,
@@ -98,5 +103,11 @@ public class CommandsFragment extends ItemsFragment implements  LoaderManager.Lo
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         MenuItem item = menu.findItem(R.id.action_commands);
         item.setVisible(false);
+    }
+
+    public void onCommandSelected(String key)
+    {
+        //Log.i(TAG,"****** command selected " + key);
+        showCommandDetails(key);
     }
 }

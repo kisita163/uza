@@ -1,11 +1,14 @@
 package com.kisita.uza.model;
 
 
+import android.util.Log;
+
 import com.kisita.uza.provider.UzaContract;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import static com.kisita.uza.model.Data.UZA.KEY;
 import static com.kisita.uza.model.Data.UZA.UID;
 
 public class Data implements Serializable
@@ -25,31 +28,15 @@ public class Data implements Serializable
 	/**
 	 * Instantiates a new data.
 	 *
-	 * @param texts
+	 * @param data
 	 *            the data
-	 * @param resources
+	 * @param pictures
 	 *            the resources
 	 */
-	public Data(String[] texts, int resources[])
-	{
-		this.data = texts;
-		this.resources = resources;
-	}
-	// Data in cart
-	public Data(String[] data, String key, ArrayList<String> pictures )
-	{
+
+	public Data(String[] data, ArrayList<String> pictures) {
+		assert(data.length ==  KEY + 1);
 		this.data = data;
-		this.key = key;
-		this.pictures = pictures;
-	}
-
-	public Data(String[] texts) {
-		this.data = texts;
-	}
-
-
-	public Data(String[] texts, ArrayList<String> pictures) {
-		this.data = texts;
 		this.pictures = pictures;
 	}
 
@@ -89,7 +76,7 @@ public class Data implements Serializable
 	}
 
 	public String getKey() {
-		return key;
+			return null;
 	}
 
 	public ArrayList<String> getPictures() {

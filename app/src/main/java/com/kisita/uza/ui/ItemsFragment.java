@@ -130,9 +130,15 @@ public abstract class ItemsFragment extends CustomFragment
     }
 
     public void onReloadRequest(String title) {
-        Log.i(TAG, "onReloadRequest");
+        //Log.i(TAG, "onReloadRequest");
         if (mListener != null) {
             mListener.onItemFragmentInteraction(title);
+        }
+    }
+
+    public void showCommandDetails(String key){
+        if (mListener != null) {
+            mListener.onCommandSelectedInteraction(key);
         }
     }
 
@@ -172,6 +178,7 @@ public abstract class ItemsFragment extends CustomFragment
      */
     public interface OnItemFragmentInteractionListener {
         void onItemFragmentInteraction(String title);
+        void onCommandSelectedInteraction(String key);
     }
 
 

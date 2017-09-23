@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -33,6 +34,7 @@ import com.kisita.uza.ui.CommandsFragment;
 import com.kisita.uza.ui.DetailFragment;
 import com.kisita.uza.ui.FavoritesFragment;
 import com.kisita.uza.ui.ItemsFragment;
+import com.kisita.uza.ui.MapsFragment;
 import com.kisita.uza.ui.PaymentMethodsFragment;
 import com.kisita.uza.ui.SettingsFragment;
 import com.loopj.android.http.AsyncHttpClient;
@@ -233,6 +235,20 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
 		ft.detach(frg);
 		ft.attach(frg);
 		ft.commit();
+    }
+
+    @Override
+    public void onCommandSelectedInteraction(String key) {
+        //Log.i(TAG,"key received  : "+key);
+        Fragment f = MapsFragment.newInstance(key);
+        toolbar.setTitle(R.string.command_details);
+        if (f != null) {
+            getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                    .addToBackStack(null)
+                    .replace(R.id.content_frame, f , "Command details")
+                    .commit();
+        }
     }
 
 
