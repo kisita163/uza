@@ -82,7 +82,7 @@ public class UzaProvider extends ContentProvider {
                                   " =  "           + UzaContract.LikesEntry.TABLE_NAME  + "." + UzaContract.LikesEntry.COLUMN_LIKES;
                 }
                 String sql = "SELECT " + columnsArray2string(projection)    +" FROM " + UzaContract.LikesEntry.TABLE_NAME  + innerClause + whereClause + ";";
-                Log.i(TAG,"** Favourites query ..." + sql);
+                //Log.i(TAG,"** Favourites query ..." + sql);
                 retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
                 break;
             }
@@ -97,7 +97,7 @@ public class UzaProvider extends ContentProvider {
             }
 
             case COMMANDS: {
-                Log.i(TAG,"** Command query ...");
+                //Log.i(TAG,"** Command query ...");
 
                 String sql = "SELECT "+ columnsArray2string(projection) +" FROM " + UzaContract.ItemsEntry.TABLE_NAME     +
                              " INNER JOIN "   + UzaContract.CommandsEntry.TABLE_NAME  +
@@ -110,14 +110,14 @@ public class UzaProvider extends ContentProvider {
                 break;
             }
             case CHECKOUT: {
-                Log.i(TAG, "** Checkout query ...");
+                //Log.i(TAG, "** Checkout query ...");
 
                 String sql = "SELECT " + columnsArray2string(projection) + " FROM " + UzaContract.ItemsEntry.TABLE_NAME +
                         " INNER JOIN " + UzaContract.CommandsEntry.TABLE_NAME +
                         " ON " + UzaContract.ItemsEntry.TABLE_NAME + "." + UzaContract.ItemsEntry._ID +
                         " =  " + UzaContract.CommandsEntry.TABLE_NAME + "." + UzaContract.CommandsEntry.COLUMN_KEY +
                         " WHERE " + UzaContract.CommandsEntry.TABLE_NAME + "." + UzaContract.CommandsEntry.COLUMN_STATE + "" +
-                        " <> 1 ;";
+                        " = 0 ;";
                 //Log.i(TAG,"** Checkout query : " + sql);
                 retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
                 break;

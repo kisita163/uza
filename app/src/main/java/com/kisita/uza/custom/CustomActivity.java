@@ -182,19 +182,21 @@ public class CustomActivity extends AppCompatActivity implements
 
 		Map<String, Object> childUpdates = new HashMap<>();
 
-		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/key",details[0]);
-		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/size",details[1]);
-		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/color",details[2]);
+		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/key"     ,details[0]);
+		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/size"    ,details[1]);
+		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/color"   ,details[2]);
 		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/quantity",details[3]);
-		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/comment",details[4]);
+		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/comment" ,details[4]);
+		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/state"   ,0);
 		getDb().updateChildren(childUpdates);
-		childUpdates.put("/commands/"+details[5]+"/key",details[0]);
-		childUpdates.put("/commands/"+details[5]+"/size",details[1]);
-		childUpdates.put("/commands/"+details[5]+"/color",details[2]);
+		childUpdates.put("/commands/"+details[5]+"/key"     ,details[0]);
+		childUpdates.put("/commands/"+details[5]+"/size"    ,details[1]);
+		childUpdates.put("/commands/"+details[5]+"/color"   ,details[2]);
 		childUpdates.put("/commands/"+details[5]+"/quantity",details[3]);
-		childUpdates.put("/commands/"+details[5]+"/comment",details[4]);
-		childUpdates.put("/commands/"+details[5]+"/user",details[6]);
-		childUpdates.put("/commands/"+details[5]+"/seller",details[7]);
+		childUpdates.put("/commands/"+details[5]+"/comment" ,details[4]);
+		childUpdates.put("/commands/"+details[5]+"/user"    ,details[6]);
+		childUpdates.put("/commands/"+details[5]+"/seller"  ,details[7]);
+		childUpdates.put("/commands/"+details[5]+"/state"   ,0);
 		getDb().updateChildren(childUpdates);
 
 		setBadgeCount(this, mIcon, String.valueOf(count));
