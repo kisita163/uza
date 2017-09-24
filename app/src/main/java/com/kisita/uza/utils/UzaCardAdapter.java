@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,6 +28,7 @@ import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.ui.CheckoutFragment;
+import com.kisita.uza.ui.CommandsFragment;
 
 import java.util.ArrayList;
 
@@ -47,7 +49,8 @@ public class UzaCardAdapter extends
     private Context mContext;
 
     private AdapterView.OnItemClickListener mOnItemClickListener;
-    private CheckoutFragment  mAdapterListener;
+
+    private Fragment mAdapterListener;
 
     private FirebaseStorage mStorage;
     private StorageReference  mStorageRef;
@@ -132,7 +135,7 @@ public class UzaCardAdapter extends
                                 public void onClick(DialogInterface dialog, int which) {
                                     mCommands.child(d.getData()[KEY]).removeValue();
                                     mCommands1.removeValue();
-                                    mAdapterListener.onRemovePressedListener(d);
+                                    ((CheckoutFragment) mAdapterListener).onRemovePressedListener(d);
                                 }
                             });
                     AlertDialog dialog = builder.create();
@@ -166,10 +169,16 @@ public class UzaCardAdapter extends
         mOnItemClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(mContext, UzaActivity.class);
-                intent.putExtra("fragment",3);
-                intent.putExtra("details", itemsList.get(i));
-                mContext.startActivity(intent);
+
+                if(mAdapterListener instanceof CommandsFragment){
+                        ((CommandsFragment) mAdapterListener).onCommandSelected(itemsList.get(i).getData()[KEY]);
+                }else {
+
+                    Intent intent = new Intent(mContext, UzaActivity.class);
+                    intent.putExtra("fragment", 3);
+                    intent.putExtra("details", itemsList.get(i));
+                    mContext.startActivity(intent);
+                }
             }
         };
     }
@@ -270,5 +279,9 @@ public class UzaCardAdapter extends
             holder.colorTag.setVisibility(View.VISIBLE);
             holder.color.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void setAdapterListener(Fragment mAdapterListener) {
+        this.mAdapterListener = mAdapterListener;
     }
 }
