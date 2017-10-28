@@ -2,40 +2,28 @@ package com.kisita.uza.utils;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
-import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.model.Data;
-import com.kisita.uza.ui.DetailFragment;
 
 import java.util.ArrayList;
 
-import static com.kisita.uza.model.Data.UZA.UID;
-
-/**
+/*
  * Created by Hugues on 27/04/2017.
  */
 public class PageAdapter extends PagerAdapter {
 
     private Context mContext;
-    private FirebaseStorage mReference;
-    private String key;
     private ArrayList<String> urls;
 
 
-    public PageAdapter(Context context, FirebaseStorage reference,Data data) {
+    public PageAdapter(Context context, Data data) {
         this.mContext = context;
-        this.mReference = reference;
-        this.key  = data.getData()[UID];
         this.urls = data.getPictures();
     }
 
