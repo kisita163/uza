@@ -74,7 +74,7 @@
 
                 <TextView
                     android:id="@+id/item_name"
-                    style="@style/lbl_setting2"
+                    style="@style/uza_text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
@@ -84,7 +84,7 @@
 
                 <TextView
                     android:id="@+id/item_price"
-                    style="@style/lbl_setting2"
+                    style="@style/uza_text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/pad_3dp"
@@ -132,7 +132,7 @@
                 </LinearLayout>
                 <TextView
                     android:id="@+id/title_description"
-                    style="@style/lbl_setting2"
+                    style="@style/uza_text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/pad_10dp"
@@ -150,7 +150,7 @@
 
                 <TextView
                     android:id="@+id/item_description"
-                    style="@style/lbl_setting2"
+                    style="@style/uza_text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/pad_10dp"
@@ -171,7 +171,7 @@
 
                 <TextView
                     android:id="@+id/title_color"
-                    style="@style/lbl_setting2"
+                    style="@style/uza_text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/pad_10dp"
@@ -207,7 +207,7 @@
 
                 <TextView
                     android:id="@+id/title_sizes"
-                    style="@style/lbl_setting2"
+                    style="@style/uza_text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/pad_10dp"
@@ -244,7 +244,7 @@
 
                     <TextView
                         android:id="@+id/quantity_sizes"
-                        style="@style/lbl_setting2"
+                        style="@style/uza_text_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/pad_10dp"
@@ -304,7 +304,7 @@
                         android:background="@color/main_grey_lt" />
                     <TextView
                         android:id="@+id/title_comment"
-                        style="@style/lbl_setting2"
+                        style="@style/uza_text_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="@dimen/pad_5dp"
