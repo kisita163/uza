@@ -23,6 +23,7 @@
 
     <application
         android:allowBackup="true"
+        tools:replace="android:value"
         android:icon="@drawable/ic_launcher"
         android:theme="@style/AppTheme">
         <activity
