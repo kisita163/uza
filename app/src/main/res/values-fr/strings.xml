@@ -177,4 +177,11 @@
     <string name="transaction_rejected">Transaction rejected !</string>
     <string name="commands">Commands</string>
     <string name="action_commands">Commands</string>
+    <string name="command_details">Command details</string>
+    <string name="details">Details</string>
+    <string name="command_id">Command #</string>
+    <string name="command_state">State</string>
+    <string name="command_contact">Contact</string>
+    <string name="command_date">Date</string>
+    <string name="none">None</string>
 </resources>
