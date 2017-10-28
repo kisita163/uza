@@ -33,7 +33,7 @@
 
                 <TextView
                     android:id="@+id/lbl1"
-                    style="@style/lbl_setting2"
+                    style="@style/uza_text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/email1" />
@@ -47,7 +47,7 @@
 
                 <TextView
                     android:id="@+id/lbl2"
-                    style="@style/lbl_setting2"
+                    style="@style/uza_text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tnc" />
@@ -93,7 +93,7 @@
 
                 <EditText
                     android:id="@+id/lbl3"
-                    style="@style/lbl_setting2"
+                    style="@style/uza_text_style"
                     android:hint="@string/phone_number"
                     android:layout_width="match_parent"
                     android:inputType="number"
