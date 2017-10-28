@@ -80,16 +80,22 @@
         <item name="android:colorBackground">@color/white</item>
     </style>
 
-    <style name="lbl_setting1" parent="android:Widget.Holo.Light.TextView">
+    <style name="uza_label_style" parent="android:Widget.Holo.Light.TextView">
         <item name="android:textColor">@color/side_menu_divider</item>
         <item name="android:textSize">@dimen/txt_16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
-    <style name="lbl_setting2" parent="android:Widget.Holo.Light.TextView">
+    <style name="uza_text_style" parent="android:Widget.Holo.Light.TextView">
         <item name="android:textColor">@color/gray_dk</item>
         <item name="android:textSize">@dimen/txt_16sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="command_style" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:textColor">@color/gray_dk</item>
+        <item name="android:textSize">@dimen/txt_20sp</item>
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
