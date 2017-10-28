@@ -69,15 +69,15 @@ public class MainActivity extends CustomActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		toolbar =  findViewById(R.id.main_toolbar);
+		toolbar =  (Toolbar)findViewById(R.id.main_toolbar);
 		setSupportActionBar(toolbar);
 
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 		//getSupportActionBar().setIcon(R.drawable.ic_apps_black_24dp);
 		getSupportActionBar().setTitle("");
 
-		mViewPager =  findViewById(R.id.pager);
-		explore     = findViewById(R.id.explore);
+		mViewPager =  (ViewPager)findViewById(R.id.pager);
+		explore     = (ImageView)findViewById(R.id.explore);
 
        explore.setOnClickListener(new View.OnClickListener() {
             @Override
