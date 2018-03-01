@@ -182,7 +182,6 @@
     <string name="content_authority">com.kisita.uza</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="command_details">Command details</string>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyBRrg6VtkuBk9gwrvxRmkkQEJs0_5D7ATQ
