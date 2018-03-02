@@ -3,7 +3,7 @@ apply plugin: 'findbugs'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.0'
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.kisita.uza"
@@ -19,7 +19,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'),'proguard-braintree.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-braintree.pro'
         }
         debug {
             debuggable true
@@ -30,7 +30,9 @@ android {
         disable 'MissingTranslation'
     }
 
-    sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/anim'] } }
+    sourceSets {
+        main { res.srcDirs = ['src/main/res', 'src/main/res/anim', 'src/main/res/fonts'] }
+    }
 }
 
 task findbugs(type: FindBugs) {
@@ -69,7 +71,7 @@ dependencies {
     compile 'com.google.firebase:firebase-core:11.8.0'
 
     //compile 'com.firebase:firebase-jobdispatcher:0.5.2'
-    compile ("com.firebase:firebase-jobdispatcher-with-gcm-dep:0.6.0") {
+    compile("com.firebase:firebase-jobdispatcher-with-gcm-dep:0.6.0") {
         exclude module: "play-services-gcm"
     }
     compile 'com.google.firebase:firebase-ads:11.8.0'

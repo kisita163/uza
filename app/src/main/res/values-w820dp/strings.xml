@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="checkout">Checkout</string>
-    <string name="all_sales">All sales</string>
-    <string name="Save">Save</string>
-    <string name="Cancel">Cancel</string>
-    <string name="Quantity_field">Quantity is required!</string>
     <string name="RemoveCommand">Would you really remove this article from the cart?</string>
     <string name="uza_currency_position">uza_currency_position</string>
     <string name="item_in_the_cart">Item in the cart</string>
     <string name="checkout_quantity">Quantity</string>
     <string name="checkout_size">Size</string>
     <string name="checkout_price">Price</string>
-    <string name="uza_store">uza_store</string>
     <string name="choice">choice</string>
-    <string name="uza_main_fragments">selected_fragments</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="name">Name</string>
     <string name="submit">Submit</string>
     <string name="description">Description</string>
-    <string name="add_size">Add size(s)</string>
-    <string name="remove_size">Remove size</string>
 </resources>

@@ -1,30 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="theme_black">#393939</color>
-    <drawable name="theme_black">#393939</drawable>
-    <color name="theme_yellow">#FFDC00</color>
-    <drawable name="theme_yellow">#FFDC00</drawable>
-    
+
     <color name="red_light">#e74c3c</color>
     <color name="gray_dk">#313031</color>
-    <color name="white_smoke">#F7F7F7</color>
     <color name="white">#ffffff</color>
-    <drawable name="white">#ffffff</drawable>
     <color name="black">#000000</color>
-    <color name="transparent">#00000000</color>
-    <color name="blue_sky">#33b5e5</color>
-    <color name="gray">#5B5B5B</color>
-    <drawable name="trans_draw">#00000000</drawable>
 
-    <color name="side_menu_divider">#999999</color>
-    
-     <color name="main_color">#ffffff</color>
+    <color name="main_color">#ffffff</color>
     <color name="main_color_dk">#000000</color>
      <color name="main_grey_dk">#666666</color>
      <color name="comment_dk">#ff7802</color>
      <color name="main_grey_dk1">#424242</color>
      <color name="main_grey">#bebbbb</color>
-     <color name="fb_blue">#3b5998</color>
-     <color name="main_grey_lt">#e5e5e5</color>
-     <color name="test">#c4c5b1</color>
+    <color name="main_grey_lt">#e5e5e5</color>
 </resources>

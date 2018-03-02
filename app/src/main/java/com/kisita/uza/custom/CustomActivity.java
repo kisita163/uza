@@ -151,22 +151,6 @@ public class CustomActivity extends AppCompatActivity implements
 		}
 	}
 
-	private void setBadgeCount(Context context, LayerDrawable icon, String count) {
-
-		CartDrawable badge;
-		//Log.i(TAG,"setBadgeCount. count = "+count);
-		// Reuse drawable if possible
-		Drawable reuse = icon.findDrawableByLayerId(R.id.ic_badge);
-		if (reuse != null && reuse instanceof CartDrawable) {
-			badge = (CartDrawable) reuse;
-		} else {
-			badge = new CartDrawable(context);
-		}
-		badge.setCount(count);
-		icon.mutate();
-		icon.setDrawableByLayerId(R.id.ic_badge, badge);
-	}
-
 	public String getUid() {
 		return FirebaseAuth.getInstance().getCurrentUser().getUid();
 	}
