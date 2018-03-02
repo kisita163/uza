@@ -2,46 +2,958 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Hugues\AndroidStudioProjects\glam\uzaApp\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\21.0.3\jars\classes.jar"
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast-framework\11.8.0\jars\classes.jar"
         jumboMode="false"
-        revision="22.0.1"
-        sha1="4b8945fc23a7461c6fdde15753456d64b0a9358b">
-        <dex dex="C:\Users\Hugues\AndroidStudioProjects\glam\uzaApp\app\build\intermediates\pre-dexed\debug\classes-a8bbcc91e6dd59381f804340067f174d2f8c432b.jar" />
+        optimize="true"
+        revision="26.0.0"
+        sha1="7edf6db4e4e673ee210c68bc16f0ac01b3153e81">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-cast-framework-11.8.0_cb3d7604d725c83e580295916156159d8c8c0d6d\classes.dex" />
     </item>
     <item
-        jar="C:\Users\Hugues\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-awareness\11.8.0\jars\classes.jar"
         jumboMode="false"
-        revision="22.0.1"
-        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="C:\Users\Hugues\AndroidStudioProjects\glam\uzaApp\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-afa8cc0ba917ee98082d971864339e0f594b87d4.jar" />
+        optimize="true"
+        revision="26.0.0"
+        sha1="d6de702a84f62173f3a9c7a1066d81cd11120f40">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-awareness-11.8.0_b3615335101a051b6f1ee39e98dace1152c56cf1\classes.dex" />
     </item>
     <item
-        jar="C:\Users\Hugues\AndroidStudioProjects\glam\uzaApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\libs\internal_impl-21.0.3.jar"
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\11.8.0\jars\classes.jar"
         jumboMode="false"
-        revision="22.0.1"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="C:\Users\Hugues\AndroidStudioProjects\glam\uzaApp\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-946d63b464feebdae4134eed7c1eb29ae6f2e0e0.jar" />
+        optimize="true"
+        revision="26.0.0"
+        sha1="aeca0a0ab86831ec59a54723205ce9341ac22d1b">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-ads-11.8.0_e2480fee01c79047e90d7b02fab1f2bbc344b57f\classes.dex" />
     </item>
     <item
-        jar="C:\Users\Hugues\AndroidStudioProjects\glam\uzaApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\classes.jar"
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-vision\11.8.0\jars\classes.jar"
         jumboMode="false"
-        revision="22.0.1"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="C:\Users\Hugues\AndroidStudioProjects\glam\uzaApp\app\build\intermediates\pre-dexed\debug\classes-afd2dac8020b35223539d75e3d4b70fa5f9b5348.jar" />
+        optimize="true"
+        revision="26.0.0"
+        sha1="ecd0a96f6bda796eeffafb066a93c84163b72234">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-vision-11.8.0_05b308e3ff49e6f3fe157850e6940705fd3dfb5c\classes.dex" />
     </item>
     <item
-        jar="C:\Users\Hugues\AndroidStudioProjects\glam\uzaApp\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\jars\classes.jar"
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\com.paypal.android.sdk\data-collector\2.3.9\71c2fb7b3e34c9370aed0b4cf1d24c84bc155094\data-collector-2.3.9.jar"
         jumboMode="false"
-        revision="22.0.1"
-        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="C:\Users\Hugues\AndroidStudioProjects\glam\uzaApp\app\build\intermediates\pre-dexed\debug\classes-34fa83089eaa25f7e35f2bb7e836ef517f8eacb5.jar" />
+        optimize="true"
+        revision="26.0.0"
+        sha1="71c2fb7b3e34c9370aed0b4cf1d24c84bc155094">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\data-collector-2.3.9_7cebc57ee3fc968da2ef48e3f4e69cf9605fa8ff\classes.dex" />
     </item>
     <item
-        jar="C:\Users\Hugues\AndroidStudioProjects\glam\uzaApp\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\21.0.3\jars\classes.jar"
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-applinks\1.4.0\8ad21bf21784dacce5f2043afb97218cc377e835\bolts-applinks-1.4.0.jar"
         jumboMode="false"
-        revision="22.0.1"
-        sha1="00b0b7233e1ec64acebfac40d4983d32d4712426">
-        <dex dex="C:\Users\Hugues\AndroidStudioProjects\glam\uzaApp\app\build\intermediates\pre-dexed\debug\classes-bedd519eb69cf8bf63291b8f4bf2651ce462fe0d.jar" />
+        optimize="true"
+        revision="26.0.0"
+        sha1="8ad21bf21784dacce5f2043afb97218cc377e835">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\bolts-applinks-1.4.0_38a8e821fae3eaf8e2dffcf78bdba0bb12ab6d17\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="4f525403c809a032a6849519be7aa8bb98146946">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-analytics-11.8.0_4a398dca25484f0466e5210865c8d7271f973b64\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\android.arch.core\common\1.0.0\a2d487452376193fc8c103dd2b9bd5f2b1b44563\common-1.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="a2d487452376193fc8c103dd2b9bd5f2b1b44563">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\common-1.0.0_1ad0963812b73fcda2ae8ef879f0d59a3ea1ebfa\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-instantapps\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="b5c787f82f3e31a1c639c799d19b9999dcb4f451">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-instantapps-11.8.0_f9f33329d2c5833780267c79fbb7df2e9651a981\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\com.android.support\support-annotations\26.1.0\814258103cf26a15fcc26ecce35f5b7d24b73f8\support-annotations-26.1.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="0814258103cf26a15fcc26ecce35f5b7d24b73f8">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-26.1.0_cb773fe79137bbf1ac551e99d1caf63397c63c98\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\com.google.zxing\core\3.3.0\73c49077166faa4c3c0059c5f583d1d7bd1475fe\core-3.3.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="73c49077166faa4c3c0059c5f583d1d7bd1475fe">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\core-3.3.0_2d5815278be3729681115c5e20956a80445049a4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.android.support\support-v4\26.1.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-26.1.0_0fe2c4683f9b3da462d888a83a65de618c9b53dd\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.firebase\firebase-database-connection\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="ed04a0ae7198b0d5d0e965d6afdb0fe784dcfbee">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-database-connection-11.8.0_e170e2cc948273597cb743c9400a51a75f6aba11\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth-api-phone\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="fe94ced585bffcf3c7f788a294cc54e6785544ac">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-auth-api-phone-11.8.0_8d7fe06c4582870bff2497576364f5d933ebc8f7\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="99e6d4fce7eaa92916cf26f951414b1849ce4ef5">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-identity-11.8.0_082ebc458d1a1af5338559953ecd9190d5754e23\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.braintreepayments.api\braintree\2.3.9\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="d8ed5cbbb600ced58637292c27ec4fe8a33f0983">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.braintreepayments.api-braintree-2.3.9_4f29d9455ccfbc76f5d542736c7e676c2bdf080e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\com.loopj.android\android-async-http\1.4.9\386a4339ffe52d5d63e80f9bed8d2b1d1a418249\android-async-http-1.4.9.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="386a4339ffe52d5d63e80f9bed8d2b1d1a418249">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\android-async-http-1.4.9_4bc0bfd50f692a924b600b9e7a120f2df38c6998\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics-impl\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="07ce024be0a1c178d857ec2fe55a99011c2ff7a2">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-analytics-impl-11.8.0_adeab630db05c963bbdfefff636846717562713f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-fido\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="9b7d070f3024fde0cb59e6358f44e6c076025426">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-fido-11.8.0_261c938cd33d2a0043aa6f75d7f6d52cef20a279\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="428d38169e58cef7cfcac5776135a82cc9f6735e">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-fitness-11.8.0_e14fc6f102c50c00d79123f8bcaf49fca5f77dc2\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\26.1.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="508f50705b4fde51a16259f29c854201a3044516">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-26.1.0_f2a15975ab8f5555bec5d2d6aad8bd3990776a13\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\26.1.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="f97cf85b0fe70d37a705111dafa6b1b418ea1650">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-media-compat-26.1.0_5f720a45bd45e351eafd9735620ded4b2461eb72\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-vision-common\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="cf42968b00f665dae552206e33705877b949b333">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-vision-common-11.8.0_8ad4dae7e79ffcfdf288c2b54b10300dad7f3e14\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\com.github.bumptech.glide\glide\3.7.0\9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4\glide-3.7.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\glide-3.7.0_de07633729c36dbdce89ec05d4aa4cb72501dd77\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.firebase\firebase-analytics-impl\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="122de0d704f76d2bb5cb9db66e00fe90a0a41e78">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-analytics-impl-11.8.0_264d077eaa518f0f9d22e9d8da52739f893b62ea\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.android.support\support-fragment\26.1.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="7efef32744ca4a436492d5cf28c08698cc2af256">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-fragment-26.1.0_932d07e2e0deeaa9c805757fa4779f9c27e507ef\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="c86b9ff3ff60aa61ee5a9116c3c06a533ff324c9">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-wearable-11.8.0_0fdfa588bbadb97866f922bfb3e1e068e0f11501\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\26.1.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="b12cd9c87c3dfb012a911b6e38d2444ed0a65e1f">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-26.1.0_5c262aee52c7746a1843b19f7fd3a097acd552ff\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.facebook.android\facebook-share\4.31.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="95d97996ec624fca99f6b06ad6004c749259970d">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.facebook.android-facebook-share-4.31.0_4f0cd17187ed537823ecf0e54d9a2e9c151cb151\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="233d88c6f961d2a84758dfe27b7af61318190c7b">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-base-11.8.0_3ee0f0b7728dc1d5569550873fc5b0e94aa8cf0d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\com.github.bumptech.glide\glide\3.7.0\9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4\glide-3.7.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\glide-3.7.0_de07633729c36dbdce89ec05d4aa4cb72501dd77\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.braintreepayments.api\core\2.3.9\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="a67d7231d45b82cf0e5036d2afbf4095d85bcf1f">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.braintreepayments.api-core-2.3.9_cd523d887847f4a68a5c79474e8c18273f083d09\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\4.31.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="b1c250352bb7bbd5ea1982ca5165f2a81f36b530">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.facebook.android-facebook-android-sdk-4.31.0_183215958999712315f0855afa60e3be38b58c28\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="541e0b6826726943a93e78613feaa4c6e7915e35">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-nearby-11.8.0_bd41c3b21ef910a70d02f814861a6e3acfb34f7f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\26.1.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="6f4138a4e065826cb044d49faea4cfd7191773d1">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-26.1.0_d18e812627dcba03014e1c178aabbb0ccbeeca05\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.android.support\transition\26.1.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="58b12bdb21a84f22e0dc3b047aeceb0a546b1b44">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-transition-26.1.0_1978c55529c5d66ada4f2dc1c712e2f4b3064c3f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.firebase\firebase-config\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="d9a09584e04eb95d247f251d5d498eb57fcf6e41">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-config-11.8.0_85070f388769fa12833fa7e5f0a608a5653c6a20\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-applinks\1.4.0\8ad21bf21784dacce5f2043afb97218cc377e835\bolts-applinks-1.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="8ad21bf21784dacce5f2043afb97218cc377e835">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\bolts-applinks-1.4.0_38a8e821fae3eaf8e2dffcf78bdba0bb12ab6d17\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="f4daa3cdaa8476e1e952279e9a7b3ba6ac8012fe">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-games-11.8.0_b7b30a16873db2e8c2c804a0905e6f3187d5aed4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.firebase\firebase-common\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="e6aeff19a2ce1eb896557be73cb9ceb56f8d1cf3">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-common-11.8.0_4c01dd639039544674ec03f8dcd6e321d9477ede\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.braintreepayments.api\drop-in\2.3.8\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="bc5fc7133dda5289ad7922cf89828a4dbaf0246d">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.braintreepayments.api-drop-in-2.3.8_f2a5bee606911237c0526d2b81b2a4befe3ddaef\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\android.arch.lifecycle\common\1.0.0\e414a4cb28434e25c4f6aa71426eb20cf4874ae9\common-1.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="e414a4cb28434e25c4f6aa71426eb20cf4874ae9">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\common-1.0.0_b15814623ddc037cb5fa108a4f3cb82e1f7f972f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.firebase\firebase-jobdispatcher-with-gcm-dep\0.6.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="28ea32dbe6658d42c1b3c173ed8890aa7072f7a3">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.firebase-firebase-jobdispatcher-with-gcm-dep-0.6.0_d031fc19e30243e48a0d424c624864cbbe996041\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="890ae0bc8fff3c23e8759304235e14b3a536ad80">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-panorama-11.8.0_8f4e32eae66b625565563529775cea14d6f1bb99\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-iid\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="fe3a72bee9f9eda45a5940a278fd9c1979b14a37">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-iid-11.8.0_e43005559bf1a47cb8e3deb51f04af5dfa22db67\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="263d4b3cb11781467a6fa04450b1a72727c541f3">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-drive-11.8.0_ea6e0ed750ce911be9cf03f9e1ab4b561de52254\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.braintreepayments\card-form\2.3.2\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="8054ec1098052c14c7755bffce8da7b1da78ddf7">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.braintreepayments-card-form-2.3.2_7a0e9538ed0bc3423ff67f0923c2bcca463bbeb1\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appinvite\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="4e7ca65463655d11456435e37fba9500c070d05e">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-appinvite-11.8.0_db9516188857562234fe401a914184695a3109f3\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-applinks\1.4.0\8ad21bf21784dacce5f2043afb97218cc377e835\bolts-applinks-1.4.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="8ad21bf21784dacce5f2043afb97218cc377e835">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\bolts-applinks-1.4.0_38a8e821fae3eaf8e2dffcf78bdba0bb12ab6d17\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="cd3e4eb77a31986f61e69f12fcad302618db34b7">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-cast-11.8.0_b1c1996b86e7ebbed8ef56fb951281f329dd13ea\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="f0f484b1a18c1676984dfea4e572ceffda2f3b78">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-location-11.8.0_f15fd0fef5042c2b1e68fda889b50aec6fec14fe\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.firebase\firebase-messaging\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="c44026185adf61f12630db36ac6781481f559e7c">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-messaging-11.8.0_01fe419a352d01b5e29a62623f70ac59d043c7ab\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tagmanager-api\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="16f186a432ab801268bee4a20c038c9fa35a2901">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tagmanager-api-11.8.0_18f096108310a89ffc6b223ffb825fb8d9391077\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tasks\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="d2af2ef4d987d753f2e8ee2d1480ab964d5c7273">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tasks-11.8.0_0f084f9981f25cdc1e887e01c8d549bf48c07503\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tagmanager-v4-impl\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="aba77345f8bb32d4433b88c51ced5b9c5f2d4459">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tagmanager-v4-impl-11.8.0_3d5ee79a63536a1a4dfa85cb3ca793f784dea9b6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads-lite\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="24cb9bae5fbe94df0f55d87452a291b69a2f22bf">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-ads-lite-11.8.0_2486d05a5ac5d517fe028df177a6e9c93717af09\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-places\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="38ceaeb22ef95d1a0d320ecdad9be7383d6b7923">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-places-11.8.0_2d04ad16d784700c518d961cddcd67f39bdf7716\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="6cdca967c6341e3e8dce1aff35352a903ad47ca7">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-wallet-11.8.0_f26ce74af3c5f900e22a8c0ab0bec0e80b037f8f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="fba4fe02a4ea786ef5f2e78fcbd8f51d999ad767">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-plus-11.8.0_3e6e82faac3ad8ecdb111c5add9c63602aba3454\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.firebase\firebase-storage\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="c59cc4d67084879423713a416182208836c0a29f">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-storage-11.8.0_c08f2130322e8de82be73f7b637955921203ed53\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.facebook.android\facebook-messenger\4.31.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="2482bfd874e8b3927f4141105674ad392ff83698">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.facebook.android-facebook-messenger-4.31.0_3cd56709423c4a8da08e502967a3578a4ba78304\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\26.1.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="233f60a165ae622c8b36731502ebbda0f65e1930">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-26.1.0_0994e1d375bc561e9603124b2f42ca4db814b4b6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\com.loopj.android\android-async-http\1.4.9\386a4339ffe52d5d63e80f9bed8d2b1d1a418249\android-async-http-1.4.9.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="386a4339ffe52d5d63e80f9bed8d2b1d1a418249">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\android-async-http-1.4.9_4bc0bfd50f692a924b600b9e7a120f2df38c6998\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.firebase\firebase-crash\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="4b882397288de69e13ff147bdefe584cc6deb055">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-crash-11.8.0_1929c6b66fe7527f39f391e2881b942a172ce382\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tagmanager\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="31ef45383dcfc253588a3be0b49996821ce816c5">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tagmanager-11.8.0_2d5bf7386978d2309d951ab1db219eaeeca1965f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\26.1.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="40392f30a601db5675cdf18192aab013d6fee6ec">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-26.1.0_5b94ade74f00acb6a7800e4f60bea83dd83db960\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="4b7dbd963f54ff7b600c647d14ca381f110d9c9a">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-gcm-11.8.0_8ee7803000af96c954c88d82d509b8ae7d48304b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-tasks\1.4.0\d85884acf6810a3bbbecb587f239005cbc846dc4\bolts-tasks-1.4.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\bolts-tasks-1.4.0_908e782a8607c79b1a07fc93ae907bcb3abb90ab\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.firebaseui\firebase-ui-storage\0.6.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="3c433e48557e476290f45fb6cb568d1a103c9978">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.firebaseui-firebase-ui-storage-0.6.0_834bae22487deb854a8d3ead5472ab921a857bab\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.firebase\firebase-iid\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="264ad23f9752aabecfa41115c52a25a023a08839">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-iid-11.8.0_5610cc06a56f97175e3b52b81c8cb0a57ceed2b9\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.android.support\customtabs\26.1.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="e6fff1d276738bb82cfc131c49d2e72a47dfd0aa">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-customtabs-26.1.0_dd4b602757db06b37ac11d81754ecd4135bb8e81\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.paypal.android.sdk\paypal-one-touch\2.3.9\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="ba62f08030dce203528fb9a0aba9b79953e0d80b">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.paypal.android.sdk-paypal-one-touch-2.3.9_6144828506b4c481e422f9b110c1b8c54366b4b6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\com.google.zxing\core\3.3.0\73c49077166faa4c3c0059c5f583d1d7bd1475fe\core-3.3.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="73c49077166faa4c3c0059c5f583d1d7bd1475fe">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\core-3.3.0_2d5815278be3729681115c5e20956a80445049a4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\26.1.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="f428e2fbc9ed0b297e3a3f420e51e6982f66822d">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-26.1.0_23030454b7af16332589e02f80227905fa6a8409\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\cz.msebera.android\httpclient\4.3.6\526a9f794eab830eae4f23a62c572878b3f491ab\httpclient-4.3.6.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="526a9f794eab830eae4f23a62c572878b3f491ab">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\httpclient-4.3.6_f261d88741da29289ff615bf73c4ac1a13aa9445\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth-base\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="0a23c4daa97697118d96f2b09d1dbaf9ea943d8d">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-auth-base-11.8.0_598c302c34dee86b1adcee54e1e6ea07f3fedb2b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.firebase\firebase-dynamic-links\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="e59236507fc1c595cd784ce9aa81c2c04888fd40">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-dynamic-links-11.8.0_1fe82b8d54110a0a96f18942670ca1a34003277d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="5ad3911825107d8dd4b017fdecebfd23c08048dd">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-basement-11.8.0_d578713c15f388a1866f2187686558c4debda406\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.android.support\design\26.1.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="a37fc31c5ceeaa4532a37358add1b189d8db4af1">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-26.1.0_d740aab45b79a559ed152b17200020394d04ad12\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.android.support\palette-v7\26.1.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="b614956bf77eb8201754ac10109e52c36691cb3f">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-palette-v7-26.1.0_b11e89560cd7d46a6460a850fe8eee6a7b18bc2f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-tasks\1.4.0\d85884acf6810a3bbbecb587f239005cbc846dc4\bolts-tasks-1.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\bolts-tasks-1.4.0_908e782a8607c79b1a07fc93ae907bcb3abb90ab\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\26.1.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="71d9511059af6ec9b85408f8f0e16ec0f439185e">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-mediarouter-v7-26.1.0_99b0282e04750f91b2d6ecc6b6d5a131b5326548\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gass\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="a7760a45a6c9f425aaa43ef391a8cf28a8bcb4a1">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-gass-11.8.0_e301cd3c098efe06b1342ad11d1910bd6505143f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="67fc961d875e770ba5f9a4f4573d5b257c06424a">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-safetynet-11.8.0_d6c006e2d5056ab3e1d75b6acd686fd123720188\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.firebase\firebase-auth\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="c5bc72ad3250d065128d1d7514279be703e57bd0">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-auth-11.8.0_cf547a7af2c7d5c40b33315019e914dad9fa7792\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.firebase\firebase-storage-common\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="08bbb31d3aae0e337647a49575c2d1f1ec7d6996">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-storage-common-11.8.0_c755b1591fa6ed0dac3297e456a64c860f8d4c85\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.facebook.android\facebook-common\4.31.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="e3b8ecc558c6deeb90eb3934c1c715128ab26dcd">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.facebook.android-facebook-common-4.31.0_2f9049694e8d33c7e93a16893c00e2614807bf5d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.firebase\firebase-appindexing\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="2208fc058d44d1bfdd3c713185fc13c8ea333320">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-appindexing-11.8.0_d216c36b380c1623494c89c733b774323a84aeca\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.facebook.android\facebook-core\4.31.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="49d6e981cef2eb91ff98aa6004fadb3bd757790d">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.facebook.android-facebook-core-4.31.0_0e4ebae08858b6defb0db20c86cfaecd36252d74\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="6746a3078625563a9eb381920f34e47ccd6bab87">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-auth-11.8.0_a89b9f0f55ef356e90ece19061a0c282b1323ccd\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.facebook.android\facebook-login\4.31.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="b8b26b28aae0ba8e2db55ad9fe0ebc770530c5ef">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.facebook.android-facebook-login-4.31.0_20c46d658fc8ef1e6f7d0479ea80c1a9c28698ae\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\com.google.zxing\core\3.3.0\73c49077166faa4c3c0059c5f583d1d7bd1475fe\core-3.3.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="73c49077166faa4c3c0059c5f583d1d7bd1475fe">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\core-3.3.0_2d5815278be3729681115c5e20956a80445049a4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.android.support\support-compat\26.1.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="2442771a5590dd4eb4bce00c2e9dca9e22e4c963">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-26.1.0_c48bac68b8512dd6ab863c0a9945d9560a6711e7\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\com.github.bumptech.glide\glide\3.7.0\9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4\glide-3.7.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\glide-3.7.0_de07633729c36dbdce89ec05d4aa4cb72501dd77\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\cz.msebera.android\httpclient\4.3.6\526a9f794eab830eae4f23a62c572878b3f491ab\httpclient-4.3.6.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="526a9f794eab830eae4f23a62c572878b3f491ab">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\httpclient-4.3.6_f261d88741da29289ff615bf73c4ac1a13aa9445\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-tasks\1.4.0\d85884acf6810a3bbbecb587f239005cbc846dc4\bolts-tasks-1.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\bolts-tasks-1.4.0_908e782a8607c79b1a07fc93ae907bcb3abb90ab\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\android.arch.lifecycle\runtime\1.0.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="b62fdc4cfef174c1e456014195c83fa7de7dc041">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\android.arch.lifecycle-runtime-1.0.0_e117f01326f8c85360bdaf15c83a0fc33abaa9b5\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.facebook.android\facebook-places\4.31.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="821200fa3e07f93d0ae66e4a5917db8bac69dfe1">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.facebook.android-facebook-places-4.31.0_2bc64502b298ef0343bc63c6e2f7c63f9b8014a9\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.firebase\firebase-database\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="1b982cc8b5ab6f788690238dbe3ac3bb19f88b1a">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-database-11.8.0_2148dbadfced4eee6b078e1821184c05b0e82026\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\26.1.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="b4d6fbbb48b42dd03fd9c5a09b3b7a53266df6ed">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-cardview-v7-26.1.0_103609cacd24436f00ce85f8d5af181ebc10a8be\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.facebook.android\facebook-applinks\4.31.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="82ea5a937ab84229fbd2f3fc8cf2a72cbdf0ee0f">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.facebook.android-facebook-applinks-4.31.0_106acdcde3ced82255e37f96d7e7ed7f1e5bacd4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\cz.msebera.android\httpclient\4.3.6\526a9f794eab830eae4f23a62c572878b3f491ab\httpclient-4.3.6.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="526a9f794eab830eae4f23a62c572878b3f491ab">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\httpclient-4.3.6_f261d88741da29289ff615bf73c4ac1a13aa9445\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\com.loopj.android\android-async-http\1.4.9\386a4339ffe52d5d63e80f9bed8d2b1d1a418249\android-async-http-1.4.9.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="386a4339ffe52d5d63e80f9bed8d2b1d1a418249">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\android-async-http-1.4.9_4bc0bfd50f692a924b600b9e7a120f2df38c6998\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.firebase\firebase-analytics\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="42c9659c973e311ffdb645ed057e5053e0ab5c78">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-analytics-11.8.0_4c9e4068cc68c18c542226a0188d01d710cd2eab\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\.gradle\caches\modules-2\files-2.1\com.paypal.android.sdk\data-collector\2.3.9\71c2fb7b3e34c9370aed0b4cf1d24c84bc155094\data-collector-2.3.9.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="71c2fb7b3e34c9370aed0b4cf1d24c84bc155094">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\data-collector-2.3.9_7cebc57ee3fc968da2ef48e3f4e69cf9605fa8ff\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\hugueski\Desktop\uza\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\11.8.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="601ebd8fa027a3dad924ffa1cb14689ced5aa436">
+        <dex dex="C:\Users\hugueski\Desktop\uza\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-maps-11.8.0_1e96f75f9c9e3edba467be5ca1ebcb86529fb337\classes.dex" />
     </item>
 
 </items>
