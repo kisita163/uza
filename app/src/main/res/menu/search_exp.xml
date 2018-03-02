@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/action_cart"
-        android:icon="@drawable/ic_menu_cart"
+        android:icon="@drawable/ic_action_cart"
         android:title="@string/grid"
         app:showAsAction="always" />
     <item
         android:id="@+id/favourite"
-        android:icon="@drawable/ic_favorite_black_24dp"
+        android:icon="@drawable/ic_action_favorite"
         android:title="@string/grid"
         app:showAsAction="always" />
 
@@ -20,11 +20,9 @@
 
     <item
         android:id="@+id/action_explore"
-        android:icon="@drawable/ic_nav1_sel"
-        app:showAsAction="never"
         android:title="@string/explore"
-        android:actionViewClass="android.widget.SearchView"
-        />
+        android:orderInCategory="100"
+        app:showAsAction="never" />
 
 	<!--<item TODO search engine
         android:id="@+id/action_search"
