@@ -18,8 +18,8 @@
 
     <color name="side_menu_divider">#999999</color>
     
-     <color name="main_color">#bc9eec</color>
-    <color name="main_color_dk">#a364e7</color>
+     <color name="main_color">#ffffff</color>
+    <color name="main_color_dk">#000000</color>
      <color name="main_grey_dk">#666666</color>
      <color name="comment_dk">#ff7802</color>
      <color name="main_grey_dk1">#424242</color>
