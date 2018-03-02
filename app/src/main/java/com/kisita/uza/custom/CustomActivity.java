@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
@@ -55,7 +56,7 @@ public class CustomActivity extends AppCompatActivity implements
 	private long count = 0;
 
 	/* cart icon*/
-	private LayerDrawable mIcon;
+	private BitmapDrawable mIcon;
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
@@ -199,16 +200,16 @@ public class CustomActivity extends AppCompatActivity implements
 		childUpdates.put("/commands/"+details[5]+"/state"   ,0);
 		getDb().updateChildren(childUpdates);
 
-		setBadgeCount(this, mIcon, String.valueOf(count));
+		//setBadgeCount(this, mIcon, String.valueOf(count));
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		//Log.i(TAG,"onCreateOptionsMenu");
 		getMenuInflater().inflate(R.menu.search_exp, menu);
-		MenuItem itemCart = menu.findItem(R.id.action_cart);
-		mIcon = (LayerDrawable) itemCart.getIcon();
-		setBadgeCount(this, mIcon, String.valueOf(count));
+		//MenuItem itemCart = menu.findItem(R.id.action_cart);
+		//mIcon = (LayerDrawable) itemCart.getIcon();
+		//setBadgeCount(this, mIcon, String.valueOf(count));
 		return super.onCreateOptionsMenu(menu);
 	}
 

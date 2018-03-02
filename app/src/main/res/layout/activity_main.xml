@@ -30,7 +30,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"
                 android:foreground="?android:selectableItemBackground"
-                app:srcCompat="@drawable/ic_apps_black_18dp" />
+                app:srcCompat="@drawable/ic_action_logo" />
             <!--<TextView
                 android:id="@+id/title_view"
                 style="@style/lbl_setting2"

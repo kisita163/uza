@@ -23,7 +23,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_action_logo"
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.SplashScreen"
