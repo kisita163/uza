@@ -1,79 +1,37 @@
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawer_layout"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.kisita.uza.activities.MainActivity">
 
-    <LinearLayout
-        android:id="@+id/ll"
+    <FrameLayout
+        android:id="@+id/frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content">
+    </FrameLayout>
 
-
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/main_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:elevation="0dp"
-            android:minHeight="?attr/actionBarSize"
-            app:titleTextColor="@color/black"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:weightSum="1">
-
-            <ImageView
-                android:id="@+id/explore"
-                android:layout_width="37dp"
-                android:layout_height="match_parent"
-                android:scaleType="fitCenter"
-                android:foreground="?android:selectableItemBackground"
-                app:srcCompat="@drawable/ic_action_logo" />
-            <!--<TextView
-                android:id="@+id/title_view"
-                style="@style/lbl_setting2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/pad_10dp"
-                android:text="UZA"
-                android:fontFamily="sans-serif"
-                android:textStyle="bold"
-                android:textSize="@dimen/txt_25sp" />-->
-        </android.support.v7.widget.Toolbar>
-
-        <FrameLayout
-            android:id="@+id/frame"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        <android.support.v4.view.PagerTabStrip
-            android:id="@+id/pager_tab_strip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:background="@color/main_color"
-            android:paddingBottom="@dimen/pad_10dp"
-            android:paddingTop="@dimen/pad_10dp"
-            android:textColor="@color/black" />
-        </android.support.v4.view.ViewPager>
-        </FrameLayout>
-    </LinearLayout>
-
-   <!-- <ListView
-        android:id="@+id/left_drawer"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:layout_weight="1"
-        android:background="@color/white"
-        android:choiceMode="singleChoice"
-        android:divider="@null"
-        android:headerDividersEnabled="false" />-->
-</android.support.v4.widget.DrawerLayout>
+        android:layout_height="50dp"
+        android:src="@drawable/african_woman"
+        app:layout_constraintBottom_toTopOf="@id/navigation" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:elevation="0dp"
+        app:itemBackground="@color/main_color"
+        app:itemIconTint="@color/color_selector"
+        app:itemTextColor="@color/color_selector"
+        app:menu="@menu/navigation" />
+
+</android.support.constraint.ConstraintLayout>
