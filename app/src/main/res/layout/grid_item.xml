@@ -17,11 +17,10 @@
         android:layout_height="wrap_content" >
 
         <ImageView
-            android:id="@+id/img"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-
-            android:src="@drawable/on_sale_item1" />
+        android:id="@+id/img"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/african_woman" />
 
         <TextView
             android:id="@+id/lbl1"
