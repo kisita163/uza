@@ -5,9 +5,16 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.kisita.uza.R;
 
 
@@ -19,40 +26,66 @@ import com.kisita.uza.R;
 public class SplashScreen extends Activity
 {
 
-	/** Check if the app is running. */
+    private static final String TAG = "SplashScreen";
+    /** Check if the app is running. */
 	private boolean isRunning;
 
-	private ImageView ladyImg;
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 */
+	private ImageView uzaLogo;
+
+    /* (non-Javadoc)
+     * @see android.app.Activity#onCreate(android.os.Bundle)
+     */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.splash);
-		ladyImg = (ImageView) findViewById(R.id.lady) ;
+		uzaLogo = (ImageView) findViewById(R.id.lady) ;
 
 		isRunning = true;
-
+		// Connect the user as anonymous user (Login: kisita2002@yahoo.fr Pass : kisita)
+		// For buying anything, the user will have to introduce his personal info
+        signIn(FirebaseAuth.getInstance(),"kisita2002@yahoo.fr","kisita");
+		//Blink UZA logo
 		manageBlink();
-
+		//Start app after 4 seconds
 		startSplash();
-
 	}
 
 	private void manageBlink(){
-        ObjectAnimator anim = ObjectAnimator.ofFloat(ladyImg,"alpha",0.2f);
+        ObjectAnimator anim = ObjectAnimator.ofFloat(uzaLogo,"alpha",0.1f);
         anim.setDuration(1500);
         anim.setRepeatMode(ValueAnimator.REVERSE);
         anim.setRepeatCount(ValueAnimator.INFINITE);
         anim.start();
 	}
 
+    private void signIn(FirebaseAuth auth, String email, String password) {
+        // If the user as already entered his credentials, don't connect him as an anonymous user
+        if (auth.getCurrentUser() != null) {
+            return;
+        }
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
+
+                    if (task.isSuccessful()) {
+
+                    } else {
+                        Toast.makeText(SplashScreen.this, "Connexion to the remote server failed",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+    }
+
 	/**
 	 * Starts the count down timer for 3-seconds. It simply sleeps the thread
-	 * for 6-seconds.
+	 * for 4-seconds.
 	 */
 	private void startSplash()
 	{
@@ -61,11 +94,10 @@ public class SplashScreen extends Activity
 			@Override
 			public void run()
 			{
-
 				try
 				{
 
-					Thread.sleep(6000);
+					Thread.sleep(4000);
 
 				} catch (Exception e)
 				{
