@@ -99,57 +99,6 @@ public class LoginActivity extends CustomActivity
 		mAuth = FirebaseAuth.getInstance();
 		mDatabase.keepSynced(true);
 
-		/*
-			This listener get exchange rate and shipping cost from firebase database
-		 */
-		final Query itemsQuery = getMoneyQuery(mDatabase);
-		itemsQuery.addChildEventListener(new ChildEventListener() {
-			@Override
-			public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-				SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
-
-				SharedPreferences.Editor editor = sharedPref.edit();
-
-				for(DataSnapshot d  :  dataSnapshot.getChildren()){
-					Log.i(TAG,"******* key = "+d.getKey() + " value = "+d.getValue());
-					if(d.getKey().equalsIgnoreCase("eur-cdf")){
-						editor.putString("eur-cdf",d.getValue().toString());
-					}else if(d.getKey().equalsIgnoreCase("usd-cdf")){
-						editor.putString("usd-cdf",d.getValue().toString());
-					}else if(d.getKey().equalsIgnoreCase("usd-eur")){
-						editor.putString("usd-eur",d.getValue().toString());
-					}else if(d.getKey().equalsIgnoreCase("region1")){
-						editor.putString("region1",d.getValue().toString());
-					}else if(d.getKey().equalsIgnoreCase("region2")){
-						editor.putString("region2",d.getValue().toString());
-					}else if(d.getKey().equalsIgnoreCase("region3")){
-						editor.putString("region3",d.getValue().toString());
-					}
-				}
-				editor.apply();
-			}
-
-			@Override
-			public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-				System.out.println("Something changed in money" + dataSnapshot.getKey());
-			}
-
-			@Override
-			public void onChildRemoved(DataSnapshot dataSnapshot) {
-				System.out.println("Something removed in money");
-			}
-
-			@Override
-			public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-				System.out.println("Something moved in money");
-			}
-
-			@Override
-			public void onCancelled(DatabaseError databaseError) {
-
-			}
-		});
-
 		callbackManager = CallbackManager.Factory.create();
 
 		setupView();
