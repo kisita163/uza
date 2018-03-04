@@ -4,13 +4,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
-import com.kisita.uza.ui.CommandsFragment;
+import com.kisita.uza.ui.CheckoutFragment;
 import com.kisita.uza.ui.FavoritesFragment;
 import com.kisita.uza.ui.OnSaleFragment;
 import com.kisita.uza.ui.SettingsFragment;
@@ -37,7 +35,7 @@ public class MainActivity extends CustomActivity {
 
                     return true;
                 case R.id.navigation_cart:
-                    fragment = CommandsFragment.newInstance("",true);
+                    fragment = new CheckoutFragment();
                     setFragment();
                     return true;
                 case R.id.navigation_favourite:
@@ -52,7 +50,7 @@ public class MainActivity extends CustomActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_main);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
