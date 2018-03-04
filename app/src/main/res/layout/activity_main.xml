@@ -13,12 +13,6 @@
         android:layout_height="wrap_content">
     </FrameLayout>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:src="@drawable/african_woman"
-        app:layout_constraintBottom_toTopOf="@id/navigation" />
-
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="0dp"
