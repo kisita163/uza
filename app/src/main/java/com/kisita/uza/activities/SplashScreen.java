@@ -49,8 +49,8 @@ public class SplashScreen extends Activity
 		// For buying anything, the user will have to introduce his personal info
         signIn(FirebaseAuth.getInstance(),"kisita2002@yahoo.fr","kisita");
 		//Blink UZA logo
-		manageBlink();
-		//Start app after 4 seconds
+		//manageBlink();
+		//Start app after 3 seconds
 		startSplash();
 	}
 
@@ -85,7 +85,7 @@ public class SplashScreen extends Activity
 
 	/**
 	 * Starts the count down timer for 3-seconds. It simply sleeps the thread
-	 * for 4-seconds.
+	 * for 3-seconds.
 	 */
 	private void startSplash()
 	{
@@ -97,7 +97,7 @@ public class SplashScreen extends Activity
 				try
 				{
 
-					Thread.sleep(4000);
+					Thread.sleep(3000);
 
 				} catch (Exception e)
 				{

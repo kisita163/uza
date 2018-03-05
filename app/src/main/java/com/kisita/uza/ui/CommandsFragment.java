@@ -42,7 +42,7 @@ public class CommandsFragment extends ItemsFragment implements  LoaderManager.Lo
     @Override
     void loadData() {
         //Log.i(TAG,"Loading data in here ......");
-        getCardAdapter().setAdapterListener(this);
+        //getCardAdapter().setAdapterListener(this);
         if (getLoaderManager().getLoader(0) == null){
             getLoaderManager().initLoader(0, null, this);
         }else{

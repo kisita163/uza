@@ -201,7 +201,7 @@ public class LoginActivity extends CustomActivity
 				((ImageView) vDots.getTag())
 						.setImageResource(R.drawable.dot_gray);
 				((ImageView) vDots.getChildAt(pos))
-						.setImageResource(R.drawable.dot_blue);
+						.setImageResource(R.drawable.dot_black);
 				vDots.setTag(vDots.getChildAt(pos));
 			}
 
@@ -235,7 +235,7 @@ public class LoginActivity extends CustomActivity
 		for (int i = 0; i < 5; i++)
 		{
 			ImageView img = new ImageView(this);
-			img.setImageResource(i == 0 ? R.drawable.dot_blue
+			img.setImageResource(i == 0 ? R.drawable.dot_black
 					: R.drawable.dot_gray);
 			vDots.addView(img, param);
 			if (i == 0)
@@ -448,7 +448,7 @@ public class LoginActivity extends CustomActivity
 	}
 
 	/**
-	 * The Class PageAdapter is adapter class for ViewPager and it simply holds
+	 * The Class UzaPageAdapter is adapter class for ViewPager and it simply holds
 	 * a Single image view with dummy images. You need to write logic for
 	 * loading actual images.
 	 */

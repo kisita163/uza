@@ -2,7 +2,6 @@ package com.kisita.uza.custom;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,20 +9,14 @@ import android.support.v4.app.LoaderManager;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.kisita.uza.R;
-import com.kisita.uza.activities.LoginActivity;
-import com.kisita.uza.activities.MainActivity;
-import com.kisita.uza.activities.UzaActivity;
 
 /**
  * The Class CustomFragment is the base Fragment class. You can extend your
@@ -76,49 +69,6 @@ public abstract class CustomFragment extends Fragment implements OnClickListener
 
 	public DatabaseReference getDb() {
 		return FirebaseDatabase.getInstance().getReference();
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent;
-		switch(item.getItemId()){
-			case (R.id.action_cart):
-				intent = new Intent(getActivity(), UzaActivity.class);
-				intent.putExtra("fragment",1);
-				startActivity(intent);
-				break;
-			case (R.id.favourite):
-				intent = new Intent(getActivity(), UzaActivity.class);
-				intent.putExtra("fragment", 0);
-				startActivity(intent);
-				break;
-			case (R.id.action_logout):
-				mAuth = FirebaseAuth.getInstance();
-				mAuth.signOut();
-				LoginManager.getInstance().logOut();
-				intent = new Intent(getActivity(), LoginActivity.class);
-				getActivity().finish();
-				getActivity().startActivity(intent);
-				break;
-			case(R.id.action_settings):
-				intent = new Intent(getActivity(), UzaActivity.class);
-				intent.putExtra("fragment",2);
-				getActivity().startActivity(intent);
-				break;
-			case(R.id.action_commands):
-				intent = new Intent(getActivity(), UzaActivity.class);
-				intent.putExtra("fragment",4);
-				getActivity().startActivity(intent);
-				break;
-			case(R.id.action_explore):
-				intent = new Intent(getActivity(), MainActivity.class);
-				getActivity().startActivity(intent);
-				break;
-			default:
-				break;
-
-		}
-		return super.onOptionsItemSelected(item);
 	}
 
 	public void showProgressDialog() {

@@ -15,7 +15,7 @@ import com.kisita.uza.ui.SettingsFragment;
 
 public class MainActivity extends CustomActivity {
 
-    private Fragment fragment = OnSaleFragment.newInstance("Men");
+    private Fragment fragment = OnSaleFragment.newInstance("Arts");
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -24,18 +24,18 @@ public class MainActivity extends CustomActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    fragment = OnSaleFragment.newInstance("Men");
+                    fragment = OnSaleFragment.newInstance("Arts");
                     setFragment();
                     return true;
                 case R.id.navigation_tune:
-                    fragment = new SettingsFragment();
+                    //fragment = new SettingsFragment();
                     setFragment();
                     return true;
                 case R.id.navigation_notifications:
 
                     return true;
                 case R.id.navigation_cart:
-                    fragment = new CheckoutFragment();
+                    //fragment = new CheckoutFragment();
                     setFragment();
                     return true;
                 case R.id.navigation_favourite:

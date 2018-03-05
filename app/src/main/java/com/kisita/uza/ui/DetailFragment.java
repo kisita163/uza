@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,7 +30,7 @@ import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.ColorSizeAdapter;
-import com.kisita.uza.utils.PageAdapter;
+import com.kisita.uza.utils.UzaPageAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -286,57 +287,15 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
     {
         pager =  v.findViewById(R.id.pager);
         pager.setPageMargin(10);
-
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int pos) {
-                if (vDots == null || vDots.getTag() == null)
-                    return;
-                ((ImageView) vDots.getTag())
-                        .setImageResource(R.drawable.dot_gray);
-                ((ImageView) vDots.getChildAt(pos))
-                        .setImageResource(R.drawable.dot_blue);
-                vDots.setTag(vDots.getChildAt(pos));
-            }
-
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-            }
-        });
         vDots = v.findViewById(R.id.vDots);
 
-        pager.setAdapter(new PageAdapter(getContext(), itemData));
-        setupDotbar(v);
+        UzaPageAdapter adapter = new UzaPageAdapter(getContext(), itemData, vDots, null);
+
+        pager.setOnPageChangeListener(adapter);
+
+        pager.setAdapter(adapter);
     }
 
-    /**
-     * Setup the dotbar to show dots for pages of view pager with one dot as
-     * selected to represent current page position.
-     */
-    private void setupDotbar(View v)
-    {
-        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-        param.setMargins(10, 0, 0, 0);
-        vDots.removeAllViews();
-        for (int i = 0; i < mPictures; i++)
-        {
-            ImageView img = new ImageView(v.getContext());
-            img.setImageResource(i == 0 ? R.drawable.dot_blue
-                    : R.drawable.dot_gray);
-            vDots.addView(img, param);
-            if (i == 0)
-            {
-                vDots.setTag(img);
-            }
-        }
-    }
 
     private void setAddButton() {
         //Log.i(TAG, "Setting add button");

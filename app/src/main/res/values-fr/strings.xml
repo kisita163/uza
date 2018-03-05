@@ -123,4 +123,5 @@
     <string name="command_state">State</string>
     <string name="command_contact">Contact</string>
     <string name="none">None</string>
+    <string name="cart">Cart</string>
 </resources>

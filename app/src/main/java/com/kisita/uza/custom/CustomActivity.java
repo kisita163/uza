@@ -26,12 +26,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kisita.uza.R;
+import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
+import com.kisita.uza.ui.CheckoutFragment;
 import com.kisita.uza.ui.DetailFragment;
 import com.kisita.uza.ui.CommentFragment;
+import com.kisita.uza.ui.ItemsFragment;
 import com.kisita.uza.utils.CartDrawable;
 import com.kisita.uza.utils.TouchEffect;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,7 +46,7 @@ import static com.kisita.uza.model.Data.ITEMS_COMMANDS_COLUMNS;
  * inherit the common behaviors like setting a Theme to activity.
  */
 public class CustomActivity extends AppCompatActivity implements
-		OnClickListener,DetailFragment.OnFragmentInteractionListener,CommentFragment.OnListFragmentInteractionListener, LoaderManager.LoaderCallbacks<Cursor> {
+		OnClickListener,DetailFragment.OnFragmentInteractionListener,CommentFragment.OnListFragmentInteractionListener, ItemsFragment.OnItemFragmentInteractionListener, LoaderManager.LoaderCallbacks<Cursor>, CheckoutFragment.OnCheckoutInteractionListener {
 
 	public static final TouchEffect TOUCH = new TouchEffect();
 	/**
@@ -233,4 +237,19 @@ public class CustomActivity extends AppCompatActivity implements
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
+
+	@Override
+	public void onItemFragmentInteraction(String title) {
+
+	}
+
+	@Override
+	public void onCommandSelectedInteraction(String key) {
+
+	}
+
+	@Override
+	public void onCheckoutInteraction(String amount, ArrayList<Data> commands) {
+
+	}
 }

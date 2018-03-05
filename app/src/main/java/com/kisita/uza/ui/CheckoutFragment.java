@@ -129,7 +129,7 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 		recList.addItemDecoration(dividerItemDecoration);
 
 		recList.setLayoutManager(llm);
-		mCardadapter = new UzaCardAdapter(this.getContext(), itemsList, this , true);
+		//mCardadapter = new UzaCardAdapter(this.getContext(), itemsList, this , true);
 		recList.setAdapter(mCardadapter);
 		loadData();
 	}

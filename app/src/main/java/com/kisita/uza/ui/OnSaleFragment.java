@@ -8,18 +8,23 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
 import com.kisita.uza.R;
 import com.kisita.uza.activities.ChoicesActivity;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.UzaCardAdapter;
+import com.kisita.uza.utils.UzaPageAdapter;
 
 import java.util.ArrayList;
 
@@ -114,10 +119,15 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 		recList.setHasFixedSize(true);
 
 
-		StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(2,
+		StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1,
 				StaggeredGridLayoutManager.VERTICAL);
 
 		recList.setLayoutManager(llm);
+
+        /*DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recList.getContext(),
+                DividerItemDecoration.VERTICAL);
+        recList.addItemDecoration(dividerItemDecoration);*/
+
 		mCardadapter = new UzaCardAdapter(this.getContext(),itemsList);
 		recList.setAdapter(mCardadapter);
 		loadData();

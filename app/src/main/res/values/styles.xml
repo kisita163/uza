@@ -42,9 +42,15 @@
     </style>
 
     <style name="uza_text_style" parent="android:Widget.Holo.Light.TextView">
-        <item name="android:textColor">@color/gray_dk</item>
+        <item name="android:textColor">@color/bt_light_gray</item>
         <item name="android:textSize">@dimen/txt_16sp</item>
         <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="uza_lineto_text_style" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:textColor">@color/bt_light_gray</item>
+        <item name="android:textSize">@dimen/txt_20sp</item>
+        <item name="android:fontFamily">@font/linetopbook</item>
     </style>
 
     <style name="switch_custom">

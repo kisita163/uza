@@ -100,6 +100,7 @@ public class Data implements Serializable
         public static final int URL         = 13;
         public static final int QUANTITY    = 14;
         public static final int KEY         = 15;
+		public static final int AUTHOR      = 16;
     }
 
 	public static final String[] ITEMS_COLUMNS = {
