@@ -15,6 +15,7 @@ import com.kisita.uza.R;
 import com.kisita.uza.model.Data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /*
  * Created by Hugues on 27/04/2017.
@@ -40,6 +41,7 @@ public class UzaPageAdapter extends PagerAdapter implements ViewPager.OnPageChan
         this.vDots    = dotLayout;
         this.listener = listener;
         setupDotBar();
+        Collections.reverse(this.urls);
     }
 
     /* (non-Javadoc)
