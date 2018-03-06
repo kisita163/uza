@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -82,6 +83,7 @@ public class UzaCardAdapter extends
         holder.price.setText(setFormat(price) + " "+getCurrency(mContext));
         //holder.size.setText(d.getData()[BRAND]); Item size
 
+        // Item listeners
         mOnItemClickListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -94,6 +96,21 @@ public class UzaCardAdapter extends
             @Override
             public void onClick(View view) {
                 openDetailFragment(position);
+            }
+        });
+
+        holder.favButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Log.i(TAG,((ImageView)view).getDrawable().getConstantState() + " *** " + mContext.getResources().getDrawable(R.drawable.ic_action_favorite_black).getConstantState());
+                if(((ImageView)view).getDrawable().getConstantState() ==
+                        mContext.getResources().getDrawable(R.drawable.ic_action_favorite_black).getConstantState()) { // Favourite button is pressed
+                    ((ImageView) view).setImageResource(R.drawable.ic_action_favorite);
+                    //TODO Update database
+                }else{
+                    ((ImageView) view).setImageResource(R.drawable.ic_action_favorite_black);
+                    //TODO Update database
+                }
             }
         });
     }
@@ -141,9 +158,9 @@ public class UzaCardAdapter extends
 
         private ViewPager pager;
 
-        LinearLayout vDots;
+        private LinearLayout vDots;
 
-        RelativeLayout pagerLayout;
+        ImageView favButton;
 
         /**
          * Instantiates a new card view holder.
@@ -156,17 +173,16 @@ public class UzaCardAdapter extends
             super(v);
             this.mAdapter = adapter;
 
-            //img    =  v.findViewById(R.id.img);
-            pagerLayout = v.findViewById(R.id.pagerLayout);
-            author =  v.findViewById(R.id.item_author);
-            price  =  v.findViewById(R.id.item_price);
-            size   =  v.findViewById(R.id.item_size);
+            author    =  v.findViewById(R.id.item_author);
+            price     =  v.findViewById(R.id.item_price);
+            size      =  v.findViewById(R.id.item_size);
             /** The pager. */
-            pager =  v.findViewById(R.id.pager);
+            pager     =  v.findViewById(R.id.pager);
             pager.setPageMargin(10);
             /** The view that hold dots. */
-            vDots = v.findViewById(R.id.vDots);
-
+            vDots     = v.findViewById(R.id.vDots);
+            /* Favourite button */
+            favButton =  v.findViewById(R.id.favourite);
             v.setOnClickListener(this);
         }
 
