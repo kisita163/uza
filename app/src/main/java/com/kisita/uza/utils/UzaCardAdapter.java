@@ -166,6 +166,8 @@ public class UzaCardAdapter extends
             pager.setPageMargin(10);
             /** The view that hold dots. */
             vDots = v.findViewById(R.id.vDots);
+
+            v.setOnClickListener(this);
         }
 
         @Override
