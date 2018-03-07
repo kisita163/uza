@@ -53,6 +53,45 @@
         <item name="android:fontFamily">@font/linetopbook</item>
     </style>
 
+    <style name="uza_lineto_text_style_bold" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:textColor">@color/bt_light_gray</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/txt_20sp</item>
+        <item name="android:fontFamily">@font/linetopbook</item>
+    </style>
+
+    <style name="uza_divider_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/divider</item>
+        <item name="android:layout_marginTop">@dimen/pad_20dp</item>
+        <item name="android:layout_marginBottom">@dimen/pad_20dp</item>
+        <item name="android:background">@color/main_grey_lt</item>
+    </style>
+
+    <style name="uza_settings_label">
+        <item name="android:textColor">#000</item>
+        <item name="android:textSize">@dimen/txt_16sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:maxLength">20</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:layout_marginLeft">@dimen/pad_10dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="uza_settings_switch">
+        <item name="android:textSize">@dimen/txt_20sp</item>
+        <item name="android:thumb">@drawable/switch_thumb</item>
+        <item name="android:track">@drawable/switch_track</item>
+        <item name="android:checked">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/pad_10dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_gravity">end</item>
+    </style>
+
     <style name="switch_custom">
         <item name="android:textColor">@color/gray_dk</item>
         <item name="android:textSize">@dimen/txt_16sp</item>

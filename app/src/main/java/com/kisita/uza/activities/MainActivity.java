@@ -28,7 +28,7 @@ public class MainActivity extends CustomActivity {
                     setFragment();
                     return true;
                 case R.id.navigation_tune:
-                    //fragment = new SettingsFragment();
+                    fragment = new SettingsFragment();
                     setFragment();
                     return true;
                 case R.id.navigation_notifications:

@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:rsb="http://schemas.android.com/tools"
     android:id="@+id/aaa"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/pad_60dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,9 +21,9 @@
             <ImageView
                 android:id="@+id/imageView1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/setting_banner" />
+                android:src="@drawable/uza_african_art" />
 
             <LinearLayout
                 android:id="@+id/as"
@@ -30,89 +33,198 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:padding="@dimen/pad_10dp">
-
-                <TextView
-                    android:id="@+id/lbl1"
-                    style="@style/uza_text_style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/email1" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/divider"
-                    android:layout_marginBottom="@dimen/pad_10dp"
-                    android:layout_marginTop="@dimen/pad_10dp"
-                    android:background="@color/main_grey_lt" />
-
-                <TextView
-                    android:id="@+id/lbl2"
-                    style="@style/uza_text_style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tnc" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/divider"
-                    android:layout_marginBottom="@dimen/pad_10dp"
-                    android:layout_marginTop="@dimen/pad_10dp"
-                    android:background="@color/main_grey_lt" />
-
-                <Switch
-                    android:id="@+id/switch1"
-                    style="@style/switch_custom"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:textOn=""
-                    android:textOff=""
-                    android:text="@string/push_notif" />
+                    android:orientation="vertical">
 
+                    <TextView
+                        style="@style/uza_lineto_text_style_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Price range"
+                        android:layout_marginBottom="@dimen/pad_10dp"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:clipChildren="false">
+
+                        <com.kisita.uza.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+                            android:id="@+id/rangeSeekbar1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/textMin1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:fontFamily="sans-serif-light"
+                            android:layout_below="@id/rangeSeekbar1"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginStart="10dp"
+                            android:textSize="16dp"
+                            android:textColor="#000"/>
+
+                        <TextView
+                            android:id="@+id/textMax1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:fontFamily="sans-serif-light"
+                            android:layout_below="@id/rangeSeekbar1"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:textSize="16dp"
+                            android:textColor="#000"
+                            android:layout_alignParentRight="true"/>
+                    </RelativeLayout>
+                </LinearLayout>
                 <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/divider"
-                    android:layout_marginBottom="@dimen/pad_10dp"
-                    android:layout_marginTop="@dimen/pad_10dp"
-                    android:background="@color/main_grey_lt" />
-
-                <Switch
-                    style="@style/switch_custom"
+                    style="@style/uza_divider_style" />
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/email_notif"
-                    android:textOn=""
-                    android:textOff="" />
+                    android:orientation="vertical">
 
+                    <TextView
+                        style="@style/uza_lineto_text_style_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Currency"
+                        android:layout_marginBottom="@dimen/pad_10dp"/>
+
+                    <Spinner
+                        android:id="@+id/spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
                 <View
+                    style="@style/uza_divider_style"/>
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/divider"
-                    android:layout_marginBottom="@dimen/pad_10dp"
-                    android:layout_marginTop="@dimen/pad_10dp"
-                    android:background="@color/main_grey_lt" />
-
-                <EditText
-                    android:id="@+id/lbl3"
-                    style="@style/uza_text_style"
-                    android:hint="@string/phone_number"
-                    android:layout_width="match_parent"
-                    android:inputType="number"
                     android:layout_height="wrap_content"
-                    android:text="" />
+                    android:orientation="vertical">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/divider"
-                    android:layout_marginBottom="@dimen/pad_10dp"
-                    android:layout_marginTop="@dimen/pad_10dp"
-                    android:background="@color/main_grey_lt" />
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </Spinner>
+                    <TextView
+                        style="@style/uza_lineto_text_style_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Categories"
+                        android:layout_marginBottom="@dimen/pad_10dp"/>
+
+                        <!--Visual Art-->
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                style="@style/uza_settings_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBaseline="@+id/item_painting"
+                                android:layout_alignParentStart="true"
+                                android:text="Painting" />
+
+                            <Switch
+                                android:id="@+id/item_painting"
+                                style="@style/uza_settings_switch"
+                                 />
+                        </RelativeLayout>
+                        <!--*************************************-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            style="@style/uza_settings_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/item_photography"
+                            android:layout_alignParentStart="true"
+                            android:text="Photography" />
+
+                        <Switch
+                            android:id="@+id/item_photography"
+                            style="@style/uza_settings_switch"
+                            />
+                    </RelativeLayout>
+                        <!--*************************************-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            style="@style/uza_settings_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/item_drawing"
+                            android:layout_alignParentStart="true"
+                            android:text="Drawing" />
+
+                        <Switch
+                            android:id="@+id/item_drawing"
+                            style="@style/uza_settings_switch"
+                            />
+                    </RelativeLayout>
+                        <!--*************************************-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            style="@style/uza_settings_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/item_sculpture"
+                            android:layout_alignParentStart="true"
+                            android:text="Sculpture" />
+
+                        <Switch
+                            android:id="@+id/item_sculpture"
+                            style="@style/uza_settings_switch"
+                            />
+                    </RelativeLayout>
+                        <!--*************************************-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            style="@style/uza_settings_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/item_textile"
+                            android:layout_alignParentStart="true"
+                            android:text="Textile" />
+
+                        <Switch
+                            android:id="@+id/item_textile"
+                            style="@style/uza_settings_switch"
+                            />
+                    </RelativeLayout>
+                        <!--*************************************-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            style="@style/uza_settings_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@+id/item_litterature"
+                            android:layout_alignParentStart="true"
+                            android:text="Litterature" />
+
+                        <Switch
+                            android:id="@+id/item_litterature"
+                            style="@style/uza_settings_switch"
+                            />
+                    </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>

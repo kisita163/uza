@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +13,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.kisita.uza.R;
+import com.kisita.uza.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
+import com.kisita.uza.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
+import com.kisita.uza.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.kisita.uza.custom.CustomFragment;
 
 /**
@@ -48,6 +53,8 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 		mSpinner.setAdapter(adapter);
 		mSpinner.setSelection(pos);
 		mSpinner.setOnItemSelectedListener(this);
+
+		setRangeSeekBar(v);
 	}
 
 	/* (non-Javadoc)
@@ -96,6 +103,36 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
+
+	}
+
+	private void setRangeSeekBar(View v){
+
+		// get seekbar from view
+		final CrystalRangeSeekbar rangeSeekbar = (CrystalRangeSeekbar) v.findViewById(R.id.rangeSeekbar1);
+
+		// get min and max text view
+		final TextView tvMin = (TextView) v.findViewById(R.id.textMin1);
+		final TextView tvMax = (TextView) v.findViewById(R.id.textMax1);
+
+		// set listener
+		rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+			@Override
+			public void valueChanged(Number minValue, Number maxValue) {
+				tvMin.setText(String.valueOf(minValue));
+				tvMax.setText(String.valueOf(maxValue));
+			}
+		});
+
+		// set final value listener
+		rangeSeekbar.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
+			@Override
+			public void finalValue(Number minValue, Number maxValue) {
+				Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
+			}
+		});
+
+        rangeSeekbar.setMinValue(0).setMaxValue(10000).setBarHeight(10).setSteps(100).apply();
 
 	}
 }
