@@ -137,4 +137,19 @@
     <string name="title_filters">Filters</string>
     <string name="title_notifications">Notifications</string>
     <string name="cart">Cart</string>
+    <string name="literature">Literature</string>
+    <string name="textile">Textile</string>
+    <string name="sculpture">Sculpture</string>
+    <string name="photography">Photography</string>
+    <string name="painting">Painting</string>
+    <string name="categories">Categories</string>
+    <string name="drawing">Drawing</string>
+    <string name="currency">Currency</string>
+    <string name="price_range">Price range</string>
+    <string name="painting_key">Painting</string>
+    <string name="photography_key">Photography</string>
+    <string name="drawing_key">Drawing</string>
+    <string name="sculpture_key">Sculpture</string>
+    <string name="textile_key">Textile</string>
+    <string name="literature_key">Literature</string>
 </resources>
