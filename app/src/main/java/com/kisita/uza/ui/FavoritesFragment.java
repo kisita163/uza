@@ -59,7 +59,7 @@ public class FavoritesFragment extends CustomFragment implements  LoaderManager.
         recList.setHasFixedSize(true);
 
 
-        StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(2,
+        StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1,
                 StaggeredGridLayoutManager.VERTICAL);
         setHasOptionsMenu(true);
         recList.setLayoutManager(llm);
