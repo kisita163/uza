@@ -95,7 +95,6 @@ public class CustomActivity extends AppCompatActivity implements
 			return;
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayShowHomeEnabled(true);
-		actionBar.setLogo(R.drawable.ic_launcher);
 	}
 
 	/* (non-Javadoc)
@@ -189,16 +188,6 @@ public class CustomActivity extends AppCompatActivity implements
 		getDb().updateChildren(childUpdates);
 
 		//setBadgeCount(this, mIcon, String.valueOf(count));
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		//Log.i(TAG,"onCreateOptionsMenu");
-		getMenuInflater().inflate(R.menu.search_exp, menu);
-		//MenuItem itemCart = menu.findItem(R.id.action_cart);
-		//mIcon = (LayerDrawable) itemCart.getIcon();
-		//setBadgeCount(this, mIcon, String.valueOf(count));
-		return super.onCreateOptionsMenu(menu);
 	}
 
     @Override

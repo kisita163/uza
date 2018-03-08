@@ -152,4 +152,5 @@
     <string name="sculpture_key">Sculpture</string>
     <string name="textile_key">Textile</string>
     <string name="literature_key">Literature</string>
+    <string name="artist">Artist</string>
 </resources>
