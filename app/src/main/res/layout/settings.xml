@@ -15,7 +15,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <ImageView
@@ -42,7 +42,7 @@
                         style="@style/uza_lineto_text_style_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Price range"
+                        android:text="@string/price_range"
                         android:layout_marginBottom="@dimen/pad_10dp"/>
 
                     <RelativeLayout
@@ -65,7 +65,7 @@
                             android:layout_below="@id/rangeSeekbar1"
                             android:layout_marginTop="5dp"
                             android:layout_marginStart="10dp"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:textColor="#000"/>
 
                         <TextView
@@ -77,9 +77,9 @@
                             android:layout_below="@id/rangeSeekbar1"
                             android:layout_marginTop="5dp"
                             android:layout_marginEnd="10dp"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:textColor="#000"
-                            android:layout_alignParentRight="true"/>
+                            android:layout_alignParentEnd="true"/>
                     </RelativeLayout>
                 </LinearLayout>
                 <View
@@ -93,7 +93,7 @@
                         style="@style/uza_lineto_text_style_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Currency"
+                        android:text="@string/currency"
                         android:layout_marginBottom="@dimen/pad_10dp"/>
 
                     <Spinner
@@ -112,7 +112,7 @@
                         style="@style/uza_lineto_text_style_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Categories"
+                        android:text="@string/categories"
                         android:layout_marginBottom="@dimen/pad_10dp"/>
 
                         <!--Visual Art-->
@@ -126,7 +126,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignBaseline="@+id/item_painting"
                                 android:layout_alignParentStart="true"
-                                android:text="Painting" />
+                                android:text="@string/painting" />
 
                             <Switch
                                 android:id="@+id/item_painting"
@@ -144,7 +144,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignBaseline="@+id/item_photography"
                             android:layout_alignParentStart="true"
-                            android:text="Photography" />
+                            android:text="@string/photography" />
 
                         <Switch
                             android:id="@+id/item_photography"
@@ -162,7 +162,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignBaseline="@+id/item_drawing"
                             android:layout_alignParentStart="true"
-                            android:text="Drawing" />
+                            android:text="@string/drawing" />
 
                         <Switch
                             android:id="@+id/item_drawing"
@@ -180,7 +180,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignBaseline="@+id/item_sculpture"
                             android:layout_alignParentStart="true"
-                            android:text="Sculpture" />
+                            android:text="@string/sculpture" />
 
                         <Switch
                             android:id="@+id/item_sculpture"
@@ -198,7 +198,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignBaseline="@+id/item_textile"
                             android:layout_alignParentStart="true"
-                            android:text="Textile" />
+                            android:text="@string/textile" />
 
                         <Switch
                             android:id="@+id/item_textile"
@@ -216,7 +216,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignBaseline="@+id/item_litterature"
                             android:layout_alignParentStart="true"
-                            android:text="Litterature" />
+                            android:text="@string/literature" />
 
                         <Switch
                             android:id="@+id/item_litterature"
