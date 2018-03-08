@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.kisita.uza.R;
@@ -24,17 +26,40 @@ import com.kisita.uza.custom.CustomFragment;
 /**
  * The Class SettingsFragment is the fragment that shows various settings options.
  */
-public class SettingsFragment extends CustomFragment implements AdapterView.OnItemSelectedListener
-{
+public class SettingsFragment extends CustomFragment implements AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
+    private static String TAG = "### SettingsFragment";
+
 	private Spinner mSpinner;
-	/* (non-Javadoc)
-	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
-	 */
+
+	private Switch mPainting;
+
+    private Switch mPhotography;
+
+    private Switch mDrawing;
+
+    private Switch mSculpture;
+
+    private Switch mTextile;
+
+    private Switch mLiterature;
+
+    private SharedPreferences sharedPref;
+
+    private SharedPreferences.Editor editor;
+
+    private long mMinPriceValue = 0;
+
+    private long mMaxPriceValue = 10000;
+
+    private int mPriceStep    = 100;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
 		View v = inflater.inflate(R.layout.settings, null);
+        sharedPref = getActivity().getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
 		setHasOptionsMenu(true);
 		setView(v);
 		return v;
@@ -55,11 +80,55 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 		mSpinner.setOnItemSelectedListener(this);
 
 		setRangeSeekBar(v);
+
+		setCategories(v);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.whatshere.custom.CustomFragment#onClick(android.view.View)
-	 */
+    private void setCategories(View v) {
+
+        mPainting    = (Switch)v.findViewById(R.id.item_painting);
+        mPhotography = (Switch)v.findViewById(R.id.item_photography);
+        mDrawing     = (Switch)v.findViewById(R.id.item_drawing);
+        mSculpture   = (Switch)v.findViewById(R.id.item_sculpture);
+        mTextile     = (Switch)v.findViewById(R.id.item_textile);
+        mLiterature  = (Switch)v.findViewById(R.id.item_litterature);
+
+        initCategories();
+
+        mPainting.setOnCheckedChangeListener(this);
+        mPhotography.setOnCheckedChangeListener(this);
+        mDrawing.setOnCheckedChangeListener(this);
+        mSculpture.setOnCheckedChangeListener(this);
+        mTextile.setOnCheckedChangeListener(this);
+        mLiterature.setOnCheckedChangeListener(this);
+    }
+
+    private void initCategories() {
+
+        boolean painting = sharedPref.getBoolean(getResources().getString(R.string.painting_key),true);
+        mPainting.setChecked(painting);
+        Log.i(TAG,"tag"+" ** "+ painting);
+
+        boolean photography = sharedPref.getBoolean(getResources().getString(R.string.photography_key),true);
+        mPhotography.setChecked(photography);
+
+        boolean drawing = sharedPref.getBoolean(getResources().getString(R.string.drawing_key),true);
+        mDrawing.setChecked(drawing);
+
+        boolean sculpture = sharedPref.getBoolean(getResources().getString(R.string.sculpture_key),true);
+        mSculpture.setChecked(sculpture);
+
+        boolean textile = sharedPref.getBoolean(getResources().getString(R.string.textile_key),true);
+        mTextile.setChecked(textile);
+
+        boolean literature = sharedPref.getBoolean(getResources().getString(R.string.literature_key),true);
+        mLiterature.setChecked(literature);
+    }
+
+
+    /* (non-Javadoc)
+     * @see com.whatshere.custom.CustomFragment#onClick(android.view.View)
+     */
 	@Override
 	public void onClick(View v)
 	{
@@ -81,8 +150,6 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 			editor.putString(getString(R.string.uza_currency), parent.getItemAtPosition(position).toString());
 			editor.putInt(getString(R.string.uza_currency_position), position);
 			editor.commit();
-			// Update app
-			//update_app();
 		}
 	}
 
@@ -119,8 +186,11 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 		rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
 			@Override
 			public void valueChanged(Number minValue, Number maxValue) {
+			    String s = "";
 				tvMin.setText(String.valueOf(minValue));
-				tvMax.setText(String.valueOf(maxValue));
+				if((long)maxValue == mMaxPriceValue)
+				    s = "+ ";
+				tvMax.setText(s + String.valueOf(maxValue));
 			}
 		});
 
@@ -128,11 +198,53 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 		rangeSeekbar.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
 			@Override
 			public void finalValue(Number minValue, Number maxValue) {
-				Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
+				//Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
+                editor.putLong("priceMinValue",(long)minValue);
+                editor.putLong("priceMaxValue",(long)maxValue);
+                editor.apply();
 			}
 		});
-
-        rangeSeekbar.setMinValue(0).setMaxValue(10000).setBarHeight(10).setSteps(100).apply();
-
+        //Log.i(TAG,"start/end = "+sharedPref.getLong("priceMinValue",0)+"/"+sharedPref.getLong("priceMaxValue",0));
+        rangeSeekbar.setMinValue(mMinPriceValue)
+                .setMaxValue(mMaxPriceValue)
+                .setBarHeight(10)
+                .setSteps(mPriceStep)
+                .setMinStartValue(sharedPref.getLong("priceMinValue",0))
+                .setMaxStartValue(sharedPref.getLong("priceMaxValue",0))
+                .apply();
 	}
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        String tag = "";
+
+        switch(compoundButton.getId()){
+            case R.id.item_painting:
+                tag = getString(R.string.painting_key);
+                break;
+            case R.id.item_photography:
+                tag = getString(R.string.photography_key);
+                break;
+            case R.id.item_drawing:
+                tag = getString(R.string.drawing_key);
+                break;
+            case R.id.item_sculpture:
+                tag = getString(R.string.sculpture_key);
+                break;
+            case R.id.item_textile:
+                tag = getString(R.string.textile_key);
+                break;
+            case R.id.item_litterature:
+                tag = getString(R.string.literature_key);
+                break;
+            default:
+                tag = "default";
+                break;
+        }
+
+        editor.putBoolean(tag,b);
+        editor.apply();
+    }
 }
