@@ -92,11 +92,20 @@
         <item name="android:layout_gravity">end</item>
     </style>
 
-    <style name="switch_custom">
-        <item name="android:textColor">@color/gray_dk</item>
-        <item name="android:textSize">@dimen/txt_16sp</item>
-        <item name="android:thumb">@drawable/switch_thumb</item>
-        <item name="android:track">@drawable/switch_track</item>
+    <style name="uza_button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/pad_10dp</item>
+    </style>
+
+    <style name="uza_button_black" parent="uza_button">
+        <item name="android:background">@color/main_color_dk</item>
+        <item name="android:textColor">@color/main_color</item>
+    </style>
+
+    <style name="uza_button_white" parent="uza_button">
+        <item name="android:background">@drawable/uza_button_bg</item>
+        <item name="android:textColor">@color/main_color_dk</item>
     </style>
 
 
