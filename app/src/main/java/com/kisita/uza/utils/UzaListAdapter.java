@@ -9,56 +9,30 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.model.UzaListItem;
-import com.kisita.uza.ui.ChoicesActivityFragment;
-import com.kisita.uza.ui.PaymentMethodsFragment;
-import com.kisita.uza.ui.PaymentMethodsFragment.OnPaymentListFragmentInteractionListener;
-import com.kisita.uza.ui.StoresFragment;
+import com.kisita.uza.ui.ChoicesFragment;
 
 import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link UzaListItem} and makes a call to the
- * specified {@link OnPaymentListFragmentInteractionListener}.
+ * specified listener.
  *
  */
 public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHolder> {
 
     private final List<UzaListItem> mValues;
-    private ChoicesActivityFragment.OnFoodSelectedListener mFoodListener = null;
-    private StorageReference mStorageRef = null;
+    private ChoicesFragment.OnItemSelectedListener mChoiceListener = null;
 
-    private PaymentMethodsFragment.OnPaymentListFragmentInteractionListener mPaymentListener = null;
-    private StoresFragment.OnFragmentInteractionListener mStoresListener = null;
 
     private final String TAG = "### UzaListAdapter";
     private Context mContext;
-    private String mAmount = "0.0";
 
-    public UzaListAdapter(Context context, List<UzaListItem> items, OnPaymentListFragmentInteractionListener listener, String amount) {
-        mValues          = items;
-        mPaymentListener = listener;
-        mStoresListener  = null;
-        mContext         = context;
-        mAmount          = amount;
-    }
-
-    public UzaListAdapter(Context context,List<UzaListItem> items, StoresFragment.OnFragmentInteractionListener listener) {
-        mValues = items;
-        mStoresListener = listener;
-        mPaymentListener = null;
-        mContext = context;
-    }
-
-    public UzaListAdapter(Context context, List<UzaListItem> items, ChoicesActivityFragment.OnFoodSelectedListener listener) {
+    public UzaListAdapter(Context context, List<UzaListItem> items, ChoicesFragment.OnItemSelectedListener listener) {
         this.mValues = items;
         this.mContext = context;
-        this.mFoodListener = listener;
+        this.mChoiceListener = listener;
     }
 
     @Override
@@ -73,33 +47,23 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
         final String name = mContext.getString( mValues.get(position).name);
 
         holder.mItem = mValues.get(position);
-        holder.mPaymentName.setText(name);
+        holder.mItemName.setText(name);
         // Check which fragment we are working on
-        if(mStoresListener == null) { // Case of payment fragment or food choices fragment
-            holder.mPaymentIcon.setImageResource(mValues.get(position).icon);//.
-        }else {
-            Glide.with(mContext)
-                    .using(new FirebaseImageLoader())
-                    .load(mStorageRef)
-                    .dontTransform()
-                    .error(R.drawable.ic_store_black_24dp)
-                    .into(holder.mPaymentIcon);
-        }
+        holder.mItemIcon.setImageResource(mValues.get(position).icon);//.
+        if(!name.equalsIgnoreCase(mContext.getString(R.string.currency)))
+            holder.mCurrentCurrency.setVisibility(View.INVISIBLE);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(TAG,"Item selected");
-                if (null != mPaymentListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mPaymentListener.onPayementListFragmentInteraction(holder.mItem,mAmount);
-                }
 
-                if (null != mFoodListener) {
+
+                if (null != mChoiceListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mFoodListener.onChoiceMadeListener(name);
+                    Log.i(TAG,"");
+                    mChoiceListener.onChoiceMadeListener(name);
                 }
             }
         });
@@ -111,21 +75,23 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final ImageView mPaymentIcon;
-        public final TextView mPaymentName;
-        public UzaListItem mItem;
+        final View mView;
+        final ImageView mItemIcon;
+        final TextView mItemName;
+        final TextView mCurrentCurrency;
+        UzaListItem mItem;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
             mView = view;
-            mPaymentName = (TextView) view.findViewById(R.id.payment_name);
-            mPaymentIcon = (ImageView) view.findViewById(R.id.payment_icon);
+            mItemName = (TextView) view.findViewById(R.id.payment_name);
+            mItemIcon = (ImageView) view.findViewById(R.id.payment_icon);
+            mCurrentCurrency = (TextView)view.findViewById(R.id.current_currency);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mPaymentName.getText() + "'";
+            return super.toString() + " '" + mItemName.getText() + "'";
         }
     }
 }
