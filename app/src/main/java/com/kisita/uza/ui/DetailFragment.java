@@ -2,41 +2,44 @@ package com.kisita.uza.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.share.model.ShareHashtag;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.kisita.uza.R;
+import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
-import com.kisita.uza.utils.ColorSizeAdapter;
 import com.kisita.uza.utils.UzaPageAdapter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static com.kisita.uza.model.Data.FAVOURITES_COLUMNS;
@@ -53,7 +56,7 @@ import static com.kisita.uza.utils.UzaFunctions.setPrice;
  * Use the {@link DetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetailFragment extends CustomFragment implements ColorSizeAdapter.OnFieldChangedListener{
+public class DetailFragment extends CustomFragment{
     // the fragment initialization parameters
     private static final String TAG = "### DetailFragment";
 
@@ -71,16 +74,12 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
 
     private ImageView mlike;
 
-    private ImageView mComment;
-
     /** The view that hold dots. */
     private LinearLayout vDots;
 
     private OnFragmentInteractionListener mListener;
 
     private Boolean mLiked = false;
-
-    private FirebaseStorage mStorage;
 
     private String mCurrency;
 
@@ -91,6 +90,12 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
     private String commandKey = "";
 
     private Data itemData;
+
+    private ImageView shareFacebook;
+
+    private ImageView shareWhatsapp;
+
+    private ShareDialog shareDialog;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -118,9 +123,28 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
         if (getArguments() != null) {
             mDescription = getArguments().getStringArray(DESCR);
             itemData     = (Data)getArguments().getSerializable(ITEM_DATA);
-            // get Firebase database  reference for pictures
-            mStorage  = FirebaseStorage.getInstance();
             mCurrency = getCurrency(getContext());
+        }
+        shareDialog = new ShareDialog(this);
+        //printKeyHash();
+    }
+
+    private void printKeyHash() {
+        // Code to print out the key hash
+        try {
+            PackageInfo info = getContext().getPackageManager().getPackageInfo(
+                    "com.kisita.uza",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.i("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.i("KeyHash","NameNotFoundException");
+
+        } catch (NoSuchAlgorithmException e) {
+            Log.i("KeyHash","NoSuchAlgorithmException");
         }
     }
 
@@ -134,19 +158,19 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
         return setupView(v);
     }
 
-    public void onButtonPressed(String[] details,boolean update) {
+    private void onButtonPressed(String[] details, boolean update) {
         if (mListener != null) {
             mListener.onFragmentInteraction(details,update);
         }
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (OnFragmentInteractionListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(getActivity().toString()
                     + " must implement OnNewArticleInteractionListener");
         }
     }
@@ -174,12 +198,18 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
         mlike =  v.findViewById(R.id.favourite);
         mlike.setOnClickListener(this);
 
+        shareFacebook = (ImageView) v.findViewById(R.id.shareFacebook);
+        shareFacebook.setOnClickListener(this);
+
+        shareWhatsapp = (ImageView)v.findViewById(R.id.share_whatsapp);
+        shareWhatsapp.setOnClickListener(this);
 
         if(itemData != null) {
             String price;
             price = setPrice(itemData.getData()[CURRENCY],itemData.getData()[PRICE],getContext());
             //item_name.setText(itemData.getData()[NAME] + " | " + itemData.getData()[SELLER]); //TODO
-            item_price.setText(setFormat(price) + " "+mCurrency);
+            String s = setFormat(price) + " "+mCurrency;
+            item_price.setText(s);
             item_description.setText(itemData.getData()[DESCRIPTION]);
         }
         initPager(v);
@@ -204,7 +234,7 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
 
     private void setAddButton() {
         //Log.i(TAG, "Setting add button");
-        add.setVisibility(View.INVISIBLE);
+        //add.setVisibility(View.INVISIBLE);
         Toast.makeText(getContext(), R.string.item_in_the_cart, Toast.LENGTH_LONG).show();
     }
 
@@ -216,29 +246,12 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
 
                 if(!mCommand){
                     commandKey = getDb().child("users").push().getKey(); // New command id
-                    details = new String[]{mDescription[UID],
-                                                  "", // selected size TODO
-                                                  "", // selected color TODO
-                                                 "1",         // Quantity  TODO
-                                                  "",
-                                                     commandKey,
-                                                       getUid(),
-                                                      mDescription[SELLER]};
+                    details = new String[]{mDescription[UID], ""/* selected size TODO*/,""/*selected color TODO*/,"1"/*Quantity  TODO*/,"", commandKey, getUid(), mDescription[SELLER]};
                     onButtonPressed(details,mCommand);
                     mCommand = true; //update case + update the quantity here for example
-                }else{
-                    details = new String[]{mDescription[UID],
-                                               "",
-                                               "",
-                                                 "1",
-                           "",
-                                                     commandKey,
-                                                        getUid(),
-                                                        mDescription[SELLER]};
-                    onButtonPressed(details,mCommand);
                 }
                 //Log.i(TAG,selectedColor + " " +  selectedSize + " " +  selectedQty);
-                setAddButton();
+                Toast.makeText(getContext(), R.string.item_in_the_cart, Toast.LENGTH_LONG).show();
                 break;
             case R.id.favourite:
                 likePressed();
@@ -252,6 +265,30 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
                         .replace(R.id.content_frame, f)
                         .commit();
                 break;*/
+            case R.id.shareFacebook:
+                ((UzaActivity)getActivity()).showProgressDialog("Please wait");
+                ShareLinkContent content = new ShareLinkContent.Builder()
+                        .setContentUrl(Uri.parse(getString(R.string.uza_store_link)))
+                        .setShareHashtag(new ShareHashtag.Builder()
+                                .setHashtag("#africart")
+                                .build())
+                        .build();
+
+                if(!ShareDialog.canShow(ShareLinkContent.class)){
+                    Log.i(TAG,"Can't show share dialog");
+                    return;
+                }
+                shareDialog.show(content);
+                break;
+            case R.id.share_whatsapp:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.uza_store_link));
+                sendIntent.setType("text/plain");
+                sendIntent.setPackage("com.whatsapp");
+                startActivity(sendIntent);
+                break;
+
             default:
                 Toast.makeText(this.getContext(), "Unknown error occured", Toast.LENGTH_LONG).show();
         }
@@ -277,11 +314,7 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
         }
     }
 
-    public void onFieldChangedListener() {
-        if(mCommand) {
-            add.setVisibility(View.VISIBLE);
-        }
-    }
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -333,32 +366,6 @@ public class DetailFragment extends CustomFragment implements ColorSizeAdapter.O
         }
         if(mCommand){
             setAddButton();
-        }
-    }
-
-    public static class ColorSize{
-        private String name;
-        private boolean selected = false;
-
-        public ColorSize(String name, boolean selected){
-            this.name = name;
-            this.selected = selected;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public boolean isSelected() {
-            return selected;
-        }
-
-        public void setSelected(boolean selected) {
-            this.selected = selected;
         }
     }
 }
