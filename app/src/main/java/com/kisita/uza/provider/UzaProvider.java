@@ -89,6 +89,9 @@ public class UzaProvider extends ContentProvider {
 
             case CATEGORY: {
                 String sql = "SELECT " + columnsArray2string(projection)    +" FROM " + UzaContract.ItemsEntry.TABLE_NAME     +
+                             " LEFT JOIN "   + UzaContract.LikesEntry.TABLE_NAME  +
+                             " ON "           + UzaContract.ItemsEntry.TABLE_NAME     + "." + UzaContract.ItemsEntry._ID +
+                             " =  "           + UzaContract.LikesEntry.TABLE_NAME  + "." + UzaContract.LikesEntry.COLUMN_LIKES +
                              " WHERE " + UzaContract.ItemsEntry.TABLE_NAME  + "."     + UzaContract.ItemsEntry.COLUMN_CATEGORY +
                              " = "     + "'" + selection + "'" + ";";
                 //Log.i(TAG,"** category query ..." + sql);

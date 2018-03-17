@@ -109,12 +109,13 @@ public class FavoritesFragment extends CustomFragment implements  LoaderManager.
                     "",
                     data.getString(Data.UZA.WEIGHT),
                     data.getString(Data.UZA.URL),
-                    //data.getString(Data.UZA.QUANTITY),
+                    data.getString(Data.UZA.QUANTITY),
                     //data.getString(KEY)
             };
             Data d = new Data(rowdata,
                     getPicturesUrls(data.getString(Data.UZA.PICTURES))
             );
+            d.setFavourite(true);
             itemsList.add(d);
             mCardadapter.notifyDataSetChanged();
         }

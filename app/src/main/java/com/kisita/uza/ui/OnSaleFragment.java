@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.kisita.uza.utils.UzaPageAdapter;
 import java.util.ArrayList;
 
 import static com.kisita.uza.model.Data.ITEMS_COLUMNS;
+import static com.kisita.uza.model.Data.UZA.QUANTITY;
 import static com.kisita.uza.model.Data.UZA.TYPE;
 import static com.kisita.uza.utils.UzaFunctions.getPicturesUrls;
 
@@ -202,13 +204,20 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 					"",
 					data.getString(Data.UZA.WEIGHT),
 					data.getString(Data.UZA.URL),
-					//data.getString(Data.UZA.QUANTITY),
-					//data.getString(KEY)
+					data.getString(14), // TODO this is like
+					data.getString(15)  // TODO this is like is
 			};
 
 			Data d = new Data(rowdata,
 					getPicturesUrls(data.getString(Data.UZA.PICTURES))
 			);
+			// Marked as a favourite if needed
+			if(!TextUtils.isEmpty(data.getString(14))) {
+				Log.i(TAG,data.getString(15));
+				d.setFavourite(true);
+				d.setFavouriteId(data.getString(15));
+			}
+			// add new item into the list of items
 			itemsList.add(d);
 			mCardadapter.notifyDataSetChanged();
 		}

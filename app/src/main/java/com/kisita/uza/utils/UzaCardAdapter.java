@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.ui.CheckoutFragment;
 import com.kisita.uza.ui.CommandsFragment;
+import com.kisita.uza.ui.FavoritesFragment;
 
 import java.util.ArrayList;
 
@@ -102,17 +104,20 @@ public class UzaCardAdapter extends
         holder.favButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Log.i(TAG,((ImageView)view).getDrawable().getConstantState() + " *** " + mContext.getResources().getDrawable(R.drawable.ic_action_favorite_black).getConstantState());
-                if(((ImageView)view).getDrawable().getConstantState() ==
-                        mContext.getResources().getDrawable(R.drawable.ic_action_favorite_black).getConstantState()) { // Favourite button is pressed
+                if(d.isFavourite()) { // Favourite button is pressed
                     ((ImageView) view).setImageResource(R.drawable.ic_action_favorite);
-                    //TODO Update database
+                    d.updateFavourite(false);
                 }else{
                     ((ImageView) view).setImageResource(R.drawable.ic_action_favorite_black);
-                    //TODO Update database
+                    d.updateFavourite(true);
                 }
             }
         });
+
+        // Set favourite button
+        if(d.isFavourite()) {
+            holder.favButton.setImageResource(R.drawable.ic_action_favorite_black);
+        }
     }
 
     private void openDetailFragment(int position) {
