@@ -9,11 +9,11 @@
 
     <ImageView
         android:id="@+id/payment_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:src="@drawable/discount_bg"
         android:layout_alignParentLeft="true"
-        android:layout_margin="10dp"/>
+        android:layout_marginRight="10dp"/>
 
     <TextView
         android:id="@+id/payment_name"
@@ -27,4 +27,18 @@
         android:layout_toEndOf="@+id/payment_icon"
         android:fontFamily="sans-serif-light"
         android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/current_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/euros"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:fontFamily="sans-serif-light"
+        android:textColor="@color/main_color_dk"
+        android:layout_marginLeft="10dp"/>
+
 </RelativeLayout>

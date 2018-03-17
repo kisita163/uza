@@ -8,7 +8,7 @@ import android.view.MenuItem;
 
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
-import com.kisita.uza.ui.CheckoutFragment;
+import com.kisita.uza.ui.ChoicesFragment;
 import com.kisita.uza.ui.FavoritesFragment;
 import com.kisita.uza.ui.OnSaleFragment;
 import com.kisita.uza.ui.SettingsFragment;
@@ -31,8 +31,9 @@ public class MainActivity extends CustomActivity {
                     fragment = new SettingsFragment();
                     setFragment();
                     return true;
-                case R.id.navigation_notifications:
-
+                case R.id.navigation_user:
+                    fragment = ChoicesFragment.newInstance(getString(R.string.settings));
+                    setFragment();
                     return true;
                 case R.id.navigation_cart:
                     //fragment = new CheckoutFragment();

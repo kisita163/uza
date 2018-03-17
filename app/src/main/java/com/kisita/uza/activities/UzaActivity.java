@@ -1,15 +1,11 @@
 package com.kisita.uza.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -24,6 +20,7 @@ import com.braintreepayments.api.PaymentRequest;
 import com.braintreepayments.api.dropin.DropInRequest;
 import com.braintreepayments.api.dropin.DropInResult;*/
 import com.braintreepayments.api.models.PaymentMethodNonce;
+import com.facebook.CallbackManager;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.model.Data;
@@ -35,7 +32,6 @@ import com.kisita.uza.ui.DetailFragment;
 import com.kisita.uza.ui.FavoritesFragment;
 import com.kisita.uza.ui.ItemsFragment;
 import com.kisita.uza.ui.MapsFragment;
-import com.kisita.uza.ui.PaymentMethodsFragment;
 import com.kisita.uza.ui.SettingsFragment;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
@@ -48,11 +44,10 @@ import java.util.Map;
 import cz.msebera.android.httpclient.Header;
 
 import static com.kisita.uza.model.Data.UZA.KEY;
-import static com.kisita.uza.model.Data.UZA.NAME;
 import static com.kisita.uza.utils.UzaFunctions.setPriceForPayPal;
 
 public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCheckoutInteractionListener,
-        PaymentMethodsFragment.OnPaymentListFragmentInteractionListener, ItemsFragment.OnItemFragmentInteractionListener {
+       ItemsFragment.OnItemFragmentInteractionListener {
     /**
      * The toolbar.
      */
@@ -61,6 +56,8 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
     private static final int REQUEST_CODE = Menu.FIRST;
 
     private String mAmount = "0.0";
+
+    private CallbackManager callbackManager;
 
     private ArrayList<Data> commandsToUpdate;
 
@@ -79,6 +76,8 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        callbackManager = CallbackManager.Factory.create();
     }
 
 
@@ -125,32 +124,9 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
 
     @Override
     public void onCheckoutInteraction(String amount, ArrayList<Data> commands) {
-        commandsToUpdate = (ArrayList<Data>) commands.clone();
-        // Call from Checkout fragment
-        toolbar.setTitle(R.string.payment_mthod);
-        PaymentMethodsFragment f = PaymentMethodsFragment.newInstance(1 /*Number of column count*/, amount);
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                .addToBackStack(null)
-                .replace(R.id.content_frame, f)
-                .commit();
+
     }
 
-    @Override
-    public void onPayementListFragmentInteraction(UzaListItem item, String amount) {
-        mAmount = setPriceForPayPal(amount,this);
-        switch (item.name) {
-            case R.string.credit_card:
-                paymentRequest();
-                break;
-            case R.string.cash:
-                break;
-            case R.string.mobile_money:
-                break;
-            default:
-                break;
-        }
-    }
 
 
     void paymentRequest() {
@@ -179,8 +155,25 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i(TAG, "received result is  : " + resultCode);
-        showProgressDialog(getString(R.string.please_wait));
+        Log.i(TAG, "received result is  : " + resultCode + " request code : "+requestCode);
+        //showProgressDialog(getString(R.string.please_wait));
+        switch(requestCode){
+            case REQUEST_CODE:
+                handlePaymentResult(resultCode, data);
+                break;
+            default:
+                handleFacebookResult(requestCode,resultCode, data);
+        }
+
+    }
+
+    private void handleFacebookResult(int requestCode,int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        hideProgressDialog();
+    }
+
+    private void handlePaymentResult(int resultCode, Intent data) {
         if (resultCode == BraintreePaymentActivity.RESULT_OK) {
             PaymentMethodNonce paymentMethodNonce = data.getParcelableExtra(BraintreePaymentActivity.EXTRA_PAYMENT_METHOD_NONCE);
             AsyncHttpClient client = new AsyncHttpClient();
@@ -205,7 +198,6 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
                     if(responseString.equalsIgnoreCase("OK")){
                         // Change command state
                         setCommandsState();
-                        toolbar.setTitle(R.string.commands);
                         // Go to the fragment that shows commands in processing
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.content_frame, CommandsFragment.newInstance("",false),"COMMANDS")
