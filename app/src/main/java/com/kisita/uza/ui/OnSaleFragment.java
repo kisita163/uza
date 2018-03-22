@@ -50,10 +50,6 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 	private ArrayList<Data> itemsList;
 
 	private String mQuery;
-    private android.support.design.widget.FloatingActionButton choicesButton;
-
-	/* Handle search button */
-	private boolean choiceButtonActivated = true;
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
@@ -102,20 +98,6 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 	{
 
 		RecyclerView recList = v.findViewById(R.id.cardList);
-
-		if(choiceButtonActivated) {
-			choicesButton = v.findViewById(R.id.fabCart);
-			choicesButton.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Intent choices = new Intent(getActivity(), ChoicesActivity.class);
-					choices.putExtra(getString(R.string.choices), mQuery);
-					startActivityForResult(choices, RESULT_CODE);
-				}
-			});
-		}else{
-			choicesButton.setVisibility(View.GONE);
-		}
 
 		itemsList = new ArrayList<>();
 		recList.setHasFixedSize(true);
