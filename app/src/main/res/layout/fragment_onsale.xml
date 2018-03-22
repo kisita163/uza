@@ -12,14 +12,4 @@
         android:layout_height="match_parent"
         android:layout_margin="@dimen/pad_5dp"
        />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabCart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/pad_20dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_add_black_24dp"
-        fab:backgroundTint="@color/main_color" />
 </RelativeLayout> 
