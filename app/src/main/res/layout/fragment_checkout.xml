@@ -1,45 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:layout_marginBottom="@dimen/pad_60dp"
+    android:background="@color/white">
 
-
-    <ScrollView
-        android:id="@+id/sa"
+    <include
+        android:layout_margin="@dimen/pad_20dp"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" >
+        android:layout_above="@id/cost_layout"
+        layout="@layout/pager_with_dot"/>
 
-        <LinearLayout
-            android:id="@+id/df"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical" >
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/cardList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/pad_5dp" />
-
-            <!--<TextView
-                android:id="@+id/newPmt"
-                style="@style/card_disable"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_plus_gray"
-                android:text="New Payment Method" />-->
-        </LinearLayout>
-    </ScrollView>
     <LinearLayout
+        android:id="@+id/cost_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:orientation="vertical"
-        android:layout_margin="@dimen/pad_10dp"
-        android:layout_marginBottom="@dimen/pad_15dp">
+        android:layout_below="@id/sa"
+        android:layout_margin="@dimen/pad_10dp">
 
         <!--<View
     android:layout_width="match_parent"
@@ -59,12 +39,11 @@
             android:text="@string/order_amount" />
         <TextView
             android:id="@+id/order_amount_value"
-            style="@style/card_enabled"
+            style="@style/uza_text_style"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/holo_orange_dark"
+            android:textStyle="bold"
             android:layout_width="0dp"
-            android:layout_weight="0.5"
-            android:text="" />
+            android:layout_weight="0.5" />
         </LinearLayout>
 
         <View
@@ -86,12 +65,11 @@
 
             <TextView
                 android:id="@+id/shipping_cost_value"
-                style="@style/card_enabled"
+                style="@style/uza_text_style"
                 android:layout_weight="0.5"
                 android:layout_width="0dp"
-                android:textColor="@android:color/holo_orange_dark"
-                android:layout_height="match_parent"
-                android:text="" />
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <View
@@ -119,19 +97,14 @@
             android:id="@+id/total"
             android:layout_weight="0.5"
             android:layout_height="wrap_content"
-            android:text=""
-            style="@style/card_enabled"
-            android:textColor="@android:color/holo_orange_dark"
+            style="@style/uza_text_style"
+            android:textStyle="bold"
             android:layout_width="0dp" />
         </LinearLayout>
+
+        <Button
+            style="@style/uza_button_black"
+            android:text="@string/checkout"
+            android:id="@+id/checkout" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btnDone"
-        style="@style/btn_blue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="@string/complete_purchase" />
-
-</LinearLayout>
+</RelativeLayout>
