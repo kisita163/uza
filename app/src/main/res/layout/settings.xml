@@ -18,13 +18,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/uza_african_art" />
-
             <LinearLayout
                 android:id="@+id/as"
                 android:layout_width="match_parent"
