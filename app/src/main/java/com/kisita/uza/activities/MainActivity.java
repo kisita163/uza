@@ -16,38 +16,50 @@ import com.kisita.uza.ui.SettingsFragment;
 
 public class MainActivity extends CustomActivity {
 
+    private static final String CURRENT_FRAGMENT_ID = "current_fragment_id";
     private Fragment fragment = OnSaleFragment.newInstance("Arts");
+
+    private int mCurrentFragmentId = 0;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    fragment = OnSaleFragment.newInstance("Arts");
-                    setFragment();
-                    return true;
-                case R.id.navigation_tune:
-                    fragment = new SettingsFragment();
-                    setFragment();
-                    return true;
-                case R.id.navigation_user:
-                    fragment = ChoicesFragment.newInstance(getString(R.string.settings));
-                    setFragment();
-                    return true;
-                case R.id.navigation_cart:
-                    fragment = new CheckoutFragment();
-                    setFragment();
-                    return true;
-                case R.id.navigation_favourite:
-                    fragment = new FavoritesFragment();
-                    setFragment();
-                    return true;
-            }
-            return false;
+            setCurrentFragment(item.getItemId());
+            setFragment();
+            return true;
         }
     };
+
+    void setCurrentFragment(int fragmentId){
+        switch (fragmentId) {
+            case R.id.navigation_home:
+                fragment = OnSaleFragment.newInstance("Arts");
+                mCurrentFragmentId = fragmentId;
+                break;
+            case R.id.navigation_tune:
+                fragment = new SettingsFragment();
+                mCurrentFragmentId = fragmentId;
+                break;
+            case R.id.navigation_user:
+                fragment = ChoicesFragment.newInstance(getString(R.string.settings));
+                mCurrentFragmentId = fragmentId;
+                break;
+            case R.id.navigation_cart:
+                fragment = new CheckoutFragment();
+                mCurrentFragmentId = fragmentId;
+                break;
+            case R.id.navigation_favourite:
+                fragment = new FavoritesFragment();
+                mCurrentFragmentId = fragmentId;
+                break;
+            default:
+                fragment = OnSaleFragment.newInstance("Arts");
+                mCurrentFragmentId = R.id.navigation_home;
+                break;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +69,11 @@ public class MainActivity extends CustomActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        if(savedInstanceState != null){
+            mCurrentFragmentId = savedInstanceState.getInt(CURRENT_FRAGMENT_ID);
+        }
+
+        setCurrentFragment(mCurrentFragmentId);
         setFragment();
     }
 
@@ -70,4 +87,12 @@ public class MainActivity extends CustomActivity {
                 .commit();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        if(mCurrentFragmentId != 0){
+            outState.putInt(CURRENT_FRAGMENT_ID,mCurrentFragmentId);
+        }
+        super.onSaveInstanceState(outState);
+    }
 }
