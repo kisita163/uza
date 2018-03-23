@@ -160,4 +160,5 @@
     <string name="euros">EUR</string>
     <string name="billing_information">Billing Information</string>
     <string name="about_us">About us</string>
+    <string name="add_to_cart">Add to cart</string>
 </resources>
