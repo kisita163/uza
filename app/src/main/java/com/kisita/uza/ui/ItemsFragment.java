@@ -22,7 +22,6 @@ import com.kisita.uza.utils.UzaCardAdapter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.kisita.uza.model.Data.UZA.TYPE;
 
 
 /**
@@ -88,7 +87,6 @@ public abstract class ItemsFragment extends CustomFragment
     {
 
         RecyclerView recList = v.findViewById(R.id.cardList);
-        choicesButton = v.findViewById(R.id.fabCart);
 
         if(choiceButtonActivated) {
             choicesButton.setOnClickListener(new View.OnClickListener() {
@@ -179,24 +177,5 @@ public abstract class ItemsFragment extends CustomFragment
     public interface OnItemFragmentInteractionListener {
         void onItemFragmentInteraction(String title);
         void onCommandSelectedInteraction(String key);
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode== RESULT_CODE)
-        {
-            String choice=data.getStringExtra(getString(R.string.choice));
-            ArrayList<Data> tmpList = new ArrayList<>();
-            Log.i(TAG, " selected is  : "+choice);
-            for (Data d : itemsList) {
-                if (d.getData()[TYPE].equalsIgnoreCase(choice) || choice.equalsIgnoreCase(getString(R.string.all))) {
-                    tmpList.add(d);
-                }
-            }
-            mCardAdapter.setItemsList(tmpList);
-            mCardAdapter.notifyDataSetChanged();
-        }
     }
 }
