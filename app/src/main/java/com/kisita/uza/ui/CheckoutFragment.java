@@ -9,10 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,21 +17,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.kisita.uza.R;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
-import com.kisita.uza.utils.UzaCardAdapter;
-
+import com.kisita.uza.utils.UzaCheckoutPageAdapter;
 import java.util.ArrayList;
-
+import static com.kisita.uza.model.Data.COMMAND_DATA;
 import static com.kisita.uza.model.Data.ITEMS_COMMANDS_COLUMNS;
-import static com.kisita.uza.model.Data.UZA.KEY;
 import static com.kisita.uza.utils.UzaFunctions.addDoubles;
 import static com.kisita.uza.utils.UzaFunctions.getCost;
 import static com.kisita.uza.utils.UzaFunctions.getCurrency;
-import static com.kisita.uza.utils.UzaFunctions.getPicturesUrls;
 import static com.kisita.uza.utils.UzaFunctions.getShippingCost;
 import static com.kisita.uza.utils.UzaFunctions.setFormat;
 import static com.kisita.uza.utils.UzaFunctions.setPrice;
@@ -48,13 +42,11 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 {
 	/** The product list. */
 	private ArrayList<Data> itemsList;
-	private UzaCardAdapter mCardadapter;
+	private UzaCheckoutPageAdapter mCheckoutItemsAdapter;
 
 	private TextView orderAmountField;
 	private TextView shippingCostField;
 	private TextView totalAmountField;
-
-	private Button checkoutButton;
 
 	/* Order amount*/
 	private double  mOrder        = 0;
@@ -72,7 +64,7 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 			Bundle savedInstanceState)
 	{
 		View v = inflater.inflate(R.layout.fragment_checkout, null);
-		setTouchNClick(v.findViewById(R.id.btnDone));
+		setTouchNClick(v.findViewById(R.id.checkout));
 		setupView(v);
 		return v;
 	}
@@ -97,20 +89,20 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 	protected void setupView(View v)
 	{
 
-		RecyclerView recList =  v.findViewById(R.id.cardList);
-		checkoutButton       = v.findViewById(R.id.btnDone);
+		//RecyclerView recList =  v.findViewById(R.id.cardList);
+		Button checkoutButton = v.findViewById(R.id.checkout);
 
 		checkoutButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO format amount here ???
-				SharedPreferences sharedPref = getContext().getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
-				onCheckoutPressed(sharedPref.getString("total_amount","0.0"));
+				//SharedPreferences sharedPref = getContext().getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
+				//onCheckoutPressed(sharedPref.getString("total_amount","0.0"));
 			}
 		});
 
-		checkoutButton.setClickable(false);
-		checkoutButton.setBackgroundColor(getResources().getColor(R.color.main_grey));
+		//checkoutButton.setClickable(false);
+		//checkoutButton.setBackgroundColor(getResources().getColor(R.color.main_grey));
 
 		orderAmountField  = v.findViewById(R.id.order_amount_value);
 		shippingCostField = v.findViewById(R.id.shipping_cost_value);
@@ -118,19 +110,9 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 
 		itemsList = new ArrayList<>();
 
-		recList.setHasFixedSize(true);
 		setHasOptionsMenu(true);
 
-		StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1,
-				StaggeredGridLayoutManager.VERTICAL);
-
-		DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recList.getContext(),
-				DividerItemDecoration.VERTICAL);
-		recList.addItemDecoration(dividerItemDecoration);
-
-		recList.setLayoutManager(llm);
-		//mCardadapter = new UzaCardAdapter(this.getContext(), itemsList, this , true);
-		recList.setAdapter(mCardadapter);
+		initPager(v);
 		loadData();
 	}
 
@@ -175,50 +157,17 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 		mTotalAmount  = 0;
 		mShippingCost = 0;
 		while (data.moveToNext()) {
-			String  []  rowdata  =  {
-					data.getString(Data.UZA.UID),
-					data.getString(Data.UZA.NAME),
-					data.getString(Data.UZA.PRICE),
-					data.getString(Data.UZA.CURRENCY),
-					data.getString(Data.UZA.BRAND),
-					data.getString(Data.UZA.DESCRIPTION),
-					data.getString(Data.UZA.SELLER),
-					data.getString(Data.UZA.CATEGORY),
-					data.getString(Data.UZA.TYPE),
-					data.getString(Data.UZA.COLOR),
-					data.getString(Data.UZA.SIZE),
-					"",
-					data.getString(Data.UZA.WEIGHT),
-					data.getString(Data.UZA.URL),
-					data.getString(Data.UZA.QUANTITY),
-					data.getString(KEY)
-			};
+			Data d = new Data(data,COMMAND_DATA);
 
-			/*Log.i(TAG,data.getString(Data.UZA.UID)         + " " +
-					  data.getString(Data.UZA.NAME)        + " " +
-					  data.getString(Data.UZA.PRICE)       + " " +
-					  data.getString(Data.UZA.CURRENCY)    + " " +
-					  data.getString(Data.UZA.BRAND)       + " " +
-					  data.getString(Data.UZA.DESCRIPTION) + " " +
-					  data.getString(Data.UZA.SELLER)      + " " +
-					  data.getString(Data.UZA.CATEGORY)    + " " +
-					  data.getString(Data.UZA.TYPE)        + " " +
-					  data.getString(Data.UZA.COLOR)       + " " +
-					  data.getString(Data.UZA.QUANTITY)    + " " +
-					  data.getString(Data.UZA.KEY)         + " " +
-					  data.getString(Data.UZA.NAME));*/
-			//Log.i(TAG,setPrice(data.getString(Data.UZA.CURRENCY),data.getString(Data.UZA.PRICE),getContext()));
-			handleCost(setPrice(data.getString(Data.UZA.CURRENCY),data.getString(Data.UZA.PRICE),getContext()), // The item price in the currency used by the app
-					      data.getString(Data.UZA.QUANTITY)); // item quantity
+			handleCost(setPrice(d.getCurrency(),d.getPrice(),getContext()), // The item price in the currency used by the app
+					      d.getQuantity()); // item quantity
 
-			handleShippingCost(data.getString(Data.UZA.WEIGHT),data.getString(Data.UZA.QUANTITY));
+			handleShippingCost(d.getWeight(),d.getQuantity());
 
 			handleTotalAmount();
-			Data d = new Data(rowdata,
-					getPicturesUrls(data.getString(Data.UZA.PICTURES))
-			);
+
 			itemsList.add(d);
-			mCardadapter.notifyDataSetChanged();
+			mCheckoutItemsAdapter.notifyDataSetChanged();
 		}
 	}
 
@@ -234,10 +183,10 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 		editor.putString("total_amount",amount);
 		editor.apply();
 
-		if(mTotalAmount > 0){
+		/*if(mTotalAmount > 0){
 			checkoutButton.setClickable(true);
 			checkoutButton.setBackgroundColor(getResources().getColor(R.color.main_color));
-		}
+		}*/
 	}
 
 	private void handleShippingCost(String weight, String quantity) {
@@ -284,7 +233,7 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 			mListener        = (OnCheckoutInteractionListener) context;
 		} else {
 			throw new RuntimeException(context.toString()
-					+ " must implement OnNewArticleInteractionListener");
+					+ " must implement OnCheckoutInteractionListener");
 		}
 	}
 
@@ -296,11 +245,11 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 
 	public void onRemovePressedListener(Data d){
 		itemsList.remove(d);
-		mCardadapter.notifyDataSetChanged();
+		mCheckoutItemsAdapter.notifyDataSetChanged();
 
 		String where   = "_ID = ?";
-		String [] args =  {d.getData()[KEY]};
-		int rowDeleted = getContext().getContentResolver().delete(
+		String [] args =  {d.getCommandId()};
+		getContext().getContentResolver().delete(
 				UzaContract.CommandsEntry.CONTENT_URI_COMMANDS,
 				where,
 				args
@@ -308,5 +257,24 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 		//Log.i(TAG,"**** "+rowDeleted);
 		//Log.i(TAG, "onRemovePressedListener " + getTag());
 		onReloadRequest(getTag());
+	}
+
+	/*
+	 *  pager view initialization.
+	 */
+
+	private void initPager(View v)
+	{
+		/* The pager. */
+		ViewPager pager = v.findViewById(R.id.pager);
+		pager.setPageMargin(10);
+		/* The view that hold dots. */
+		LinearLayout vDots = v.findViewById(R.id.vDots);
+
+		mCheckoutItemsAdapter = new UzaCheckoutPageAdapter(getContext(),itemsList, vDots, this);
+
+		pager.setOnPageChangeListener(mCheckoutItemsAdapter);
+
+		pager.setAdapter(mCheckoutItemsAdapter);
 	}
 }

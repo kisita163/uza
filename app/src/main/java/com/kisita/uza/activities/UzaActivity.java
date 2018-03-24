@@ -24,10 +24,8 @@ import com.facebook.CallbackManager;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.model.Data;
-import com.kisita.uza.model.UzaListItem;
 import com.kisita.uza.services.Token;
 import com.kisita.uza.ui.CheckoutFragment;
-import com.kisita.uza.ui.CommandsFragment;
 import com.kisita.uza.ui.DetailFragment;
 import com.kisita.uza.ui.FavoritesFragment;
 import com.kisita.uza.ui.ItemsFragment;
@@ -36,15 +34,11 @@ import com.kisita.uza.ui.SettingsFragment;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import cz.msebera.android.httpclient.Header;
 
-import static com.kisita.uza.model.Data.UZA.KEY;
-import static com.kisita.uza.utils.UzaFunctions.setPriceForPayPal;
 
 public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCheckoutInteractionListener,
        ItemsFragment.OnItemFragmentInteractionListener {
@@ -103,7 +97,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
                 break;
             case(4):
                 toolbar.setTitle(R.string.commands);
-                f =  CommandsFragment.newInstance("",false);
+                //f =  CommandsFragment.newInstance("",false);
                 break;
             default:
                 break;
@@ -199,9 +193,9 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
                         // Change command state
                         setCommandsState();
                         // Go to the fragment that shows commands in processing
-                        getSupportFragmentManager().beginTransaction()
+                        /*getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.content_frame, CommandsFragment.newInstance("",false),"COMMANDS")
-                                .commit();
+                                .commit();*/
                     }else{
                         Toast.makeText(getBaseContext(), R.string.transaction_rejected, Toast.LENGTH_LONG).show();
                     }
@@ -247,8 +241,8 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
         Map<String, Object> commandsUpdates = new HashMap<>();
         if(commandsToUpdate != null){
             for(Data d : commandsToUpdate) {
-                commandsUpdates.put("/users-data/" + getUid() + "/commands/" + d.getData()[KEY] + "/state","1"); // 1 = command received
-                commandsUpdates.put("/commands/" + d.getData()[KEY] + "/state", "1");
+                commandsUpdates.put("/users-data/" + getUid() + "/commands/" + d.getCommandId() + "/state","1"); // 1 = command received //TODO
+                commandsUpdates.put("/commands/" + d.getCommandId() + "/state", "1"); // TODO
             }
             getDb().updateChildren(commandsUpdates);
         }

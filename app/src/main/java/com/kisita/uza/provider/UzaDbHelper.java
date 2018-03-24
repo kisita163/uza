@@ -12,7 +12,7 @@ import android.util.Log;
 public class UzaDbHelper extends SQLiteOpenHelper {
     static final String  TAG = "### UzaDbHelper";
     // If you change the database schema, you must increment the database version.
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 8;
 
     static final String DATABASE_NAME = "uza.db";
 
@@ -37,9 +37,8 @@ public class UzaDbHelper extends SQLiteOpenHelper {
                 UzaContract.ItemsEntry.COLUMN_SELLER      + " TEXT NOT NULL, " +
                 UzaContract.ItemsEntry.COLUMN_PICTURES    + " TEXT NOT NULL, " +
                 UzaContract.ItemsEntry._ID                + " TEXT PRIMARY KEY NOT NULL, " +
-                UzaContract.ItemsEntry.COLUMN_AID         + " TEXT NOT NULL, " +
+                UzaContract.ItemsEntry.COLUMN_AUTHOR      + " TEXT NOT NULL, " +
                 UzaContract.ItemsEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
-                UzaContract.ItemsEntry.COLUMN_COLOR       + " TEXT NOT NULL, " +
                 UzaContract.ItemsEntry.COLUMN_SIZE        + " TEXT NOT NULL, " +
                 UzaContract.ItemsEntry.COLUMN_WEIGHT      + " TEXT NOT NULL, " +
                 UzaContract.ItemsEntry.COLUMN_URL         + " TEXT NOT NULL" + ");";

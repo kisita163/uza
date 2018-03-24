@@ -1,50 +1,31 @@
 package com.kisita.uza.utils;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.model.Data;
-import com.kisita.uza.ui.CheckoutFragment;
-import com.kisita.uza.ui.CommandsFragment;
-import com.kisita.uza.ui.FavoritesFragment;
 
 import java.util.ArrayList;
 
-import static com.kisita.uza.model.Data.UZA.*;
-import static com.kisita.uza.utils.UzaFunctions.getCost;
 import static com.kisita.uza.utils.UzaFunctions.getCurrency;
 import static com.kisita.uza.utils.UzaFunctions.setFormat;
 import static com.kisita.uza.utils.UzaFunctions.setPrice;
 
-/**
+/*
  * Created by Hugues on 23/04/2017.
  */
 public class UzaCardAdapter extends
@@ -79,11 +60,14 @@ public class UzaCardAdapter extends
         //Log.i(TAG, "Position is  : " + position);
         final Data d = itemsList.get(position);
 
-        //holder.author.setText(d.getData()[NAME]); // Author
-        //holder.name.setText("Hugues Kisita"); // Item Name
-        String price = setPrice(d.getData()[CURRENCY], d.getData()[PRICE],mContext);
+        holder.author.setText(d.getAuthor()); // Author
+        holder.name.setText(d.getName()); // Item Name
+        holder.size.setText(d.getSize()); // Item Size
+        holder.type.setText(d.getType()); // Item Type
+
+        String price = setPrice(d.getCurrency(), d.getPrice(),mContext);
         holder.price.setText(setFormat(price) + " "+getCurrency(mContext));
-        //holder.size.setText(d.getData()[BRAND]); Item size
+        holder.size.setText(d.getSize());
 
         // Item listeners
         mOnItemClickListener = new AdapterView.OnItemClickListener() {
@@ -159,7 +143,7 @@ public class UzaCardAdapter extends
     {
         UzaCardAdapter mAdapter;
 
-        private TextView author, name, size, price;
+        private TextView author, name, size, price, type;
 
         private ViewPager pager;
 
@@ -179,12 +163,14 @@ public class UzaCardAdapter extends
             this.mAdapter = adapter;
 
             author    =  v.findViewById(R.id.item_author);
+            name      =  v.findViewById(R.id.item_name);
+            type      =  v.findViewById(R.id.item_type);
             price     =  v.findViewById(R.id.item_price);
             size      =  v.findViewById(R.id.item_size);
-            /** The pager. */
+            /* The pager. */
             pager     =  v.findViewById(R.id.pager);
             pager.setPageMargin(10);
-            /** The view that hold dots. */
+            /* The view that hold dots. */
             vDots     = v.findViewById(R.id.vDots);
             /* Favourite button */
             favButton =  v.findViewById(R.id.favourite);

@@ -194,16 +194,15 @@ public class FirebaseService extends Service {
         itemsValues.clear();
         itemsValues.put(UzaContract.ItemsEntry.COLUMN_NAME           , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_NAME));
         itemsValues.put(UzaContract.ItemsEntry.COLUMN_BRAND          , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_BRAND));
-        itemsValues.put(UzaContract.ItemsEntry.COLUMN_TYPE           , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_TYPE));
         itemsValues.put(UzaContract.ItemsEntry.COLUMN_CATEGORY       , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_CATEGORY));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_TYPE           , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_TYPE));
         itemsValues.put(UzaContract.ItemsEntry.COLUMN_CURRENCY       , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_CURRENCY));
         itemsValues.put(UzaContract.ItemsEntry.COLUMN_SELLER         , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_SELLER));
         itemsValues.put(UzaContract.ItemsEntry.COLUMN_DESCRIPTION    , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_DESCRIPTION));
         itemsValues.put(UzaContract.ItemsEntry._ID                   , FirebaseUtils.getItemId(dataSnapshot));//getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_ID));
-        itemsValues.put(UzaContract.ItemsEntry.COLUMN_AID            , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_ID));//getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_ID));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_AUTHOR         , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_AUTHOR));//getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_ID));
         itemsValues.put(UzaContract.ItemsEntry.COLUMN_PICTURES       , FirebaseUtils.getPicures(dataSnapshot));
         itemsValues.put(UzaContract.ItemsEntry.COLUMN_URL            , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_URL));
-        itemsValues.put(UzaContract.ItemsEntry.COLUMN_COLOR          , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_COLOR));
         itemsValues.put(UzaContract.ItemsEntry.COLUMN_SIZE           , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_SIZE));
         itemsValues.put(UzaContract.ItemsEntry.COLUMN_WEIGHT         , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_WEIGHT));
         itemsValues.put(UzaContract.ItemsEntry.COLUMN_PRICE          , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_PRICE));

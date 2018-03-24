@@ -8,31 +8,19 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-
 import com.kisita.uza.R;
-import com.kisita.uza.activities.ChoicesActivity;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.UzaCardAdapter;
-import com.kisita.uza.utils.UzaPageAdapter;
-
 import java.util.ArrayList;
-
 import static com.kisita.uza.model.Data.ITEMS_COLUMNS;
-import static com.kisita.uza.model.Data.UZA.QUANTITY;
-import static com.kisita.uza.model.Data.UZA.TYPE;
-import static com.kisita.uza.utils.UzaFunctions.getPicturesUrls;
+import static com.kisita.uza.model.Data.ITEM_DATA;
 
 
 /*
@@ -139,19 +127,6 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if(requestCode== RESULT_CODE)
-		{
-			String choice=data.getStringExtra(getString(R.string.choice));
-            ArrayList<Data> tmpList = new ArrayList<>();
-            Log.i(TAG, " selected is  : "+choice);
-            for (Data d : itemsList) {
-                if (d.getData()[TYPE].equalsIgnoreCase(choice) || choice.equalsIgnoreCase(getString(R.string.all))) {
-                    tmpList.add(d);
-                }
-            }
-            mCardadapter.setItemsList(tmpList);
-            mCardadapter.notifyDataSetChanged();
-		}
 	}
 
 	@Override
@@ -171,34 +146,17 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		//Log.i(TAG,"Load finished");
 		while (data.moveToNext()) {
-			String  []  rowdata  =  {
-					data.getString(Data.UZA.UID),
-					data.getString(Data.UZA.NAME),
-					data.getString(Data.UZA.PRICE),
-					data.getString(Data.UZA.CURRENCY),
-					data.getString(Data.UZA.BRAND),
-					data.getString(Data.UZA.DESCRIPTION),
-					data.getString(Data.UZA.SELLER),
-					data.getString(Data.UZA.CATEGORY),
-					data.getString(Data.UZA.TYPE),
-					data.getString(Data.UZA.COLOR),
-					data.getString(Data.UZA.SIZE),
-					"",
-					data.getString(Data.UZA.WEIGHT),
-					data.getString(Data.UZA.URL),
-					data.getString(14), // TODO this is like
-					data.getString(15)  // TODO this is like is
-			};
 
-			Data d = new Data(rowdata,
-					getPicturesUrls(data.getString(Data.UZA.PICTURES))
-			);
-			// Marked as a favourite if needed
-			if(!TextUtils.isEmpty(data.getString(14))) {
-				Log.i(TAG,data.getString(15));
-				d.setFavourite(true);
-				d.setFavouriteId(data.getString(15));
-			}
+			/*for(int i = 0 ; i < data.getColumnCount() ; i ++ ){
+				if(data.getString(i) == null){
+					Log.i(TAG, "null");
+				}
+				else {
+					Log.i(TAG, data.getString(i));
+				}
+			}*/
+
+			Data d = new Data(data,ITEM_DATA);
 			// add new item into the list of items
 			itemsList.add(d);
 			mCardadapter.notifyDataSetChanged();

@@ -1,80 +1,148 @@
 package com.kisita.uza.model;
 
 
+import android.database.Cursor;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.kisita.uza.provider.UzaContract;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-import static com.kisita.uza.model.Data.UZA.KEY;
-import static com.kisita.uza.model.Data.UZA.UID;
+import static com.kisita.uza.utils.UzaFunctions.getPicturesUrls;
 
 public class Data implements Serializable
 {
-	private String uid;
+    public static int ITEM_DATA      = 0;
+    public static int COMMAND_DATA   = 1;
+    public static int FAVOURITE_DATA = 2;
 
-	/** The data. This field contains the item name, the brand, the seller's name and a short item description */
-	private String[] data;
-	/** The resources. */
-	private int resources[];
-
-	private String key = null;
-
+    /* List of picture(s) associated to this item */
 	private ArrayList<String> pictures;
 
+	/* True if the this item is listed as a favourite one */
+	private boolean mFavourite = false;
 
-	/**
-	 * Instantiates a new data.
-	 *
-	 * @param data
-	 *            the data
-	 * @param pictures
-	 *            the resources
-	 */
+    /* Item id in Firebase database */
+	private String mItemId;
 
-	public Data(String[] data, ArrayList<String> pictures) {
-		assert(data.length ==  KEY + 1);
-		this.data = data;
-		this.pictures = pictures;
+	/* Favourite id in Firebase database */
+	private String mFavouriteId;
+
+	private String mAuthor      = "";
+
+	private String mName        = "";
+
+	private String mDescription = "";
+
+	private String mSize        = "";
+
+    private String mCurrency    = "";
+
+    private String mUrl;
+
+    private String mWeight;
+
+    private String mType;
+
+    private String mCategory;
+
+    private String mSeller;
+
+    private String mBrand;
+
+    private String mPrice;
+
+    private String mQuantity;
+
+    private String mCommandId;
+
+    /**
+     * Instantiates a new data.
+     *
+     * @param data
+     *            the Cursor containing data
+     */
+	public Data(Cursor data,int dataType) {
+	    int index = 0;
+		for (String s :
+			 data.getColumnNames()) {
+            //Log.i("### Data","column " + s);
+			if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_NAME))
+				this.mName = data.getString(index);
+
+			if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_AUTHOR))
+				this.mAuthor = data.getString(index);
+
+			if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_DESCRIPTION))
+				this.mDescription = data.getString(index);
+
+
+			if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_SIZE))
+				this.mSize = data.getString(index);
+
+            if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_PICTURES)){
+                this.pictures =  getPicturesUrls(data.getString(index));
+            }
+
+            if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_PRICE)){
+                this.mPrice =  data.getString(index);
+            }
+
+            if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_BRAND)){
+                this.mBrand = data.getString(index);
+            }
+
+            if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_SELLER)){
+                this.mSeller =  data.getString(index);
+            }
+
+            if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_CATEGORY)){
+                this.mCategory = data.getString(index);
+            }
+
+            if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_TYPE)){
+                this.mType = data.getString(index);
+            }
+
+            if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_WEIGHT)){
+                this.mWeight = data.getString(index);
+            }
+
+            if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_URL)){
+                this.mUrl = data.getString(index);
+            }
+
+            if(s.equalsIgnoreCase(UzaContract.LikesEntry.COLUMN_LIKES)){
+                if(data.getString(index) != null)
+                    this.mFavourite = true;
+            }
+
+            if(s.equalsIgnoreCase("_id")){
+                if(index == 0){
+                    this.mItemId = data.getString(0);
+                }else {
+                    if (data.getString(index) != null && dataType == FAVOURITE_DATA) {
+                        this.mFavouriteId = data.getString(index);
+                    }
+
+                    if(data.getString(index) != null && dataType == COMMAND_DATA){
+                        this.mCommandId = data.getString(index);
+                    }
+                }
+            }
+
+            if(s.equalsIgnoreCase(UzaContract.CommandsEntry.COLUMN_QUANTITY)){
+                this.mQuantity =  data.getString(index);
+            }
+            index++;
+		}
 	}
-
-	/**
-	 * Gets the data.
-	 *
-	 * @return the data
-	 */
-	public String[] getData()
-	{
-		return data;
-	}
-
-	/**
-	 * Gets the resources.
-	 *
-	 * @return the resources
-	 */
-	public int[] getResources()
-	{
-		return resources;
-	}
-
-	/**
-	 * Sets the resources.
-	 *
-	 * @param resources
-	 *            the new resources
-	 */
-	public void setResources(int[] resources)
-	{
-		this.resources = resources;
-	}
-
-	public String getUid() {
-		return data[UID];
-	}
-
 	public String getKey() {
 			return null;
 	}
@@ -83,55 +151,49 @@ public class Data implements Serializable
 		return pictures;
 	}
 
-	public static  class UZA {
-        public static final int UID         = 0;
-        public static final int NAME        = 1;
-        public static final int PRICE       = 2;
-        public static final int CURRENCY    = 3;
-        public static final int BRAND       = 4;
-        public static final int DESCRIPTION = 5;
-        public static final int SELLER      = 6;
-        public static final int CATEGORY    = 7;
-        public static final int TYPE        = 8;
-        public static final int COLOR       = 9;
-        public static final int SIZE        = 10;
-        public static final int PICTURES    = 11;
-        public static final int WEIGHT      = 12;
-        public static final int URL         = 13;
-        public static final int QUANTITY    = 14;
-        public static final int KEY         = 15;
-		public static final int AUTHOR      = 16;
+	public void setFavourite(boolean favourite) {
+		this.mFavourite = favourite;
+	}
+
+	public void updateFavourite(boolean favourite){
+        updateFavouriteInDataBase();
+        this.mFavourite = favourite;
+    }
+
+    public String getCommandId() {
+        return mCommandId;
     }
 
 	public static final String[] ITEMS_COLUMNS = {
-		UzaContract.ItemsEntry.TABLE_NAME + "." + UzaContract.ItemsEntry._ID,
-		UzaContract.ItemsEntry.COLUMN_NAME,
-		UzaContract.ItemsEntry.COLUMN_PRICE,
-		UzaContract.ItemsEntry.COLUMN_CURRENCY,
-		UzaContract.ItemsEntry.COLUMN_BRAND,
-		UzaContract.ItemsEntry.COLUMN_DESCRIPTION,
-		UzaContract.ItemsEntry.COLUMN_SELLER,
-		UzaContract.ItemsEntry.COLUMN_CATEGORY,
-		UzaContract.ItemsEntry.COLUMN_TYPE,
-		UzaContract.ItemsEntry.TABLE_NAME + "." +UzaContract.ItemsEntry.COLUMN_COLOR,
-		UzaContract.ItemsEntry.TABLE_NAME + "." +UzaContract.ItemsEntry.COLUMN_SIZE,
-		UzaContract.ItemsEntry.COLUMN_PICTURES,
-		UzaContract.ItemsEntry.COLUMN_WEIGHT,
-		UzaContract.ItemsEntry.COLUMN_URL
+	        UzaContract.ItemsEntry.TABLE_NAME + "." + UzaContract.ItemsEntry._ID,
+            UzaContract.ItemsEntry.COLUMN_NAME,
+            UzaContract.ItemsEntry.COLUMN_PRICE,
+            UzaContract.ItemsEntry.COLUMN_CURRENCY,
+            UzaContract.ItemsEntry.COLUMN_BRAND,
+            UzaContract.ItemsEntry.COLUMN_DESCRIPTION,
+            UzaContract.ItemsEntry.COLUMN_SELLER,
+            UzaContract.ItemsEntry.COLUMN_CATEGORY,
+            UzaContract.ItemsEntry.COLUMN_TYPE,
+            UzaContract.ItemsEntry.COLUMN_AUTHOR,
+            UzaContract.ItemsEntry.TABLE_NAME + "." +UzaContract.ItemsEntry.COLUMN_SIZE,
+            UzaContract.ItemsEntry.COLUMN_PICTURES,
+            UzaContract.ItemsEntry.COLUMN_WEIGHT,
+            UzaContract.ItemsEntry.COLUMN_URL,
+			UzaContract.LikesEntry.COLUMN_LIKES,
+            UzaContract.LikesEntry.TABLE_NAME + "." +UzaContract.LikesEntry._ID
     };
 
 	public static final String[] ITEMS_COMMANDS_COLUMNS = {
 			UzaContract.ItemsEntry.TABLE_NAME + "." + UzaContract.ItemsEntry._ID,
 			UzaContract.ItemsEntry.COLUMN_NAME,
 			UzaContract.ItemsEntry.COLUMN_PRICE,
+			UzaContract.ItemsEntry.COLUMN_TYPE,
 			UzaContract.ItemsEntry.COLUMN_CURRENCY,
 			UzaContract.ItemsEntry.COLUMN_BRAND,
 			UzaContract.ItemsEntry.COLUMN_DESCRIPTION,
 			UzaContract.ItemsEntry.COLUMN_SELLER,
-			UzaContract.ItemsEntry.COLUMN_CATEGORY,
-			UzaContract.ItemsEntry.COLUMN_TYPE,
-			UzaContract.ItemsEntry.TABLE_NAME + "." +UzaContract.ItemsEntry.COLUMN_COLOR,
 			UzaContract.ItemsEntry.TABLE_NAME + "." +UzaContract.ItemsEntry.COLUMN_SIZE,
+			UzaContract.ItemsEntry.COLUMN_AUTHOR,
 			UzaContract.ItemsEntry.COLUMN_PICTURES,
 			UzaContract.ItemsEntry.COLUMN_WEIGHT,
 			UzaContract.ItemsEntry.COLUMN_URL,
@@ -154,4 +216,101 @@ public class Data implements Serializable
 			UzaContract.CommandsEntry.COLUMN_QUANTITY,
 			UzaContract.CommandsEntry.COLUMN_STATE
 	};
+
+	public boolean isFavourite() {
+		return mFavourite;
+	}
+
+	public String getItemId() {
+		return mItemId;
+	}
+
+	private String getFavouriteId() {
+		return mFavouriteId;
+	}
+
+	private void setFavouriteId(String mFavouriteId) {
+		this.mFavouriteId = mFavouriteId;
+	}
+
+	public String getName() {
+		return mName;
+	}
+
+	public String getDescription() {
+		return mDescription;
+	}
+
+	public String getSize() {
+		return mSize;
+	}
+
+	public String getAuthor(){
+		return mAuthor;
+	}
+
+    public String getCurrency() {
+        return mCurrency;
+    }
+
+    public String geUrl() {
+        return mUrl;
+    }
+
+    public String getWeight() {
+        return mWeight;
+    }
+
+    public String getType() {
+        return mType;
+    }
+
+    public String getCategory() {
+        return mCategory;
+    }
+
+    public String getSeller() {
+        return mSeller;
+    }
+
+    public String getBrand() {
+        return mBrand;
+    }
+
+    public String getPrice() {
+        return mPrice;
+    }
+
+
+    public String getQuantity() {
+        return mQuantity;
+    }
+
+    private DatabaseReference getDb() {
+		return FirebaseDatabase.getInstance().getReference();
+	}
+
+
+	private void updateFavouriteInDataBase(){
+
+		if (isFavourite()) {
+		    Log.i("### Data","Update database ("+isFavourite()+")");
+			DatabaseReference likes = getDb().child("users-data").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("likes");
+			likes.child(getFavouriteId()).removeValue();
+
+		} else {
+            Log.i("### Data","Update database ("+isFavourite()+")");
+
+			String like = getDb().child("users").push().getKey(); // Get a new firebase key
+
+            setFavouriteId(like); // Update the item favourite Id
+
+			Map<String, Object> childUpdates = new HashMap<>();
+
+			childUpdates.put("/users-data/" +  FirebaseAuth.getInstance().getCurrentUser().getUid()+ "/likes/" + like, getItemId());
+
+			getDb().updateChildren(childUpdates);
+		}
+	}
+
 }

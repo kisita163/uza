@@ -29,7 +29,6 @@ import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.storage.FirebaseStorage;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.custom.CustomFragment;
@@ -43,7 +42,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.kisita.uza.model.Data.FAVOURITES_COLUMNS;
-import static com.kisita.uza.model.Data.UZA.*;
 import static com.kisita.uza.utils.UzaFunctions.getCurrency;
 import static com.kisita.uza.utils.UzaFunctions.setFormat;
 import static com.kisita.uza.utils.UzaFunctions.setPrice;
@@ -60,24 +58,13 @@ public class DetailFragment extends CustomFragment{
     // the fragment initialization parameters
     private static final String TAG = "### DetailFragment";
 
-    private static final String DESCR = "description";
     private static final String ITEM_DATA = "ITEM_DATA";
-
-    private String [] mDescription;
 
     private String key;
 
-    /** The pager. */
-    private ViewPager pager;
-
-    private Button add;
-
     private ImageView mlike;
 
-    /** The view that hold dots. */
-    private LinearLayout vDots;
-
-    private OnFragmentInteractionListener mListener;
+    protected OnFragmentInteractionListener mListener;
 
     private Boolean mLiked = false;
 
@@ -87,13 +74,7 @@ public class DetailFragment extends CustomFragment{
     private boolean mCommand = false;
 
 
-    private String commandKey = "";
-
     private Data itemData;
-
-    private ImageView shareFacebook;
-
-    private ImageView shareWhatsapp;
 
     private ShareDialog shareDialog;
 
@@ -111,7 +92,6 @@ public class DetailFragment extends CustomFragment{
     public static DetailFragment newInstance(Data data) {
         DetailFragment fragment = new DetailFragment();
         Bundle args = new Bundle();
-        args.putStringArray(DESCR, data.getData());
         args.putSerializable(ITEM_DATA,data);
         fragment.setArguments(args);
         return fragment;
@@ -121,31 +101,11 @@ public class DetailFragment extends CustomFragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mDescription = getArguments().getStringArray(DESCR);
             itemData     = (Data)getArguments().getSerializable(ITEM_DATA);
             mCurrency = getCurrency(getContext());
         }
         shareDialog = new ShareDialog(this);
         //printKeyHash();
-    }
-
-    private void printKeyHash() {
-        // Code to print out the key hash
-        try {
-            PackageInfo info = getContext().getPackageManager().getPackageInfo(
-                    "com.kisita.uza",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.i("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.i("KeyHash","NameNotFoundException");
-
-        } catch (NoSuchAlgorithmException e) {
-            Log.i("KeyHash","NoSuchAlgorithmException");
-        }
     }
 
     @Override
@@ -190,27 +150,37 @@ public class DetailFragment extends CustomFragment{
     {
 
         TextView  item_name         = v.findViewById(R.id.item_name);
+        TextView  item_author       = v.findViewById(R.id.item_author);
+        TextView  item_size         = v.findViewById(R.id.item_size);
+        TextView  item_type         = v.findViewById(R.id.item_type);
         TextView  item_price        = v.findViewById(R.id.item_price);
         TextView  item_description  = v.findViewById(R.id.item_description);
 
-        add =  v.findViewById(R.id.addToCart);
+        Button add = v.findViewById(R.id.addToCart);
         add.setOnClickListener(this);
         mlike =  v.findViewById(R.id.favourite);
         mlike.setOnClickListener(this);
 
-        shareFacebook = (ImageView) v.findViewById(R.id.shareFacebook);
+        ImageView shareFacebook = (ImageView) v.findViewById(R.id.shareFacebook);
         shareFacebook.setOnClickListener(this);
 
-        shareWhatsapp = (ImageView)v.findViewById(R.id.share_whatsapp);
+        ImageView shareWhatsapp = (ImageView) v.findViewById(R.id.share_whatsapp);
         shareWhatsapp.setOnClickListener(this);
 
         if(itemData != null) {
             String price;
-            price = setPrice(itemData.getData()[CURRENCY],itemData.getData()[PRICE],getContext());
-            //item_name.setText(itemData.getData()[NAME] + " | " + itemData.getData()[SELLER]); //TODO
+            price = setPrice(itemData.getCurrency(),itemData.getPrice(),getContext());
+
             String s = setFormat(price) + " "+mCurrency;
+
             item_price.setText(s);
-            item_description.setText(itemData.getData()[DESCRIPTION]);
+            item_author.setText(itemData.getAuthor());
+            item_type.setText(itemData.getType());
+            item_name.setText(itemData.getName());
+            item_size.setText(itemData.getSize());
+            item_description.setText(itemData.getDescription(
+
+            ));
         }
         initPager(v);
         return v;
@@ -220,9 +190,11 @@ public class DetailFragment extends CustomFragment{
      */
     private void initPager(View v)
     {
-        pager =  v.findViewById(R.id.pager);
+        /* The pager. */
+        ViewPager pager = v.findViewById(R.id.pager);
         pager.setPageMargin(10);
-        vDots = v.findViewById(R.id.vDots);
+        /* The view that hold dots. */
+        LinearLayout vDots = v.findViewById(R.id.vDots);
 
         UzaPageAdapter adapter = new UzaPageAdapter(getContext(), itemData, vDots, null);
 
@@ -245,8 +217,9 @@ public class DetailFragment extends CustomFragment{
                 String[] details;
 
                 if(!mCommand){
-                    commandKey = getDb().child("users").push().getKey(); // New command id
-                    details = new String[]{mDescription[UID], ""/* selected size TODO*/,""/*selected color TODO*/,"1"/*Quantity  TODO*/,"", commandKey, getUid(), mDescription[SELLER]};
+                    String commandKey = getDb().child("users").push().getKey();
+                    details = new String[]{itemData.getItemId(),
+                                           itemData.getSize(), ""/*selected color TODO*/,itemData.getQuantity(),"", commandKey, getUid(), itemData.getSeller()};
                     onButtonPressed(details,mCommand);
                     mCommand = true; //update case + update the quantity here for example
                 }
@@ -256,15 +229,6 @@ public class DetailFragment extends CustomFragment{
             case R.id.favourite:
                 likePressed();
                 break;
-            /*case R.id.btnComment:
-                //Log.i(TAG,"Start comment fragment");
-                CommentFragment f = CommentFragment.newInstance(1,mDescription[UID]);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_left,R.anim.slide_in_left,R.anim.slide_out_right)
-                        .addToBackStack(null)
-                        .replace(R.id.content_frame, f)
-                        .commit();
-                break;*/
             case R.id.shareFacebook:
                 ((UzaActivity)getActivity()).showProgressDialog("Please wait");
                 ShareLinkContent content = new ShareLinkContent.Builder()
@@ -302,7 +266,7 @@ public class DetailFragment extends CustomFragment{
             //Log.i(TAG, "mlike is false");
             String like = getDb().child("users").push().getKey();
             key = like;
-            childUpdates.put("/users-data/" + getUid() + "/likes/" + like, mDescription[UID]);
+            childUpdates.put("/users-data/" + getUid() + "/likes/" + like,itemData.getItemId());
             getDb().updateChildren(childUpdates);
             mlike.setImageResource(R.drawable.ic_action_favorite_black);
             mLiked = true;
@@ -323,7 +287,7 @@ public class DetailFragment extends CustomFragment{
         return new CursorLoader(getContext(),
                 PlacesUri,
                 FAVOURITES_COLUMNS,
-                itemData.getData()[UID],
+                itemData.getItemId(),
                 null,
                 null);
     }

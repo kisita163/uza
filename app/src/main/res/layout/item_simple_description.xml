@@ -16,7 +16,7 @@
         style="@style/uza_lineto_text_style"
         android:textStyle="bold"
         android:layout_columnSpan="1"
-        android:text="Arthur Simony"
+        android:text="@string/unspecified_resource"
         android:maxLines="1"
         android:maxLength="20"
         android:ellipsize="end" />
@@ -27,8 +27,9 @@
         android:layout_row="1"
         style="@style/uza_text_style"
         android:textStyle="italic"
-        android:text="I believe in me, 2016"
-
+        android:text="@string/unspecified_resource"
+        android:maxLines="1"
+        android:maxLength="20"
         />
 
     <TextView
@@ -36,14 +37,15 @@
         android:layout_column="0"
         android:layout_row="2"
         style="@style/uza_text_style"
-        android:text="30 x 30 cm"
+        android:text="@string/unspecified_resource"
         android:layout_marginTop="@dimen/pad_1dp" />
 
     <TextView
+        android:id="@+id/item_type"
         android:layout_column="0"
         android:layout_row="3"
         style="@style/uza_text_style"
-        android:text="Painting"
+        android:text="@string/unspecified_resource"
         android:layout_marginTop="@dimen/pad_1dp" />
 
     <ImageView
@@ -61,5 +63,5 @@
         style="@style/uza_text_style"
         android:layout_gravity="right"
         android:textStyle="bold"
-        android:text="2 500 €" />
+        android:text="@string/unspecified_resource" />
 </GridLayout>

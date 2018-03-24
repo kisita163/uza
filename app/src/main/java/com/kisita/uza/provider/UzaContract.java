@@ -104,6 +104,8 @@ public class UzaContract {
         public static final String COLUMN_BRAND       = "brand";
         // Category
         public static final String COLUMN_CATEGORY    = "category";
+        // type
+        public static final String COLUMN_TYPE        = "type";
         // Currency
         public static final String COLUMN_CURRENCY    = "currency";
 
@@ -113,7 +115,7 @@ public class UzaContract {
         // ID
         public static final String COLUMN_ID          = "id";
 
-        public static final String COLUMN_AID         = "aid";
+        public static final String COLUMN_AUTHOR      = "author";
 
         public static final String COLUMN_NAME        = "name";
 
@@ -126,12 +128,7 @@ public class UzaContract {
         // Seller
         public static final String COLUMN_SELLER      = "seller";
 
-        // Type
-        public static final String COLUMN_TYPE        = "type";
-
         public static final String COLUMN_URL         = "url";
-
-        public static final String COLUMN_COLOR       = "color";
 
         public static final String COLUMN_SIZE        = "size";
 

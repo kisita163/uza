@@ -3,7 +3,6 @@ package com.kisita.uza.ui;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -21,13 +20,10 @@ import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.UzaCardAdapter;
-
 import java.util.ArrayList;
-
-import static com.kisita.uza.model.Data.FAVOURITES_COLUMNS;
+import static com.kisita.uza.model.Data.FAVOURITE_DATA;
 import static com.kisita.uza.model.Data.ITEMS_COLUMNS;
-import static com.kisita.uza.model.Data.UZA.KEY;
-import static com.kisita.uza.utils.UzaFunctions.getPicturesUrls;
+
 
 /*
  * A placeholder fragment containing a simple view.
@@ -94,27 +90,9 @@ public class FavoritesFragment extends CustomFragment implements  LoaderManager.
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Log.i(TAG,"result "+ data.getCount());
         while (data.moveToNext()) {
-            String  []  rowdata  =  {
-                    data.getString(Data.UZA.UID),
-                    data.getString(Data.UZA.NAME),
-                    data.getString(Data.UZA.PRICE),
-                    data.getString(Data.UZA.CURRENCY),
-                    data.getString(Data.UZA.BRAND),
-                    data.getString(Data.UZA.DESCRIPTION),
-                    data.getString(Data.UZA.SELLER),
-                    data.getString(Data.UZA.CATEGORY),
-                    data.getString(Data.UZA.TYPE),
-                    data.getString(Data.UZA.COLOR),
-                    data.getString(Data.UZA.SIZE),
-                    "",
-                    data.getString(Data.UZA.WEIGHT),
-                    data.getString(Data.UZA.URL),
-                    data.getString(Data.UZA.QUANTITY),
-                    //data.getString(KEY)
-            };
-            Data d = new Data(rowdata,
-                    getPicturesUrls(data.getString(Data.UZA.PICTURES))
-            );
+
+            Data d = new Data(data,FAVOURITE_DATA);
+
             d.setFavourite(true);
             itemsList.add(d);
             mCardadapter.notifyDataSetChanged();
