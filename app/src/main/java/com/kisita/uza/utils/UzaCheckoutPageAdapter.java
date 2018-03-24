@@ -19,6 +19,8 @@ import com.kisita.uza.ui.CheckoutFragment;
 
 import java.util.ArrayList;
 
+import static com.kisita.uza.utils.UzaFunctions.getCurrency;
+
 
 /*
  * Created by Hugues on 27/04/2017.
@@ -67,6 +69,8 @@ public class UzaCheckoutPageAdapter extends PagerAdapter implements ViewPager.On
         final View view = LayoutInflater.from(container.getContext())
                 .inflate(R.layout.item_checkout_description, container, false);
 
+        String priceWithCurrency = mItemList.get(arg0).getPrice() + " " + getCurrency(mContext);
+
         container.addView(view,
                 android.view.ViewGroup.LayoutParams.MATCH_PARENT,
                 android.view.ViewGroup.LayoutParams.MATCH_PARENT);
@@ -84,7 +88,7 @@ public class UzaCheckoutPageAdapter extends PagerAdapter implements ViewPager.On
         author.setText(mItemList.get(arg0).getAuthor());
         name.setText(mItemList.get(arg0).getName());
         type.setText(mItemList.get(arg0).getType());
-        price.setText(mItemList.get(arg0).getPrice());
+        price.setText(priceWithCurrency);
         size.setText(mItemList.get(arg0).getSize());
 
 
