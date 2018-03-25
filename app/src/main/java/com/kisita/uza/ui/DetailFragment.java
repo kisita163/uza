@@ -1,12 +1,8 @@
 package com.kisita.uza.ui;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -217,6 +212,7 @@ public class DetailFragment extends CustomFragment{
                 String[] details;
 
                 if(!mCommand){
+                    itemData.setQuantity("1");
                     String commandKey = getDb().child("users").push().getKey();
                     details = new String[]{itemData.getItemId(),
                                            itemData.getSize(), ""/*selected color TODO*/,itemData.getQuantity(),"", commandKey, getUid(), itemData.getSeller()};
