@@ -44,17 +44,17 @@ public class Data implements Serializable
 
     private String mCurrency    = "";
 
-    private String mUrl;
+    //private String mUrl;
 
     private String mWeight;
 
     private String mType;
 
-    private String mCategory;
+    //private String mCategory;
 
     private String mSeller;
 
-    private String mBrand;
+    //private String mBrand;
 
     private String mPrice;
 
@@ -82,6 +82,8 @@ public class Data implements Serializable
 			if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_DESCRIPTION))
 				this.mDescription = data.getString(index);
 
+            if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_CURRENCY))
+                this.mCurrency = data.getString(index);
 
 			if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_SIZE))
 				this.mSize = data.getString(index);
@@ -94,17 +96,17 @@ public class Data implements Serializable
                 this.mPrice =  data.getString(index);
             }
 
-            if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_BRAND)){
+            /*if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_BRAND)){
                 this.mBrand = data.getString(index);
-            }
+            }*/
 
             if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_SELLER)){
                 this.mSeller =  data.getString(index);
             }
 
-            if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_CATEGORY)){
+            /*if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_CATEGORY)){
                 this.mCategory = data.getString(index);
-            }
+            }*/
 
             if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_TYPE)){
                 this.mType = data.getString(index);
@@ -114,9 +116,9 @@ public class Data implements Serializable
                 this.mWeight = data.getString(index);
             }
 
-            if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_URL)){
+            /*if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_URL)){
                 this.mUrl = data.getString(index);
-            }
+            }*/
 
             if(s.equalsIgnoreCase(UzaContract.LikesEntry.COLUMN_LIKES)){
                 if(data.getString(index) != null)
@@ -253,9 +255,9 @@ public class Data implements Serializable
         return mCurrency;
     }
 
-    public String geUrl() {
+    /*public String geUrl() {
         return mUrl;
-    }
+    }*/
 
     public String getWeight() {
         return mWeight;
@@ -265,17 +267,17 @@ public class Data implements Serializable
         return mType;
     }
 
-    public String getCategory() {
+    /*public String getCategory() {
         return mCategory;
-    }
+    }*/
 
     public String getSeller() {
         return mSeller;
     }
 
-    public String getBrand() {
+    /*public String getBrand() {
         return mBrand;
-    }
+    }*/
 
     public String getPrice() {
         return mPrice;
@@ -293,9 +295,11 @@ public class Data implements Serializable
 
 	private void updateFavouriteInDataBase(){
 
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
 		if (isFavourite()) {
 		    Log.i("### Data","Update database ("+isFavourite()+")");
-			DatabaseReference likes = getDb().child("users-data").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("likes");
+			DatabaseReference likes = getDb().child("users-data").child(uid).child("likes");
 			likes.child(getFavouriteId()).removeValue();
 
 		} else {
@@ -307,10 +311,13 @@ public class Data implements Serializable
 
 			Map<String, Object> childUpdates = new HashMap<>();
 
-			childUpdates.put("/users-data/" +  FirebaseAuth.getInstance().getCurrentUser().getUid()+ "/likes/" + like, getItemId());
+			childUpdates.put("/users-data/" +  uid+ "/likes/" + like, getItemId());
 
 			getDb().updateChildren(childUpdates);
 		}
 	}
 
+    public void setQuantity(String quantity) {
+	    this.mQuantity = quantity;
+    }
 }
