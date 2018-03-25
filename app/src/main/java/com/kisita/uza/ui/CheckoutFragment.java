@@ -10,6 +10,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,13 +20,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.firebase.database.DatabaseReference;
 import com.kisita.uza.R;
+import com.kisita.uza.activities.MainActivity;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.UzaCheckoutPageAdapter;
 import java.util.ArrayList;
 import static com.kisita.uza.model.Data.COMMAND_DATA;
 import static com.kisita.uza.model.Data.ITEMS_COMMANDS_COLUMNS;
+import static com.kisita.uza.services.FirebaseUtils.getUid;
 import static com.kisita.uza.utils.UzaFunctions.addDoubles;
 import static com.kisita.uza.utils.UzaFunctions.getCost;
 import static com.kisita.uza.utils.UzaFunctions.getCurrency;
@@ -122,7 +127,7 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 		shippingCostField.setText("0.0");
 		totalAmount.setText("0.0");*/
 		mOrder = addDoubles(mOrder,Double.valueOf(getCost(newCost,newQantity)));
-		//Log.i(TAG,"Total order is : " + mOrder + " " + newCost +  " " + Double.valueOf(getCost(newCost,newQantity)));
+		Log.i(TAG,"Total order is : " + mOrder + " " + newCost +  " " + Double.valueOf(getCost(newCost,newQantity)) + "quantity = "+newQantity);
 		orderAmountField.setText(setFormat(String.valueOf(mOrder)) + " " + getCurrency(getContext()));
 	}
 
@@ -254,9 +259,14 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 				where,
 				args
 		);
+
+		// Delete command in firebase
+		DatabaseReference commands = getDb().child("users-data").child(getUid()).child("commands");
+		commands.child(d.getCommandId()).removeValue();
+		// Update activity checkout fragment
+		((MainActivity)getActivity()).setFragment(new CheckoutFragment());
 		//Log.i(TAG,"**** "+rowDeleted);
 		//Log.i(TAG, "onRemovePressedListener " + getTag());
-		onReloadRequest(getTag());
 	}
 
 	/*
