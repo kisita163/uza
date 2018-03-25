@@ -2,11 +2,8 @@ package com.kisita.uza.custom;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,8 +13,6 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -25,14 +20,13 @@ import android.view.WindowManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.kisita.uza.R;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.ui.CheckoutFragment;
+import com.kisita.uza.ui.ChoicesFragment;
 import com.kisita.uza.ui.DetailFragment;
 import com.kisita.uza.ui.CommentFragment;
 import com.kisita.uza.ui.ItemsFragment;
-import com.kisita.uza.utils.CartDrawable;
 import com.kisita.uza.utils.TouchEffect;
 
 import java.util.ArrayList;
@@ -46,7 +40,12 @@ import static com.kisita.uza.model.Data.ITEMS_COMMANDS_COLUMNS;
  * inherit the common behaviors like setting a Theme to activity.
  */
 public class CustomActivity extends AppCompatActivity implements
-		OnClickListener,DetailFragment.OnFragmentInteractionListener,CommentFragment.OnListFragmentInteractionListener, ItemsFragment.OnItemFragmentInteractionListener, LoaderManager.LoaderCallbacks<Cursor>, CheckoutFragment.OnCheckoutInteractionListener {
+		OnClickListener,DetailFragment.OnFragmentInteractionListener,
+		CommentFragment.OnListFragmentInteractionListener,
+		ItemsFragment.OnItemFragmentInteractionListener,
+		LoaderManager.LoaderCallbacks<Cursor>,
+		CheckoutFragment.OnCheckoutInteractionListener,
+		ChoicesFragment.OnItemSelectedListener {
 
 	public static final TouchEffect TOUCH = new TouchEffect();
 	/**
@@ -56,8 +55,6 @@ public class CustomActivity extends AppCompatActivity implements
 
 	public String TAG = "###"+ getClass().getName();
 	private ProgressDialog mProgressDialog;
-	/* Items count */
-	private long count = 0;
 
 	/* cart icon*/
 	private BitmapDrawable mIcon;
@@ -165,8 +162,6 @@ public class CustomActivity extends AppCompatActivity implements
 	@Override
 	public void onFragmentInteraction(String[] details,boolean update) {
 		Log.i(TAG,"key = " + details[5] + " update = "+update);
-        if(update != true)
-			count++;
 
 		Map<String, Object> childUpdates = new HashMap<>();
 
@@ -218,7 +213,6 @@ public class CustomActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        count = data.getCount();
         //setBadgeCount(getApplicationContext(), mIcon, String.valueOf(count));
     }
 
@@ -235,6 +229,11 @@ public class CustomActivity extends AppCompatActivity implements
 	@Override
 	public void onCommandSelectedInteraction(String key) {
 
+	}
+
+	@Override
+	public void onChoiceMadeListener(String name) {
+		Log.i(TAG,"choice "+name);
 	}
 
 	@Override
