@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.kisita.uza.R;
@@ -26,13 +27,13 @@ public class MainActivity extends CustomActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            setCurrentFragment(item.getItemId());
-            setFragment();
+            setFragment(setCurrentFragment(item.getItemId()));
             return true;
         }
     };
 
-    void setCurrentFragment(int fragmentId){
+    private Fragment setCurrentFragment(int fragmentId){
+        Fragment fragment;
         switch (fragmentId) {
             case R.id.navigation_home:
                 fragment = OnSaleFragment.newInstance("Arts");
@@ -59,6 +60,8 @@ public class MainActivity extends CustomActivity {
                 mCurrentFragmentId = R.id.navigation_home;
                 break;
         }
+
+        return fragment;
     }
 
     @Override
@@ -73,17 +76,17 @@ public class MainActivity extends CustomActivity {
             mCurrentFragmentId = savedInstanceState.getInt(CURRENT_FRAGMENT_ID);
         }
 
-        setCurrentFragment(mCurrentFragmentId);
-        setFragment();
+        setFragment(setCurrentFragment(mCurrentFragmentId));
     }
 
-    void setFragment(){
+    public void setFragment(Fragment f){
         /* Note : You should not add transactions to the back stack when the transaction is for horizontal navigation
         (such as when switching tabs) or when modifying the content appearance (such as when adjusting filters).
          */
+        Log.i(TAG,"setFragment()  "+fragment.toString());
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_left,R.anim.slide_in_left,R.anim.slide_out_right)
-                .replace(R.id.frame,fragment)
+                .replace(R.id.frame,f)
                 .commit();
     }
 
