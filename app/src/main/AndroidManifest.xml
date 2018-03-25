@@ -100,10 +100,6 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity
-            android:name=".activities.ChoicesActivity"
-            android:label="@string/title_activity_choices" />
-
         <service
             android:name=".services.Token"
             android:enabled="true"
@@ -115,10 +111,14 @@
             android:exported="false"
             android:syncable="true" />
 
+        <provider android:authorities="com.facebook.app.FacebookContentProvider638132053058512"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true" />
+
         <service
             android:name=".services.FirebaseService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
