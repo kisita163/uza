@@ -3,25 +3,19 @@ package com.kisita.uza.ui;
 import android.annotation.SuppressLint;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.kisita.uza.R;
-import com.kisita.uza.activities.ChoicesActivity;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.utils.UzaCardAdapter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
 
 
 /**
@@ -41,9 +35,6 @@ public abstract class ItemsFragment extends CustomFragment
 
     private String mQuery;
     private android.support.design.widget.FloatingActionButton choicesButton;
-
-    /* Handle search button */
-    private boolean choiceButtonActivated = false;
 
 
     private OnItemFragmentInteractionListener mListener;
@@ -72,7 +63,6 @@ public abstract class ItemsFragment extends CustomFragment
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mQuery                = getArguments().getString(QUERY);
-            choiceButtonActivated = getArguments().getBoolean(CHOICE_BUTTON);
         }
     }
     /**
@@ -87,20 +77,6 @@ public abstract class ItemsFragment extends CustomFragment
     {
 
         RecyclerView recList = v.findViewById(R.id.cardList);
-
-        if(choiceButtonActivated) {
-            choicesButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent choices = new Intent(getActivity(), ChoicesActivity.class);
-                    choices.putExtra(getString(R.string.choices), mQuery);
-                    startActivityForResult(choices, RESULT_CODE);
-                }
-            });
-        }else{
-            if(choicesButton != null)
-                choicesButton.setVisibility(View.GONE);
-        }
 
         itemsList = new ArrayList<>();
         recList.setHasFixedSize(true);
