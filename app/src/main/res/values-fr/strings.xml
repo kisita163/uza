@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Uza</string>
+    <string name="app_name">Bikeko</string>
     <string name="books">Books</string>
     <string name="men">Men</string>
     <string name="women">Women</string>
@@ -114,7 +114,7 @@
     <string name="failed_to_get_token">Application failed to get a payment token. Please check your internet connection</string>
     <string name="pay">Payer</string>
     <string name="fail_to_contact_payment_server">L\'application n\'a pas reussi à contacter le serveur de payement. Veuillez verifier votre connexion internet</string>
-    <string name="please_wait">Veuillez patienter svp...</string>
+    <string name="please_wait">Veuillez patienter svp…</string>
     <string name="transaction_rejected">Transaction rejected !</string>
     <string name="commands">Commands</string>
     <string name="action_commands">Commands</string>
