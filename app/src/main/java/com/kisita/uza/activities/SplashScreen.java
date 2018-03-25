@@ -4,11 +4,15 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,6 +20,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kisita.uza.R;
+
+import java.io.IOException;
+
+import static android.graphics.Typeface.BOLD;
 
 
 /**
@@ -42,7 +50,11 @@ public class SplashScreen extends Activity
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.splash);
-		uzaLogo = (ImageView) findViewById(R.id.lady) ;
+		Typeface typeface = Typeface.createFromAsset(getAssets(), "font/atmosphere.ttf");;
+
+		TextView logo = findViewById(R.id.craziest);
+
+		logo.setTypeface(typeface,BOLD);
 
 		isRunning = true;
 		// Connect the user as anonymous user (Login: kisita2002@yahoo.fr Pass : kisita)
