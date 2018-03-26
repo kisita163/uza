@@ -81,28 +81,31 @@ public class UzaFunctions {
 
         double usd_eur = Double.valueOf(sharedPref.getString("usd-eur","0.889098"));//0.889098;
 
-        double p = Double.valueOf(price);
+        double p = getPriceDouble(price);
 
         String mCurrency = getCurrency(context);
 
+        if(p >= 0) {
+            if (currency.equalsIgnoreCase("CDF") && mCurrency.equalsIgnoreCase("EUR")) {        // From CDF to EUR
+                p = p / eur_cdf;
+            } else if (currency.equalsIgnoreCase("EUR") && mCurrency.equalsIgnoreCase("CDF")) {  // From EUR to CDF
+                p = Math.ceil(p * eur_cdf);
+            } else if (currency.equalsIgnoreCase("USD") && mCurrency.equalsIgnoreCase("EUR")) { // From USD to EUR
+                p = p * usd_eur;
+            } else if (currency.equalsIgnoreCase("EUR") && mCurrency.equalsIgnoreCase("USD")) { // From EUR to USD
+                p = p / usd_eur;
+            } else if (currency.equalsIgnoreCase("USD") && mCurrency.equalsIgnoreCase("CDF")) {
+                p = Math.ceil(p * usd_cdf);
+            } else if (currency.equalsIgnoreCase("CDF") && mCurrency.equalsIgnoreCase("USD")) {  // From CDF to USD
+                p = p / usd_cdf;
+            }
 
-        if(currency.equalsIgnoreCase("CDF") && mCurrency.equalsIgnoreCase("EUR")){        // From CDF to EUR
-            p = p/eur_cdf;
-        }else if(currency.equalsIgnoreCase("EUR") && mCurrency.equalsIgnoreCase("CDF")){  // From EUR to CDF
-            p = Math.ceil(p*eur_cdf);
-        }else if(currency.equalsIgnoreCase("USD") && mCurrency.equalsIgnoreCase("EUR")) { // From USD to EUR
-            p = p*usd_eur;
-        }else if(currency.equalsIgnoreCase("EUR") && mCurrency.equalsIgnoreCase("USD")) { // From EUR to USD
-            p = p/usd_eur;
-        }else if(currency.equalsIgnoreCase("USD") && mCurrency.equalsIgnoreCase("CDF")) {
-            p = Math.ceil(p*usd_cdf);
-        }else if(currency.equalsIgnoreCase("CDF") && mCurrency.equalsIgnoreCase("USD")) {  // From CDF to USD
-            p = p / usd_cdf;
-        }
-
-        if(mCurrency.equalsIgnoreCase("CDF")){
-            // round to the next hundredth
-            p = p + 100 - p%100;
+            if (mCurrency.equalsIgnoreCase("CDF")) {
+                // round to the next hundredth
+                p = p + 100 - p % 100;
+            }
+        }else{
+            p = 0;
         }
 
         return String.valueOf(p);
@@ -183,5 +186,16 @@ public class UzaFunctions {
         } catch (NoSuchAlgorithmException e) {
             Log.i("KeyHash","NoSuchAlgorithmException");
         }
+    }
+
+    public static double getPriceDouble(String p){
+        double price;
+        try{
+            price = Double.valueOf(p);
+        }catch (NumberFormatException e){
+            price = -1;
+            e.printStackTrace();
+        }
+        return price;
     }
 }
