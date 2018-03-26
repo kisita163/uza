@@ -49,9 +49,9 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 
     private long mMinPriceValue = 0;
 
-    private long mMaxPriceValue = 10000;
+    private long mMaxPriceValue = 1000;
 
-    private int mPriceStep    = 100;
+    private int mPriceStep    = 50;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
