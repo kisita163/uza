@@ -18,7 +18,7 @@ import com.kisita.uza.ui.SettingsFragment;
 public class MainActivity extends CustomActivity {
 
     private static final String CURRENT_FRAGMENT_ID = "current_fragment_id";
-    private Fragment fragment = OnSaleFragment.newInstance("Arts");
+    private Fragment fragment = OnSaleFragment.newInstance();
 
     private int mCurrentFragmentId = 0;
 
@@ -36,7 +36,7 @@ public class MainActivity extends CustomActivity {
         Fragment fragment;
         switch (fragmentId) {
             case R.id.navigation_home:
-                fragment = OnSaleFragment.newInstance("Arts");
+                fragment = OnSaleFragment.newInstance();
                 mCurrentFragmentId = fragmentId;
                 break;
             case R.id.navigation_tune:
@@ -56,7 +56,7 @@ public class MainActivity extends CustomActivity {
                 mCurrentFragmentId = fragmentId;
                 break;
             default:
-                fragment = OnSaleFragment.newInstance("Arts");
+                fragment = OnSaleFragment.newInstance();
                 mCurrentFragmentId = R.id.navigation_home;
                 break;
         }
