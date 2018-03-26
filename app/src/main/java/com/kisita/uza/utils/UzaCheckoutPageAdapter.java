@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.model.Data;
@@ -84,6 +85,14 @@ public class UzaCheckoutPageAdapter extends PagerAdapter implements ViewPager.On
         TextView  type     = view.findViewById(R.id.item_type);
         TextView  price    = view.findViewById(R.id.item_price);
 
+        ImageView picture  = view.findViewById(R.id.ticket_image);
+
+
+        Glide.with(mContext)
+                .load(mItemList.get(arg0).getPictures().get(mItemList.get(arg0).getPictures().size() - 1))
+                .fitCenter()
+                .error(R.drawable.ic_action_logo)
+                .into(picture);
 
         author.setText(mItemList.get(arg0).getAuthor());
         name.setText(mItemList.get(arg0).getName());
