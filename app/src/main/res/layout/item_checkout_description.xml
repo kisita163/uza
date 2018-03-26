@@ -4,12 +4,20 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <ImageView
+    <RelativeLayout
         android:id="@+id/imageView1"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/uza_african_art" />
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ticket_image"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_launcher"/>
+     </RelativeLayout>
 
     <include
         android:id="@+id/item_simple_presentation"
