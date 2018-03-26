@@ -1,7 +1,9 @@
 package com.kisita.uza.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,8 @@ import com.kisita.uza.utils.UzaCardAdapter;
 import java.util.ArrayList;
 import static com.kisita.uza.model.Data.ITEMS_COLUMNS;
 import static com.kisita.uza.model.Data.ITEM_DATA;
+import static com.kisita.uza.utils.UzaFunctions.getPriceDouble;
+import static com.kisita.uza.utils.UzaFunctions.setPrice;
 
 
 /*
@@ -30,9 +35,6 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 {
 	final static String TAG = "### OnSaleFragment";
 	final static String QUERY = "QUERY";
-
-	private static final int RESULT_CODE = 1;
-
 
 	private UzaCardAdapter mCardadapter;
 	private ArrayList<Data> itemsList;
@@ -47,10 +49,10 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 		// Required empty public constructor
 	}
 
-	public static OnSaleFragment newInstance(String query) {
+	public static OnSaleFragment newInstance() {
 		OnSaleFragment fragment = new OnSaleFragment();
 		Bundle args = new Bundle();
-		args.putString(QUERY, query);
+		args.putString(QUERY, "Arts");
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -158,9 +160,61 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 
 			Data d = new Data(data,ITEM_DATA);
 			// add new item into the list of items
-			itemsList.add(d);
+			if(filterType(d)) // Filter data type before adding it into the data list
+				if(filterPrice(d))
+					itemsList.add(d);
 			mCardadapter.notifyDataSetChanged();
 		}
+	}
+
+	private boolean filterPrice(Data data) {
+		SharedPreferences sharedPref = getActivity().getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
+
+		String p = setPrice(data.getCurrency(),data.getPrice(),getContext()); // Getting the price according to the currency
+
+		double price = getPriceDouble(p);
+
+		double minPrice = sharedPref.getLong("priceMinValue",0);
+		double maxPrice = sharedPref.getLong("priceMaxValue",0);
+
+		if(price >= 0){
+			if(price < maxPrice && price >= minPrice){
+				return true;
+			}else if(maxPrice == 1000 && price >= maxPrice){
+				return true; // +1000 euros
+			}else{
+				Log.i(TAG,"Price not in the selected range");
+				return false;
+			}
+		}
+		Log.i(TAG,"Bad formatted price");
+		return false;
+	}
+
+	private boolean filterType(Data data) {
+		SharedPreferences sharedPref = getActivity().getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
+
+		Log.i(TAG,"Data type is  : "+data.getType());
+
+		if(data.getType().equalsIgnoreCase(getString(R.string.painting_key)))
+			return sharedPref.getBoolean(getString(R.string.painting_key),false);
+
+		if(data.getType().equalsIgnoreCase(getString(R.string.photography_key)))
+			return sharedPref.getBoolean(getString(R.string.photography_key),false);
+
+		if(data.getType().equalsIgnoreCase(getString(R.string.drawing_key)))
+			return sharedPref.getBoolean(getString(R.string.drawing_key),false);
+
+		if(data.getType().equalsIgnoreCase(getString(R.string.sculpture_key)))
+			return sharedPref.getBoolean(getString(R.string.sculpture_key),false);
+
+		if(data.getType().equalsIgnoreCase(getString(R.string.textile_key)))
+			return sharedPref.getBoolean(getString(R.string.textile_key),false);
+
+		if(data.getType().equalsIgnoreCase(getString(R.string.literature_key)))
+			return sharedPref.getBoolean(getString(R.string.literature_key),false);
+
+		return false;
 	}
 
 	@Override
