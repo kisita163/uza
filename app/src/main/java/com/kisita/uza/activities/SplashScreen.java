@@ -59,9 +59,9 @@ public class SplashScreen extends Activity
 		isRunning = true;
 		// Connect the user as anonymous user (Login: kisita2002@yahoo.fr Pass : kisita)
 		// For buying anything, the user will have to introduce his personal info
-        signIn(FirebaseAuth.getInstance(),"kisita2002@yahoo.fr","kisita");
+        //signIn(FirebaseAuth.getInstance(),"kisita2002@yahoo.fr","kisita");
 		//Blink UZA logo
-		//manageBlink();
+		manageBlink();
 		//Start app after 3 seconds
 		startSplash();
 	}
@@ -73,27 +73,6 @@ public class SplashScreen extends Activity
         anim.setRepeatCount(ValueAnimator.INFINITE);
         anim.start();
 	}
-
-    private void signIn(FirebaseAuth auth, String email, String password) {
-        // If the user as already entered his credentials, don't connect him as an anonymous user
-        if (auth.getCurrentUser() != null) {
-            return;
-        }
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
-
-                    if (task.isSuccessful()) {
-
-                    } else {
-                        Toast.makeText(SplashScreen.this, "Connexion to the remote server failed",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-    }
 
 	/**
 	 * Starts the count down timer for 3-seconds. It simply sleeps the thread
