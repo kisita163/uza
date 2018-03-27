@@ -44,17 +44,6 @@ public class FirebaseService extends Service {
     @Override
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
-        // Items
-        setItemsListener(); // This method need to be called prior to add listener to query
-        getItemsQuery().addChildEventListener(itemsListener);
-
-        // Commands
-        setCommandsListener();
-        getCommandsQuery().addChildEventListener(commandsListener);
-
-        // Favourites
-        setFavouritesListener();
-        getFavouritesQuery().addChildEventListener(favouritesListener);
     }
 
     /* Items Query */
@@ -105,6 +94,30 @@ public class FirebaseService extends Service {
 
             }
         };
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i(TAG,"Starting firebase service for : " + FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        initTables();
+        // Items
+        setItemsListener(); // This method need to be called prior to add listener to query
+        getItemsQuery().addChildEventListener(itemsListener);
+
+        // Commands
+        setCommandsListener();
+        getCommandsQuery().addChildEventListener(commandsListener);
+
+        // Favourites
+        setFavouritesListener();
+        getFavouritesQuery().addChildEventListener(favouritesListener);
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void initTables() {
+        removeAllEntriesFromTable(UzaContract.LikesEntry.CONTENT_URI);
+        removeAllEntriesFromTable(UzaContract.ItemsEntry.CONTENT_URI);
+        removeAllEntriesFromTable(UzaContract.CommandsEntry.CONTENT_URI_COMMANDS);
     }
 
     private void setCommandsListener() {
@@ -237,5 +250,12 @@ public class FirebaseService extends Service {
                 uri,
                 selection,
                 selectionArgs);
+    }
+
+    void removeAllEntriesFromTable(Uri uri){
+        getApplicationContext().getContentResolver().delete(
+                uri,
+                null,
+                null);
     }
 }
