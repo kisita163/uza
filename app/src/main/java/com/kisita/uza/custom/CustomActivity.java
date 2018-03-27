@@ -44,8 +44,7 @@ public class CustomActivity extends AppCompatActivity implements
 		CommentFragment.OnListFragmentInteractionListener,
 		ItemsFragment.OnItemFragmentInteractionListener,
 		LoaderManager.LoaderCallbacks<Cursor>,
-		CheckoutFragment.OnCheckoutInteractionListener,
-		ChoicesFragment.OnItemSelectedListener {
+		CheckoutFragment.OnCheckoutInteractionListener {
 
 	public static final TouchEffect TOUCH = new TouchEffect();
 	/**
@@ -229,11 +228,6 @@ public class CustomActivity extends AppCompatActivity implements
 	@Override
 	public void onCommandSelectedInteraction(String key) {
 
-	}
-
-	@Override
-	public void onChoiceMadeListener(String name) {
-		Log.i(TAG,"choice "+name);
 	}
 
 	@Override
