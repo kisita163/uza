@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,11 +46,11 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 
     private SharedPreferences.Editor editor;
 
-    private long mMinPriceValue = 0;
+    public static long MIN_PRICE_VALUE = 0;
 
-    private long mMaxPriceValue = 1000;
+    public static long MAX_PRICE_VALUE = 1000;
 
-    private int mPriceStep    = 50;
+    public static int PRICE_STEP = 50;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -188,7 +187,7 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 			public void valueChanged(Number minValue, Number maxValue) {
 			    String s = "";
 				tvMin.setText(String.valueOf(minValue));
-				if((long)maxValue == mMaxPriceValue)
+				if((long)maxValue == MAX_PRICE_VALUE)
 				    s = "+ ";
 				tvMax.setText(s + String.valueOf(maxValue));
 			}
@@ -205,12 +204,12 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 			}
 		});
         //Log.i(TAG,"start/end = "+sharedPref.getLong("priceMinValue",0)+"/"+sharedPref.getLong("priceMaxValue",0));
-        rangeSeekbar.setMinValue(mMinPriceValue)
-                .setMaxValue(mMaxPriceValue)
+        rangeSeekbar.setMinValue(MIN_PRICE_VALUE)
+                .setMaxValue(MAX_PRICE_VALUE)
                 .setBarHeight(10)
-                .setSteps(mPriceStep)
+                .setSteps(PRICE_STEP)
                 .setMinStartValue(sharedPref.getLong("priceMinValue",0))
-                .setMaxStartValue(sharedPref.getLong("priceMaxValue",0))
+                .setMaxStartValue(sharedPref.getLong("priceMaxValue", MAX_PRICE_VALUE))
                 .apply();
 	}
 
