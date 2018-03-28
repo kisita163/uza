@@ -28,6 +28,7 @@ import java.util.TimerTask;
 
 import static com.kisita.uza.model.Data.ITEMS_COLUMNS;
 import static com.kisita.uza.model.Data.ITEM_DATA;
+import static com.kisita.uza.ui.SettingsFragment.MAX_PRICE_VALUE;
 import static com.kisita.uza.utils.UzaFunctions.getPriceDouble;
 import static com.kisita.uza.utils.UzaFunctions.setPrice;
 
@@ -146,8 +147,10 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 
     @Override
     public void onStart() {
-        scheduledLoad = new Timer("load data");
-        scheduledLoad.schedule(mTimerTask,500,1500); // Verify itemData after 500 ms
+	    if(scheduledLoad == null) {
+            scheduledLoad = new Timer("load data");
+            scheduledLoad.schedule(mTimerTask, 500, 1500); // Verify itemData after 500 ms
+        }
         super.onStart();
     }
 
@@ -229,13 +232,13 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 		double price = getPriceDouble(p);
 
 		double minPrice = sharedPref.getLong("priceMinValue",0);
-		double maxPrice = sharedPref.getLong("priceMaxValue",0);
+		double maxPrice = sharedPref.getLong("priceMaxValue",MAX_PRICE_VALUE);
 
 		if(price >= 0){
 			if(price < maxPrice && price >= minPrice){
 				return true;
-			}else if(maxPrice == 1000 && price >= maxPrice){
-				return true; // +1000 euros
+			}else if(maxPrice == MAX_PRICE_VALUE && price >= maxPrice){
+				return true; // +MAX_PRICE_VALUE
 			}else{
 				Log.i(TAG,"Price not in the selected range");
 				return false;
@@ -251,22 +254,22 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 		Log.i(TAG,"Data type is  : "+data.getType());
 
 		if(data.getType().equalsIgnoreCase(getString(R.string.painting_key)))
-			return sharedPref.getBoolean(getString(R.string.painting_key),false);
+			return sharedPref.getBoolean(getString(R.string.painting_key),true);
 
 		if(data.getType().equalsIgnoreCase(getString(R.string.photography_key)))
-			return sharedPref.getBoolean(getString(R.string.photography_key),false);
+			return sharedPref.getBoolean(getString(R.string.photography_key),true);
 
 		if(data.getType().equalsIgnoreCase(getString(R.string.drawing_key)))
-			return sharedPref.getBoolean(getString(R.string.drawing_key),false);
+			return sharedPref.getBoolean(getString(R.string.drawing_key),true);
 
 		if(data.getType().equalsIgnoreCase(getString(R.string.sculpture_key)))
-			return sharedPref.getBoolean(getString(R.string.sculpture_key),false);
+			return sharedPref.getBoolean(getString(R.string.sculpture_key),true);
 
 		if(data.getType().equalsIgnoreCase(getString(R.string.textile_key)))
-			return sharedPref.getBoolean(getString(R.string.textile_key),false);
+			return sharedPref.getBoolean(getString(R.string.textile_key),true);
 
 		if(data.getType().equalsIgnoreCase(getString(R.string.literature_key)))
-			return sharedPref.getBoolean(getString(R.string.literature_key),false);
+			return sharedPref.getBoolean(getString(R.string.literature_key),true);
 
 		return false;
 	}
