@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -22,6 +23,9 @@ import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.UzaCardAdapter;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import static com.kisita.uza.model.Data.ITEMS_COLUMNS;
 import static com.kisita.uza.model.Data.ITEM_DATA;
 import static com.kisita.uza.utils.UzaFunctions.getPriceDouble;
@@ -36,10 +40,46 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 	final static String TAG = "### OnSaleFragment";
 	final static String QUERY = "QUERY";
 
-	private UzaCardAdapter mCardadapter;
+	private UzaCardAdapter mCardAdapter;
+
 	private ArrayList<Data> itemsList;
 
 	private String mQuery;
+
+	private boolean mListFilled = false;
+
+	//we are going to use a handler to be able to run in our TimerTask
+	final Handler handler = new Handler();
+
+	Timer scheduledLoad;
+
+	// this will run when timer elapses
+	TimerTask mTimerTask = new TimerTask() {
+
+		@Override
+		public void run() {
+			handler.post(new Runnable() {
+				@Override
+				public void run() {
+					if(itemsList.size() == 0 && !mListFilled) { // items list is empty. Try to load again
+						Log.i(TAG,"Items list is empty. Try to load again");
+						loadData();
+					}else{
+                        stopScheduledTask();
+                    }
+				}
+			});
+		}
+
+	};
+
+    private void stopScheduledTask() {
+        // Stopping timer task
+        if(scheduledLoad != null) {
+            scheduledLoad.cancel();
+            scheduledLoad = null;
+        }
+    }
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
@@ -98,16 +138,26 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 
 		recList.setLayoutManager(llm);
 
-        /*DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recList.getContext(),
-                DividerItemDecoration.VERTICAL);
-        recList.addItemDecoration(dividerItemDecoration);*/
-
-		mCardadapter = new UzaCardAdapter(this.getContext(),itemsList);
-		recList.setAdapter(mCardadapter);
+		mCardAdapter = new UzaCardAdapter(this.getContext(),itemsList);
+		recList.setAdapter(mCardAdapter);
 		loadData();
 	}
 
-	/**
+
+    @Override
+    public void onStart() {
+        scheduledLoad = new Timer("load data");
+        scheduledLoad.schedule(mTimerTask,500,1500); // Verify itemData after 500 ms
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+	    stopScheduledTask();
+        super.onStop();
+    }
+
+    /**
 	 * Load  product data for displaying on the RecyclerView.
 	 */
 	private void  loadData()
@@ -146,7 +196,11 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		//Log.i(TAG,"Load finished");
+		Log.i(TAG,"Load finished " + data.getCount());
+
+		if(data.getCount() > 0)
+		    mListFilled = true;
+
 		while (data.moveToNext()) {
 
 			/*for(int i = 0 ; i < data.getColumnCount() ; i ++ ){
@@ -163,7 +217,7 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 			if(filterType(d)) // Filter data type before adding it into the data list
 				if(filterPrice(d))
 					itemsList.add(d);
-			mCardadapter.notifyDataSetChanged();
+			mCardAdapter.notifyDataSetChanged();
 		}
 	}
 
