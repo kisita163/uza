@@ -13,12 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.UzaListItem;
-import com.kisita.uza.ui.FixedContents.BooksContent;
-import com.kisita.uza.ui.FixedContents.ElectronicsContent;
-import com.kisita.uza.ui.FixedContents.KidsContent;
 import com.kisita.uza.ui.FixedContents.SettingsContent;
 import com.kisita.uza.utils.UzaListAdapter;
 
@@ -29,10 +28,9 @@ import java.util.List;
  */
 public class ChoicesFragment extends CustomFragment {
 
-    private OnItemSelectedListener mListener;
-
     final static String QUERY = "QUERY";
-    private String mQuery;
+
+    final static  String TAG  = "### ChoicesFragment";
 
     public ChoicesFragment() {
     }
@@ -49,9 +47,6 @@ public class ChoicesFragment extends CustomFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mQuery = getArguments().getString(QUERY);
-        }
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,7 +56,7 @@ public class ChoicesFragment extends CustomFragment {
         setHasOptionsMenu(true);
         // Set the adapter
         Context context = view.getContext();
-        List<UzaListItem> list = null;
+        List<UzaListItem> list;
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.storeList);
         recyclerView.setLayoutManager(new GridLayoutManager(context,1));
 
@@ -69,21 +64,12 @@ public class ChoicesFragment extends CustomFragment {
                 DividerItemDecoration.VERTICAL);
 
         recyclerView.addItemDecoration(dividerVertical);
-        Log.i("ChoiceActiviyFragment","listener passed to adapter");
+        //Log.i("ChoiceActiviyFragment","listener passed to adapter");
 
-        if(mQuery.equalsIgnoreCase(getString(R.string.settings))){
-            list = SettingsContent.ITEMS;
-        }else if(mQuery.equalsIgnoreCase(getString(R.string.women))){
-            list = SettingsContent.ITEMS;
-        }else if(mQuery.equalsIgnoreCase(getString(R.string.kids))){
-            list = KidsContent.ITEMS;
-        }else if(mQuery.equalsIgnoreCase(getString(R.string.electronic))){
-            list = ElectronicsContent.ITEMS;
-        }else if(mQuery.equalsIgnoreCase(getString(R.string.books))){
-            list = BooksContent.ITEMS;
-        }
+        list = SettingsContent.ITEMS;
+
         if(list != null)
-            recyclerView.setAdapter(new UzaListAdapter(context, list,mListener));
+            recyclerView.setAdapter(new UzaListAdapter(context, list,this));
 
         return view;
     }
@@ -91,7 +77,6 @@ public class ChoicesFragment extends CustomFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -109,35 +94,64 @@ public class ChoicesFragment extends CustomFragment {
 
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnItemSelectedListener {
-        void onChoiceMadeListener(String name);
+
+    public void onChoiceMadeListener(String name){
+
+        if(name.equalsIgnoreCase(getString(R.string.title_notifications))){
+            handleNotifications();
+        }
+
+        if(name.equalsIgnoreCase(getString(R.string.currency))){
+            handleCurrency();
+        }
+        if(name.equalsIgnoreCase(getString(R.string.payment_mthod))){
+            handlePaymentMethod();
+        }
+        if(name.equalsIgnoreCase(getString(R.string.billing_information))){
+            handleBillingInfo();
+        }
+        if(name.equalsIgnoreCase(getString(R.string.about_us))){
+            handleAboutUs();
+        }
+
+        if(name.equalsIgnoreCase(getString(R.string.action_logout))){
+            handleLogout();
+        }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void foodSelected(String name) {
-        if (mListener != null) {
-            mListener.onChoiceMadeListener(name);
-        }
+    private void handleLogout() {
+        Log.i(TAG,"Handling logout");
+        // Sign out Firebase
+        FirebaseAuth.getInstance().signOut();
+        // Sign out facebook if needed
+        if(LoginManager.getInstance() != null)
+            LoginManager.getInstance().logOut();
+
+        getActivity().finish();
+    }
+
+    private void handleAboutUs() {
+        Log.i(TAG,"Handling about us");
+    }
+
+    private void handleBillingInfo() {
+        Log.i(TAG,"Handling billing info");
+    }
+
+    private void handlePaymentMethod() {
+        Log.i(TAG,"Handling payment method");
+    }
+
+    private void handleCurrency() {
+        Log.i(TAG,"Handling currency");
+    }
+
+    private void handleNotifications() {
+        Log.i(TAG,"Handling notifications");
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (activity instanceof OnItemSelectedListener) {
-            mListener = (OnItemSelectedListener) activity;
-        } else {
-            throw new RuntimeException(activity.toString()
-                    + " must implement OnItemSelectedListener");
-        }
     }
 }
