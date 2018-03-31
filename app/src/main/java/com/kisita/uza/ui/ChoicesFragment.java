@@ -2,9 +2,11 @@ package com.kisita.uza.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kisita.uza.R;
@@ -57,7 +58,7 @@ public class ChoicesFragment extends CustomFragment {
         // Set the adapter
         Context context = view.getContext();
         List<UzaListItem> list;
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.storeList);
+        RecyclerView recyclerView = view.findViewById(R.id.storeList);
         recyclerView.setLayoutManager(new GridLayoutManager(context,1));
 
         DividerItemDecoration dividerVertical = new DividerItemDecoration(recyclerView.getContext(),
@@ -121,13 +122,24 @@ public class ChoicesFragment extends CustomFragment {
 
     private void handleLogout() {
         Log.i(TAG,"Handling logout");
-        // Sign out Firebase
-        FirebaseAuth.getInstance().signOut();
-        // Sign out facebook if needed
-        if(LoginManager.getInstance() != null)
-            LoginManager.getInstance().logOut();
 
-        getActivity().finish();
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        logout();
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.UzaAlertDialogTheme);
+        builder.setMessage(getString(R.string.logout) + " " + getString(R.string.app_name) + " ?")
+                .setPositiveButton(R.string.yes, dialogClickListener)
+                .setNegativeButton(R.string.no, dialogClickListener).show();
     }
 
     private void handleAboutUs() {
@@ -153,5 +165,15 @@ public class ChoicesFragment extends CustomFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+    }
+
+    void logout(){
+        // Sign out Firebase
+        FirebaseAuth.getInstance().signOut();
+        // Sign out facebook if needed
+        if(LoginManager.getInstance() != null)
+            LoginManager.getInstance().logOut();
+
+        getActivity().finish();
     }
 }
