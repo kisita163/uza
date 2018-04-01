@@ -3,6 +3,7 @@ package com.kisita.uza.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kisita.uza.R;
+import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.UzaListItem;
 import com.kisita.uza.ui.FixedContents.SettingsContent;
@@ -148,6 +150,9 @@ public class ChoicesFragment extends CustomFragment {
 
     private void handleBillingInfo() {
         Log.i(TAG,"Handling billing info");
+        Intent intent = new Intent(getContext(), UzaActivity.class);
+        intent.putExtra("fragment", 4);
+        getContext().startActivity(intent);
     }
 
     private void handlePaymentMethod() {
