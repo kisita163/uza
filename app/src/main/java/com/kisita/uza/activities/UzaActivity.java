@@ -11,20 +11,15 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.Toast;
-
-/*import com.braintreepayments.api.BraintreePaymentActivity;
-import com.braintreepayments.api.PaymentRequest;*/
 import com.braintreepayments.api.BraintreePaymentActivity;
 import com.braintreepayments.api.PaymentRequest;
-/*import com.braintreepayments.api.dropin.DropInActivity;
-import com.braintreepayments.api.dropin.DropInRequest;
-import com.braintreepayments.api.dropin.DropInResult;*/
 import com.braintreepayments.api.models.PaymentMethodNonce;
 import com.facebook.CallbackManager;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.services.Token;
+import com.kisita.uza.ui.BillingFragment;
 import com.kisita.uza.ui.CheckoutFragment;
 import com.kisita.uza.ui.DetailFragment;
 import com.kisita.uza.ui.FavoritesFragment;
@@ -53,7 +48,6 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
 
     private CallbackManager callbackManager;
 
-    private ArrayList<Data> commandsToUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +91,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
                 break;
             case(4):
                 toolbar.setTitle(R.string.commands);
-                //f =  CommandsFragment.newInstance("",false);
+                f = BillingFragment.newInstance();
                 break;
             default:
                 break;
@@ -191,7 +185,6 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
                     Log.i(TAG, responseString);
                     if(responseString.equalsIgnoreCase("OK")){
                         // Change command state
-                        setCommandsState();
                         // Go to the fragment that shows commands in processing
                         /*getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.content_frame, CommandsFragment.newInstance("",false),"COMMANDS")
@@ -233,18 +226,6 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
                     .addToBackStack(null)
                     .replace(R.id.content_frame, f , "Command details")
                     .commit();
-        }
-    }
-
-
-    private void setCommandsState(){
-        Map<String, Object> commandsUpdates = new HashMap<>();
-        if(commandsToUpdate != null){
-            for(Data d : commandsToUpdate) {
-                commandsUpdates.put("/users-data/" + getUid() + "/commands/" + d.getCommandId() + "/state","1"); // 1 = command received //TODO
-                commandsUpdates.put("/commands/" + d.getCommandId() + "/state", "1"); // TODO
-            }
-            getDb().updateChildren(commandsUpdates);
         }
     }
 }
