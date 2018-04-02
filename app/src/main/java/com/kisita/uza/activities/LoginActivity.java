@@ -1,31 +1,20 @@
 package com.kisita.uza.activities;
 
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -35,9 +24,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.model.User;
@@ -67,12 +53,9 @@ public class LoginActivity extends CustomActivity
 	private EditText mPhoneNumber;
 	private EditText mConfirmPassword;
 
+
 	private boolean signUp = false;
 
-
-	/** The view that hold dots. */
-	private LinearLayout vDots;
-	private LoginButton loginButton;
 	private CallbackManager callbackManager;
 
 	/* (non-Javadoc)
@@ -116,13 +99,9 @@ public class LoginActivity extends CustomActivity
 		// Write new user
 		writeNewUser(user.getUid(), username, user.getEmail());
 
+		startService(new Intent(LoginActivity.this,FirebaseService.class));
 		// Go to MainActivity
 		startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
-		if(!isMyServiceRunning(FirebaseService.class)){
-			Log.i(TAG,"Firebase service is not running. Start it now");
-			startService(new Intent(LoginActivity.this,FirebaseService.class));
-		}
 
 		finish();
 	}
@@ -136,27 +115,27 @@ public class LoginActivity extends CustomActivity
 	{
 		// Views
 		//Name in case of sign up
-		mName = (EditText) findViewById(R.id.field_name);
+		mName = findViewById(R.id.field_name);
 		mName.setVisibility(View.GONE);
 
 		//Phone number in case of sign up
-		mPhoneNumber = (EditText) findViewById(R.id.field_number);
+		mPhoneNumber = findViewById(R.id.field_number);
 		mPhoneNumber.setVisibility(View.GONE);
 
 		//Email
-		mEmailField = (EditText) findViewById(R.id.field_email);
-		mPasswordField = (EditText) findViewById(R.id.field_password);
+		mEmailField = findViewById(R.id.field_email);
+		mPasswordField = findViewById(R.id.field_password);
 
 		//Confirm password
-		mConfirmPassword = (EditText) findViewById(R.id.field_confirm_password);
+		mConfirmPassword = findViewById(R.id.field_confirm_password);
 		mConfirmPassword.setVisibility(View.GONE);
 
-		mSignInButton = (Button) findViewById(R.id.button_sign_in);
+		mSignInButton = findViewById(R.id.button_sign_in);
 		mSignInButton.setOnClickListener(this);
 
-		mForgotButton= (Button)findViewById(R.id.btnForget);
+		mForgotButton= findViewById(R.id.btnForget);
 
-		loginButton = (LoginButton)findViewById(R.id.login_button);
+		LoginButton loginButton = findViewById(R.id.login_button);
 		loginButton.setReadPermissions("email");
 
 		loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -176,74 +155,8 @@ public class LoginActivity extends CustomActivity
 
 			} });
 
-		mSignUpButton = (Button) findViewById(R.id.btnReg);
+		mSignUpButton = findViewById(R.id.btnReg);
 		mSignUpButton.setOnClickListener(this);
-
-		initPager();
-	}
-
-	/**
-	 * Inits the pager view.
-	 */
-	private void initPager()
-	{
-		/* The pager. */
-		ViewPager pager = (ViewPager) findViewById(R.id.pager);
-		pager.setPageMargin(10);
-
-		pager.setOnPageChangeListener(new OnPageChangeListener() {
-
-			@Override
-			public void onPageSelected(int pos)
-			{
-				if (vDots == null || vDots.getTag() == null)
-					return;
-				((ImageView) vDots.getTag())
-						.setImageResource(R.drawable.dot_gray);
-				((ImageView) vDots.getChildAt(pos))
-						.setImageResource(R.drawable.dot_black);
-				vDots.setTag(vDots.getChildAt(pos));
-			}
-
-			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2)
-			{
-			}
-
-			@Override
-			public void onPageScrollStateChanged(int arg0)
-			{
-			}
-		});
-		vDots = (LinearLayout) findViewById(R.id.vDots);
-
-		pager.setAdapter(new PageAdapter());
-		setupDotbar();
-	}
-
-	/**
-	 * Setup the dotbar to show dots for pages of view pager with one dot as
-	 * selected to represent current page position.
-	 */
-	private void setupDotbar()
-	{
-		LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
-				android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
-				android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-		param.setMargins(10, 0, 0, 0);
-		vDots.removeAllViews();
-		for (int i = 0; i < 5; i++)
-		{
-			ImageView img = new ImageView(this);
-			img.setImageResource(i == 0 ? R.drawable.dot_black
-					: R.drawable.dot_gray);
-			vDots.addView(img, param);
-			if (i == 0)
-			{
-				vDots.setTag(img);
-			}
-
-		}
 	}
 
 	/* (non-Javadoc)
@@ -255,10 +168,6 @@ public class LoginActivity extends CustomActivity
 		super.onClick(v);
 		if (v.getId() == R.id.button_sign_in)
 		{
-			/*Intent i = new Intent(this, MainActivity.class);
-			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(i);
-			finish();*/
 			if(signUp){
 				signUp();
 			}else{
@@ -447,54 +356,6 @@ public class LoginActivity extends CustomActivity
 		}
 	}
 
-	/**
-	 * The Class UzaPageAdapter is adapter class for ViewPager and it simply holds
-	 * a Single image view with dummy images. You need to write logic for
-	 * loading actual images.
-	 */
-	private class PageAdapter extends PagerAdapter {
-
-		/* (non-Javadoc)
-		 * @see android.support.v4.view.PagerAdapter#getCount()
-		 */
-		private StorageReference mReference;
-		@Override
-		public int getCount() {
-			return 5;
-		}
-
-		/* (non-Javadoc)
-		 * @see android.support.v4.view.PagerAdapter#instantiateItem(android.view.ViewGroup, int)
-		 */
-		@Override
-		public Object instantiateItem(ViewGroup container, int arg0) {
-			final ImageView img = (ImageView) getLayoutInflater().inflate(
-					R.layout.login_images, null);
-			mReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://glam-afc14.appspot.com/login/android.png");
-
-			//img.setImageResource(R.drawable.img_signin);
-			Glide.with(getApplicationContext())
-					.using(new FirebaseImageLoader())
-					.load(mReference)
-					.fitCenter()
-					.error(R.drawable.on_sale_item6)
-					.into(img);
-			container.addView(img,
-					android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-					android.view.ViewGroup.LayoutParams.MATCH_PARENT);
-			return img;
-		}
-
-		/* (non-Javadoc)
-		 * @see android.support.v4.view.PagerAdapter#isViewFromObject(android.view.View, java.lang.Object)
-		 */
-		@Override
-		public boolean isViewFromObject(View arg0, Object arg1) {
-			return arg0 == arg1;
-		}
-
-	}
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -519,23 +380,5 @@ public class LoginActivity extends CustomActivity
 						}
 					}
 				});
-	}
-
-	public Query getMoneyQuery(DatabaseReference databaseReference) {
-		return databaseReference.child("money");
-	}
-
-	private boolean isMyServiceRunning(Class<?> serviceClass) {
-		Log.i(TAG,"isMyServiceRunning ?");
-		ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-		for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-			Log.i(TAG,"Service : "+service.service.getClassName());
-			if (serviceClass.getName().equals(service.service.getClassName())) {
-				Log.i(TAG,"Service found !!! ");
-				return true;
-			}
-		}
-		Log.i(TAG,"Research finished !!!");
-		return false;
 	}
 }
