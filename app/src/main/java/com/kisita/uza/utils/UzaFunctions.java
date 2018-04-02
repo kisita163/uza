@@ -30,7 +30,7 @@ public class UzaFunctions {
         String currency;
         SharedPreferences sharedPref = context.getSharedPreferences(context.getResources().getString(R.string.uza_keys),
                 Context.MODE_PRIVATE);
-        currency = sharedPref.getString(context.getString(R.string.uza_currency),"CDF");
+        currency = sharedPref.getString(context.getString(R.string.uza_currency),"EUR");
         return currency;
     }
 
@@ -47,8 +47,6 @@ public class UzaFunctions {
 
         SharedPreferences sharedPref = context.getSharedPreferences(context.getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
 
-        double usd_cdf = Double.valueOf(sharedPref.getString("usd-cdf","1443.86"));//1443.86;// 1 usd   = 1443.86 fc;
-
         double usd_eur = Double.valueOf(sharedPref.getString("usd-eur","0.889098"));//0.889098;
 
         String mCurrency = getCurrency(context);
@@ -57,10 +55,6 @@ public class UzaFunctions {
 
         if(mCurrency.equalsIgnoreCase("EUR")) { // From EUR to USD
             p = p/usd_eur;
-        }
-
-        if(mCurrency.equalsIgnoreCase("CDF")){  // From CDF to USD
-            p = p / usd_cdf;
         }
 
         return setFormat(String.valueOf(p));
@@ -74,11 +68,6 @@ public class UzaFunctions {
         Log.i(TAG,sharedPref.getString("usd-cdf","") + "**** done");
         Log.i(TAG,sharedPref.getString("usf-eur","") + "**** done");*/
 
-        // euros to cdf
-        double eur_cdf = Double.valueOf(sharedPref.getString("eur-cdf","1623.58"));//1623.58;// 1 euros = 1623.58 fc;
-        // usd to cdf
-        double usd_cdf = Double.valueOf(sharedPref.getString("usd-cdf","1443.86"));//1443.86;// 1 usd   = 1443.86 fc;
-
         double usd_eur = Double.valueOf(sharedPref.getString("usd-eur","0.889098"));//0.889098;
 
         double p = getPriceDouble(price);
@@ -86,24 +75,12 @@ public class UzaFunctions {
         String mCurrency = getCurrency(context);
 
         if(p >= 0) {
-            if (currency.equalsIgnoreCase("CDF") && mCurrency.equalsIgnoreCase("EUR")) {        // From CDF to EUR
-                p = p / eur_cdf;
-            } else if (currency.equalsIgnoreCase("EUR") && mCurrency.equalsIgnoreCase("CDF")) {  // From EUR to CDF
-                p = Math.ceil(p * eur_cdf);
-            } else if (currency.equalsIgnoreCase("USD") && mCurrency.equalsIgnoreCase("EUR")) { // From USD to EUR
+            if (currency.equalsIgnoreCase("USD") && mCurrency.equalsIgnoreCase("EUR")) { // From USD to EUR
                 p = p * usd_eur;
             } else if (currency.equalsIgnoreCase("EUR") && mCurrency.equalsIgnoreCase("USD")) { // From EUR to USD
                 p = p / usd_eur;
-            } else if (currency.equalsIgnoreCase("USD") && mCurrency.equalsIgnoreCase("CDF")) {
-                p = Math.ceil(p * usd_cdf);
-            } else if (currency.equalsIgnoreCase("CDF") && mCurrency.equalsIgnoreCase("USD")) {  // From CDF to USD
-                p = p / usd_cdf;
             }
 
-            if (mCurrency.equalsIgnoreCase("CDF")) {
-                // round to the next hundredth
-                p = p + 100 - p % 100;
-            }
         }else{
             p = 0;
         }

@@ -24,7 +24,6 @@
     <string name="sign_up">New here? Sign up</string>
 
     <string-array name="currency">
-        <item>CDF</item>
         <item>USD</item>
         <item>EUR</item>
     </string-array>
@@ -124,9 +123,19 @@
     <string name="command_contact">Contact</string>
     <string name="none">None</string>
     <string name="cart">Cart</string>
-    <string name="add_to_cart">Add to cart</string>
+    <string name="add_to_cart">Ajouter au panier</string>
     <string name="unspecified_resource">Unspecified</string>
     <string name="logout">Se deconnecter de</string>
     <string name="yes">Oui</string>
-    <string name="no">Non</string>>
+    <string name="no">Non</string>
+    <string name="address">Adresse</string>
+    <string name="city">Ville</string>
+    <string name="state_province">État / Province</string>
+    <string name="postal_code">Zip / Code postal</string>
+    <string name="country">Pays</string>
+    <string name="save_information">Save information</string>
+    <string name="first_name">Prénom</string>
+    <string name="select_currency">Choisir une monnaie</string>
+    <string name="select">Choisir</string>
+    <string name="cancel">Annuler</string>
 </resources>
