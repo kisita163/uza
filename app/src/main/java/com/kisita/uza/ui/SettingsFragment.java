@@ -1,5 +1,6 @@
 package com.kisita.uza.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -10,9 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
-import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -27,8 +26,6 @@ import com.kisita.uza.custom.CustomFragment;
  */
 public class SettingsFragment extends CustomFragment implements AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
     private static String TAG = "### SettingsFragment";
-
-	private Spinner mSpinner;
 
 	private Switch mPainting;
 
@@ -52,7 +49,8 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 
     public static int PRICE_STEP = 50;
 
-	@Override
+	@SuppressLint("CommitPrefEdits")
+    @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
@@ -65,18 +63,6 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 	}
 
 	void setView(View v){
-		Context  context = getContext();
-		SharedPreferences sharedPref = context.getSharedPreferences(context.getResources().getString(R.string.uza_keys),
-				Context.MODE_PRIVATE);
-		int pos = sharedPref.getInt(context.getString(R.string.uza_currency_position),0);
-
-		mSpinner = (Spinner)v.findViewById(R.id.spinner);
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(),
-				R.array.currency, android.R.layout.simple_spinner_item);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		mSpinner.setAdapter(adapter);
-		mSpinner.setSelection(pos);
-		mSpinner.setOnItemSelectedListener(this);
 
 		setRangeSeekBar(v);
 
@@ -85,12 +71,12 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 
     private void setCategories(View v) {
 
-        mPainting    = (Switch)v.findViewById(R.id.item_painting);
-        mPhotography = (Switch)v.findViewById(R.id.item_photography);
-        mDrawing     = (Switch)v.findViewById(R.id.item_drawing);
-        mSculpture   = (Switch)v.findViewById(R.id.item_sculpture);
-        mTextile     = (Switch)v.findViewById(R.id.item_textile);
-        mLiterature  = (Switch)v.findViewById(R.id.item_litterature);
+        mPainting    = v.findViewById(R.id.item_painting);
+        mPhotography = v.findViewById(R.id.item_photography);
+        mDrawing     = v.findViewById(R.id.item_drawing);
+        mSculpture   = v.findViewById(R.id.item_sculpture);
+        mTextile     = v.findViewById(R.id.item_textile);
+        mLiterature  = v.findViewById(R.id.item_litterature);
 
         initCategories();
 
@@ -148,7 +134,7 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 			SharedPreferences.Editor editor = sharedPref.edit();
 			editor.putString(getString(R.string.uza_currency), parent.getItemAtPosition(position).toString());
 			editor.putInt(getString(R.string.uza_currency_position), position);
-			editor.commit();
+			editor.apply();
 		}
 	}
 
@@ -175,15 +161,16 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 	private void setRangeSeekBar(View v){
 
 		// get seekbar from view
-		final CrystalRangeSeekbar rangeSeekbar = (CrystalRangeSeekbar) v.findViewById(R.id.rangeSeekbar1);
+		final CrystalRangeSeekbar rangeSeekbar = v.findViewById(R.id.rangeSeekbar1);
 
 		// get min and max text view
-		final TextView tvMin = (TextView) v.findViewById(R.id.textMin1);
-		final TextView tvMax = (TextView) v.findViewById(R.id.textMax1);
+		final TextView tvMin = v.findViewById(R.id.textMin1);
+		final TextView tvMax = v.findViewById(R.id.textMax1);
 
 		// set listener
 		rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
-			@Override
+			@SuppressLint("SetTextI18n")
+            @Override
 			public void valueChanged(Number minValue, Number maxValue) {
 			    String s = "";
 				tvMin.setText(String.valueOf(minValue));
@@ -217,7 +204,7 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         SharedPreferences sharedPref = getActivity().getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        String tag = "";
+        String tag;
 
         switch(compoundButton.getId()){
             case R.id.item_painting:
