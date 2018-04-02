@@ -1,6 +1,8 @@
 package com.kisita.uza.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -57,6 +59,7 @@ public class LoginActivity extends CustomActivity
 	private boolean signUp = false;
 
 	private CallbackManager callbackManager;
+	private boolean mNewUser = false;
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
@@ -93,11 +96,29 @@ public class LoginActivity extends CustomActivity
 		}
 	}
 
-	private void onAuthSuccess(FirebaseUser user) {
-		String username = usernameFromEmail(user.getEmail());
+	private void onAuthSuccess(final FirebaseUser user) {
+		final String username = usernameFromEmail(user.getEmail());
 
 		// Write new user
-		writeNewUser(user.getUid(), username, user.getEmail());
+		if(mNewUser) {
+
+			user.sendEmailVerification()
+					.addOnCompleteListener(this, new OnCompleteListener<Void>() {
+						@Override
+						public void onComplete(@NonNull Task<Void> task) {
+							if(task.isSuccessful()){
+								writeNewUser(user.getUid(), username, user.getEmail());
+								Toast.makeText(LoginActivity.this,
+										getString(R.string.email_verification) +  "  " + user.getEmail(),
+										Toast.LENGTH_SHORT).show();
+							}else{
+								Toast.makeText(LoginActivity.this,
+										R.string.send_verification_fail,
+										Toast.LENGTH_SHORT).show();
+							}
+						}
+					});
+		}
 
 		startService(new Intent(LoginActivity.this,FirebaseService.class));
 		// Go to MainActivity
@@ -286,12 +307,18 @@ public class LoginActivity extends CustomActivity
 		if (!validateSignUpForm()) {
 			return;
 		}
+		SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
+
 		showProgressDialog(getString(R.string.please_wait));
 
-		/*String name = mName.getText().toString();
-		String phone = mPhoneNumber.getText().toString();*/
 		String email = mEmailField.getText().toString();
 		String password = mPasswordField.getText().toString();
+
+		// Save name and phone number in billing info
+		editor.putString(getString(R.string.uza_billing_name),mName.getText().toString());
+		editor.putString(getString(R.string.uza_billing_phone),mPhoneNumber.getText().toString());
+		editor.apply();
 
 		mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 			@Override
@@ -300,6 +327,7 @@ public class LoginActivity extends CustomActivity
 					// Sign in success, update UI with the signed-in user's information
 					Log.d(TAG, "createUserWithEmail:success");
 					FirebaseUser user = mAuth.getCurrentUser();
+					mNewUser  = true;
 					onAuthSuccess(user);
 					hideProgressDialog();
 				} else {
