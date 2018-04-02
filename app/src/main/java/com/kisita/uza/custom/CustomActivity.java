@@ -23,7 +23,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.ui.CheckoutFragment;
-import com.kisita.uza.ui.ChoicesFragment;
 import com.kisita.uza.ui.DetailFragment;
 import com.kisita.uza.ui.CommentFragment;
 import com.kisita.uza.ui.ItemsFragment;
@@ -44,7 +43,7 @@ public class CustomActivity extends AppCompatActivity implements
 		CommentFragment.OnListFragmentInteractionListener,
 		ItemsFragment.OnItemFragmentInteractionListener,
 		LoaderManager.LoaderCallbacks<Cursor>,
-		CheckoutFragment.OnCheckoutInteractionListener {
+		CheckoutFragment.OnCheckoutInteractionListener{
 
 	public static final TouchEffect TOUCH = new TouchEffect();
 	/**
