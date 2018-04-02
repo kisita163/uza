@@ -16,14 +16,14 @@ import java.util.Map;
  */
 public class SettingsContent {
 
-    public static final int [] categories = {R.string.title_notifications,
+    public static final int [] categories = {
             R.string.currency,
             R.string.payment_mthod,
             R.string.billing_information,
             R.string.about_us,
             R.string.action_logout};
 
-    private static final int [] icons = {R.drawable.ic_action_notification,
+    private static final int [] icons = {
             R.drawable.ic_action_currency,
             R.drawable.ic_action_payement,
             R.drawable.ic_action_address,
