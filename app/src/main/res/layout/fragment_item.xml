@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/choice_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/pad_10dp"
-    android:foreground="?android:selectableItemBackground"
-    android:clickable="true"
     android:orientation="horizontal">
 
     <ImageView
@@ -34,11 +34,12 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/euros"
+        android:textStyle="bold"
         android:textAppearance="?attr/textAppearanceListItem"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
         android:fontFamily="sans-serif-light"
-        android:textColor="@color/main_color_dk"
+        android:textColor="@color/main_green"
         android:layout_marginLeft="10dp"/>
 
 </RelativeLayout>

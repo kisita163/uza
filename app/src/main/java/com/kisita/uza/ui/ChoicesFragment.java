@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
@@ -23,7 +24,6 @@ import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.UzaListItem;
 import com.kisita.uza.ui.FixedContents.SettingsContent;
 import com.kisita.uza.utils.UzaListAdapter;
-
 import java.util.List;
 
 /**
@@ -34,6 +34,7 @@ public class ChoicesFragment extends CustomFragment {
     final static String QUERY = "QUERY";
 
     final static  String TAG  = "### ChoicesFragment";
+    private UzaListAdapter mListAdapter;
 
     public ChoicesFragment() {
     }
@@ -61,6 +62,7 @@ public class ChoicesFragment extends CustomFragment {
         Context context = view.getContext();
         List<UzaListItem> list;
         RecyclerView recyclerView = view.findViewById(R.id.storeList);
+
         recyclerView.setLayoutManager(new GridLayoutManager(context,1));
 
         DividerItemDecoration dividerVertical = new DividerItemDecoration(recyclerView.getContext(),
@@ -71,8 +73,10 @@ public class ChoicesFragment extends CustomFragment {
 
         list = SettingsContent.ITEMS;
 
+        mListAdapter = new UzaListAdapter(context, list,this);
+
         if(list != null)
-            recyclerView.setAdapter(new UzaListAdapter(context, list,this));
+            recyclerView.setAdapter(mListAdapter);
 
         return view;
     }
@@ -161,6 +165,41 @@ public class ChoicesFragment extends CustomFragment {
 
     private void handleCurrency() {
         Log.i(TAG,"Handling currency");
+
+        final SharedPreferences sharedPref = getActivity().getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
+        int pos     = sharedPref.getInt(getResources().getString(R.string.uza_currency_position), 0);
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.UzaAlertDialogTheme);
+        // Set the dialog title
+        builder
+                // Specify the list array, the items to be selected by default (null for none),
+                // and the listener through which to receive callbacks when items are selected
+                .setSingleChoiceItems(R.array.currency,pos,null)
+                // Set the action buttons
+                .setPositiveButton(R.string.select, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        int selectedPosition = ((AlertDialog)dialog).getListView().getCheckedItemPosition();
+
+                        Log.i(TAG,"Selected currency is : " + selectedPosition);
+
+                        editor.putString(getString(R.string.uza_currency), getContext().getResources().getStringArray(R.array.currency)[selectedPosition]);
+                        editor.putInt(getString(R.string.uza_currency_position),selectedPosition);
+                        editor.apply();
+
+                        mListAdapter.notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+
+        builder.show();
     }
 
     private void handleNotifications() {
