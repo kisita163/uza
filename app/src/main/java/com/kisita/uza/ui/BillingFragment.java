@@ -103,13 +103,19 @@ public class BillingFragment extends Fragment implements OnCountryPickerListener
         mPostalCode.setText(postalCode);
         // Country field
         Country  country = mCountryPicker.getCountryFromSIM(getContext());
-        String countryName = country.getName();
-        Drawable img = getContext().getResources().getDrawable( country.getFlag() );
 
-        img.setBounds(0, 0, 50,50);
 
-        mCountry.setText(countryName);
-        mCountry.setCompoundDrawables(img,null,null,null);
+        if(country != null) {
+            String  countryName = country.getName();
+            Drawable img = getContext().getResources().getDrawable(country.getFlag());
+            img.setBounds(0, 0, 50,50);
+            mCountry.setText(countryName);
+            mCountry.setCompoundDrawables(img,null,null,null);
+        }else{
+            mCountry.setText(R.string.selecte_a_country);
+        }
+
+
 
         mCountry.setOnClickListener(new View.OnClickListener() {
             @Override
