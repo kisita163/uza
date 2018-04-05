@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,10 @@ import com.mukesh.countrypicker.Country;
 import com.mukesh.countrypicker.CountryPicker;
 import com.mukesh.countrypicker.OnCountryPickerListener;
 
+
 public class BillingFragment extends Fragment implements OnCountryPickerListener, View.OnClickListener {
 
-    //private static String TAG = "### BillingFragment";
+    private static String TAG = "### BillingFragment";
 
     private Button mCountry;
 
@@ -40,6 +42,8 @@ public class BillingFragment extends Fragment implements OnCountryPickerListener
     private EditText mName;
 
     private EditText mFirstName;
+
+    private String mCountryCode = "BE";
 
     /**
      * Use this factory method to create a new instance of
@@ -102,19 +106,16 @@ public class BillingFragment extends Fragment implements OnCountryPickerListener
         String postalCode  = sharedPref.getString(getString(R.string.uza_billing_postal_code),"");
         mPostalCode.setText(postalCode);
         // Country field
-        Country  country = mCountryPicker.getCountryFromSIM(getContext());
+        Country  country    = null ;//= mCountryPicker.getCountryFromSIM(getContext());
+        String   countryName = sharedPref.getString(getString(R.string.uza_billing_country),""); // Check country ISO here
 
-
-        if(country != null) {
-            String  countryName = country.getName();
-            Drawable img = getContext().getResources().getDrawable(country.getFlag());
-            img.setBounds(0, 0, 50,50);
-            mCountry.setText(countryName);
-            mCountry.setCompoundDrawables(img,null,null,null);
-        }else{
+        if(countryName.equalsIgnoreCase("")) { // Country not initialized yet
             mCountry.setText(R.string.selecte_a_country);
+        }else {
+            country =  mCountryPicker.getCountryByISO(countryName);
         }
 
+        setCountryField(country);
 
 
         mCountry.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +127,24 @@ public class BillingFragment extends Fragment implements OnCountryPickerListener
 
         // Confirm button
         mConfirm.setOnClickListener(this);
+    }
+
+
+    private void setCountryField(Country country) {
+        String countryName;
+        Drawable img;
+
+        if(country == null) {
+            mCountry.setText(R.string.selecte_a_country);
+            return;
+        }
+
+        countryName = country.getName();
+        img = getContext().getResources().getDrawable(country.getFlag());
+        img.setBounds(0, 0, 50,50);
+        mCountry.setText(countryName);
+        mCountry.setCompoundDrawables(img,null,null,null);
+        mCountryCode = country.getCode();
     }
 
     private void setView(View v) {
@@ -158,6 +177,7 @@ public class BillingFragment extends Fragment implements OnCountryPickerListener
 
         mCountry.setCompoundDrawables(img,null,null,null);
         mCountry.setText(country.getName());
+        mCountryCode = country.getCode();
     }
 
     @Override
@@ -173,7 +193,7 @@ public class BillingFragment extends Fragment implements OnCountryPickerListener
             editor.putString(getString(R.string.uza_billing_city),mCity.getText().toString());
             editor.putString(getString(R.string.uza_billing_state_province),mStateProvince.getText().toString());
             editor.putString(getString(R.string.uza_billing_postal_code),mPostalCode.getText().toString());
-            editor.putString(getString(R.string.uza_billing_country),mCountry.getText().toString());
+            editor.putString(getString(R.string.uza_billing_country),mCountryCode);
 
             editor.apply();
 
@@ -232,7 +252,6 @@ public class BillingFragment extends Fragment implements OnCountryPickerListener
         } else {
             mPostalCode.setError(null);
         }
-
 
         return result;
     }
