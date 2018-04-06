@@ -15,12 +15,21 @@ import com.kisita.uza.ui.FavoritesFragment;
 import com.kisita.uza.ui.OnSaleFragment;
 import com.kisita.uza.ui.SettingsFragment;
 
+import java.util.EmptyStackException;
+import java.util.Stack;
+
 public class MainActivity extends CustomActivity {
 
     private static final String CURRENT_FRAGMENT_ID = "current_fragment_id";
     private Fragment fragment = OnSaleFragment.newInstance();
 
-    private int mCurrentFragmentId = 0;
+    private int mCurrentFragmentId = R.id.navigation_home;
+
+    private Stack<Integer> mFragmentsStack = new Stack<>();
+
+    private BottomNavigationView mBottomNavigationView;
+
+    private boolean mEmptyingStack = false;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -28,6 +37,7 @@ public class MainActivity extends CustomActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             setFragment(setCurrentFragment(item.getItemId()));
+            Log.i(TAG,"onNavigationItemSelected");
             return true;
         }
     };
@@ -61,6 +71,13 @@ public class MainActivity extends CustomActivity {
                 break;
         }
 
+        if(!mEmptyingStack) {
+            mFragmentsStack.push(fragmentId);
+            Log.i(TAG,"Stack : "+ mFragmentsStack);
+        }else{
+            mEmptyingStack = false;
+        }
+
         return fragment;
     }
 
@@ -69,8 +86,8 @@ public class MainActivity extends CustomActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        mBottomNavigationView = findViewById(R.id.navigation);
+        mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         if(savedInstanceState != null){
             mCurrentFragmentId = savedInstanceState.getInt(CURRENT_FRAGMENT_ID);
@@ -86,6 +103,7 @@ public class MainActivity extends CustomActivity {
         Log.i(TAG,"setFragment()  "+fragment.toString());
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_left,R.anim.slide_in_left,R.anim.slide_out_right)
+                .addToBackStack(null)
                 .replace(R.id.frame,f)
                 .commit();
     }
@@ -97,5 +115,17 @@ public class MainActivity extends CustomActivity {
             outState.putInt(CURRENT_FRAGMENT_ID,mCurrentFragmentId);
         }
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onBackPressed() {
+        try {
+            mEmptyingStack = true;
+            mFragmentsStack.pop();
+            mBottomNavigationView.setSelectedItemId((mFragmentsStack.peek()));
+            Log.i(TAG,"Stack(after pop) : "+ mFragmentsStack);
+        }catch(EmptyStackException e){
+            finish();
+        }
     }
 }
