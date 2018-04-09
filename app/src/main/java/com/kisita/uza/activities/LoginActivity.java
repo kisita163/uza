@@ -15,6 +15,7 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -55,11 +56,11 @@ public class LoginActivity extends CustomActivity
 	private EditText mPhoneNumber;
 	private EditText mConfirmPassword;
 
-
 	private boolean signUp = false;
 
 	private CallbackManager callbackManager;
 	private boolean mNewUser = false;
+	private boolean mFacebookUser = false;
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
@@ -97,17 +98,18 @@ public class LoginActivity extends CustomActivity
 	}
 
 	private void onAuthSuccess(final FirebaseUser user) {
-		final String username = usernameFromEmail(user.getEmail());
-
+		String name;
+		String phone;
 		// Write new user
 		if(mNewUser) {
+			name  = mName.getText().toString();
+			phone = mPhoneNumber.getText().toString();
 
 			user.sendEmailVerification()
 					.addOnCompleteListener(this, new OnCompleteListener<Void>() {
 						@Override
 						public void onComplete(@NonNull Task<Void> task) {
 							if(task.isSuccessful()){
-								writeNewUser(user.getUid(), username, user.getEmail());
 								Toast.makeText(LoginActivity.this,
 										getString(R.string.email_verification) +  "  " + user.getEmail(),
 										Toast.LENGTH_SHORT).show();
@@ -118,6 +120,13 @@ public class LoginActivity extends CustomActivity
 							}
 						}
 					});
+			writeNewUser(user.getUid(),name, user.getEmail(),phone);
+		}
+
+		if(mFacebookUser){
+			name  = Profile.getCurrentProfile().getName();
+			phone = "";
+			writeNewUser(user.getUid(),name, user.getEmail(),phone);
 		}
 
 		startService(new Intent(LoginActivity.this,FirebaseService.class));
@@ -307,18 +316,11 @@ public class LoginActivity extends CustomActivity
 		if (!validateSignUpForm()) {
 			return;
 		}
-		SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = sharedPref.edit();
 
 		showProgressDialog(getString(R.string.please_wait));
 
 		String email = mEmailField.getText().toString();
 		String password = mPasswordField.getText().toString();
-
-		// Save name and phone number in billing info
-		editor.putString(getString(R.string.uza_billing_name),mName.getText().toString());
-		editor.putString(getString(R.string.uza_billing_phone),mPhoneNumber.getText().toString());
-		editor.apply();
 
 		mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 			@Override
@@ -327,7 +329,8 @@ public class LoginActivity extends CustomActivity
 					// Sign in success, update UI with the signed-in user's information
 					Log.d(TAG, "createUserWithEmail:success");
 					FirebaseUser user = mAuth.getCurrentUser();
-					mNewUser  = true;
+					mNewUser      = true;
+					mFacebookUser = false; // Just to be sure
 					onAuthSuccess(user);
 					hideProgressDialog();
 				} else {
@@ -370,18 +373,17 @@ public class LoginActivity extends CustomActivity
 	}
 
 	// [START basic_write]
-	private void writeNewUser(String userId, String name, String email) {
-		User user = new User(name, email);
+	private void writeNewUser(String userId, String name, String email, String phone) {
+		Log.i(TAG,"Writing new user in database...");
+		SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPref.edit();
 
+		editor.putString(getString(R.string.uza_billing_name),name);
+		editor.putString(getString(R.string.uza_billing_phone),phone);
+		editor.apply();
+
+		User user = new User(name, email,phone);
 		mDatabase.child("users").child(userId).setValue(user);
-	}
-
-	private String usernameFromEmail(String email) {
-		if (email.contains("@")) {
-			return email.split("@")[0];
-		} else {
-			return email;
-		}
 	}
 
 	@Override
@@ -401,6 +403,8 @@ public class LoginActivity extends CustomActivity
 							Log.d(TAG, "signInWithCredential:success");
 							FirebaseUser user = mAuth.getCurrentUser();
 							//Log.i(TAG,"The user is  : "+user.getEmail().toString());
+							mFacebookUser = true;
+							mNewUser      = false; // Just to be sure
 							onAuthSuccess(user);
 						} else {
 							// If sign in fails, display a message to the user.
