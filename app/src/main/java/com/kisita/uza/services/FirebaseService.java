@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -14,13 +15,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class FirebaseService extends Service {
     private static final String TAG = "### FirebaseService";
 
-    private DatabaseReference  mDatabase = FirebaseDatabase.getInstance().getReference();;
+    // Binder given to clients
+    private final IBinder mBinder = new LocalBinder();
+
+    private DatabaseReference  mDatabase = FirebaseDatabase.getInstance().getReference();
 
     private ChildEventListener itemsListener;
 
@@ -37,8 +46,7 @@ public class FirebaseService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+        return mBinder;
     }
 
     @Override
@@ -232,7 +240,7 @@ public class FirebaseService extends Service {
         //Log.i(TAG,dataSnapshot.getKey().toString()+" *** " + dataSnapshot.getValue().toString());
         favouritesValues.clear();
         favouritesValues.put(UzaContract.LikesEntry.COLUMN_LIKES        ,dataSnapshot.getValue().toString());
-        favouritesValues.put(UzaContract.LikesEntry._ID                 ,dataSnapshot.getKey().toString());
+        favouritesValues.put(UzaContract.LikesEntry._ID                 ,dataSnapshot.getKey());
 
         // Finally, insert item's data into the database.
         getApplicationContext().getContentResolver().insert(
@@ -257,5 +265,52 @@ public class FirebaseService extends Service {
                 uri,
                 null,
                 null);
+    }
+
+    public void setCommandsState(ArrayList<Data> commands){
+        Map<String, Object> commandsUpdates = new HashMap<>();
+        if(commands != null){
+            for(Data d : commands) {
+                commandsUpdates.put("/users-data/" + getUid() + "/commands/" + d.getCommandId() + "/state","1"); // 1 = command received
+                commandsUpdates.put("/commands/" + d.getCommandId() + "/state", "1");
+            }
+            mDatabase.updateChildren(commandsUpdates);
+        }
+    }
+
+    public void addNewItemInCart(String[] details){
+
+        Map<String, Object> childUpdates = new HashMap<>();
+
+        childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/key"     ,details[0]);
+        childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/size"    ,details[1]);
+        childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/color"   ,details[2]);
+        childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/quantity",details[3]);
+        childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/comment" ,details[4]);
+        childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/state"   ,0);
+
+        mDatabase.updateChildren(childUpdates);
+        childUpdates.put("/commands/"+details[5]+"/key"     ,details[0]);
+        childUpdates.put("/commands/"+details[5]+"/size"    ,details[1]);
+        childUpdates.put("/commands/"+details[5]+"/color"   ,details[2]);
+        childUpdates.put("/commands/"+details[5]+"/quantity",details[3]);
+        childUpdates.put("/commands/"+details[5]+"/comment" ,details[4]);
+        childUpdates.put("/commands/"+details[5]+"/user"    ,details[6]);
+        childUpdates.put("/commands/"+details[5]+"/seller"  ,details[7]);
+        childUpdates.put("/commands/"+details[5]+"/state"   ,0);
+
+        mDatabase.updateChildren(childUpdates);
+    }
+
+
+    /**
+     * Class used for the client Binder.  Because we know this service always
+     * runs in the same process as its clients, we don't need to deal with IPC.
+     */
+    public class LocalBinder extends Binder {
+        public FirebaseService getService() {
+            // Return this instance of LocalService so clients can call public methods
+            return FirebaseService.this;
+        }
     }
 }
