@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -65,8 +66,8 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 	 */
 	@SuppressLint({ "InflateParams", "InlinedApi" })
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState)
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState)
 	{
 		View v = inflater.inflate(R.layout.fragment_checkout, null);
 		setTouchNClick(v.findViewById(R.id.checkout));
@@ -100,9 +101,7 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 		checkoutButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO format amount here ???
-				//SharedPreferences sharedPref = getContext().getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
-				//onCheckoutPressed(sharedPref.getString("total_amount","0.0"));
+				onCheckoutPressed(String.valueOf(mTotalAmount));
 			}
 		});
 
@@ -219,11 +218,9 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 	 * >Communicating with Other Fragments</a> for more information.
 	 */
 	public interface OnCheckoutInteractionListener {
-		// TODO: Update argument type and name
 		void onCheckoutInteraction(String amount,ArrayList<Data> commands);
 	}
 
-	// TODO: Rename method, update argument and hook method into UI event
 	public void onCheckoutPressed(String amount) {
 		//Log.i("***** form checkout",ItemsFragment.printItems(itemsList));
 		if (mListener != null) {
