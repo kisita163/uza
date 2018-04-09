@@ -72,7 +72,7 @@ public class Data implements Serializable
 	    int index = 0;
 		for (String s :
 			 data.getColumnNames()) {
-            //Log.i("### Data","column " + s);
+            Log.i("### Data","column " + s + " ,index "+ index + " ,data : " +  data.getString(index));
 			if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_NAME))
 				this.mName = data.getString(index);
 
@@ -129,13 +129,12 @@ public class Data implements Serializable
                 if(index == 0){
                     this.mItemId = data.getString(0);
                 }else {
-                    if (data.getString(index) != null && dataType == FAVOURITE_DATA) {
-                        this.mFavouriteId = data.getString(index);
-                    }
 
                     if(data.getString(index) != null && dataType == COMMAND_DATA){
                         this.mCommandId = data.getString(index);
-                    }
+                    }else{
+						this.mFavouriteId = data.getString(index);
+					}
                 }
             }
 
