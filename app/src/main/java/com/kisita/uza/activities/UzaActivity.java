@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 
 public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCheckoutInteractionListener,
-       ItemsFragment.OnItemFragmentInteractionListener {
+       ItemsFragment.OnItemFragmentInteractionListener, DetailFragment.OnFragmentInteractionListener {
     /**
      * The toolbar.
      */
@@ -132,6 +132,13 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
                     .addToBackStack(null)
                     .replace(R.id.content_frame, f , "Command details")
                     .commit();
+        }
+    }
+
+    @Override
+    public void onItemAddedInCart(String[] details, boolean update) {
+        if(mBound){
+            mService.addNewItemInCart(details);
         }
     }
 }
