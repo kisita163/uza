@@ -149,7 +149,11 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
     public void onStart() {
 	    if(scheduledLoad == null) {
             scheduledLoad = new Timer("load data");
-            scheduledLoad.schedule(mTimerTask, 500, 1500); // Verify itemData after 500 ms
+            try {
+				scheduledLoad.schedule(mTimerTask, 500, 1500); // Verify itemData after 500 ms
+			}catch(IllegalStateException e){
+            	Log.i(TAG,"TimerTask is scheduled already");
+			}
         }
         super.onStart();
     }
