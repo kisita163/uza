@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -100,8 +101,8 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 
 	@SuppressLint({ "InflateParams", "InlinedApi" })
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState)
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState)
 	{
 		View v = inflater.inflate(R.layout.fragment_onsale, null);
 		setHasOptionsMenu(true);
@@ -188,6 +189,7 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
+	@NonNull
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		//Log.i(TAG,"Loader created");
@@ -202,7 +204,7 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 	}
 
 	@Override
-	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+	public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
 		Log.i(TAG,"Load finished " + data.getCount());
 
 		if(data.getCount() > 0)
@@ -279,7 +281,7 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 	}
 
 	@Override
-	public void onLoaderReset(Loader<Cursor> loader) {
+	public void onLoaderReset(@NonNull Loader<Cursor> loader) {
 
 	}
 }
