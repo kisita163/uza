@@ -31,8 +31,6 @@ import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.UzaPageAdapter;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -115,7 +113,7 @@ public class DetailFragment extends CustomFragment{
 
     private void onButtonPressed(String[] details, boolean update) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(details,update);
+            mListener.onItemAddedInCart(details,update);
         }
     }
 
@@ -314,7 +312,7 @@ public class DetailFragment extends CustomFragment{
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-         void onFragmentInteraction(String[] details,boolean update);
+         void onItemAddedInCart(String[] details, boolean update);
     }
 
     @Override
