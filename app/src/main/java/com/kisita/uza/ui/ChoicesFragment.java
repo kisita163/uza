@@ -212,10 +212,6 @@ public class ChoicesFragment extends CustomFragment {
         getContext().startActivity(intent);
     }
 
-    private void handlePaymentMethod() {
-        Log.i(TAG,"Handling payment method");
-    }
-
     private void handleCurrency() {
         Log.i(TAG,"Handling currency");
 
