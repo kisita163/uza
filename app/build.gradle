@@ -22,7 +22,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-braintree.pro'
         }
         debug {
-            debuggable true
+            debuggable false
         }
     }
 

@@ -32,6 +32,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.custom.CustomFragment;
+import com.kisita.uza.internal.LogReporting;
 import com.kisita.uza.model.UzaListItem;
 import com.kisita.uza.ui.FixedContents.SettingsContent;
 import com.kisita.uza.utils.UzaListAdapter;
@@ -164,6 +165,10 @@ public class ChoicesFragment extends CustomFragment {
 
         if(name.equalsIgnoreCase(getString(R.string.action_logout))){
             handleLogout();
+        }
+
+        if(name.equalsIgnoreCase(getString(R.string.send_logs))){
+            new LogReporting(getContext()).collectAndSendLogs();
         }
     }
 
