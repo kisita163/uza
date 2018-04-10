@@ -131,7 +131,10 @@ public class LoginActivity extends CustomActivity
 
 		startService(new Intent(LoginActivity.this,FirebaseService.class));
 		// Go to MainActivity
-		startActivity(new Intent(LoginActivity.this, MainActivity.class));
+		Intent startMain = new Intent(LoginActivity.this,MainActivity.class);
+		startMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+		startActivity(startMain);
 
 		finish();
 	}
