@@ -30,7 +30,7 @@ public class BikekoApplication extends Application implements Thread.UncaughtExc
         if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectCustomSlowCalls()
-                    .detectAll()
+                    .detectNetwork()
                     .penaltyLog()
                     .penaltyDeath()
                     .build());
