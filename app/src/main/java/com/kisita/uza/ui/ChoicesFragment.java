@@ -250,10 +250,6 @@ public class ChoicesFragment extends CustomFragment {
         builder.show();
     }
 
-    private void handleNotifications() {
-        Log.i(TAG,"Handling notifications");
-    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
