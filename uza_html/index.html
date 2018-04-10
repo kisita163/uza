@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2016 Google Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<html>
+<head>
+  <meta charset=utf-8 />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uza Cloud Storage</title>
+
+  <!-- Material Design Theming -->
+  <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.orange-indigo.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+
+  <link rel="stylesheet" href="main.css">
+  <style>
+  .thumb {
+    height: 150px;
+    border: 1px solid #000;
+    margin: 10px 5px 0 0;
+  }
+</style>
+</head>
+<body>
+  <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
+
+    <!-- Header section containing title -->
+    <header class="mdl-layout__header mdl-color-text--white mdl-color--light-blue-700">
+      <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
+        <div class="mdl-layout__header-row mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--8-col-desktop">
+          <h3>Uza Cloud Storage</h3>
+        </div>
+      </div>
+    </header>
+
+    <main class="mdl-layout__content mdl-color--grey-100">
+      <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
+
+        <!-- Container for the demo -->
+        <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
+          <div class="mdl-card__title mdl-color--light-blue-600 mdl-color-text--white">
+            <h2 class="mdl-card__title-text">Upload article</h2>
+          </div>
+          <div class="mdl-card__supporting-text mdl-color-text--grey-600" id="messagesDiv">
+			<div class="container">
+				<div class="row">
+				<div class="col-md-4">
+					<div class="form_main">
+							<div class="form">
+							<form method="post" enctype="multipart/form-data" id="form" onsubmit="formSubmitAction()">
+								<input type="file" id="files" name="files[]" multiple />
+								<output id="list"></output>
+								<!--<input type="file" name="fileToUpload" id="fileToUpload">-->
+								<!--<img id="blah" src="default.png" alt="your image" style="float:left" height="150" width="150"/>-->
+								<input type="text" required="" placeholder="Name" value="" name="Name" class="txt" id="name">
+								<input type="text" required="" placeholder="Brand" value="" name="Brand" class="txt" id="brand">
+								<input type="number" step="0.01" required="" placeholder="Price" value="" name="price" class="txt" id="price">
+								<select name="currency" required="" id="currency" size="1" type="text" class="txt">
+								<option value="" disabled selected>Currency</option>
+								<option>USD
+								<option>EUR
+								</select>
+								<select name="category" required="" id="category" size="1" type="text" class="txt" onchange="catSelect()">
+								<option value="" disabled selected>Category</option>
+								<option>Men
+								<option>Women
+								<option>Kids
+								<option>Electronic
+								<option>Craft
+								<option>Home
+								<option>Other
+								</select>
+							   <select name="type" required="" id="type" size="1" type="text" class="txt" onchange="typeSelect()">
+								<option value="" disabled selected>Type</option>
+								<option>Clothing
+								<option>Shoes & Bags
+								<option>Watches & Accessories
+								<option>Perfumes & Beauty
+								<option>Other
+								</select>
+								<select name="seller" required="" id="seller" size="1" type="text" class="txt">
+								<option value="" disabled selected>Seller</option>
+								<option>Amazon
+								<option>Ebay
+								<option>Priceminister
+								<option>Zalando
+								<option>Discount
+								<option>Uza
+								<option>Kitea
+								<option>Asos
+								<option>H&M
+								<option>Zara
+								<option>Mapapa's
+								<option>Envie de Fraises
+								<option>Séraphine
+								<option>Vlisco
+								<option>Kiabi
+								<option>HT26
+								<option>Other
+								</select>
+             
+                <!--<input type="color" id="html5colorpicker1"  onchange="isAnotherColor()"   style="width:100%;">-->
+                <input type="number" id="colorNumbers" name="color" value="" placeholder="Number of available colors" class="txt"  style="width:85%;">
+                <a href="#" id="filldetails" onclick="addFields()" value="">Add colors</a>
+                <div id="container">
+                
+                </div>
+                <select name="size" id="size" size="1" type="text" style="height:250px;" class="txt" multiple>
+								<option>XXS
+								<option>XS
+								<option>S
+								<option>M
+								<option>L
+								<option>XL
+								<option>XXL
+								<option>34
+								<option>36
+								<option>38
+								<option>40
+								<option>42
+								<option>44
+								<option>46
+								<option>48
+								<option>50
+								<option>52
+								<option>54
+								<option>56
+								<option>58
+								<option>60
+								<option>62
+								<option>64
+								</select>
+       
+								<textarea placeholder="Description" required="" name="description" id="description" type="text" class="txt_3"></textarea>
+								<input type="submit" value="submit" name="submit" class="txt2">
+							</form>
+						</div>
+						</div>
+						</div>
+				</div>
+			</div>
+            <span id="linkbox"></span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Import and configure the Firebase SDK -->
+  <!-- These scripts are made available when the app is served or deployed on Firebase Hosting -->
+  <!-- If you do not serve/host your project using Firebase Hosting see https://firebase.google.com/docs/web/setup -->
+  <script src="/__/firebase/3.9.0/firebase-app.js"></script>
+  <script src="/__/firebase/3.9.0/firebase-auth.js"></script>
+  <script src="/__/firebase/3.9.0/firebase-storage.js"></script>
+  <script src="/__/firebase/init.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+
+  <script>
+  	// Initialize Firebase
+	  var config = {
+		apiKey: "AIzaSyB3r6O3WVGf9j3wVfYSyZrdtvFmRdVXB7Q",
+		authDomain: "glam-afc14.firebaseapp.com",
+		databaseURL: "https://glam-afc14.firebaseio.com",
+		projectId: "glam-afc14",
+		storageBucket: "glam-afc14.appspot.com",
+		messagingSenderId: "834449551276"
+	  };
+		firebase.initializeApp(config)
+    var auth = firebase.auth();
+    var storageRef = firebase.storage().ref();
+		var database = firebase.database();
+    var files;
+    
+    function addFields(){
+      var number = document.getElementById("colorNumbers").value;
+      var container = document.getElementById("container");
+      while (container.hasChildNodes()) {
+        container.removeChild(container.lastChild);
+      }
+      for (i=0;i<number;i++){
+        container.appendChild(document.createTextNode("Color" + (i+1)+""));
+        var input = document.createElement("input");
+        input.type = "color";
+        input.id="Color" + (i+1);
+        container.appendChild(input);
+        container.appendChild(document.createElement("br"));
+      }
+    }
+	
+	  function uploadFile(n) {
+      var metadata = {
+        'contentType': files.type
+      };
+      
+      var len = files.length;
+      
+      if(len >= 5){
+      	len = 5;
+      }
+      
+      storageRef.child(n+'/android.png').put(files[0], metadata).then(function(snapshot) {
+      	alert("Success");  
+      }).catch(function(error) {
+        alert("Fail");  
+      });
+
+      for(var i = 1; i < len ; i++){
+      	storageRef.child(n+'/android'+i+'.png').put(files[i], metadata).then(function(snapshot) {
+      	alert("Success");  
+      }).catch(function(error) {
+        alert("Fail");  
+      });
+      }
+    }
+    
+   function getSelectValues(select) {
+    var options = select && select.options;
+    var opt;
+	var sizeArray = [];
+
+    for (var i=0, iLen=options.length; i<iLen; i++) {
+      opt = options[i];
+
+      if (opt.selected) {
+        sizeArray.push(opt.value || opt.text);
+      }
+    }
+    return sizeArray;
+  }
+
+	
+	function formSubmitAction() {
+	var d = new Date();
+	var n = d.getTime();
+    var colorNum = document.getElementById("colorNumbers").value; //TODO disable the field
+    var size = document.getElementById("size"); //TODO disable the field
+    var colorArray = [];
+    var sizeArray = [];
+		//uploadFile(n);
+    
+    // get available colors
+    for(var i = 0 ; i < colorNum ; i++){
+		colorArray.push(document.getElementById("Color" + (i+1)).value);
+    }
+    
+    // get available size
+    sizeArray = getSelectValues(size);
+		
+	firebase.database().ref('items/' + n).set({
+	brand       : document.getElementById('brand').value,
+	category    : document.getElementById('category').value,
+	type        : document.getElementById('type').value,
+	currency    : document.getElementById('currency').value,
+	description : document.getElementById('description').value,
+	name        : document.getElementById('name').value,
+	price       : document.getElementById('price').value,
+	seller      : document.getElementById('seller').value,
+	pictures    : files.length,
+	colors      : colorArray,
+	sizes		: sizeArray,
+	stars       : 0
+	});
+	// Upload pictures
+	uploadFile(n)
+	}
+	
+	
+    window.onload = function() {
+      document.getElementById('files').addEventListener('change', handleFileSelect, false);
+      document.getElementById('files').disabled = true;
+		
+	  firebase.auth().signInWithEmailAndPassword("kisita2002@yahoo.fr", "kisita").catch(function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+			window.alert(errorMessage);
+      });
+      auth.onAuthStateChanged(function(user) {
+        if (user) {
+          document.getElementById('files').disabled = false;
+        } 
+      });
+    } 
+    function catSelect(){
+        var cat = document.getElementById("category").value;
+               switch (cat) {
+        	case "Men":
+          case "Women":
+      			document.getElementById("type").innerHTML = "<option disabled selected>Type</option><option>Clothing</option><option>Shoes & Bags</option><option>Watches & Accessories</option><option>Perfumes & Beauty</option><option>Other</option>"
+            break;
+          case "Kids":
+      			document.getElementById("type").innerHTML = "<option disabled selected>Type</option><option>Clothing</option><option>Shoes & Bags</option><option>Toys & Accessories</option><option>Bathing  & Skin care</option><option>Other</option>"
+            break;
+          case "Electronic":
+          	document.getElementById("type").innerHTML = "<option disabled selected>Type</option><option>Home</option><option>Video games</option><option>Phones & Accessories</option><option>Computers & Tablets</option><option>Other</option>"
+            break;
+          case "Craft":
+          	document.getElementById("type").innerHTML = "<option disabled selected>Type</option><option>Painting</option><option>Ceramic</option><option>Jewerely</option><option>Statuette</option><option>Other</option>"
+            break;
+		  case "Home":
+          	document.getElementById("type").innerHTML = "<option disabled selected>Type</option><option>Living and dining rooms</option><option>kitchen and bathroom</option><option>Bedroom</option><option>Garden</option><option>Other</option>"
+            break;
+          case "Other":
+          	document.getElementById("type").disabled = true;
+            break;
+          default:
+          	break;
+        }
+      
+	}
+	function typeSelect(){
+      			document.getElementById("size").innerHTML = 
+				                                            "<option>XXS</option>"+
+															"<option>XS</option>"+
+															"<option>S</option>"+
+															"<option>M</option>"+
+															"<option>L</option>"+
+															"<option>XL</option>"+
+															"<option>XXL</option>"+
+															 "<option>24x30</option>"+
+															 "<option>24x32</option>"+
+															 "<option>24x34</option>"+
+															 "<option>25x30</option>"+
+															 "<option>25x32</option>"+
+															 "<option>25x34</option>"+
+															 "<option>26x30</option>"+
+															 "<option>26x32</option>"+
+															 "<option>26x34</option>"+
+															 "<option>27x30</option>"+
+															 "<option>27x32</option>"+
+															 "<option>27x34</option>"+
+															 "<option>28x30</option>"+
+															 "<option>28x32</option>"+
+															 "<option>28x34</option>"+
+															 "<option>29x30</option>"+
+															 "<option>29x32</option>"+
+															 "<option>29x34</option>"+
+															 "<option>30x30</option>"+
+															 "<option>30x32</option>"+
+															 "<option>30x34</option>"+
+															 "<option>31x30</option>"+
+															 "<option>31x32</option>"+
+															 "<option>31x34</option>"+
+															 "<option>32x30</option>"+
+															 "<option>32x32</option>"+
+															 "<option>32x34</option>"+
+															 "<option>33x30</option>"+
+															 "<option>33x32</option>"+
+															 "<option>33x34</option>"+
+															 "<option>34x30</option>"+
+															 "<option>34x32</option>"+
+															 "<option>34x34</option>"+
+															 "<option>36x30</option>"+
+															 "<option>36x32</option>"+
+															 "<option>36x34</option>"+
+															 "<option>38x30</option>"+
+															 "<option>38x32</option>"+
+															 "<option>38x34</option>"+
+															 "<option>0mois</option>"+
+															 "<option>0-1mois</option>"+
+															 "<option>1-2mois</option>"+
+															 "<option>2-4mois</option>"+
+															 "<option>4-6mois</option>"+
+															 "<option>6-9mois</option>"+
+															 "<option>9-12mois</option>"+
+															 "<option>12-18mois</option>"+
+															 "<option>18-24mois</option>"+
+															 "<option>1-2ans</option>"+
+															 "<option>2-3ans</option>"+
+															 "<option>3-4ans</option>"+
+															 "<option>4-5ans</option>"+
+															 "<option>5-6ans</option>"+
+															 "<option>6-7ans</option>"+
+															 "<option>7-8ans</option>"+
+															 "<option>8-9ans</option>"+
+															 "<option>9-10ans</option>"+
+															 "<option>10-11ans</option>"+
+															 "<option>11-12ans</option>"+
+															 "<option>12-13ans</option>"+
+															 "<option>13-14ans</option>"+
+															 "<option>14ans et plus</option>"+
+															  "<option>44cm</option>"+
+															  "<option>50cm</option>"+
+															  "<option>56cm</option>"+
+															  "<option>62cm</option>"+
+															  "<option>68cm</option>"+
+															  "<option>74cm</option>"+
+															  "<option>80cm</option>"+
+															  "<option>86cm</option>"+
+															  "<option>92cm</option>"+
+															  "<option>98cm</option>"+
+															  "<option>104cm</option>"+
+															  "<option>110cm</option>"+
+															  "<option>116cm</option>"+
+															  "<option>122cm</option>"+
+															  "<option>128cm</option>"+
+															  "<option>134cm</option>"+
+															  "<option>140cm</option>"+
+															  "<option>146cm</option>"+
+															  "<option>152cm</option>"+
+															  "<option>158cm</option>"+
+															  "<option>164cm</option>"+
+															  "<option>170cm</option>"+
+																"<option>17</option>"+
+																"<option>18</option>"+
+																"<option>19</option>"+
+																"<option>20</option>"+
+																"<option>21</option>"+
+																"<option>22</option>"+
+																"<option>23</option>"+
+																"<option>24</option>"+
+																"<option>25</option>"+
+																"<option>26</option>"+
+																"<option>27</option>"+
+																"<option>28</option>"+
+																"<option>29</option>"+
+																"<option>30</option>"+
+																"<option>31</option>"+
+																"<option>32</option>"+
+																"<option>33</option>"+
+																"<option>34</option>"+
+																"<option>35</option>"+
+																"<option>36</option>"+
+																"<option>35</option>"+
+																"<option>36</option>"+
+																"<option>36.5</option>"+
+																"<option>37</option>"+
+																"<option>37.5</option>"+
+																"<option>38</option>"+
+																"<option>38.5</option>"+
+																"<option>39</option>"+
+																"<option>39.5</option>"+
+																"<option>40</option>"+
+																"<option>40.5</option>"+
+																"<option>41</option>"+
+																"<option>41.5</option>"+
+																"<option>42</option>"+
+																"<option>42.5</option>"+
+																"<option>43</option>"+
+																"<option>43.5</option>"+
+																"<option>44</option>"+
+																"<option>44.5</option>"+
+																"<option>45</option>"+
+																"<option>45.5</option>"+
+																"<option>46</option>"+
+																"<option>46.5</option>"+
+																"<option>47</option>"+
+																"<option>47.5</option>"+
+																"<option>48</option>"+
+																"<option>50</option>"+
+																"<option>52</option>"+
+																"<option>54</option>"+
+																"<option>56</option>"+
+																"<option>58</option>"+
+																"<option>60</option>"+
+																"<option>62</option>";	
+      
+	}
+  function handleFileSelect(evt) {
+    files = evt.target.files; // FileList object
+
+    // Loop through the FileList and render image files as thumbnails.
+    for (var i = 0, f; f = files[i]; i++) {
+
+      // Only process image files.
+      if (!f.type.match('image.*')) {
+        continue;
+      }
+      
+      if (i >= 5) {
+        document.getElementById('files').disabled = true;
+        break;
+      }
+      var reader = new FileReader();
+
+      // Closure to capture the file information.
+      reader.onload = (function(theFile) {
+        return function(e) {
+          // Render thumbnail.
+          var span = document.createElement('span');
+          span.innerHTML = ['<img class="thumb" src="', e.target.result,
+                            '" title="', escape(theFile.name), '" type="img"/>'].join('');
+          document.getElementById('list').insertBefore(span, null);
+        };
+      })(f);
+
+      // Read in the image file as a data URL.
+      reader.readAsDataURL(f);
+    }
+  }
+  </script>
+</body>
+</html>

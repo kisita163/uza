@@ -19,8 +19,11 @@ import static com.kisita.uza.utils.UzaFunctions.getPicturesUrls;
 public class Data implements Serializable
 {
     public static int ITEM_DATA      = 0;
-    public static int COMMAND_DATA   = 1;
+    public static int CHECKOUT_DATA  = 1;
     public static int FAVOURITE_DATA = 2;
+	public static int COMMAND_DATA   = 3;
+
+	public static String TAG = "### Data";
 
     /* List of picture(s) associated to this item */
 	private ArrayList<String> pictures;
@@ -60,7 +63,9 @@ public class Data implements Serializable
 
     private String mQuantity;
 
-    private String mCommandId;
+    private String mCheckoutId;
+
+    private String mCommandState;
 
     /**
      * Instantiates a new data.
@@ -116,9 +121,9 @@ public class Data implements Serializable
                 this.mWeight = data.getString(index);
             }
 
-            /*if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_URL)){
-                this.mUrl = data.getString(index);
-            }*/
+            if(s.equalsIgnoreCase(UzaContract.CommandsEntry.COLUMN_STATE)){
+                this.mCommandState = data.getString(index);
+            }
 
             if(s.equalsIgnoreCase(UzaContract.LikesEntry.COLUMN_LIKES)){
                 if(data.getString(index) != null)
@@ -130,9 +135,9 @@ public class Data implements Serializable
                     this.mItemId = data.getString(0);
                 }else {
 
-                    if(data.getString(index) != null && dataType == COMMAND_DATA){
-                        this.mCommandId = data.getString(index);
-                    }else{
+                    if(data.getString(index) != null && dataType == CHECKOUT_DATA){
+                        this.mCheckoutId = data.getString(index);
+                    }else if(data.getString(index) != null && dataType == ITEM_DATA){
 						this.mFavouriteId = data.getString(index);
 					}
                 }
@@ -162,7 +167,7 @@ public class Data implements Serializable
     }
 
     public String getCommandId() {
-        return mCommandId;
+        return mCheckoutId;
     }
 
 	public static final String[] ITEMS_COLUMNS = {
@@ -199,6 +204,7 @@ public class Data implements Serializable
 			UzaContract.ItemsEntry.COLUMN_WEIGHT,
 			UzaContract.ItemsEntry.COLUMN_URL,
 			UzaContract.CommandsEntry.COLUMN_QUANTITY,
+			UzaContract.CommandsEntry.COLUMN_STATE,
 			UzaContract.CommandsEntry.TABLE_NAME + "." +UzaContract.CommandsEntry._ID
 	};
 
@@ -319,4 +325,23 @@ public class Data implements Serializable
     public void setQuantity(String quantity) {
 	    this.mQuantity = quantity;
     }
+
+    public boolean isCommand(){
+		boolean check = false;
+		if(getCommandState() > 0)
+			check = true;
+		return check;
+	}
+
+	public double getCommandState(){
+		double state = -1;
+		try{
+			state = Double.valueOf(this.mCommandState);
+		}catch(NumberFormatException e){
+			Log.e(TAG, "Command state is not well formatted " + e.getMessage());
+		}catch(Exception e){
+			Log.e(TAG, "Unknown error when formatting the state " + e.getMessage());
+		}
+    	return state;
+	}
 }

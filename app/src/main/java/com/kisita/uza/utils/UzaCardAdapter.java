@@ -1,5 +1,6 @@
 package com.kisita.uza.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -42,10 +43,6 @@ public class UzaCardAdapter extends
         this.itemsList = items;
     }
 
-    public void setItemsList(ArrayList<Data> itemsList) {
-        this.itemsList = itemsList;
-    }
-
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         int rId = R.layout.grid_item;  //
@@ -56,7 +53,7 @@ public class UzaCardAdapter extends
     }
 
     @Override
-    public void onBindViewHolder(UzaCardAdapter.CardViewHolder holder, final int position) {
+    public void onBindViewHolder(UzaCardAdapter.CardViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         //Log.i(TAG, "Position is  : " + position);
         final Data d = itemsList.get(position);
 
@@ -101,6 +98,11 @@ public class UzaCardAdapter extends
         // Set favourite button
         if(d.isFavourite()) {
             holder.favButton.setImageResource(R.drawable.ic_action_favorite_black);
+        }
+
+        // Set Command State
+        if(d.isCommand()) {
+            holder.favButton.setVisibility(View.GONE);
         }
     }
 

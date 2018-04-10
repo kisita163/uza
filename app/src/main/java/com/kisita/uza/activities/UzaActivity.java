@@ -14,11 +14,10 @@ import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.ui.BillingFragment;
 import com.kisita.uza.ui.CheckoutFragment;
+import com.kisita.uza.ui.CommandsFragment;
 import com.kisita.uza.ui.DetailFragment;
-import com.kisita.uza.ui.FavoritesFragment;
 import com.kisita.uza.ui.ItemsFragment;
 import com.kisita.uza.ui.MapsFragment;
-import com.kisita.uza.ui.SettingsFragment;
 
 import java.util.ArrayList;
 
@@ -59,13 +58,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
         Fragment f = null;
         switch (fid) {
             case (0):
-                f = new FavoritesFragment();
-                break;
-            case (1):
-                f = new CheckoutFragment();
-                break;
-            case (2):
-                f = new SettingsFragment();
+                f = CommandsFragment.newInstance();
                 break;
             case (3):
                 f = DetailFragment.newInstance((Data) getIntent().getSerializableExtra("details"));

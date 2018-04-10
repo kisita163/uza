@@ -1,12 +1,15 @@
 package com.kisita.uza.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.kisita.uza.R;
@@ -23,13 +26,14 @@ import java.util.List;
 public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHolder> {
 
     private final List<UzaListItem> mValues;
-    private ChoicesFragment.OnItemSelectedListener mChoiceListener = null;
+    private ChoicesFragment mChoiceListener = null;
 
 
     private final String TAG = "### UzaListAdapter";
+
     private Context mContext;
 
-    public UzaListAdapter(Context context, List<UzaListItem> items, ChoicesFragment.OnItemSelectedListener listener) {
+    public UzaListAdapter(Context context, List<UzaListItem> items, ChoicesFragment listener) {
         this.mValues = items;
         this.mContext = context;
         this.mChoiceListener = listener;
@@ -44,14 +48,24 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+
+        SharedPreferences sharedPref = mContext.getSharedPreferences(mContext.getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
         final String name = mContext.getString( mValues.get(position).name);
 
+        String curr = sharedPref.getString(mContext.getResources().getString(R.string.uza_currency),"");
+
+        holder.mCurrentCurrency.setText(curr);
         holder.mItem = mValues.get(position);
         holder.mItemName.setText(name);
         // Check which fragment we are working on
         holder.mItemIcon.setImageResource(mValues.get(position).icon);//.
-        if(!name.equalsIgnoreCase(mContext.getString(R.string.currency)))
+
+
+        if(!name.equalsIgnoreCase(mContext.getString(R.string.currency))) {
             holder.mCurrentCurrency.setVisibility(View.INVISIBLE);
+        }else{
+            holder.mCurrentCurrency.setVisibility(View.VISIBLE);
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +81,8 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
                 }
             }
         });
+
+        holder.mItemLayout.setOnTouchListener(new TouchEffect());
     }
 
     @Override
@@ -75,18 +91,20 @@ public class UzaListAdapter extends RecyclerView.Adapter<UzaListAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        final View mView;
-        final ImageView mItemIcon;
-        final TextView mItemName;
-        final TextView mCurrentCurrency;
+        final View                  mView;
+        final ImageView         mItemIcon;
+        final TextView          mItemName;
+        final TextView   mCurrentCurrency;
+        final RelativeLayout  mItemLayout;
         UzaListItem mItem;
 
         ViewHolder(View view) {
             super(view);
             mView = view;
-            mItemName = (TextView) view.findViewById(R.id.payment_name);
-            mItemIcon = (ImageView) view.findViewById(R.id.payment_icon);
+            mItemName        = (TextView) view.findViewById(R.id.payment_name);
+            mItemIcon        = (ImageView) view.findViewById(R.id.payment_icon);
             mCurrentCurrency = (TextView)view.findViewById(R.id.current_currency);
+            mItemLayout      = (RelativeLayout)view.findViewById(R.id.choice_item);
         }
 
         @Override

@@ -9,6 +9,7 @@
         android:name="android.hardware.camera"
         android:required="false" />
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-feature
@@ -21,10 +22,33 @@
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_action_logo"
+        android:icon="@mipmap/ic_launcher_logo"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name="com.braintreepayments.api.BraintreeBrowserSwitchActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="${applicationId}.braintree" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".activities.SplashScreen"
             android:label="@string/app_name"
@@ -83,42 +107,25 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
-        <activity
-            android:name="com.braintreepayments.api.BraintreeBrowserSwitchActivity"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="${applicationId}.braintree" />
-            </intent-filter>
-        </activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
-        <service
-            android:name=".services.Token"
-            android:enabled="true"
-            android:exported="true" />
 
         <provider
             android:name=".provider.UzaProvider"
             android:authorities="@string/content_authority"
             android:exported="false"
             android:syncable="true" />
-
-        <provider android:authorities="com.facebook.app.FacebookContentProvider638132053058512"
+        <provider
             android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider638132053058512"
             android:exported="true" />
 
         <service
             android:name=".services.FirebaseService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -127,7 +134,8 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_main2"
-            android:parentActivityName=".activities.LoginActivity">
+            android:parentActivityName=".activities.LoginActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.kisita.uza.activities.LoginActivity" />

@@ -65,7 +65,29 @@
                 android:layout_below="@+id/addToCart"
                 android:layout_marginTop="@dimen/pad_10dp"
                 android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/command_state_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/title_command_state"
+                        style="@style/uza_lineto_text_style"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/pad_10dp"
+                        android:paddingStart="@dimen/pad_10dp"
+                        android:text="@string/command_current_state"
+                        android:textColor="@color/main_color_dk"/>
 
+                    <View
+                        style="@style/uza_divider_style"
+                        android:layout_height="2dp"
+                        android:layout_marginLeft="@dimen/pad_10dp"
+                        android:layout_marginRight="@dimen/pad_10dp"
+                        android:background="@color/main_color_dk"/>
+                </LinearLayout>
                 <TextView
                     android:id="@+id/title_description"
                     style="@style/uza_lineto_text_style"

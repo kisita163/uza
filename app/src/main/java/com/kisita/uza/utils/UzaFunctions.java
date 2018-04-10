@@ -25,6 +25,7 @@ import java.util.Locale;
  */
 
 public class UzaFunctions {
+    public static String TRANSACTION_OK = "OK";
     /* Get the currency selected by the user*/
     public static String getCurrency(Context context){
         String currency;

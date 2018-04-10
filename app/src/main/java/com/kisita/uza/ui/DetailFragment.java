@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -102,7 +103,7 @@ public class DetailFragment extends CustomFragment{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         super.onCreateView(inflater,container,savedInstanceState);
@@ -148,9 +149,16 @@ public class DetailFragment extends CustomFragment{
         TextView  item_type         = v.findViewById(R.id.item_type);
         TextView  item_price        = v.findViewById(R.id.item_price);
         TextView  item_description  = v.findViewById(R.id.item_description);
+        LinearLayout commandState   = v.findViewById(R.id.command_state_container);
 
         Button add = v.findViewById(R.id.addToCart);
-        add.setOnClickListener(this);
+        if(itemData.isCommand()){
+            add.setVisibility(View.GONE);
+        }else{
+            commandState.setVisibility(View.GONE);
+            add.setOnClickListener(this);
+        }
+
         mlike =  v.findViewById(R.id.favourite);
         mlike.setOnClickListener(this);
 

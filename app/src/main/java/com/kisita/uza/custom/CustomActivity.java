@@ -1,36 +1,30 @@
 package com.kisita.uza.custom;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
-import android.database.Cursor;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v7.app.ActionBar;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.kisita.uza.model.Data;
-import com.kisita.uza.provider.UzaContract;
-import com.kisita.uza.ui.CheckoutFragment;
-import com.kisita.uza.ui.DetailFragment;
+import com.kisita.uza.services.FirebaseService;
 import com.kisita.uza.ui.CommentFragment;
 import com.kisita.uza.ui.ItemsFragment;
 import com.kisita.uza.utils.TouchEffect;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import cz.msebera.android.httpclient.Header;
 
 import static com.kisita.uza.model.Data.ITEMS_COMMANDS_COLUMNS;
 
@@ -38,12 +32,12 @@ import static com.kisita.uza.model.Data.ITEMS_COMMANDS_COLUMNS;
  * This is a common activity that all other activities of the app can extend to
  * inherit the common behaviors like setting a Theme to activity.
  */
+@SuppressLint("Registered")
 public class CustomActivity extends AppCompatActivity implements
-		OnClickListener,DetailFragment.OnFragmentInteractionListener,
+		OnClickListener,
 		CommentFragment.OnListFragmentInteractionListener,
-		ItemsFragment.OnItemFragmentInteractionListener,
-		LoaderManager.LoaderCallbacks<Cursor>,
-		CheckoutFragment.OnCheckoutInteractionListener{
+		ItemsFragment.OnItemFragmentInteractionListener
+{
 
 	public static final TouchEffect TOUCH = new TouchEffect();
 	/**
@@ -51,11 +45,15 @@ public class CustomActivity extends AppCompatActivity implements
 	 * effect. The view must have a Non-Transparent background.
 	 */
 
+	protected boolean mBound = false;
+
+	protected FirebaseService mService;
+
 	public String TAG = "###"+ getClass().getName();
+
 	private ProgressDialog mProgressDialog;
 
-	/* cart icon*/
-	private BitmapDrawable mIcon;
+	public final static String BRAINTREE_SERVER = "http://www.e-kisita.com/braintree/application/requests.php";
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
@@ -65,32 +63,8 @@ public class CustomActivity extends AppCompatActivity implements
 	protected void onCreate(Bundle arg0)
 	{
 		super.onCreate(arg0);
-		setupActionBar();
-        loadData();
-
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-		{
-			getWindow()
-					.addFlags(
-							WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-			// getWindow().setStatusBarColor(getResources().getColor(R.color.main_color_dk));
-		}
 	}
 
-	/**
-	 * This method will setup the top title bar (Action bar) content and display
-	 * values. It will also setup the custom background theme for ActionBar. You
-	 * can override this method to change the behavior of ActionBar for
-	 * particular Activity
-	 */
-	protected void setupActionBar()
-	{
-		final ActionBar actionBar = getSupportActionBar();
-		if (actionBar == null)
-			return;
-		getSupportActionBar().setDisplayShowTitleEnabled(false);
-		actionBar.setDisplayShowHomeEnabled(true);
-	}
 
 	/* (non-Javadoc)
 	 * @see android.view.View.OnClickListener#onClick(android.view.View)
@@ -99,39 +73,7 @@ public class CustomActivity extends AppCompatActivity implements
 	public void onClick(View v)
 	{
 		// TODO Auto-generated method stub
-
 	}
-
-	/**
-	 * Sets the touch and click listeners for a view..
-	 * 
-	 * @param id
-	 *            the id of View
-	 * @return the view
-	 */
-	public View setTouchNClick(int id)
-	{
-
-		View v = setClick(id);
-		v.setOnTouchListener(TOUCH);
-		return v;
-	}
-
-	/**
-	 * Sets the click listener for a view.
-	 * 
-	 * @param id
-	 *            the id of View
-	 * @return the view
-	 */
-	public View setClick(int id)
-	{
-
-		View v = findViewById(id);
-		v.setOnClickListener(this);
-		return v;
-	}
-
 
 	public void showProgressDialog(String message) {
 		if (mProgressDialog == null) {
@@ -149,88 +91,89 @@ public class CustomActivity extends AppCompatActivity implements
 		}
 	}
 
-	public String getUid() {
-		return FirebaseAuth.getInstance().getCurrentUser().getUid();
+	public void fetchAuthorization() {
+
+		AsyncHttpClient client = new AsyncHttpClient();
+		RequestParams params = new RequestParams();
+		params.put("token", true);
+
+		client.post(BRAINTREE_SERVER, params, new TextHttpResponseHandler() {
+			@Override
+			public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+				onAuthorizationFetched(null);
+			}
+
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, String clientToken) {
+				onAuthorizationFetched(clientToken);
+			}
+		});
 	}
 
-	public DatabaseReference getDb() {
-		return FirebaseDatabase.getInstance().getReference();
+	public void sendPaymentNonce(String nonce,String amount){
+		AsyncHttpClient client = new AsyncHttpClient();
+
+		RequestParams requestParams = new RequestParams();
+		requestParams.put("payment_method_nonce",nonce);
+		requestParams.put("amount",amount);
+
+		client.post(BRAINTREE_SERVER, requestParams, new TextHttpResponseHandler() {
+			@Override
+			public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+				onTransactionDone(responseString);
+			}
+
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, String responseString) {
+				onTransactionDone(responseString);
+			}
+		});
+	}
+
+	/** Defines callbacks for service binding, passed to bindService() */
+	protected ServiceConnection mConnection = new ServiceConnection() {
+
+		@Override
+		public void onServiceConnected(ComponentName className,
+									   IBinder service) {
+			// We've bound to LocalService, cast the IBinder and get LocalService instance
+			Log.i(TAG, "Connected to Firebase service");
+			FirebaseService.LocalBinder binder = (FirebaseService.LocalBinder) service;
+			mService = binder.getService();
+			mBound = true;
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName arg0) {
+			Log.i(TAG, "Disconnected from Firebase service");
+			mBound = false;
+		}
+	};
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		// Bind to LocalService
+		Intent intent = new Intent(this, FirebaseService.class);
+		bindService(intent, mConnection, BIND_AUTO_CREATE);
 	}
 
 	@Override
-	public void onFragmentInteraction(String[] details,boolean update) {
-		Log.i(TAG,"key = " + details[5] + " update = "+update);
-
-		Map<String, Object> childUpdates = new HashMap<>();
-
-		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/key"     ,details[0]);
-		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/size"    ,details[1]);
-		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/color"   ,details[2]);
-		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/quantity",details[3]);
-		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/comment" ,details[4]);
-		childUpdates.put("/users-data/" + getUid() + "/commands/"+details[5]+"/state"   ,0);
-		getDb().updateChildren(childUpdates);
-		childUpdates.put("/commands/"+details[5]+"/key"     ,details[0]);
-		childUpdates.put("/commands/"+details[5]+"/size"    ,details[1]);
-		childUpdates.put("/commands/"+details[5]+"/color"   ,details[2]);
-		childUpdates.put("/commands/"+details[5]+"/quantity",details[3]);
-		childUpdates.put("/commands/"+details[5]+"/comment" ,details[4]);
-		childUpdates.put("/commands/"+details[5]+"/user"    ,details[6]);
-		childUpdates.put("/commands/"+details[5]+"/seller"  ,details[7]);
-		childUpdates.put("/commands/"+details[5]+"/state"   ,0);
-		getDb().updateChildren(childUpdates);
-
-		//setBadgeCount(this, mIcon, String.valueOf(count));
+	protected void onStop() {
+		super.onStop();
+		unbindService(mConnection);
+		mBound = false;
 	}
 
-    @Override
-    public void onListFragmentInteraction(CommentFragment.ArticleComment item) {
-
-    }
-
-    private void  loadData()
-    {
-        if (getSupportLoaderManager().getLoader(0) == null){
-            getSupportLoaderManager().initLoader(0,null,this);
-        }else{
-            getSupportLoaderManager().restartLoader(0,null,this);
-        }
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri PlacesUri = UzaContract.CommandsEntry.CONTENT_URI_CHECKOUT;
-
-        return new CursorLoader(this,
-                PlacesUri,
-                ITEMS_COMMANDS_COLUMNS,
-                null,
-                null,
-                null);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        //setBadgeCount(getApplicationContext(), mIcon, String.valueOf(count));
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
+	protected void onAuthorizationFetched(String token) {}
+	protected void onTransactionDone(String responseString) {}
 
 	@Override
-	public void onItemFragmentInteraction(String title) {
-
-	}
+	public void onListFragmentInteraction(CommentFragment.ArticleComment item) {}
 
 	@Override
-	public void onCommandSelectedInteraction(String key) {
-
-	}
+	public void onItemFragmentInteraction(String title) {}
 
 	@Override
-	public void onCheckoutInteraction(String amount, ArrayList<Data> commands) {
-
-	}
+	public void onCommandSelectedInteraction(String key) {}
 }

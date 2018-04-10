@@ -355,7 +355,7 @@ public class CrystalRangeSeekbar extends View {
     }
 
     public CrystalRangeSeekbar setLeftThumbHighlightDrawable(Drawable drawable){
-        setLeftThumbHighlightBitmap(getBitmap(drawable));
+        setLeftThumbHighlightBitmap(getBitmap(getResources().getDrawable(R.drawable.ic_action_logo)));
         return this;
     }
 

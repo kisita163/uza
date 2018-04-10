@@ -133,9 +133,15 @@
     <string name="state_province">État / Province</string>
     <string name="postal_code">Zip / Code postal</string>
     <string name="country">Pays</string>
-    <string name="save_information">Save information</string>
+    <string name="save_information">Sauvegarder</string>
     <string name="first_name">Prénom</string>
     <string name="select_currency">Choisir une monnaie</string>
     <string name="select">Choisir</string>
     <string name="cancel">Annuler</string>
+    <string name="email_verification">Verification email sent to</string>
+    <string name="send_verification_fail">Failed to send verification email.</string>
+    <string name="hello">Hello</string>
+    <string name="selecte_a_country">Click here to select a country</string>
+    <string name="loading">Loading...</string>
+    <string name="command_current_state">Command state</string>
 </resources>

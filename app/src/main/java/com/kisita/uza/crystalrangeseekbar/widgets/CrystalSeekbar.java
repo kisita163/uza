@@ -287,7 +287,7 @@ public class CrystalSeekbar extends View {
     }
 
     public CrystalSeekbar setThumbDrawable(int resId) {
-        setThumbDrawable(ContextCompat.getDrawable(getContext(), resId));
+        setThumbDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_action_logo));
         return this;
     }
 
@@ -581,7 +581,7 @@ public class CrystalSeekbar extends View {
     }
 
     protected Drawable getThumbDrawable(final TypedArray typedArray) {
-        return typedArray.getDrawable(R.styleable.CrystalSeekbar_thumb_image);
+        return getResources().getDrawable(R.drawable.ic_action_logo);
     }
 
     protected Drawable getThumbDrawablePressed(final TypedArray typedArray) {
@@ -665,7 +665,7 @@ public class CrystalSeekbar extends View {
     }
 
     protected void setupLeftThumb(final Canvas canvas, final Paint paint, final RectF rect) {
-
+        Log.i("THUMB","setup left here with color");
         thumbColor = (Thumb.MIN.equals(pressedThumb)) ? thumbColorPressed : thumbColorNormal;
         paint.setColor(thumbColor);
 
@@ -676,18 +676,22 @@ public class CrystalSeekbar extends View {
         rectThumb.bottom = thumbHeight;
 
         if (thumb != null) {
+            Log.i("THUMB","not null");
             Bitmap lThumb = (Thumb.MIN.equals(pressedThumb)) ? thumbPressed : thumb;
             drawLeftThumbWithImage(canvas, paint, rectThumb, lThumb);
         } else {
+            Log.i("THUMB","null");
             drawLeftThumbWithColor(canvas, paint, rectThumb);
         }
     }
 
     protected void drawLeftThumbWithColor(final Canvas canvas, final Paint paint, final RectF rect) {
+        Log.i("THUMB","Drawing left here with color");
         canvas.drawOval(rect, paint);
     }
 
     protected void drawLeftThumbWithImage(final Canvas canvas, final Paint paint, final RectF rect, final Bitmap image) {
+        Log.i("THUMB","Drawing left here with image");
         canvas.drawBitmap(image, rect.left, rect.top, paint);
     }
 

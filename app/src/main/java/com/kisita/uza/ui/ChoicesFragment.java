@@ -6,8 +6,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.Loader;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,6 +21,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kisita.uza.R;
@@ -34,7 +45,10 @@ public class ChoicesFragment extends CustomFragment {
     final static String QUERY = "QUERY";
 
     final static  String TAG  = "### ChoicesFragment";
+
     private UzaListAdapter mListAdapter;
+
+    private SharedPreferences sharedPref;
 
     public ChoicesFragment() {
     }
@@ -50,10 +64,12 @@ public class ChoicesFragment extends CustomFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        sharedPref = getActivity().getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_choices, container, false);
 
@@ -78,7 +94,34 @@ public class ChoicesFragment extends CustomFragment {
         if(list != null)
             recyclerView.setAdapter(mListAdapter);
 
+        TextView greeting        = view.findViewById(R.id.greeting);
+        ImageView userPicture    = view.findViewById(R.id.user_picture);
+
+        setGreeting(greeting,userPicture);
+
         return view;
+    }
+
+    private void setGreeting(TextView greeting, final ImageView userPicture) {
+        //Text
+        String name      = sharedPref.getString(getResources().getString(R.string.uza_billing_name),"");
+        String message  = getString(R.string.hello) + " " + name + "!";
+        greeting.setText(message);
+        //Image
+        if((LoginManager.getInstance() != null) && (Profile.getCurrentProfile() != null)){
+            Uri pic = Profile.getCurrentProfile().getProfilePictureUri(400,400);
+
+            Glide.with(getContext()).load(pic.toString()).asBitmap().centerCrop().into(new BitmapImageViewTarget(userPicture) {
+                @Override
+                protected void setResource(Bitmap resource) {
+                    RoundedBitmapDrawable circularBitmapDrawable =
+                            RoundedBitmapDrawableFactory.create(getContext().getResources(), resource);
+                    circularBitmapDrawable.setCircular(true);
+                    userPicture.setImageDrawable(circularBitmapDrawable);
+                }
+            });
+            Log.i(TAG,"Pic uri is  : "+ pic.getAuthority() + " " + pic.getPath()+ " "+ pic.toString());
+        }
     }
 
     @Override
@@ -86,36 +129,34 @@ public class ChoicesFragment extends CustomFragment {
         super.onDetach();
     }
 
+    @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         return null;
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
 
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
 
     }
 
 
     public void onChoiceMadeListener(String name){
 
-        if(name.equalsIgnoreCase(getString(R.string.title_notifications))){
-            handleNotifications();
-        }
-
         if(name.equalsIgnoreCase(getString(R.string.currency))){
             handleCurrency();
         }
-        if(name.equalsIgnoreCase(getString(R.string.payment_mthod))){
-            handlePaymentMethod();
-        }
         if(name.equalsIgnoreCase(getString(R.string.billing_information))){
             handleBillingInfo();
+        }
+
+        if(name.equalsIgnoreCase(getString(R.string.commands))){
+            handleCommands();
         }
         if(name.equalsIgnoreCase(getString(R.string.about_us))){
             handleAboutUs();
@@ -124,6 +165,13 @@ public class ChoicesFragment extends CustomFragment {
         if(name.equalsIgnoreCase(getString(R.string.action_logout))){
             handleLogout();
         }
+    }
+
+    private void handleCommands() {
+        Log.i(TAG,"Handling billing info");
+        Intent intent = new Intent(getContext(), UzaActivity.class);
+        intent.putExtra("fragment", 0);
+        getContext().startActivity(intent);
     }
 
     private void handleLogout() {
@@ -166,7 +214,7 @@ public class ChoicesFragment extends CustomFragment {
     private void handleCurrency() {
         Log.i(TAG,"Handling currency");
 
-        final SharedPreferences sharedPref = getActivity().getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPref.edit();
         int pos     = sharedPref.getInt(getResources().getString(R.string.uza_currency_position), 0);
 
 
@@ -180,7 +228,6 @@ public class ChoicesFragment extends CustomFragment {
                 .setPositiveButton(R.string.select, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        SharedPreferences.Editor editor = sharedPref.edit();
                         int selectedPosition = ((AlertDialog)dialog).getListView().getCheckedItemPosition();
 
                         Log.i(TAG,"Selected currency is : " + selectedPosition);

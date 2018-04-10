@@ -18,15 +18,15 @@ public class SettingsContent {
 
     public static final int [] categories = {
             R.string.currency,
-            R.string.payment_mthod,
             R.string.billing_information,
+            R.string.commands,
             R.string.about_us,
             R.string.action_logout};
 
     private static final int [] icons = {
             R.drawable.ic_action_currency,
-            R.drawable.ic_action_payement,
             R.drawable.ic_action_address,
+            R.drawable.ic_action_cart,
             R.drawable.ic_action_info,
             R.drawable.ic_action_logout};
     /**

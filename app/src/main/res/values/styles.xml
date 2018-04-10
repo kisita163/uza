@@ -33,6 +33,18 @@
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
+    <style name="uza_billing_text" parent="android:Widget.Holo.Light.Button">
+        <item name="android:background">@drawable/edittext_bg</item>
+        <item name="android:paddingLeft">@dimen/pad_10dp</item>
+        <item name="android:paddingRight">@dimen/pad_10dp</item>
+        <item name="android:drawablePadding">@dimen/pad_20dp</item>
+        <item name="android:textColor">@color/main_grey_dk</item>
+        <item name="android:textColorHint">@color/main_grey</item>
+        <item name="android:textSize">@dimen/txt_15sp</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
     <style name="btn" parent="android:Widget.Holo.Light.Button">
         <item name="android:minHeight">1dp</item>
         <item name="android:minWidth">1dp</item>
@@ -141,6 +153,23 @@
     <style name="card_enabled" parent="@style/card_disable">
 
         <item name="android:textColor">@color/main_grey_dk1</item>
+    </style>
+
+
+    <style name="Theme.Transparent" parent="android:Theme.Material.Dialog.Alert">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <!-- Alert Dialog -->
+    <style name="UzaAlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/main_color_dk</item>
+        <item name="android:colorBackground">@color/main_color_dk</item>
+        <item name="android:windowBackground">@color/main_color</item>
     </style>
 
 </resources>

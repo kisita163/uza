@@ -3,6 +3,7 @@ package com.kisita.uza.ui;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -39,7 +40,7 @@ public class FavoritesFragment extends CustomFragment implements  LoaderManager.
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_card, container, false);
@@ -89,6 +90,7 @@ public class FavoritesFragment extends CustomFragment implements  LoaderManager.
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Log.i(TAG,"result "+ data.getCount());
+        itemsList.clear();
         while (data.moveToNext()) {
 
             Data d = new Data(data,FAVOURITE_DATA);
