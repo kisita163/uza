@@ -75,4 +75,10 @@ public abstract class CustomFragment extends Fragment implements OnClickListener
 			getLoaderManager().restartLoader(0,null,this);
 		}
 	}
+
+	@Override
+	public void onDetach() {
+		getLoaderManager().destroyLoader(0);
+		super.onDetach();
+	}
 }
