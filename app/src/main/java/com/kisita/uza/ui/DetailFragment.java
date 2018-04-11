@@ -36,6 +36,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.kisita.uza.model.Data.FAVOURITES_COLUMNS;
+import static com.kisita.uza.utils.UzaFunctions.getCommandState;
+import static com.kisita.uza.utils.UzaFunctions.getCommandStateLogo;
 import static com.kisita.uza.utils.UzaFunctions.getCurrency;
 import static com.kisita.uza.utils.UzaFunctions.setFormat;
 import static com.kisita.uza.utils.UzaFunctions.setPrice;
@@ -149,23 +151,34 @@ public class DetailFragment extends CustomFragment{
         TextView  item_type         = v.findViewById(R.id.item_type);
         TextView  item_price        = v.findViewById(R.id.item_price);
         TextView  item_description  = v.findViewById(R.id.item_description);
-        LinearLayout commandState   = v.findViewById(R.id.command_state_container);
+        //
+        TextView  commandId         = v.findViewById(R.id.command_id_value);
+        TextView  commandState      = v.findViewById(R.id.command_state_value);
+        TextView  commandQty        = v.findViewById(R.id.command_quantity_value);
+
+        LinearLayout commandCont    = v.findViewById(R.id.command_state_container);
+        ImageView    stateLogo      = v.findViewById(R.id.state_logo);
 
         Button add = v.findViewById(R.id.addToCart);
+
         if(itemData.isCommand()){
             add.setVisibility(View.GONE);
+            commandState.setText(getCommandState(itemData.getCommandState()));
+            commandId.setText(itemData.getCommandId());
+            commandQty.setText(itemData.getQuantity());
+            stateLogo.setImageResource(getCommandStateLogo(itemData.getCommandState()));
         }else{
-            commandState.setVisibility(View.GONE);
+            commandCont.setVisibility(View.GONE);
             add.setOnClickListener(this);
         }
 
         mlike =  v.findViewById(R.id.favourite);
         mlike.setOnClickListener(this);
 
-        ImageView shareFacebook = (ImageView) v.findViewById(R.id.shareFacebook);
+        ImageView shareFacebook = v.findViewById(R.id.shareFacebook);
         shareFacebook.setOnClickListener(this);
 
-        ImageView shareWhatsapp = (ImageView) v.findViewById(R.id.share_whatsapp);
+        ImageView shareWhatsapp = v.findViewById(R.id.share_whatsapp);
         shareWhatsapp.setOnClickListener(this);
 
         if(itemData != null) {
