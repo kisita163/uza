@@ -271,8 +271,8 @@ public class FirebaseService extends Service {
         Map<String, Object> commandsUpdates = new HashMap<>();
         if(commands != null){
             for(Data d : commands) {
-                commandsUpdates.put("/users-data/" + getUid() + "/commands/" + d.getCommandId() + "/state","1"); // 1 = command received
-                commandsUpdates.put("/commands/" + d.getCommandId() + "/state", "1");
+                commandsUpdates.put("/users-data/" + getUid() + "/commands/" + d.getCheckoutId() + "/state","1"); // 1 = command received
+                commandsUpdates.put("/commands/" + d.getCheckoutId() + "/state", "1");
             }
             mDatabase.updateChildren(commandsUpdates);
         }

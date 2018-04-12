@@ -176,4 +176,50 @@ public class UzaFunctions {
         }
         return price;
     }
+
+    public static String getCommandState(int state){
+
+        String ret = null;
+
+        switch (state){
+            case 1 :
+                ret = "Payment processing";
+            break;
+            case 2 :
+                ret = "Packing";
+                break;
+            case 3 :
+                ret = "Shipped";
+                break;
+            case 4 :
+                ret = "Delivered";
+                break;
+            default:
+                ret = "";
+        }
+        return ret;
+    }
+
+    public static int getCommandStateLogo(int state){
+
+        int ret;
+
+        switch (state){
+            case 1 :
+                ret = R.drawable.ic_action_payement;
+                break;
+            case 2 :
+                ret = R.drawable.ic_action_packing;
+                break;
+            case 3 :
+                ret = R.drawable.ic_action_shipping;
+                break;
+            case 4 :
+                ret =  R.drawable.ic_action_delivered;
+                break;
+            default:
+                ret = 0;
+        }
+        return ret;
+    }
 }

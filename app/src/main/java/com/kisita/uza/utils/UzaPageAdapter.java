@@ -41,7 +41,7 @@ public class UzaPageAdapter extends PagerAdapter implements ViewPager.OnPageChan
         this.vDots    = dotLayout;
         this.listener = listener;
         setupDotBar();
-        Collections.reverse(this.urls);
+        //Collections.reverse(this.urls);
     }
 
     /* (non-Javadoc)

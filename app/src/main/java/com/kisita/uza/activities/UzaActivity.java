@@ -32,6 +32,9 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
 
     private CallbackManager callbackManager;
 
+    private static final String CURRENT_FRAGMENT_ID = "current_fragment_id";
+
+    private int mCurrentFragmentId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +42,12 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
         setContentView(R.layout.activity_checkout);
         toolbar = findViewById(R.id.checkout_toolbar);
 
-        setFragment(getIntent().getIntExtra("fragment", -1));
+        int fId = getIntent().getIntExtra("fragment", -1);
 
+        if((fId == -1) && (savedInstanceState != null)){
+            fId = savedInstanceState.getInt(CURRENT_FRAGMENT_ID);
+        }
+        setFragment(fId);
         setSupportActionBar(toolbar);
 
         Drawable upArrow = getResources().getDrawable(R.drawable.ic_action_close);
@@ -52,16 +59,24 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
         callbackManager = CallbackManager.Factory.create();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG,"(resume) fid = " + mCurrentFragmentId);
+    }
 
     void setFragment(int fid) {
         String title = "";
         Fragment f = null;
         switch (fid) {
             case (0):
+                title = getString(R.string.commands);
                 f = CommandsFragment.newInstance();
                 break;
             case (3):
-                f = DetailFragment.newInstance((Data) getIntent().getSerializableExtra("details"));
+                Data d = (Data) getIntent().getSerializableExtra("details");
+                title = d.getAuthor();
+                f = DetailFragment.newInstance(d);
                 break;
             case(4):
                 title=getString(R.string.billing_information);
@@ -70,18 +85,19 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
             default:
                 break;
         }
+        mCurrentFragmentId = fid;
+        updateForegroundFragment(title, f);
+    }
+
+    public void updateForegroundFragment(String title, Fragment f) {
         toolbar.setTitle(title);
         if (f != null) {
             getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_left,R.anim.slide_in_left,R.anim.slide_out_right)
                     .replace(R.id.content_frame, f , title)
+                    .addToBackStack(null)
                     .commit();
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        getFragmentManager().popBackStackImmediate();
     }
 
     @Override
@@ -133,5 +149,22 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
         if(mBound){
             mService.addNewItemInCart(details);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.i(TAG,"Fragment count is  : " + getSupportFragmentManager().getBackStackEntryCount());
+        if(getSupportFragmentManager().getBackStackEntryCount() == 1)
+            finish();
+        else
+            super.onBackPressed();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if(mCurrentFragmentId != 0){
+            outState.putInt(CURRENT_FRAGMENT_ID,mCurrentFragmentId);
+        }
+        super.onSaveInstanceState(outState);
     }
 }

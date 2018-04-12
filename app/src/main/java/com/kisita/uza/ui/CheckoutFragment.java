@@ -249,7 +249,7 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 		mCheckoutItemsAdapter.notifyDataSetChanged();
 
 		String where   = "_ID = ?";
-		String [] args =  {d.getCommandId()};
+		String [] args =  {d.getCheckoutId()};
 		getContext().getContentResolver().delete(
 				UzaContract.CommandsEntry.CONTENT_URI_COMMANDS,
 				where,
@@ -258,7 +258,7 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 
 		// Delete command in firebase
 		DatabaseReference commands = getDb().child("users-data").child(getUid()).child("commands");
-		commands.child(d.getCommandId()).removeValue();
+		commands.child(d.getCheckoutId()).removeValue();
 		// Update activity checkout fragment
 		((MainActivity)getActivity()).setFragment(new CheckoutFragment());
 		//Log.i(TAG,"**** "+rowDeleted);

@@ -126,7 +126,7 @@
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyBRrg6VtkuBk9gwrvxRmkkQEJs0_5D7ATQ
     </string>
-    <string name="command_id">Command #</string>
+    <string name="command_id">ID #</string>
     <string name="command_state">State</string>
     <string name="command_transporter">Transporter</string>
     <string name="command_contact">Contact</string>
@@ -209,4 +209,5 @@
     <string name="transaction_complete">Transaction complete</string>
     <string name="command_current_state">Command state</string>
     <string name="send_logs">Send logs</string>
+    <string name="the_command_state">The command state</string>
 </resources>

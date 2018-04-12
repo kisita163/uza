@@ -22,6 +22,8 @@ import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.UzaCardAdapter;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import static com.kisita.uza.model.Data.FAVOURITE_DATA;
 import static com.kisita.uza.model.Data.ITEMS_COLUMNS;
 
@@ -89,14 +91,15 @@ public class FavoritesFragment extends CustomFragment implements  LoaderManager.
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Log.i(TAG,"result "+ data.getCount());
-        itemsList.clear();
+
         while (data.moveToNext()) {
 
             Data d = new Data(data,FAVOURITE_DATA);
 
             d.setFavourite(true);
-            itemsList.add(d);
+
+            if(Arrays.binarySearch(itemsList.toArray(), d) < 0) // Is the new data already in my list?
+                itemsList.add(d);
             mCardadapter.notifyDataSetChanged();
         }
     }

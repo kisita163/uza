@@ -54,31 +54,13 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 	final Handler handler = new Handler();
 
 	Timer scheduledLoad;
-
-	// this will run when timer elapses
-	TimerTask mTimerTask = new TimerTask() {
-
-		@Override
-		public void run() {
-			handler.post(new Runnable() {
-				@Override
-				public void run() {
-					if(itemsList.size() == 0 && !mListFilled) { // items list is empty. Try to load again
-						Log.i(TAG,"Items list is empty. Try to load again");
-						loadData();
-					}else{
-                        stopScheduledTask();
-                    }
-				}
-			});
-		}
-
-	};
+	TimerTask mTimerTask;
 
     private void stopScheduledTask() {
         // Stopping timer task
         if(scheduledLoad != null) {
             scheduledLoad.cancel();
+            scheduledLoad.purge();
             scheduledLoad = null;
         }
     }
@@ -147,19 +129,37 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 
 
     @Override
-    public void onStart() {
-	    if(scheduledLoad == null) {
-            scheduledLoad = new Timer("load data");
-            try {
-				scheduledLoad.schedule(mTimerTask, 500, 1500); // Verify itemData after 500 ms
-			}catch(IllegalStateException e){
-            	Log.i(TAG,"TimerTask is scheduled already");
-			}
-        }
-        super.onStart();
+    public void onResume() {
+		super.onResume();
+		scheduledLoad = new Timer("load data");
+		// Initialize timer task
+		initializeTimerTask();
+		scheduledLoad.schedule(mTimerTask, 500, 1500); // Verify itemData after 500 ms
     }
 
-    @Override
+	private void initializeTimerTask() {
+		// this will run when timer elapses
+		mTimerTask = new TimerTask() {
+
+			@Override
+			public void run() {
+				handler.post(new Runnable() {
+					@Override
+					public void run() {
+						if(itemsList.size() == 0 && !mListFilled) { // items list is empty. Try to load again
+							Log.i(TAG,"Items list is empty. Try to load again");
+							loadData();
+						}else{
+							stopScheduledTask();
+						}
+					}
+				});
+			}
+
+		};
+	}
+
+	@Override
     public void onStop() {
 	    stopScheduledTask();
         super.onStop();
@@ -176,13 +176,6 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 			getLoaderManager().restartLoader(0,null,this);
 		}
 	}
-
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-	}
-
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -59,6 +59,13 @@
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
+    <style name="uza_command_style" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:textSize">@dimen/txt_16sp</item>
+        <item name="android:textColor">@color/main_green</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
     <style name="uza_lineto_text_style" parent="android:Widget.Holo.Light.TextView">
         <item name="android:textColor">@color/bt_light_gray</item>
         <item name="android:textSize">@dimen/txt_20sp</item>

@@ -2,6 +2,7 @@ package com.kisita.uza.model;
 
 
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 import static com.kisita.uza.utils.UzaFunctions.getPicturesUrls;
 
-public class Data implements Serializable
+public class Data implements Serializable, Comparable<Data>
 {
     public static int ITEM_DATA      = 0;
     public static int CHECKOUT_DATA  = 1;
@@ -66,6 +67,8 @@ public class Data implements Serializable
     private String mCheckoutId;
 
     private String mCommandState;
+
+    private String mCommandID;
 
     /**
      * Instantiates a new data.
@@ -125,6 +128,7 @@ public class Data implements Serializable
                 this.mCommandState = data.getString(index);
             }
 
+
             if(s.equalsIgnoreCase(UzaContract.LikesEntry.COLUMN_LIKES)){
                 if(data.getString(index) != null)
                     this.mFavourite = true;
@@ -137,8 +141,10 @@ public class Data implements Serializable
 
                     if(data.getString(index) != null && dataType == CHECKOUT_DATA){
                         this.mCheckoutId = data.getString(index);
-                    }else if(data.getString(index) != null && dataType == ITEM_DATA){
+                    }else if((data.getString(index) != null) && ((dataType == ITEM_DATA) || (dataType == FAVOURITE_DATA))){
 						this.mFavouriteId = data.getString(index);
+					}else if(data.getString(index) != null && dataType == COMMAND_DATA){
+                    	this.mCommandID = data.getString(index);
 					}
                 }
             }
@@ -166,9 +172,13 @@ public class Data implements Serializable
         this.mFavourite = favourite;
     }
 
-    public String getCommandId() {
+    public String getCheckoutId() {
         return mCheckoutId;
     }
+
+	public String getCommandId() {
+		return mCommandID;
+	}
 
 	public static final String[] ITEMS_COLUMNS = {
 	        UzaContract.ItemsEntry.TABLE_NAME + "." + UzaContract.ItemsEntry._ID,
@@ -333,15 +343,21 @@ public class Data implements Serializable
 		return check;
 	}
 
-	public double getCommandState(){
-		double state = -1;
+	public int getCommandState(){
+		int state = -1;
 		try{
-			state = Double.valueOf(this.mCommandState);
+			state = Integer.valueOf(this.mCommandState);
 		}catch(NumberFormatException e){
 			Log.e(TAG, "Command state is not well formatted " + e.getMessage());
 		}catch(Exception e){
 			Log.e(TAG, "Unknown error when formatting the state " + e.getMessage());
 		}
     	return state;
+	}
+
+	@Override
+	public int compareTo(@NonNull Data data) {
+	    Log.i(TAG,"Comparator in Data");
+		return this.getItemId().compareTo(data.getItemId());
 	}
 }

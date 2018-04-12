@@ -1,5 +1,6 @@
 package com.kisita.uza.ui.FixedContents;
 
+import com.kisita.uza.BuildConfig;
 import com.kisita.uza.R;
 import com.kisita.uza.model.UzaListItem;
 
@@ -46,8 +47,13 @@ public class SettingsContent {
     }
 
     static {
+
         for(int i = 0 ; i < COUNT ; i ++ ){
             addItem(new UzaListItem(categories[i],icons[i]));
+        }
+
+        if (BuildConfig.DEBUG){
+            addItem(new UzaListItem(R.string.send_logs,R.drawable.ic_action_email));
         }
     }
 

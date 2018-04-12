@@ -1,5 +1,6 @@
 package com.kisita.uza.ui;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.UzaCardAdapter;
+import com.kisita.uza.utils.UzaCommandAdapter;
+
 import java.util.ArrayList;
 
 import static com.kisita.uza.model.Data.COMMAND_DATA;
@@ -33,9 +36,9 @@ import static com.kisita.uza.model.Data.ITEMS_COMMANDS_COLUMNS;
  * A placeholder fragment containing a simple view.
  */
 public class CommandsFragment extends CustomFragment implements  LoaderManager.LoaderCallbacks<Cursor> {
-    final static String TAG = "### FavoritesFragment";
+    final static String TAG = "### CommandsFragment";
     /*The card adapter*/
-    private UzaCardAdapter mCardadapter;
+    private UzaCommandAdapter mCardadapter;
     /*The list of items*/
     private ArrayList<Data> itemsList;
 
@@ -73,13 +76,20 @@ public class CommandsFragment extends CustomFragment implements  LoaderManager.L
                 StaggeredGridLayoutManager.VERTICAL);
         setHasOptionsMenu(true);
         recList.setLayoutManager(llm);
-        mCardadapter = new UzaCardAdapter(this.getContext(),itemsList);
+        mCardadapter = new UzaCommandAdapter(this.getContext(),itemsList);
         recList.setAdapter(mCardadapter);
     }
 
     @Override
     public void onDetach() {
+        Log.i(TAG,"Fragment detached. array size is " + itemsList.size());
         super.onDetach();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        Log.i(TAG,"Fragment attached. array size is ");
+        super.onAttach(context);
     }
 
     @Override
@@ -97,8 +107,7 @@ public class CommandsFragment extends CustomFragment implements  LoaderManager.L
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Log.i(TAG,"result "+ data.getCount());
-        itemsList.clear();
+
         while (data.moveToNext()) {
 
             Data d = new Data(data,COMMAND_DATA);

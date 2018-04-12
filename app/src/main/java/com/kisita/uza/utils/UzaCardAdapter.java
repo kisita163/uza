@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.model.Data;
+import com.kisita.uza.provider.UzaContract;
+import com.kisita.uza.ui.DetailFragment;
 
 import java.util.ArrayList;
 
@@ -107,10 +110,15 @@ public class UzaCardAdapter extends
     }
 
     private void openDetailFragment(int position) {
-        Intent intent = new Intent(mContext, UzaActivity.class);
-        intent.putExtra("fragment", 3);
-        intent.putExtra("details", itemsList.get(position));
-        mContext.startActivity(intent);
+
+        if(mContext instanceof UzaActivity){
+            ((UzaActivity) mContext).updateForegroundFragment(itemsList.get(position).getAuthor(), DetailFragment.newInstance( itemsList.get(position)));
+        }else {
+            Intent intent = new Intent(mContext, UzaActivity.class);
+            intent.putExtra("fragment", 3);
+            intent.putExtra("details", itemsList.get(position));
+            mContext.startActivity(intent);
+        }
     }
 
 
