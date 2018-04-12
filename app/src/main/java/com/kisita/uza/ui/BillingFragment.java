@@ -2,12 +2,11 @@ package com.kisita.uza.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +17,27 @@ import com.mukesh.countrypicker.Country;
 import com.mukesh.countrypicker.CountryPicker;
 import com.mukesh.countrypicker.OnCountryPickerListener;
 
+import static com.kisita.uza.utils.Settings.getClientAddress;
+import static com.kisita.uza.utils.Settings.getClientCity;
+import static com.kisita.uza.utils.Settings.getClientCountry;
+import static com.kisita.uza.utils.Settings.getClientFirstName;
+import static com.kisita.uza.utils.Settings.getClientLastName;
+import static com.kisita.uza.utils.Settings.getClientNumber;
+import static com.kisita.uza.utils.Settings.getClientPostalCode;
+import static com.kisita.uza.utils.Settings.getClientState;
+import static com.kisita.uza.utils.Settings.setClientAddress;
+import static com.kisita.uza.utils.Settings.setClientCity;
+import static com.kisita.uza.utils.Settings.setClientCountry;
+import static com.kisita.uza.utils.Settings.setClientFirstName;
+import static com.kisita.uza.utils.Settings.setClientLastName;
+import static com.kisita.uza.utils.Settings.setClientNumber;
+import static com.kisita.uza.utils.Settings.setClientPostalCode;
+import static com.kisita.uza.utils.Settings.setClientState;
+
 
 public class BillingFragment extends Fragment implements OnCountryPickerListener, View.OnClickListener {
 
-    private static String TAG = "### BillingFragment";
+    //private static String TAG = "### BillingFragment";
 
     private Button mCountry;
 
@@ -65,7 +81,7 @@ public class BillingFragment extends Fragment implements OnCountryPickerListener
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.billing_layout, container, false);
@@ -77,39 +93,26 @@ public class BillingFragment extends Fragment implements OnCountryPickerListener
 
     private void initFields() {
 
-        SharedPreferences sharedPref = getActivity().getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
+        Context context = getContext();
         // First Name
-        String firstName  = sharedPref.getString(getString(R.string.uza_billing_first_name),"");
-        mFirstName.setText(firstName);
-
+        mFirstName.setText(getClientFirstName(context));
         // Name
-        String name  = sharedPref.getString(getString(R.string.uza_billing_name),"");
-        mName.setText(name);
-
+        mName.setText(getClientLastName(context));
         // Phone number
-        String phoneNumber  = sharedPref.getString(getString(R.string.uza_billing_phone),"");
-        mPhoneNumber.setText(phoneNumber);
-
+        mPhoneNumber.setText(getClientNumber(context));
         //Address
-        String address  = sharedPref.getString(getString(R.string.uza_billing_address),"");
-        mAddress.setText(address);
-
+        mAddress.setText(getClientAddress(context));
         //City
-        String city  = sharedPref.getString(getString(R.string.uza_billing_city),"");
-        mCity.setText(city);
-
-        //City
-        String stateProvince  = sharedPref.getString(getString(R.string.uza_billing_state_province),"");
-        mStateProvince.setText(stateProvince);
-
+        mCity.setText(getClientCity(context));
+        //Province
+        mStateProvince.setText(getClientState(context));
         //Postal code
-        String postalCode  = sharedPref.getString(getString(R.string.uza_billing_postal_code),"");
-        mPostalCode.setText(postalCode);
+        mPostalCode.setText(getClientPostalCode(context));
         // Country field
         Country  country    = null ;//= mCountryPicker.getCountryFromSIM(getContext());
-        String   countryName = sharedPref.getString(getString(R.string.uza_billing_country),""); // Check country ISO here
+        String   countryName = getClientCountry(context);// Check country ISO here
 
-        if(countryName.equalsIgnoreCase("")) { // Country not initialized yet
+        if(countryName == null || countryName.equalsIgnoreCase("")) { // Country not initialized yet
             mCountry.setText(R.string.selecte_a_country);
         }else {
             country =  mCountryPicker.getCountryByISO(countryName);
@@ -183,19 +186,15 @@ public class BillingFragment extends Fragment implements OnCountryPickerListener
     @Override
     public void onClick(View view) {
         if(validateBillingForm()){
-            SharedPreferences sharedPref = getActivity().getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPref.edit();
-
-            editor.putString(getString(R.string.uza_billing_first_name),mFirstName.getText().toString());
-            editor.putString(getString(R.string.uza_billing_name),mName.getText().toString());
-            editor.putString(getString(R.string.uza_billing_phone),mPhoneNumber.getText().toString());
-            editor.putString(getString(R.string.uza_billing_address),mAddress.getText().toString());
-            editor.putString(getString(R.string.uza_billing_city),mCity.getText().toString());
-            editor.putString(getString(R.string.uza_billing_state_province),mStateProvince.getText().toString());
-            editor.putString(getString(R.string.uza_billing_postal_code),mPostalCode.getText().toString());
-            editor.putString(getString(R.string.uza_billing_country),mCountryCode);
-
-            editor.apply();
+            Context context = getContext();
+            setClientFirstName(context,mFirstName.getText().toString());
+            setClientLastName(context,mName.getText().toString());
+            setClientNumber(context,mPhoneNumber.getText().toString());
+            setClientCity(context,mCity.getText().toString());
+            setClientAddress(context,mAddress.getText().toString());
+            setClientState(context,mStateProvince.getText().toString());
+            setClientPostalCode(context,mPostalCode.getText().toString());
+            setClientCountry(context,mCountryCode);
 
             getActivity().finish();
         }
