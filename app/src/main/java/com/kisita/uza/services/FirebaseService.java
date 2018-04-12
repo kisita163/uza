@@ -281,7 +281,7 @@ public class FirebaseService extends Service {
         if(commands != null){
             for(Data d : commands) {
                 commandsUpdates.put("/users-data/" + getUid() + "/commands/" + d.getCheckoutId() + "/state","1"); // 1 = command received
-              
+
                 commandsUpdates.put("/commands/" + d.getCheckoutId() + "/state", "1");
                 commandsUpdates.put("/commands/" + d.getCheckoutId() + "/fname", getClientFirstName(this));
                 commandsUpdates.put("/commands/" + d.getCheckoutId() + "/lname", getClientLastName(this));

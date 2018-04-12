@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
+
 import com.facebook.CallbackManager;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
@@ -20,7 +22,6 @@ import com.kisita.uza.ui.ItemsFragment;
 import com.kisita.uza.ui.MapsFragment;
 
 import java.util.ArrayList;
-
 
 
 public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCheckoutInteractionListener,
@@ -86,6 +87,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
                 break;
         }
         mCurrentFragmentId = fid;
+
         updateForegroundFragment(title, f);
     }
 
@@ -97,6 +99,14 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
                     .replace(R.id.content_frame, f , title)
                     .addToBackStack(null)
                     .commit();
+        }
+
+        //Handle upper left button
+        Log.i(TAG,"Here we go. count is  : "+getSupportFragmentManager().getBackStackEntryCount());
+        if(getSupportFragmentManager().getBackStackEntryCount() > 0){
+            Log.i(TAG,"Here we go");
+            Drawable upArrow = getResources().getDrawable(R.drawable.ic_action_back_arrow);
+            getSupportActionBar().setHomeAsUpIndicator(upArrow);
         }
     }
 
@@ -156,8 +166,12 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
         Log.i(TAG,"Fragment count is  : " + getSupportFragmentManager().getBackStackEntryCount());
         if(getSupportFragmentManager().getBackStackEntryCount() == 1)
             finish();
-        else
+        else {
+            toolbar.setTitle(R.string.commands);
+            Drawable upArrow = getResources().getDrawable(R.drawable.ic_action_close);
+            getSupportActionBar().setHomeAsUpIndicator(upArrow);
             super.onBackPressed();
+        }
     }
 
     @Override
@@ -166,5 +180,14 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
             outState.putInt(CURRENT_FRAGMENT_ID,mCurrentFragmentId);
         }
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == android.R.id.home){
+            onBackPressed();
+        }
+        return true;
     }
 }
