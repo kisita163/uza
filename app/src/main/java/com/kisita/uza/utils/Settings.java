@@ -109,7 +109,7 @@ public class Settings {
         getSharedPreferencesEditor(context).putString(context.getString(R.string.uza_billing_country),value).apply();
     }
 
-    public boolean isAllBillingInformationPresent(Context context){
+    public static boolean isAllBillingInformationSet(Context context){
         return !(getClientFirstName(context)   == null ||
                  getClientLastName(context)   == null ||
                  getClientNumber(context)     == null ||

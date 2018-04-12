@@ -210,4 +210,6 @@
     <string name="command_current_state">Command state</string>
     <string name="send_logs">Send logs</string>
     <string name="the_command_state">The command state</string>
+    <string name="ok">OK</string>
+    <string name="Billing_info_missing">Some billing info are missing</string>
 </resources>

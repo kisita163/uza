@@ -1,11 +1,13 @@
 package com.kisita.uza.activities;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MenuItem;
 import com.braintreepayments.api.BraintreeFragment;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
+import static com.kisita.uza.utils.Settings.isAllBillingInformationSet;
 import static com.kisita.uza.utils.UzaFunctions.TRANSACTION_OK;
 
 public class MainActivity extends CustomActivity implements CheckoutFragment.OnCheckoutInteractionListener
@@ -182,8 +185,26 @@ public class MainActivity extends CustomActivity implements CheckoutFragment.OnC
     public void onCheckoutInteraction(String amount, ArrayList<Data> commands) {
         mAmount   = String.valueOf(amount);
         mCommands = commands;
-        paymentRequest();
-        Log.i(TAG,"Start transaction with amount = "+mAmount);
+        if(isAllBillingInformationSet(this)) {
+            paymentRequest();
+            Log.i(TAG, "Start transaction with amount = " + mAmount);
+        }else{
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.UzaAlertDialogTheme);
+            builder.setMessage(getString(R.string.Billing_info_missing))
+                    .setPositiveButton(R.string.ok, dialogClickListener).show();
+        }
     }
 
     @Override

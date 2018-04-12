@@ -22,6 +22,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.kisita.uza.utils.Settings.getClientAddress;
+import static com.kisita.uza.utils.Settings.getClientCity;
+import static com.kisita.uza.utils.Settings.getClientCountry;
+import static com.kisita.uza.utils.Settings.getClientFirstName;
+import static com.kisita.uza.utils.Settings.getClientLastName;
+import static com.kisita.uza.utils.Settings.getClientNumber;
+import static com.kisita.uza.utils.Settings.getClientPostalCode;
+import static com.kisita.uza.utils.Settings.getClientState;
+
 
 public class FirebaseService extends Service {
     private static final String TAG = "### FirebaseService";
@@ -272,7 +281,16 @@ public class FirebaseService extends Service {
         if(commands != null){
             for(Data d : commands) {
                 commandsUpdates.put("/users-data/" + getUid() + "/commands/" + d.getCheckoutId() + "/state","1"); // 1 = command received
+              
                 commandsUpdates.put("/commands/" + d.getCheckoutId() + "/state", "1");
+                commandsUpdates.put("/commands/" + d.getCheckoutId() + "/fname", getClientFirstName(this));
+                commandsUpdates.put("/commands/" + d.getCheckoutId() + "/lname", getClientLastName(this));
+                commandsUpdates.put("/commands/" + d.getCheckoutId() + "/phone",getClientNumber(this));
+                commandsUpdates.put("/commands/" + d.getCheckoutId() + "/address",getClientAddress(this));
+                commandsUpdates.put("/commands/" + d.getCheckoutId() + "/city",getClientCity(this));
+                commandsUpdates.put("/commands/" + d.getCheckoutId() + "/province", getClientState(this));
+                commandsUpdates.put("/commands/" + d.getCheckoutId() + "/postal",getClientPostalCode(this));
+                commandsUpdates.put("/commands/" + d.getCheckoutId() + "/country",getClientCountry(this));
             }
             mDatabase.updateChildren(commandsUpdates);
         }
