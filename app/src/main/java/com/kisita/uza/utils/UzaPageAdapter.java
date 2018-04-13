@@ -69,7 +69,7 @@ public class UzaPageAdapter extends PagerAdapter implements ViewPager.OnPageChan
             Glide.with(mContext)
                     .load(urls.get(arg0))
                     .fitCenter()
-                    .error(R.drawable.on_sale_item6)
+                    .error(R.drawable.anonymous_user)
                     .into(img);
         }
 

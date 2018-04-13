@@ -150,6 +150,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.kisita.uza.activities.LoginActivity" />
         </activity>
+        <activity
+            android:name=".activities.DrawerActivity"
+            android:parentActivityName=".activities.LoginActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.kisita.uza.activities.LoginActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -238,12 +238,6 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 		}
 	}
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        MenuItem item = menu.findItem(R.id.action_cart);
-        item.setVisible(false);
-    }
-
 	public void onRemovePressedListener(Data d){
 		itemsList.remove(d);
 		mCheckoutItemsAdapter.notifyDataSetChanged();

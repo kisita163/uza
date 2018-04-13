@@ -67,16 +67,6 @@ public class FavoritesFragment extends CustomFragment implements  LoaderManager.
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        MenuItem item = menu.findItem(R.id.favourite);
-        item.setVisible(false);
-    }
-
-    @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.i(TAG,"Loader created");
         Uri PlacesUri = UzaContract.LikesEntry.CONTENT_URI;

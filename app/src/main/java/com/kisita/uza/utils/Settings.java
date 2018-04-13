@@ -12,7 +12,7 @@ import com.kisita.uza.R;
 public class Settings {
 
 
-    private static SharedPreferences getSharedPreferences(Context context){
+    public static SharedPreferences getSharedPreferences(Context context){
         return context.getSharedPreferences(context.getResources().getString(R.string.uza_keys),
                 Context.MODE_PRIVATE);
     }

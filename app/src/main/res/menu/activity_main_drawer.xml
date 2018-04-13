@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/bikeko_home_black_24dp"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/nav_checkout"
+            android:icon="@drawable/bikeko_add_shopping_cart_black_24dp"
+            android:title="@string/cart" />
+        <item
+            android:id="@+id/nav_favourites"
+            android:icon="@drawable/bikeko_favorite_black_24dp"
+            android:title="@string/favourites" />
+
+        <item
+            android:id="@+id/nav_commands"
+            android:icon="@drawable/bikeko_cart_black_24dp"
+            android:title="@string/commands" />
+
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/title_filters" />
+    </group>
+
+    <item android:title="@string/title_user">
+        <menu>
+            <item
+                android:id="@+id/nav_billing_info"
+                android:icon="@drawable/bikeko_credit_card_black_24dp"
+                android:title="@string/billing_information" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/bikeko_logout_black_24dp"
+                android:title="@string/action_logout" />
+        </menu>
+    </item>
+
+</menu>
