@@ -2,6 +2,7 @@ package com.kisita.uza.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.kisita.uza.R;
+import com.kisita.uza.activities.DrawerActivity;
 import com.kisita.uza.activities.MainActivity;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
@@ -35,6 +37,8 @@ import static com.kisita.uza.utils.UzaFunctions.addDoubles;
 import static com.kisita.uza.utils.UzaFunctions.getCost;
 import static com.kisita.uza.utils.UzaFunctions.getCurrency;
 import static com.kisita.uza.utils.UzaFunctions.getShippingCost;
+import static com.kisita.uza.utils.UzaFunctions.infoAlertDialog;
+import static com.kisita.uza.utils.UzaFunctions.questionAlertDialog;
 import static com.kisita.uza.utils.UzaFunctions.setFormat;
 import static com.kisita.uza.utils.UzaFunctions.setPrice;
 
@@ -57,6 +61,8 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 	private double  mOrder        = 0;
 	private double  mShippingCost = 0;
 	private double  mTotalAmount  = 0;
+
+	private LinearLayout mCheckoutLayout;
 
 	private OnCheckoutInteractionListener mListener;
 
@@ -110,6 +116,9 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 		orderAmountField  = v.findViewById(R.id.order_amount_value);
 		shippingCostField = v.findViewById(R.id.shipping_cost_value);
 		totalAmountField  = v.findViewById(R.id.total);
+		mCheckoutLayout   = v.findViewById(R.id.cost_layout);
+
+		mCheckoutLayout.setVisibility(View.INVISIBLE);
 
 		itemsList = new ArrayList<>();
 
@@ -159,6 +168,7 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 		mOrder        = 0;
 		mTotalAmount  = 0;
 		mShippingCost = 0;
+
 		while (data.moveToNext()) {
 			Data d = new Data(data, CHECKOUT_DATA);
 
@@ -171,6 +181,10 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 
 			itemsList.add(d);
 			mCheckoutItemsAdapter.notifyDataSetChanged();
+		}
+
+		if(mTotalAmount > 0){
+			mCheckoutLayout.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -238,7 +252,28 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 		}
 	}
 
-	public void onRemovePressedListener(Data d){
+	public void onRemovePressedListener(final Data d){
+
+		//Log.i(TAG,"**** "+rowDeleted);
+		//Log.i(TAG, "onRemovePressedListener " + getTag());
+		questionAlertDialog(getContext(),getString(R.string.remove_item), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialogInterface, int i) {
+				switch (i){
+					case DialogInterface.BUTTON_POSITIVE:
+						removeItemFromCart(d);
+						// Update activity checkout fragment
+						((DrawerActivity)getActivity()).setFragment(new CheckoutFragment());
+						break;
+					case DialogInterface.BUTTON_NEGATIVE:
+						//No button clicked
+						break;
+				}
+			}
+		});
+	}
+
+	private void removeItemFromCart(Data d) {
 		itemsList.remove(d);
 		mCheckoutItemsAdapter.notifyDataSetChanged();
 
@@ -253,10 +288,6 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 		// Delete command in firebase
 		DatabaseReference commands = getDb().child("users-data").child(getUid()).child("commands");
 		commands.child(d.getCheckoutId()).removeValue();
-		// Update activity checkout fragment
-		((MainActivity)getActivity()).setFragment(new CheckoutFragment());
-		//Log.i(TAG,"**** "+rowDeleted);
-		//Log.i(TAG, "onRemovePressedListener " + getTag());
 	}
 
 	/*

@@ -2,10 +2,12 @@ package com.kisita.uza.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +35,7 @@ import static com.kisita.uza.utils.Settings.setClientLastName;
 import static com.kisita.uza.utils.Settings.setClientNumber;
 import static com.kisita.uza.utils.Settings.setClientPostalCode;
 import static com.kisita.uza.utils.Settings.setClientState;
+import static com.kisita.uza.utils.UzaFunctions.infoAlertDialog;
 
 
 public class BillingFragment extends Fragment implements OnCountryPickerListener, View.OnClickListener {
@@ -196,7 +199,7 @@ public class BillingFragment extends Fragment implements OnCountryPickerListener
             setClientPostalCode(context,mPostalCode.getText().toString());
             setClientCountry(context,mCountryCode);
 
-            getActivity().finish();
+            infoAlertDialog(getContext(),getString(R.string.Billing_info_saved));
         }
     }
 

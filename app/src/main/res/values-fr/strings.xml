@@ -145,4 +145,7 @@
     <string name="loading">Loading...</string>
     <string name="command_current_state">Command state</string>
     <string name="Billing_info_missing">Some billing info are missing</string>
+    <string name="Billing_info_saved">Billing information saved</string>
+    <string name="item_removed">Item removed</string>
+    <string name="remove_item">Do you really want to remove this item from the cart ?</string>
 </resources>

@@ -1,10 +1,12 @@
 package com.kisita.uza.utils;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.util.Log;
 
@@ -221,5 +223,32 @@ public class UzaFunctions {
                 ret = 0;
         }
         return ret;
+    }
+
+    public static void infoAlertDialog(Context context,String message) {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.UzaAlertDialogTheme);
+        builder.setMessage(message)
+                .setPositiveButton(R.string.ok, dialogClickListener).show();
+    }
+
+    public static void questionAlertDialog(Context context,String message, DialogInterface.OnClickListener dialogClickListener) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.UzaAlertDialogTheme);
+        builder.setMessage(message)
+                .setPositiveButton(R.string.yes, dialogClickListener)
+                .setNegativeButton(R.string.no,dialogClickListener)
+                .show();
     }
 }

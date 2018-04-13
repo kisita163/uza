@@ -39,6 +39,7 @@ import static com.kisita.uza.model.Data.FAVOURITES_COLUMNS;
 import static com.kisita.uza.utils.UzaFunctions.getCommandState;
 import static com.kisita.uza.utils.UzaFunctions.getCommandStateLogo;
 import static com.kisita.uza.utils.UzaFunctions.getCurrency;
+import static com.kisita.uza.utils.UzaFunctions.infoAlertDialog;
 import static com.kisita.uza.utils.UzaFunctions.setFormat;
 import static com.kisita.uza.utils.UzaFunctions.setPrice;
 
@@ -239,6 +240,7 @@ public class DetailFragment extends CustomFragment{
                     mCommand = true; //update case + update the quantity here for example
                 }
                 //Log.i(TAG,selectedColor + " " +  selectedSize + " " +  selectedQty);
+                infoAlertDialog(getContext(),getString(R.string.item_in_the_cart));
                 Toast.makeText(getContext(), R.string.item_in_the_cart, Toast.LENGTH_LONG).show();
                 break;
             case R.id.favourite:
