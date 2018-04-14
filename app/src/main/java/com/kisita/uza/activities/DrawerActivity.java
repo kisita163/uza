@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,6 +34,7 @@ import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
+import com.kisita.uza.internal.LogReporting;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.ui.BillingFragment;
 import com.kisita.uza.ui.CheckoutFragment;
@@ -52,16 +54,14 @@ import static com.kisita.uza.utils.UzaFunctions.TRANSACTION_OK;
 public class DrawerActivity extends CustomActivity
         implements NavigationView.OnNavigationItemSelectedListener,CheckoutFragment.OnCheckoutInteractionListener {
 
-    private static final String CURRENT_FRAGMENT_ID = "current_fragment_id";
-
     private Fragment fragment = OnSaleFragment.newInstance();
 
-    private int mCurrentFragmentId = R.id.navigation_home;
-
-    private Stack<Integer> mFragmentsStack = new Stack<>();
+    private Stack<MenuItem> mFragmentsStack = new Stack<>();
     private Stack<Integer> mNavItemsStack  = new Stack<>();
 
     private boolean mEmptyingStack = false;
+
+    private TextView mToolbarTitle;
 
     private static final int REQUEST_CODE = 100;
 
@@ -77,13 +77,16 @@ public class DrawerActivity extends CustomActivity
 
     private int mCheckedItem = 0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
         mToolbar = findViewById(R.id.toolbar);
+        mToolbarTitle = findViewById(R.id.toolbar_title);
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -100,12 +103,8 @@ public class DrawerActivity extends CustomActivity
         ImageView userPicture = navigationHeader.findViewById(R.id.imageView);
         TextView  userName    = navigationHeader.findViewById(R.id.textView);
 
-        if(savedInstanceState != null){
-            mCurrentFragmentId = savedInstanceState.getInt(CURRENT_FRAGMENT_ID);
-        }
-
         fetchAuthorization();
-        setFragment(setCurrentFragment(mCurrentFragmentId));
+        setFragment(setCurrentFragment(mNavigationView.getMenu().getItem(0)));
 
         setGreeting(userName,userPicture);
     }
@@ -117,14 +116,13 @@ public class DrawerActivity extends CustomActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             try {
-                int id;
                 mEmptyingStack = true;
                 mFragmentsStack.pop();
                 mNavItemsStack.pop();
 
                 setFragment(setCurrentFragment(mFragmentsStack.peek()));
                 mNavigationView.getMenu().getItem(mNavItemsStack.peek()).setChecked(true);
-                Log.i(TAG,"Stack(after pop) : "+ mNavItemsStack);
+
             }catch(EmptyStackException e){
                 finish();
             }
@@ -135,7 +133,7 @@ public class DrawerActivity extends CustomActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
-        setFragment(setCurrentFragment(item.getItemId()));
+        setFragment(setCurrentFragment(item));
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
@@ -164,56 +162,63 @@ public class DrawerActivity extends CustomActivity
         }
     }
 
-    private Fragment setCurrentFragment(int fragmentId){
-        Fragment fragment;
-        switch (fragmentId) {
-            case R.id.nav_home:
-                mCheckedItem = 0;
-                mToolbar.setTitle(getString(R.string.title_home));
+    private Fragment setCurrentFragment(MenuItem item){
+        Fragment fragment = null;
+        switch (item.getItemId()) {
+            case R.id.nav_artworks:
+                mCheckedItem  = ARTWORKS;
+                fragment = OnSaleFragment.newInstance();
+                break;
+            case R.id.nav_artists:
+                mCheckedItem  = ARTISTS;
                 fragment = OnSaleFragment.newInstance();
                 break;
             case R.id.nav_manage:
-                mCheckedItem = 4;
-                mToolbar.setTitle(getString(R.string.title_filters));
+                mCheckedItem  = FILTERS;
                 fragment = new SettingsFragment();
                 break;
             case R.id.nav_checkout:
-                mCheckedItem = 1;
-                mToolbar.setTitle(getString(R.string.checkout));
+                mCheckedItem  = CART;
                 fragment = new CheckoutFragment();
                 break;
             case R.id.nav_favourites:
-                mCheckedItem = 2;
-                mToolbar.setTitle(getString(R.string.favourites));
+                mCheckedItem = FAVOURITES;
                 fragment = new FavoritesFragment();
                 break;
             case R.id.nav_commands:
-                mCheckedItem = 3;
-                mToolbar.setTitle(getString(R.string.commands));
+                mCheckedItem = COMMANDS;
                 fragment = CommandsFragment.newInstance();
                 break;
             case R.id.nav_billing_info:
-                mCheckedItem = 5;
-                mToolbar.setTitle(getString(R.string.billing_information));
+                mCheckedItem = BILLING;
                 fragment = BillingFragment.newInstance();
                 break;
             case R.id.nav_logout:
-                mCheckedItem = 6;
-                fragment = null;
+                mCheckedItem = LOGOUT;
                 handlingLogout();
                 break;
+            case R.id.nav_email:
+                mCheckedItem = LOGS;
+                new LogReporting(this).collectAndSendLogs();
+                break;
             default:
-                mToolbar.setTitle(getString(R.string.title_home));
                 fragment = OnSaleFragment.newInstance();
                 break;
         }
 
-        mCurrentFragmentId = fragmentId;
+
+        if((item.getItemId() != R.id.nav_logout ) && (item.getItemId() != R.id.nav_email)) {
+            if(item.getItemId() == R.id.nav_home ) {
+                mToolbarTitle.setText(getString(R.string.app_name));
+            }else {
+                mToolbarTitle.setText(item.getTitle());
+            }
+        }
+
 
         if(!mEmptyingStack) {
-            mFragmentsStack.push(mCurrentFragmentId);
+            mFragmentsStack.push(item);
             mNavItemsStack.push(mCheckedItem);
-            Log.i(TAG,"Stack : "+ mNavItemsStack);
         }else{
             mEmptyingStack = false;
         }
@@ -279,16 +284,6 @@ public class DrawerActivity extends CustomActivity
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-
-        if(mCurrentFragmentId != 0){
-            outState.putInt(CURRENT_FRAGMENT_ID,mCurrentFragmentId);
-        }
-        super.onSaveInstanceState(outState);
-    }
-
-
     void paymentRequest() {
         Log.i(TAG, "Launch Payment activity");
 
@@ -348,7 +343,7 @@ public class DrawerActivity extends CustomActivity
     @Override
     protected void onTransactionDone(String responseString) {
         if(responseString.equalsIgnoreCase(TRANSACTION_OK)){
-            setFragment(setCurrentFragment(R.id.navigation_home));
+            setFragment(setCurrentFragment(mNavigationView.getMenu().getItem(0)));
             // Update commands
             if(mBound) {
                 mService.setCommandsState(mCommands);

@@ -8,6 +8,17 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/bikeko_home_black_24dp"
             android:title="@string/home" />
+
+        <item
+            android:id="@+id/nav_artworks"
+            android:icon="@drawable/bikeko_artworks_black_24dp"
+            android:title="@string/artworks" />
+
+        <item
+            android:id="@+id/nav_artists"
+            android:icon="@drawable/bikeko_group_black_24dp"
+            android:title="@string/artists" />
+
         <item
             android:id="@+id/nav_checkout"
             android:icon="@drawable/bikeko_add_shopping_cart_black_24dp"
@@ -26,6 +37,11 @@
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/title_filters" />
+
+        <item
+            android:id="@+id/nav_email"
+            android:icon="@drawable/ic_menu_send"
+            android:title="@string/send_logs" />
     </group>
 
     <item android:title="@string/title_user">
