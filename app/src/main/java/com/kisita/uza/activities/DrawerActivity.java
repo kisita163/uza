@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -42,6 +41,7 @@ import com.kisita.uza.ui.CommandsFragment;
 import com.kisita.uza.ui.FavoritesFragment;
 import com.kisita.uza.ui.OnSaleFragment;
 import com.kisita.uza.ui.SettingsFragment;
+import com.kisita.uza.ui.StartFragment;
 import com.kisita.uza.utils.Settings;
 
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ import static com.kisita.uza.utils.Settings.isAllBillingInformationSet;
 import static com.kisita.uza.utils.UzaFunctions.TRANSACTION_OK;
 
 public class DrawerActivity extends CustomActivity
-        implements NavigationView.OnNavigationItemSelectedListener,CheckoutFragment.OnCheckoutInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener,CheckoutFragment.OnCheckoutInteractionListener,StartFragment.OnHomeInteractionListener {
 
     private Fragment fragment = OnSaleFragment.newInstance();
 
@@ -172,6 +172,10 @@ public class DrawerActivity extends CustomActivity
             case R.id.nav_artists:
                 mCheckedItem  = ARTISTS;
                 fragment = OnSaleFragment.newInstance();
+                break;
+            case R.id.nav_home:
+                mCheckedItem  = HOME;
+                fragment = StartFragment.newInstance();
                 break;
             case R.id.nav_manage:
                 mCheckedItem  = FILTERS;
@@ -362,5 +366,18 @@ public class DrawerActivity extends CustomActivity
             LoginManager.getInstance().logOut();
 
         finish();
+    }
+
+    @Override
+    public void onHomeInteraction(int button) {
+        if(button == ARTWORKS){
+            setFragment(setCurrentFragment(mNavigationView.getMenu().getItem(ARTWORKS)));
+            return;
+        }
+
+        if(button == ARTISTS){
+            setFragment(setCurrentFragment(mNavigationView.getMenu().getItem(ARTISTS)));
+            return;
+        }
     }
 }

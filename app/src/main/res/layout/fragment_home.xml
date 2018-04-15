@@ -1,0 +1,75 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.kisita.uza.ui.StartFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:scaleType="fitXY"
+        android:src="@drawable/african_face" />
+
+        <TextView
+            android:id="@+id/bikeko_presentation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/pacifico"
+            android:gravity="center"
+            android:text="@string/art_africain_contemporain"
+            android:textColor="@color/main_color_dk"
+            android:textSize="55sp" />
+
+        <FrameLayout
+            android:id="@+id/bikeko_artworks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bikeko_presentation"
+            android:background="@drawable/uza_button_bg"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:layout_margin="@dimen/pad_10dp"
+            android:focusable="true">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@color/main_color_dk"
+                android:textStyle="bold"
+                android:padding="@dimen/pad_15dp"
+                android:text="@string/artworks" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/bikeko_artists"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bikeko_artworks"
+            android:background="@drawable/uza_button_bg"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:layout_margin="@dimen/pad_10dp"
+            android:focusable="true">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@color/main_color_dk"
+                android:textStyle="bold"
+                android:padding="@dimen/pad_15dp"
+                android:text="@string/artists" />
+        </FrameLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>
