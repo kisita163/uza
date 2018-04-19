@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/aaa"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -59,7 +58,6 @@
             </FrameLayout>-->
 
             <LinearLayout
-                android:id="@+id/details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/addToCart"
@@ -71,7 +69,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
-                        android:id="@+id/title_command_state"
                         style="@style/uza_lineto_text_style"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
@@ -96,7 +93,6 @@
                         android:layout_marginRight="@dimen/pad_20dp" />
                 </LinearLayout>
                 <TextView
-                    android:id="@+id/title_description"
                     style="@style/uza_lineto_text_style"
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
@@ -194,7 +190,6 @@
             </LinearLayout>
 
             <com.google.android.gms.ads.AdView
-                android:id="@+id/adView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"

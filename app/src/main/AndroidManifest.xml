@@ -142,15 +142,6 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".activities.MainActivity"
-            android:label="@string/title_activity_main2"
-            android:parentActivityName=".activities.LoginActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.kisita.uza.activities.LoginActivity" />
-        </activity>
-        <activity
             android:name=".activities.DrawerActivity"
             android:parentActivityName=".activities.LoginActivity"
             android:screenOrientation="portrait">

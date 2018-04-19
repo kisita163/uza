@@ -10,23 +10,15 @@
             android:title="@string/home" />
 
         <item
-            android:id="@+id/nav_artworks"
-            android:icon="@drawable/bikeko_artworks_black_24dp"
-            android:title="@string/artworks" />
-
-        <item
-            android:id="@+id/nav_artists"
-            android:icon="@drawable/bikeko_group_black_24dp"
-            android:title="@string/artists" />
-
-        <item
-            android:id="@+id/nav_checkout"
+            android:id="@+id/nav_new_item"
             android:icon="@drawable/bikeko_add_shopping_cart_black_24dp"
             android:title="@string/cart" />
+
         <item
-            android:id="@+id/nav_favourites"
-            android:icon="@drawable/bikeko_favorite_black_24dp"
-            android:title="@string/favourites" />
+            android:id="@+id/nav_new_artist"
+            android:icon="@drawable/anonymous_user"
+            android:title="@string/new_artist" />
+
 
         <item
             android:id="@+id/nav_commands"
@@ -46,10 +38,6 @@
 
     <item android:title="@string/title_user">
         <menu>
-            <item
-                android:id="@+id/nav_billing_info"
-                android:icon="@drawable/bikeko_credit_card_black_24dp"
-                android:title="@string/billing_information" />
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/bikeko_logout_black_24dp"

@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Bikeko</string>
-    <string name="books">Books</string>
-    <string name="men">Men</string>
-    <string name="women">Women</string>
-    <string name="electronic">Electronic</string>
-    <string name="clothing">Clothing</string>
-
-    <string name="explore">Explore</string>
-    <string name="grid">Grid</string>
-    <string name="favourites">Favourite(s)</string>
-
-    <string name="settings">Settings</string>
-    <string name="push_notif">Push Notifications</string>
-    <string name="email_notif">Email Notifications</string>
-    <string name="tnc">Terms &amp; Conditions</string>
 
 
     <string name="sign_in">Sign in</string>
@@ -28,15 +14,10 @@
         <item>EUR</item>
     </string-array>
 
-    <string name="email1">Email</string>
-
-    <string name="action_settings">Settings</string>
     <string name="action_logout">Logout</string>
     <string name="checkout">Checkout</string>
 
     <!-- Start Do not translate -->
-    <string name="title_activity_checkout">CheckoutActivity</string>
-    <string name="title_activity_choices">ChoicesActivity</string>
 
     <!-- facebook key -->
     <string name="facebook_app_id">638132053058512</string>
@@ -48,21 +29,14 @@
     <string name="uza_currency_position">uza_currency_position</string>
 
     <!-- Intents name -->
-    <string name="choice">choice</string>
 
     <!-- End  Do not translate -->
     <string name="phone_number">Phone Number</string>
 
 
     <string name="quantity">Quantity</string>
-    <string name="RemoveCommand">Would you really remove this article from the cart?</string>
 
     <string name="item_in_the_cart">Item in the cart</string>
-
-    <string name="checkout_quantity">Quantity</string>
-    <string name="checkout_size">Size</string>
-    <string name="checkout_color">Color</string>
-    <string name="checkout_price">Price</string>
 
     <string name="confirm_password">Confirm Password</string>
     <string name="name">Name</string>
@@ -70,59 +44,27 @@
     <string name="description">Description</string>
 
     <!-- Books content -->
-    <string name="all">All</string>
-    <string name="sciences">Sciences</string>
-    <string name="languages">Languages</string>
-    <string name="fiction">Fiction</string>
-    <string name="history">History</string>
-    <string name="geography">Geography</string>
-    <string name="comic_strip">Comic strip</string>
-    <string name="kids">Kids</string>
 
     <!-- Payment content -->
-    <string name="credit_card">Credit card</string>
-    <string name="cash">Cash</string>
-    <string name="mobile_money">Mobile money</string>
 
     <!-- Electronics content -->
     <string name="home">Home</string>
-    <string name="video_game">Video games</string>
-    <string name="phones_accesories">Phones  &amp; Accessories</string>
-    <string name="computers_tablets">Computers  &amp; Tablets</string>
 
     <!-- choices -->
-    <string name="choices">Choix</string>
-    <string name="shoes_bags"><![CDATA[Chaussures & Sacs]]></string>
-    <string name="watches_accessories"><![CDATA[Montres & Accessoires]]></string>
-    <string name="perfumes_beauty"><![CDATA[Perfumes & Beauty]]></string>
-    <string name="toys_accessories"><![CDATA[Toys & Accessories]]></string>
-    <string name="bathing_skincare"><![CDATA[Bathing  & Skin care]]></string>
-    <string name="colors">Colors</string>
-    <string name="sizes">Sizes</string>
-    <string name="enter_your_comment_here">Enter your comment here</string>
     <string name="total">TOTAL</string>
-    <string name="complete_purchase">Complete Purchase</string>
     <string name="order_amount">Order Amount</string>
     <string name="shipping_cost">Shipping cost</string>
     <string name="authentication_failed">Authentication failed.</string>
     <string name="required">Required</string>
     <string name="password_not_equal">Entered passwords are not equal</string>
-    <string name="secure_payement">Payement securisé (USD)</string>
-    <string name="payement">Payment (USD)</string>
-    <string name="payment_mthod">Payment method</string>
-    <string name="failed_to_get_token">Application failed to get a payment token. Please check your internet connection</string>
-    <string name="pay">Payer</string>
-    <string name="fail_to_contact_payment_server">L\'application n\'a pas reussi à contacter le serveur de payement. Veuillez verifier votre connexion internet</string>
     <string name="please_wait">Veuillez patienter svp…</string>
-    <string name="transaction_rejected">Transaction rejected !</string>
     <string name="commands">Commands</string>
-    <string name="action_commands">Commands</string>
     <string name="command_details">Command details</string>
     <string name="command_id">ID #</string>
     <string name="command_state">State</string>
     <string name="command_contact">Contact</string>
     <string name="none">None</string>
-    <string name="cart">Cart</string>
+    <string name="cart">New item</string>
     <string name="add_to_cart">Ajouter au panier</string>
     <string name="unspecified_resource">Unspecified</string>
     <string name="logout">Se deconnecter de</string>
@@ -135,7 +77,6 @@
     <string name="country">Pays</string>
     <string name="save_information">Sauvegarder</string>
     <string name="first_name">Prénom</string>
-    <string name="select_currency">Choisir une monnaie</string>
     <string name="select">Choisir</string>
     <string name="cancel">Annuler</string>
     <string name="email_verification">Verification email sent to</string>
@@ -146,9 +87,9 @@
     <string name="command_current_state">Command state</string>
     <string name="Billing_info_missing">Some billing info are missing</string>
     <string name="Billing_info_saved">Billing information saved</string>
-    <string name="item_removed">Item removed</string>
     <string name="remove_item">Do you really want to remove this item from the cart ?</string>
     <string name="artists">Artistes</string>
     <string name="artworks">Oeuvres d\'art</string>
     <string name="art_africain_contemporain">Art africain contemporain</string>
+    <string name="new_artist">New artist</string>
 </resources>

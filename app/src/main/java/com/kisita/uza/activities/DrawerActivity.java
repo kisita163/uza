@@ -165,14 +165,6 @@ public class DrawerActivity extends CustomActivity
     private Fragment setCurrentFragment(MenuItem item){
         Fragment fragment = null;
         switch (item.getItemId()) {
-            case R.id.nav_artworks:
-                mCheckedItem  = ARTWORKS;
-                fragment = OnSaleFragment.newInstance();
-                break;
-            case R.id.nav_artists:
-                mCheckedItem  = ARTISTS;
-                fragment = OnSaleFragment.newInstance();
-                break;
             case R.id.nav_home:
                 mCheckedItem  = HOME;
                 fragment = StartFragment.newInstance();
@@ -181,21 +173,13 @@ public class DrawerActivity extends CustomActivity
                 mCheckedItem  = FILTERS;
                 fragment = new SettingsFragment();
                 break;
-            case R.id.nav_checkout:
+            case R.id.nav_new_item:
                 mCheckedItem  = CART;
                 fragment = new CheckoutFragment();
-                break;
-            case R.id.nav_favourites:
-                mCheckedItem = FAVOURITES;
-                fragment = new FavoritesFragment();
                 break;
             case R.id.nav_commands:
                 mCheckedItem = COMMANDS;
                 fragment = CommandsFragment.newInstance();
-                break;
-            case R.id.nav_billing_info:
-                mCheckedItem = BILLING;
-                fragment = BillingFragment.newInstance();
                 break;
             case R.id.nav_logout:
                 mCheckedItem = LOGOUT;
