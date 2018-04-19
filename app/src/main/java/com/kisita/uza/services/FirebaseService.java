@@ -70,7 +70,7 @@ public class FirebaseService extends Service {
 
     /*Commands query */
     public Query getCommandsQuery() {
-        return mDatabase.child("users-data").child(getUid()).child("commands");
+        return mDatabase.child("commands");
     }
 
     /*Favourites query*/
