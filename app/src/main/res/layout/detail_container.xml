@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/aaa"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -123,7 +123,7 @@
                     android:fontFamily="sans-serif-light"
                     android:textSize="@dimen/txt_14sp" />
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/title_artist"
                     style="@style/uza_lineto_text_style"
                     android:textStyle="bold"
@@ -190,8 +190,18 @@
                         android:src="@drawable/ic_action_whatsapp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
-                </LinearLayout>
+                </LinearLayout>-->
             </LinearLayout>
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                ads:adSize="BANNER"
+                ads:adUnitId="@string/banner_ad_unit_id">
+            </com.google.android.gms.ads.AdView>
         </RelativeLayout>
     </ScrollView>
 

@@ -160,6 +160,10 @@ public class DetailFragment extends CustomFragment{
         LinearLayout commandCont    = v.findViewById(R.id.command_state_container);
         ImageView    stateLogo      = v.findViewById(R.id.state_logo);
 
+        /*AdView adView               = v.findViewById(R.id.adView);
+        AdRequest adRequest         = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);*/
+
         Button add = v.findViewById(R.id.addToCart);
 
         if(itemData.isCommand()){
@@ -176,11 +180,11 @@ public class DetailFragment extends CustomFragment{
         mlike =  v.findViewById(R.id.favourite);
         mlike.setOnClickListener(this);
 
-        ImageView shareFacebook = v.findViewById(R.id.shareFacebook);
+        /*ImageView shareFacebook = v.findViewById(R.id.shareFacebook);
         shareFacebook.setOnClickListener(this);
 
         ImageView shareWhatsapp = v.findViewById(R.id.share_whatsapp);
-        shareWhatsapp.setOnClickListener(this);
+        shareWhatsapp.setOnClickListener(this);*/
 
         if(itemData != null) {
             String price;
@@ -246,7 +250,7 @@ public class DetailFragment extends CustomFragment{
             case R.id.favourite:
                 likePressed();
                 break;
-            case R.id.shareFacebook:
+            /*case R.id.shareFacebook:
                 ((UzaActivity)getActivity()).showProgressDialog("Please wait");
                 ShareLinkContent content = new ShareLinkContent.Builder()
                         .setContentUrl(Uri.parse(getString(R.string.uza_store_link)))
@@ -268,7 +272,7 @@ public class DetailFragment extends CustomFragment{
                 sendIntent.setType("text/plain");
                 sendIntent.setPackage("com.whatsapp");
                 startActivity(sendIntent);
-                break;
+                break;*/
 
             default:
                 Toast.makeText(this.getContext(), "Unknown error occured", Toast.LENGTH_LONG).show();
