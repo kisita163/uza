@@ -15,20 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.model.Command;
 import com.kisita.uza.model.Data;
-import com.kisita.uza.ui.DetailFragment;
 
 import java.util.ArrayList;
 
 import static com.kisita.uza.utils.UzaFunctions.getCommandState;
-import static com.kisita.uza.utils.UzaFunctions.getCommandStateLogo;
-import static com.kisita.uza.utils.UzaFunctions.getCurrency;
-import static com.kisita.uza.utils.UzaFunctions.setFormat;
-import static com.kisita.uza.utils.UzaFunctions.setPrice;
 
 /*
  * Created by Hugues on 23/04/2017.
@@ -81,14 +75,10 @@ public class UzaCommandAdapter extends
 
     private void openDetailFragment(int position) {
 
-        if(mContext instanceof UzaActivity){
-            ((UzaActivity) mContext).updateForegroundFragment(itemsList.get(position).getCommandId(), DetailFragment.newInstance( itemsList.get(position)));
-        }else {
-            Intent intent = new Intent(mContext, UzaActivity.class);
-            intent.putExtra("fragment", 3);
-            intent.putExtra("details", itemsList.get(position));
-            mContext.startActivity(intent);
-        }
+        Intent intent = new Intent(mContext, UzaActivity.class);
+        intent.putExtra("fragment", 0);
+        intent.putExtra("details", itemsList.get(position));
+        mContext.startActivity(intent);
     }
 
 

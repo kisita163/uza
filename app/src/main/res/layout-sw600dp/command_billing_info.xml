@@ -129,7 +129,6 @@
         android:layout_row="7"
         android:layout_gravity="end"
         android:maxLines="3"
-        android:maxLength="10"
         android:text="zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
         style="@style/uza_command_style"
         android:layout_marginTop="@dimen/pad_1dp"/>

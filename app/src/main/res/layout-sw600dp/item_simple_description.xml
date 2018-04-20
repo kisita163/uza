@@ -6,10 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:numColumns="2"
-    android:rowCount="2">
+    android:rowCount="3">
 
     <TextView
-        android:id="@+id/item_id"
         style="@style/uza_text_style"
         android:layout_column="0"
         android:layout_row="0"
@@ -17,11 +16,17 @@
         android:layout_marginTop="@dimen/pad_1dp"/>
 
     <TextView
-        android:id="@+id/command_state"
         android:layout_column="0"
         android:layout_row="1"
         style="@style/uza_text_style"
         android:text="@string/item_price"
+        android:layout_marginTop="@dimen/pad_1dp"/>
+
+    <TextView
+        android:layout_column="0"
+        android:layout_row="2"
+        style="@style/uza_text_style"
+        android:text="@string/item_availability"
         android:layout_marginTop="@dimen/pad_1dp"/>
 
 
@@ -42,6 +47,16 @@
         android:layout_gravity="end"
         style="@style/uza_command_style"
         android:text="25 EUR"
+        android:layout_marginTop="@dimen/pad_1dp"/>
+
+
+    <TextView
+        android:id="@+id/item_availability"
+        android:layout_column="1"
+        android:layout_row="2"
+        android:layout_gravity="end"
+        style="@style/uza_command_style"
+        android:text="Available"
         android:layout_marginTop="@dimen/pad_1dp"/>
 
 </GridLayout>

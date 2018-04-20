@@ -43,7 +43,7 @@ public class CommandsFragment extends CustomFragment implements  LoaderManager.L
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment DetailFragment.
+     * @return A new instance of fragment CommandDetails.
      */
     public static CommandsFragment newInstance() {
         return new CommandsFragment();
@@ -90,7 +90,7 @@ public class CommandsFragment extends CustomFragment implements  LoaderManager.L
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.i(TAG,"Loader created");
         Uri PlacesUri = UzaContract.CommandsEntry.CONTENT_URI_COMMANDS;
-        showProgressDialog("Loading...");
+        //showProgressDialog("Loading...");
         return new CursorLoader(getContext(),
                 PlacesUri,
                 ITEMS_COMMANDS_COLUMNS,
@@ -108,7 +108,7 @@ public class CommandsFragment extends CustomFragment implements  LoaderManager.L
             itemsList.add(d);
         }
         Collections.reverse(itemsList);
-        hideProgressDialog();
+        //hideProgressDialog();
         mCardadapter.notifyDataSetChanged();
     }
 

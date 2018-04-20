@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,31 +25,27 @@ import com.kisita.uza.utils.UzaPageAdapter;
 import static com.kisita.uza.model.Data.FAVOURITES_COLUMNS;
 import static com.kisita.uza.utils.UzaFunctions.getCommandState;
 import static com.kisita.uza.utils.UzaFunctions.getCurrency;
-import static com.kisita.uza.utils.UzaFunctions.setFormat;
-import static com.kisita.uza.utils.UzaFunctions.setPrice;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link DetailFragment.OnFragmentInteractionListener} interface
+ * {@link CommandDetails.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link DetailFragment#newInstance} factory method to
+ * Use the {@link CommandDetails#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetailFragment extends CustomFragment{
+public class CommandDetails extends CustomFragment{
     // the fragment initialization parameters
-    private static final String TAG = "### DetailFragment";
+    private static final String TAG = "### CommandDetails";
 
     private static final String ITEM_DATA = "ITEM_DATA";
 
     protected OnFragmentInteractionListener mListener;
 
-    private String mCurrency;
-
     private Command itemData;
 
 
-    public DetailFragment() {
+    public CommandDetails() {
         // Required empty public constructor
     }
 
@@ -59,10 +54,10 @@ public class DetailFragment extends CustomFragment{
      * this fragment using the provided parameters.
      *
      * @param data Item's data.
-     * @return A new instance of fragment DetailFragment.
+     * @return A new instance of fragment CommandDetails.
      */
-    public static DetailFragment newInstance(Data data) {
-        DetailFragment fragment = new DetailFragment();
+    public static CommandDetails newInstance(Data data) {
+        CommandDetails fragment = new CommandDetails();
         Bundle args = new Bundle();
         args.putSerializable(ITEM_DATA,data);
         fragment.setArguments(args);
@@ -74,7 +69,6 @@ public class DetailFragment extends CustomFragment{
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             itemData     = (Command) getArguments().getSerializable(ITEM_DATA);
-            mCurrency = getCurrency(getContext());
         }
         //printKeyHash();
     }
@@ -85,7 +79,7 @@ public class DetailFragment extends CustomFragment{
         // Inflate the layout for this fragment
         super.onCreateView(inflater,container,savedInstanceState);
         @SuppressLint("InflateParams")
-        View v = inflater.inflate(R.layout.fragment_detail, null);
+        View v = inflater.inflate(R.layout.command_container, null);
         setHasOptionsMenu(true);
         return setupView(v);
     }
@@ -121,8 +115,8 @@ public class DetailFragment extends CustomFragment{
     private View setupView(View v)
     {
 
-        TextView  itemId            = v.findViewById(R.id.item_id_value);
-        TextView  itemPrice         = v.findViewById(R.id.item_price_value);
+        /*TextView  itemId            = v.findViewById(R.id.item_id_value);
+        TextView  itemPrice         = v.findViewById(R.id.item_price_value);*/
         //
         TextView  commandId         = v.findViewById(R.id.command_id_value);
         TextView  commandState      = v.findViewById(R.id.command_state_value);
@@ -138,10 +132,10 @@ public class DetailFragment extends CustomFragment{
         TextView  billingLastName   = v.findViewById(R.id.last_name);
 
 
-        String price = setPrice(itemData.getCurrency(),itemData.getPrice(),getContext());
+        /*String price = setPrice(itemData.getCurrency(),itemData.getPrice(),getContext());
         String s = setFormat(price) + " "+mCurrency;
         itemPrice.setText(s);
-        itemId.setText(itemData.getItemId());
+        itemId.setText(itemData.getItemId());*/
 
         commandId.setText(itemData.getCommandId());
         commandState.setText(getCommandState(itemData.getCommandState()));
@@ -157,7 +151,7 @@ public class DetailFragment extends CustomFragment{
         billingNumber.setText(itemData.getNumber());
         billingProvince.setText(itemData.getProvince());
 
-        initPager(v);
+        //initPager(v);
         return v;
     }
 
@@ -168,7 +162,7 @@ public class DetailFragment extends CustomFragment{
     {
         /* The pager. */
         ViewPager pager = v.findViewById(R.id.pager);
-        pager.setPageMargin(10);
+        //pager.setPageMargin(10);
         /* The view that hold dots. */
         LinearLayout vDots = v.findViewById(R.id.vDots);
 
