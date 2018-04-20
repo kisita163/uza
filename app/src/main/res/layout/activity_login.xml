@@ -89,7 +89,6 @@
         android:layout_weight="0.19" />
 
     <LinearLayout
-        android:id="@+id/a"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pad_20dp" >
