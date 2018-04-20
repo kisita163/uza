@@ -1,5 +1,6 @@
 package com.kisita.uza.custom;
 
+import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,6 +28,7 @@ import java.util.function.ToLongFunction;
  */
 public abstract class CustomFragment extends Fragment implements OnClickListener,LoaderManager.LoaderCallbacks<Cursor>
 {
+	private ProgressDialog mProgressDialog;
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
@@ -60,6 +62,22 @@ public abstract class CustomFragment extends Fragment implements OnClickListener
 	public void onClick(View v)
 	{
 
+	}
+
+	public void showProgressDialog(String message) {
+		if (mProgressDialog == null) {
+			mProgressDialog = new ProgressDialog(getContext());
+			mProgressDialog.setCancelable(false);
+			mProgressDialog.setMessage(message);
+		}
+
+		mProgressDialog.show();
+	}
+
+	public void hideProgressDialog() {
+		if (mProgressDialog != null && mProgressDialog.isShowing()) {
+			mProgressDialog.dismiss();
+		}
 	}
 
 	public String getUid() {

@@ -69,7 +69,7 @@
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyBRrg6VtkuBk9gwrvxRmkkQEJs0_5D7ATQ
     </string>
-    <string name="command_id">ID #</string>
+    <string name="command_id">Command ID #</string>
     <string name="command_state">State</string>
     <string name="command_transporter">Transporter</string>
     <string name="command_contact">Contact</string>
@@ -143,4 +143,9 @@
     <string name="art_africain_contemporain">Art africain contemporain</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="new_artist">New artist</string>
+    <string name="last_name">Last name</string>
+    <string name="item_id">Item ID #</string>
+    <string name="item_price">Price</string>
+    <string name="item_details">Item details</string>
+    <string name="processing">Processing</string>
 </resources>

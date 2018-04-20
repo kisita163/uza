@@ -26,7 +26,6 @@ import com.kisita.uza.R;
 import com.kisita.uza.provider.UzaContract;
 
 import static com.kisita.uza.model.Data.COMMANDS_COLUMNS;
-import static com.kisita.uza.model.Data.ITEMS_COMMANDS_COLUMNS;
 
 /*
  * Use the {@link MapsFragment#newInstance} factory method to

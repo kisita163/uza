@@ -214,7 +214,7 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 				}
 			}*/
 
-			Data d = new Data(data,ITEM_DATA);
+			Data d = new Data(data);
 			// add new item into the list of items
 			if(filterType(d)) // Filter data type before adding it into the data list
 				if(filterPrice(d))

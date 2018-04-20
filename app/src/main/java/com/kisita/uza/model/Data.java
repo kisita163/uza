@@ -24,7 +24,7 @@ public class Data implements Serializable, Comparable<Data>
     public static int FAVOURITE_DATA = 2;
 	public static int COMMAND_DATA   = 3;
 
-	public static String TAG = "### Data";
+	public static String TAG = "### Command";
 
     /* List of picture(s) associated to this item */
 	private ArrayList<String> pictures;
@@ -48,25 +48,17 @@ public class Data implements Serializable, Comparable<Data>
 
     private String mCurrency    = "";
 
-    //private String mUrl;
-
     private String mWeight;
 
     private String mType;
 
-    //private String mCategory;
-
     private String mSeller;
-
-    //private String mBrand;
 
     private String mPrice;
 
     private String mQuantity;
 
     private String mCheckoutId;
-
-    private String mCommandState;
 
     private String mCommandID;
 
@@ -76,7 +68,7 @@ public class Data implements Serializable, Comparable<Data>
      * @param data
      *            the Cursor containing data
      */
-	public Data(Cursor data,int dataType) {
+	public Data(Cursor data) {
 	    int index = 0;
 		for (String s :
 			 data.getColumnNames()) {
@@ -124,9 +116,7 @@ public class Data implements Serializable, Comparable<Data>
                 this.mWeight = data.getString(index);
             }
 
-            if(s.equalsIgnoreCase(UzaContract.CommandsEntry.COLUMN_STATE)){
-                this.mCommandState = data.getString(index);
-            }
+
 
 
             if(s.equalsIgnoreCase(UzaContract.LikesEntry.COLUMN_LIKES)){
@@ -139,13 +129,13 @@ public class Data implements Serializable, Comparable<Data>
                     this.mItemId = data.getString(0);
                 }else {
 
-                    if(data.getString(index) != null && dataType == CHECKOUT_DATA){
+                   /* if(data.getString(index) != null && dataType == CHECKOUT_DATA){
                         this.mCheckoutId = data.getString(index);
                     }else if((data.getString(index) != null) && ((dataType == ITEM_DATA) || (dataType == FAVOURITE_DATA))){
 						this.mFavouriteId = data.getString(index);
 					}else if(data.getString(index) != null && dataType == COMMAND_DATA){
                     	this.mCommandID = data.getString(index);
-					}
+					}*/
                 }
             }
 
@@ -199,24 +189,6 @@ public class Data implements Serializable, Comparable<Data>
             UzaContract.LikesEntry.TABLE_NAME + "." +UzaContract.LikesEntry._ID
     };
 
-	public static final String[] ITEMS_COMMANDS_COLUMNS = {
-			UzaContract.ItemsEntry.TABLE_NAME + "." + UzaContract.ItemsEntry._ID,
-			UzaContract.ItemsEntry.COLUMN_NAME,
-			UzaContract.ItemsEntry.COLUMN_PRICE,
-			UzaContract.ItemsEntry.COLUMN_TYPE,
-			UzaContract.ItemsEntry.COLUMN_CURRENCY,
-			UzaContract.ItemsEntry.COLUMN_BRAND,
-			UzaContract.ItemsEntry.COLUMN_DESCRIPTION,
-			UzaContract.ItemsEntry.COLUMN_SELLER,
-			UzaContract.ItemsEntry.TABLE_NAME + "." +UzaContract.ItemsEntry.COLUMN_SIZE,
-			UzaContract.ItemsEntry.COLUMN_AUTHOR,
-			UzaContract.ItemsEntry.COLUMN_PICTURES,
-			UzaContract.ItemsEntry.COLUMN_WEIGHT,
-			UzaContract.ItemsEntry.COLUMN_URL,
-			UzaContract.CommandsEntry.COLUMN_QUANTITY,
-			UzaContract.CommandsEntry.COLUMN_STATE,
-			UzaContract.CommandsEntry.TABLE_NAME + "." +UzaContract.CommandsEntry._ID
-	};
 
 	public static final String [] FAVOURITES_COLUMNS = {
 			UzaContract.LikesEntry.TABLE_NAME + "." + UzaContract.LikesEntry._ID,
@@ -336,24 +308,6 @@ public class Data implements Serializable, Comparable<Data>
 	    this.mQuantity = quantity;
     }
 
-    public boolean isCommand(){
-		boolean check = false;
-		if(getCommandState() > 0)
-			check = true;
-		return check;
-	}
-
-	public int getCommandState(){
-		int state = -1;
-		try{
-			state = Integer.valueOf(this.mCommandState);
-		}catch(NumberFormatException e){
-			Log.e(TAG, "Command state is not well formatted " + e.getMessage());
-		}catch(Exception e){
-			Log.e(TAG, "Unknown error when formatting the state " + e.getMessage());
-		}
-    	return state;
-	}
 
 	@Override
 	public int compareTo(@NonNull Data data) {

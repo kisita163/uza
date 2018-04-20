@@ -13,10 +13,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.LayoutInflater;;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -30,8 +27,8 @@ import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.UzaCheckoutPageAdapter;
 import java.util.ArrayList;
-import static com.kisita.uza.model.Data.CHECKOUT_DATA;
-import static com.kisita.uza.model.Data.ITEMS_COMMANDS_COLUMNS;
+
+import static com.kisita.uza.model.Command.ITEMS_COMMANDS_COLUMNS;
 import static com.kisita.uza.utils.UzaFunctions.addDoubles;
 import static com.kisita.uza.utils.UzaFunctions.getCost;
 import static com.kisita.uza.utils.UzaFunctions.getCurrency;
@@ -169,7 +166,7 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 		mShippingCost = 0;
 
 		while (data.moveToNext()) {
-			Data d = new Data(data, CHECKOUT_DATA);
+			Data d = new Data(data);
 
 			handleCost(setPrice(d.getCurrency(),d.getPrice(),getContext()), // The item price in the currency used by the app
 					      d.getQuantity()); // item quantity

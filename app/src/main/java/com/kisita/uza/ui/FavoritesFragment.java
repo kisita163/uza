@@ -84,7 +84,7 @@ public class FavoritesFragment extends CustomFragment implements  LoaderManager.
 
         while (data.moveToNext()) {
 
-            Data d = new Data(data,FAVOURITE_DATA);
+            Data d = new Data(data);
 
             d.setFavourite(true);
 

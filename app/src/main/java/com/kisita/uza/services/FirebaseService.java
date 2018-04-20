@@ -207,6 +207,14 @@ public class FirebaseService extends Service {
         commandsValues.put(UzaContract.CommandsEntry.COLUMN_SIZE         ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_SIZE));
         commandsValues.put(UzaContract.CommandsEntry.COLUMN_COMMENT      ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_COMMENT));
         commandsValues.put(UzaContract.CommandsEntry.COLUMN_QUANTITY     ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_QUANTITY));
+        commandsValues.put(UzaContract.CommandsEntry.COLUMN_ADDRESS      ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_ADDRESS));
+        commandsValues.put(UzaContract.CommandsEntry.COLUMN_POSTAl       ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_POSTAl));
+        commandsValues.put(UzaContract.CommandsEntry.COLUMN_CITY         ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_CITY));
+        commandsValues.put(UzaContract.CommandsEntry.COLUMN_COUNTRY      ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_COUNTRY));
+        commandsValues.put(UzaContract.CommandsEntry.COLUMN_NUMBER       ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_NUMBER));
+        commandsValues.put(UzaContract.CommandsEntry.COLUMN_PROVINCE     ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_PROVINCE));
+        commandsValues.put(UzaContract.CommandsEntry.COLUMN_FNAME        ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_FNAME));
+        commandsValues.put(UzaContract.CommandsEntry.COLUMN_LNAME        ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_LNAME));
         commandsValues.put(UzaContract.CommandsEntry.COLUMN_STATE        ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_STATE));
         commandsValues.put(UzaContract.CommandsEntry._ID                 ,FirebaseUtils.getItemId(dataSnapshot));
 

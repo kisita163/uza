@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
+import com.kisita.uza.model.Command;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.ui.DetailFragment;
 
@@ -36,12 +37,12 @@ public class UzaCommandAdapter extends
         RecyclerView.Adapter<UzaCommandAdapter.CardViewHolder> implements OnFailureListener
 {
     private static final String TAG = "### UzaCardAdapter";
-    private ArrayList<Data> itemsList;
+    private ArrayList<Command> itemsList;
     private Context mContext;
 
     private AdapterView.OnItemClickListener mOnItemClickListener;
 
-    public UzaCommandAdapter(Context context, ArrayList<Data> items) {
+    public UzaCommandAdapter(Context context, ArrayList<Command> items) {
         this.mContext = context;
         this.itemsList = items;
     }
@@ -58,7 +59,7 @@ public class UzaCommandAdapter extends
     @Override
     public void onBindViewHolder(UzaCommandAdapter.CardViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         //Log.i(TAG, "Position is  : " + position);
-        final Data d = itemsList.get(position);
+        final Command d = itemsList.get(position);
         holder.commandId.setText(d.getCommandId());
         holder.commandState.setText(getCommandState(d.getCommandState()));
         holder.commandQuantity.setText(d.getQuantity());
@@ -76,13 +77,12 @@ public class UzaCommandAdapter extends
                 openDetailFragment(position);
             }
         });
-        holder.commandStateLogo.setImageResource(getCommandStateLogo(d.getCommandState()));
     }
 
     private void openDetailFragment(int position) {
 
         if(mContext instanceof UzaActivity){
-            ((UzaActivity) mContext).updateForegroundFragment(itemsList.get(position).getAuthor(), DetailFragment.newInstance( itemsList.get(position)));
+            ((UzaActivity) mContext).updateForegroundFragment(itemsList.get(position).getCommandId(), DetailFragment.newInstance( itemsList.get(position)));
         }else {
             Intent intent = new Intent(mContext, UzaActivity.class);
             intent.putExtra("fragment", 3);
@@ -147,8 +147,6 @@ public class UzaCommandAdapter extends
             pager.setPageMargin(10);
             /* The view that hold dots. */
             vDots     = v.findViewById(R.id.vDots);
-            /* Favourite button */
-            commandStateLogo =  v.findViewById(R.id.state_logo);
             v.setOnClickListener(this);
         }
 

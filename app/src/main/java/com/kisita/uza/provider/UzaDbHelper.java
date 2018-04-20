@@ -10,13 +10,13 @@ import android.util.Log;
  */
 
 public class UzaDbHelper extends SQLiteOpenHelper {
-    static final String  TAG = "### UzaDbHelper";
+    private static final String  TAG = "### UzaDbHelper";
     // If you change the database schema, you must increment the database version.
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 1;
 
-    static final String DATABASE_NAME = "uza.db";
+    private static final String DATABASE_NAME = "bikeko.db";
 
-    public UzaDbHelper(Context context) {
+    UzaDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -56,6 +56,14 @@ public class UzaDbHelper extends SQLiteOpenHelper {
                 UzaContract.CommandsEntry.COLUMN_KEY              + " TEXT NOT NULL, " +
                 UzaContract.CommandsEntry.COLUMN_QUANTITY         + " TEXT NOT NULL, " +
                 UzaContract.CommandsEntry.COLUMN_COMMENT          + " TEXT NOT NULL, " +
+                UzaContract.CommandsEntry.COLUMN_ADDRESS          + " TEXT NOT NULL, " +
+                UzaContract.CommandsEntry.COLUMN_POSTAl           + " TEXT NOT NULL, " +
+                UzaContract.CommandsEntry.COLUMN_CITY             + " TEXT NOT NULL, " +
+                UzaContract.CommandsEntry.COLUMN_COUNTRY          + " TEXT NOT NULL, " +
+                UzaContract.CommandsEntry.COLUMN_NUMBER           + " TEXT NOT NULL, " +
+                UzaContract.CommandsEntry.COLUMN_PROVINCE         + " TEXT NOT NULL, " +
+                UzaContract.CommandsEntry.COLUMN_FNAME            + " TEXT NOT NULL, " +
+                UzaContract.CommandsEntry.COLUMN_LNAME            + " TEXT NOT NULL, " +
                 UzaContract.CommandsEntry.COLUMN_STATE            + " TEXT NOT NULL" + ");";
 
         sqLiteDatabase.execSQL(SQL_CREATE_COMMANDS_TABLE);

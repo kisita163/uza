@@ -12,24 +12,18 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
-import com.kisita.uza.model.Data;
+import com.kisita.uza.model.Command;
 import com.kisita.uza.provider.UzaContract;
-import com.kisita.uza.utils.UzaCardAdapter;
 import com.kisita.uza.utils.UzaCommandAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-import static com.kisita.uza.model.Data.COMMAND_DATA;
-import static com.kisita.uza.model.Data.FAVOURITE_DATA;
-import static com.kisita.uza.model.Data.ITEMS_COLUMNS;
-import static com.kisita.uza.model.Data.ITEMS_COMMANDS_COLUMNS;
+import static com.kisita.uza.model.Command.ITEMS_COMMANDS_COLUMNS;
 
 
 /*
@@ -40,7 +34,7 @@ public class CommandsFragment extends CustomFragment implements  LoaderManager.L
     /*The card adapter*/
     private UzaCommandAdapter mCardadapter;
     /*The list of items*/
-    private ArrayList<Data> itemsList;
+    private ArrayList<Command> itemsList;
 
     public CommandsFragment() {
     }
@@ -96,7 +90,7 @@ public class CommandsFragment extends CustomFragment implements  LoaderManager.L
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.i(TAG,"Loader created");
         Uri PlacesUri = UzaContract.CommandsEntry.CONTENT_URI_COMMANDS;
-
+        showProgressDialog("Loading...");
         return new CursorLoader(getContext(),
                 PlacesUri,
                 ITEMS_COMMANDS_COLUMNS,
@@ -110,10 +104,12 @@ public class CommandsFragment extends CustomFragment implements  LoaderManager.L
 
         while (data.moveToNext()) {
 
-            Data d = new Data(data,COMMAND_DATA);
+            Command d = new Command(data);
             itemsList.add(d);
-            mCardadapter.notifyDataSetChanged();
         }
+        Collections.reverse(itemsList);
+        hideProgressDialog();
+        mCardadapter.notifyDataSetChanged();
     }
 
 

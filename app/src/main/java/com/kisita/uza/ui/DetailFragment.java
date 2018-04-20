@@ -1,13 +1,12 @@
 package com.kisita.uza.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
@@ -15,31 +14,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.facebook.share.model.ShareHashtag;
-import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.ShareDialog;
-import com.google.firebase.database.DatabaseReference;
 import com.kisita.uza.R;
-import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.custom.CustomFragment;
+import com.kisita.uza.model.Command;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.UzaPageAdapter;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import static com.kisita.uza.model.Data.FAVOURITES_COLUMNS;
 import static com.kisita.uza.utils.UzaFunctions.getCommandState;
-import static com.kisita.uza.utils.UzaFunctions.getCommandStateLogo;
 import static com.kisita.uza.utils.UzaFunctions.getCurrency;
-import static com.kisita.uza.utils.UzaFunctions.infoAlertDialog;
 import static com.kisita.uza.utils.UzaFunctions.setFormat;
 import static com.kisita.uza.utils.UzaFunctions.setPrice;
 
@@ -57,23 +43,12 @@ public class DetailFragment extends CustomFragment{
 
     private static final String ITEM_DATA = "ITEM_DATA";
 
-    private String key;
-
-    private ImageView mlike;
-
     protected OnFragmentInteractionListener mListener;
-
-    private Boolean mLiked = false;
 
     private String mCurrency;
 
+    private Command itemData;
 
-    private boolean mCommand = false;
-
-
-    private Data itemData;
-
-    private ShareDialog shareDialog;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -98,10 +73,9 @@ public class DetailFragment extends CustomFragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            itemData     = (Data)getArguments().getSerializable(ITEM_DATA);
+            itemData     = (Command) getArguments().getSerializable(ITEM_DATA);
             mCurrency = getCurrency(getContext());
         }
-        shareDialog = new ShareDialog(this);
         //printKeyHash();
     }
 
@@ -110,6 +84,7 @@ public class DetailFragment extends CustomFragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         super.onCreateView(inflater,container,savedInstanceState);
+        @SuppressLint("InflateParams")
         View v = inflater.inflate(R.layout.fragment_detail, null);
         setHasOptionsMenu(true);
         return setupView(v);
@@ -117,7 +92,7 @@ public class DetailFragment extends CustomFragment{
 
     private void onButtonPressed(String[] details, boolean update) {
         if (mListener != null) {
-            mListener.onItemAddedInCart(details,update);
+            mListener.onCommandChanged(details,update);
         }
     }
 
@@ -146,64 +121,46 @@ public class DetailFragment extends CustomFragment{
     private View setupView(View v)
     {
 
-        TextView  item_name         = v.findViewById(R.id.item_name);
-        TextView  item_author       = v.findViewById(R.id.item_author);
-        TextView  item_size         = v.findViewById(R.id.item_size);
-        TextView  item_type         = v.findViewById(R.id.item_type);
-        TextView  item_price        = v.findViewById(R.id.item_price);
-        TextView  item_description  = v.findViewById(R.id.item_description);
+        TextView  itemId            = v.findViewById(R.id.item_id_value);
+        TextView  itemPrice         = v.findViewById(R.id.item_price_value);
         //
         TextView  commandId         = v.findViewById(R.id.command_id_value);
         TextView  commandState      = v.findViewById(R.id.command_state_value);
         TextView  commandQty        = v.findViewById(R.id.command_quantity_value);
+        //
+        TextView  billingAddress    = v.findViewById(R.id.address);
+        TextView  billingPostal     = v.findViewById(R.id.postal_code);
+        TextView  billingProvince   = v.findViewById(R.id.province);
+        TextView  billingCity       = v.findViewById(R.id.city);
+        TextView  billingCountry    = v.findViewById(R.id.country);
+        TextView  billingNumber     = v.findViewById(R.id.number);
+        TextView  billingFirstName  = v.findViewById(R.id.first_name);
+        TextView  billingLastName   = v.findViewById(R.id.last_name);
 
-        LinearLayout commandCont    = v.findViewById(R.id.command_state_container);
-        ImageView    stateLogo      = v.findViewById(R.id.state_logo);
 
-        /*AdView adView               = v.findViewById(R.id.adView);
-        AdRequest adRequest         = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);*/
+        String price = setPrice(itemData.getCurrency(),itemData.getPrice(),getContext());
+        String s = setFormat(price) + " "+mCurrency;
+        itemPrice.setText(s);
+        itemId.setText(itemData.getItemId());
 
-        Button add = v.findViewById(R.id.addToCart);
+        commandId.setText(itemData.getCommandId());
+        commandState.setText(getCommandState(itemData.getCommandState()));
+        commandQty.setText(itemData.getQuantity());
 
-        if(itemData.isCommand()){
-            add.setVisibility(View.GONE);
-            commandState.setText(getCommandState(itemData.getCommandState()));
-            commandId.setText(itemData.getCommandId());
-            commandQty.setText(itemData.getQuantity());
-            stateLogo.setImageResource(getCommandStateLogo(itemData.getCommandState()));
-        }else{
-            commandCont.setVisibility(View.GONE);
-            add.setOnClickListener(this);
-        }
 
-        mlike =  v.findViewById(R.id.favourite);
-        mlike.setOnClickListener(this);
+        billingAddress.setText(itemData.getAddress());
+        billingPostal.setText(itemData.getPostal());
+        billingCountry.setText(itemData.getCountry());
+        billingFirstName.setText(itemData.getFirstName());
+        billingCity.setText(itemData.getCity());
+        billingLastName.setText(itemData.getLastName());
+        billingNumber.setText(itemData.getNumber());
+        billingProvince.setText(itemData.getProvince());
 
-        /*ImageView shareFacebook = v.findViewById(R.id.shareFacebook);
-        shareFacebook.setOnClickListener(this);
-
-        ImageView shareWhatsapp = v.findViewById(R.id.share_whatsapp);
-        shareWhatsapp.setOnClickListener(this);*/
-
-        if(itemData != null) {
-            String price;
-            price = setPrice(itemData.getCurrency(),itemData.getPrice(),getContext());
-
-            String s = setFormat(price) + " "+mCurrency;
-
-            item_price.setText(s);
-            item_author.setText(itemData.getAuthor());
-            item_type.setText(itemData.getType());
-            item_name.setText(itemData.getName());
-            item_size.setText(itemData.getSize());
-            item_description.setText(itemData.getDescription(
-
-            ));
-        }
         initPager(v);
         return v;
     }
+
     /**
      * Inits the pager view.
      */
@@ -223,84 +180,15 @@ public class DetailFragment extends CustomFragment{
     }
 
 
-    private void setAddButton() {
-        //Log.i(TAG, "Setting add button");
-        //add.setVisibility(View.INVISIBLE);
-        Toast.makeText(getContext(), R.string.item_in_the_cart, Toast.LENGTH_LONG).show();
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.addToCart:
-                String[] details;
-
-                if(!mCommand){
-                    itemData.setQuantity("1");
-                    String commandKey = getDb().child("users").push().getKey();
-                    details = new String[]{itemData.getItemId(),
-                                           itemData.getSize(), ""/*selected color TODO*/,itemData.getQuantity(),"", commandKey, getUid(), itemData.getSeller()};
-                    onButtonPressed(details,mCommand);
-                    mCommand = true; //update case + update the quantity here for example
-                }
-                //Log.i(TAG,selectedColor + " " +  selectedSize + " " +  selectedQty);
-                infoAlertDialog(getContext(),getString(R.string.item_in_the_cart));
-                Toast.makeText(getContext(), R.string.item_in_the_cart, Toast.LENGTH_LONG).show();
-                break;
-            case R.id.favourite:
-                likePressed();
-                break;
-            /*case R.id.shareFacebook:
-                ((UzaActivity)getActivity()).showProgressDialog("Please wait");
-                ShareLinkContent content = new ShareLinkContent.Builder()
-                        .setContentUrl(Uri.parse(getString(R.string.uza_store_link)))
-                        .setShareHashtag(new ShareHashtag.Builder()
-                                .setHashtag("#africart")
-                                .build())
-                        .build();
-
-                if(!ShareDialog.canShow(ShareLinkContent.class)){
-                    Log.i(TAG,"Can't show share dialog");
-                    return;
-                }
-                shareDialog.show(content);
-                break;
-            case R.id.share_whatsapp:
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.uza_store_link));
-                sendIntent.setType("text/plain");
-                sendIntent.setPackage("com.whatsapp");
-                startActivity(sendIntent);
-                break;*/
-
             default:
                 Toast.makeText(this.getContext(), "Unknown error occured", Toast.LENGTH_LONG).show();
         }
     }
 
-    private void likePressed() {
-        //Log.i(TAG, "button like pressed (case)");
-        DatabaseReference likes = getDb().child("users-data").child(getUid()).child("likes");
-        Map<String, Object> childUpdates = new HashMap<>();
-        if (!mLiked) {
-            //Log.i(TAG, "mlike is false");
-            String like = getDb().child("users").push().getKey();
-            key = like;
-            childUpdates.put("/users-data/" + getUid() + "/likes/" + like,itemData.getItemId());
-            getDb().updateChildren(childUpdates);
-            mlike.setImageResource(R.drawable.ic_action_favorite_black);
-            mLiked = true;
-        } else {
-            //Log.i(TAG, "mlike is true - key = "+key);
-            likes.child(key).removeValue();
-            mLiked = false;
-            mlike.setImageResource(R.drawable.ic_action_favorite);
-        }
-    }
-
-
-
+    @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri PlacesUri = UzaContract.LikesEntry.CONTENT_URI;
@@ -316,17 +204,14 @@ public class DetailFragment extends CustomFragment{
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         while (data.moveToNext()) {
-            //Log.i(TAG,data.getString(0) + "  " + itemData.getData()[0]);
-            mlike.setImageResource(R.drawable.ic_action_favorite_black);
-            key = data.getString(0);
-            mLiked = true;
         }
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
 
     }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -339,18 +224,6 @@ public class DetailFragment extends CustomFragment{
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-         void onItemAddedInCart(String[] details, boolean update);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        //Log.i(TAG,"****************On activity created");
-        if(mLiked){
-            mlike.setImageResource(R.drawable.ic_action_favorite_black);
-        }
-        if(mCommand){
-            setAddButton();
-        }
+         void onCommandChanged(String[] details, boolean update);
     }
 }

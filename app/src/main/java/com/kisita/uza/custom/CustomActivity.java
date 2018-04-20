@@ -26,7 +26,6 @@ import com.loopj.android.http.TextHttpResponseHandler;
 
 import cz.msebera.android.httpclient.Header;
 
-import static com.kisita.uza.model.Data.ITEMS_COMMANDS_COLUMNS;
 
 /**
  * This is a common activity that all other activities of the app can extend to

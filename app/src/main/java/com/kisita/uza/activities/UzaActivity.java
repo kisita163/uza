@@ -14,7 +14,6 @@ import com.facebook.CallbackManager;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.model.Data;
-import com.kisita.uza.ui.BillingFragment;
 import com.kisita.uza.ui.CheckoutFragment;
 import com.kisita.uza.ui.CommandsFragment;
 import com.kisita.uza.ui.DetailFragment;
@@ -78,10 +77,6 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
                 Data d = (Data) getIntent().getSerializableExtra("details");
                 title = d.getAuthor();
                 f = DetailFragment.newInstance(d);
-                break;
-            case(4):
-                title=getString(R.string.billing_information);
-                f = BillingFragment.newInstance();
                 break;
             default:
                 break;
@@ -155,7 +150,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
     }
 
     @Override
-    public void onItemAddedInCart(String[] details, boolean update) {
+    public void onCommandChanged(String[] details, boolean update) {
         if(mBound){
             mService.addNewItemInCart(details);
         }

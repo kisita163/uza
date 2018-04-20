@@ -35,10 +35,8 @@ import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.internal.LogReporting;
 import com.kisita.uza.model.Data;
-import com.kisita.uza.ui.BillingFragment;
 import com.kisita.uza.ui.CheckoutFragment;
 import com.kisita.uza.ui.CommandsFragment;
-import com.kisita.uza.ui.FavoritesFragment;
 import com.kisita.uza.ui.OnSaleFragment;
 import com.kisita.uza.ui.SettingsFragment;
 import com.kisita.uza.ui.StartFragment;
@@ -169,14 +167,14 @@ public class DrawerActivity extends CustomActivity
                 mCheckedItem  = HOME;
                 fragment = StartFragment.newInstance();
                 break;
-            case R.id.nav_manage:
+           /* case R.id.nav_manage:
                 mCheckedItem  = FILTERS;
                 fragment = new SettingsFragment();
                 break;
             case R.id.nav_new_item:
                 mCheckedItem  = CART;
                 fragment = new CheckoutFragment();
-                break;
+                break;*/
             case R.id.nav_commands:
                 mCheckedItem = COMMANDS;
                 fragment = CommandsFragment.newInstance();

@@ -82,14 +82,10 @@ public class UzaCheckoutPageAdapter extends PagerAdapter implements ViewPager.On
                 android.view.ViewGroup.LayoutParams.MATCH_PARENT,
                 android.view.ViewGroup.LayoutParams.MATCH_PARENT);
 
-        ImageView remove   = view.findViewById(R.id.favourite);
-        remove.setImageResource(R.drawable.ic_action_close);
 
-        TextView  author   = view.findViewById(R.id.item_author);
-        TextView  name     = view.findViewById(R.id.item_name);
-        TextView  size     = view.findViewById(R.id.item_size);
-        TextView  type     = view.findViewById(R.id.item_type);
-        TextView  price    = view.findViewById(R.id.item_price);
+
+
+        TextView  price    = view.findViewById(R.id.item_price_value);
 
         ImageView picture  = view.findViewById(R.id.ticket_image);
 
@@ -100,21 +96,9 @@ public class UzaCheckoutPageAdapter extends PagerAdapter implements ViewPager.On
                 .error(R.drawable.ic_action_logo)
                 .into(picture);
 
-        author.setText(mItemList.get(arg0).getAuthor());
-        name.setText(mItemList.get(arg0).getName());
-        type.setText(mItemList.get(arg0).getType());
         price.setText(priceWithCurrency);
-        size.setText(mItemList.get(arg0).getSize());
 
 
-
-
-        remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mFragment.onRemovePressedListener(mItemList.get(arg0));
-            }
-        });
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

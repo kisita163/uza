@@ -60,14 +60,9 @@ public class UzaCardAdapter extends
         //Log.i(TAG, "Position is  : " + position);
         final Data d = itemsList.get(position);
 
-        holder.author.setText(d.getAuthor()); // Author
-        holder.name.setText(d.getName()); // Item Name
-        holder.size.setText(d.getSize()); // Item Size
-        holder.type.setText(d.getType()); // Item Type
-
+        holder.itemId.setText(d.getItemId()); // Item Type
         String price = setPrice(d.getCurrency(), d.getPrice(),mContext);
         holder.price.setText(setFormat(price) + " "+getCurrency(mContext));
-        holder.size.setText(d.getSize());
 
         // Item listeners
         mOnItemClickListener = new AdapterView.OnItemClickListener() {
@@ -104,9 +99,8 @@ public class UzaCardAdapter extends
         }
 
         // Set Command State
-        if(d.isCommand()) {
-            holder.favButton.setVisibility(View.GONE);
-        }
+        holder.favButton.setVisibility(View.GONE);
+
     }
 
     private void openDetailFragment(int position) {
@@ -153,7 +147,7 @@ public class UzaCardAdapter extends
     {
         UzaCardAdapter mAdapter;
 
-        private TextView author, name, size, price, type;
+        private TextView itemId, price;
 
         private ViewPager pager;
 
@@ -172,18 +166,14 @@ public class UzaCardAdapter extends
             super(v);
             this.mAdapter = adapter;
 
-            author    =  v.findViewById(R.id.item_author);
-            name      =  v.findViewById(R.id.item_name);
-            type      =  v.findViewById(R.id.item_type);
-            price     =  v.findViewById(R.id.item_price);
-            size      =  v.findViewById(R.id.item_size);
+            itemId    =  v.findViewById(R.id.item_id_value);
+            price     =  v.findViewById(R.id.item_price_value);
             /* The pager. */
             pager     =  v.findViewById(R.id.pager);
             pager.setPageMargin(10);
             /* The view that hold dots. */
             vDots     = v.findViewById(R.id.vDots);
             /* Favourite button */
-            favButton =  v.findViewById(R.id.favourite);
             v.setOnClickListener(this);
         }
 

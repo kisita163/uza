@@ -81,6 +81,22 @@ public class UzaContract {
 
         public static final String COLUMN_COMMENT    = "comment";
 
+        public static final String COLUMN_ADDRESS    = "address";
+
+        public static final String COLUMN_PROVINCE   = "province";
+
+        public static final String COLUMN_NUMBER     = "phone";
+
+        public static final String COLUMN_CITY       = "city";
+
+        public static final String COLUMN_COUNTRY    = "country";
+
+        public static final String COLUMN_POSTAl     = "postal";
+
+        public static final String COLUMN_FNAME      = "fname";
+
+        public static final String COLUMN_LNAME      = "lname";
+
         public static Uri buildPlaceUri() {
             return CONTENT_URI_CHECKOUT;      }
     }

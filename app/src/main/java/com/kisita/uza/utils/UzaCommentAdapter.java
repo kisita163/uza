@@ -46,19 +46,7 @@ public class UzaCommentAdapter extends RecyclerView.Adapter<UzaCommentAdapter.Vi
         if(FirebaseAuth.getInstance().getCurrentUser().getEmail().equalsIgnoreCase(mValues.get(position).name)){
             holder.mIdLayout.setBackgroundColor(mContext.getResources().getColor(R.color.comment_dk));
         }
-        //Log.i("GRID",">Grid set at offset position : "+getItemCount());
         mGridManager.scrollToPosition(getItemCount()-1);
-
-        /*holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
-        });*/
     }
 
     @Override
@@ -67,18 +55,18 @@ public class UzaCommentAdapter extends RecyclerView.Adapter<UzaCommentAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public final LinearLayout mIdLayout;
-        public CommentFragment.ArticleComment mItem;
+        final View mView;
+        final TextView mIdView;
+        final TextView mContentView;
+        final LinearLayout mIdLayout;
+        CommentFragment.ArticleComment mItem;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
-            mIdLayout = (LinearLayout) view.findViewById(R.id.llayout);
+            mIdView = view.findViewById(R.id.id);
+            mContentView =  view.findViewById(R.id.content);
+            mIdLayout = view.findViewById(R.id.llayout);
         }
 
         @Override
