@@ -42,6 +42,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
         toolbar = findViewById(R.id.checkout_toolbar);
+        toolbar.setTitle("");
 
         int fId = getIntent().getIntExtra("fragment", -1);
 
@@ -92,7 +93,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
     }
 
     public void updateForegroundFragment(String title, Fragment f) {
-        toolbar.setTitle(title);
+        //toolbar.setTitle(title);
         if (f != null) {
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_left,R.anim.slide_in_left,R.anim.slide_out_right)
@@ -104,7 +105,6 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
         //Handle upper left button
         Log.i(TAG,"Here we go. count is  : "+getSupportFragmentManager().getBackStackEntryCount());
         if(getSupportFragmentManager().getBackStackEntryCount() > 0){
-            Log.i(TAG,"Here we go");
             Drawable upArrow = getResources().getDrawable(R.drawable.ic_action_back_arrow);
             getSupportActionBar().setHomeAsUpIndicator(upArrow);
         }
@@ -144,7 +144,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
     public void onCommandSelectedInteraction(String key) {
         //Log.i(TAG,"key received  : "+key);
         Fragment f = MapsFragment.newInstance(key);
-        toolbar.setTitle(R.string.command_details);
+        //toolbar.setTitle(R.string.command_details);
         if (f != null) {
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
@@ -166,10 +166,13 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
         Log.i(TAG,"Fragment count is  : " + getSupportFragmentManager().getBackStackEntryCount());
         if(getSupportFragmentManager().getBackStackEntryCount() == 1)
             finish();
-        else {
-            toolbar.setTitle(R.string.commands);
-            Drawable upArrow = getResources().getDrawable(R.drawable.ic_action_close);
-            getSupportActionBar().setHomeAsUpIndicator(upArrow);
+
+        if(getSupportFragmentManager().getBackStackEntryCount() > 1){
+            //toolbar.setTitle(R.string.commands);
+            if(getSupportFragmentManager().getBackStackEntryCount()  == 2) {
+                Drawable upArrow = getResources().getDrawable(R.drawable.ic_action_close);
+                getSupportActionBar().setHomeAsUpIndicator(upArrow);
+            }
             super.onBackPressed();
         }
     }

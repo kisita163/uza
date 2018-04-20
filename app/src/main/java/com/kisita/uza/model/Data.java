@@ -242,11 +242,11 @@ public class Data implements Serializable, Comparable<Data>
 		return mItemId;
 	}
 
-	private String getFavouriteId() {
+	public String getFavouriteId() {
 		return mFavouriteId;
 	}
 
-	private void setFavouriteId(String mFavouriteId) {
+	public void setFavouriteId(String mFavouriteId) {
 		this.mFavouriteId = mFavouriteId;
 	}
 

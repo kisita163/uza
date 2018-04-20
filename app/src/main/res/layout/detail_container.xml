@@ -187,16 +187,35 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>-->
+                <LinearLayout
+                    android:id="@+id/same_artist_container"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible">
+                    <TextView
+                        style="@style/uza_lineto_text_style"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/pad_10dp"
+                        android:paddingStart="@dimen/pad_10dp"
+                        android:text="@string/same_artist"
+                        android:textColor="@color/main_color_dk"/>
+                    <View
+                        style="@style/uza_divider_style"
+                        android:layout_height="2dp"
+                        android:layout_marginLeft="@dimen/pad_10dp"
+                        android:layout_marginRight="@dimen/pad_10dp"
+                        android:background="@color/main_color_dk"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/cardList"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/pad_5dp"
+                        />
+                </LinearLayout>
             </LinearLayout>
-
-            <com.google.android.gms.ads.AdView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                ads:adSize="BANNER"
-                ads:adUnitId="@string/banner_ad_unit_id">
-            </com.google.android.gms.ads.AdView>
         </RelativeLayout>
     </ScrollView>
 

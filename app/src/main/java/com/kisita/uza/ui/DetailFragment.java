@@ -2,7 +2,6 @@ package com.kisita.uza.ui;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +10,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,22 +21,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.facebook.share.model.ShareHashtag;
-import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.google.firebase.database.DatabaseReference;
 import com.kisita.uza.R;
-import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
+import com.kisita.uza.utils.UzaBannerAdapter;
+import com.kisita.uza.utils.UzaCardAdapter;
 import com.kisita.uza.utils.UzaPageAdapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.kisita.uza.model.Data.FAVOURITES_COLUMNS;
+import static com.kisita.uza.model.Data.ITEMS_COLUMNS;
 import static com.kisita.uza.utils.UzaFunctions.getCommandState;
 import static com.kisita.uza.utils.UzaFunctions.getCommandStateLogo;
 import static com.kisita.uza.utils.UzaFunctions.getCurrency;
@@ -57,23 +57,21 @@ public class DetailFragment extends CustomFragment{
 
     private static final String ITEM_DATA = "ITEM_DATA";
 
-    private String key;
+    private UzaBannerAdapter mCardAdapter;
 
     private ImageView mlike;
 
     protected OnFragmentInteractionListener mListener;
 
-    private Boolean mLiked = false;
-
     private String mCurrency;
-
 
     private boolean mCommand = false;
 
-
     private Data itemData;
 
-    private ShareDialog shareDialog;
+    private ArrayList<Data> mBannerItemsList;
+
+    private LinearLayout sameArtistCont;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -101,7 +99,6 @@ public class DetailFragment extends CustomFragment{
             itemData     = (Data)getArguments().getSerializable(ITEM_DATA);
             mCurrency = getCurrency(getContext());
         }
-        shareDialog = new ShareDialog(this);
         //printKeyHash();
     }
 
@@ -158,11 +155,9 @@ public class DetailFragment extends CustomFragment{
         TextView  commandQty        = v.findViewById(R.id.command_quantity_value);
 
         LinearLayout commandCont    = v.findViewById(R.id.command_state_container);
-        ImageView    stateLogo      = v.findViewById(R.id.state_logo);
+        sameArtistCont              = v.findViewById(R.id.same_artist_container);
 
-        /*AdView adView               = v.findViewById(R.id.adView);
-        AdRequest adRequest         = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);*/
+        ImageView    stateLogo      = v.findViewById(R.id.state_logo);
 
         Button add = v.findViewById(R.id.addToCart);
 
@@ -180,11 +175,11 @@ public class DetailFragment extends CustomFragment{
         mlike =  v.findViewById(R.id.favourite);
         mlike.setOnClickListener(this);
 
-        /*ImageView shareFacebook = v.findViewById(R.id.shareFacebook);
-        shareFacebook.setOnClickListener(this);
+        if(itemData.isFavourite()){
+            Log.i(TAG,"I like this item");
+            mlike.setImageResource(R.drawable.ic_action_favorite_black);
+        }
 
-        ImageView shareWhatsapp = v.findViewById(R.id.share_whatsapp);
-        shareWhatsapp.setOnClickListener(this);*/
 
         if(itemData != null) {
             String price;
@@ -201,6 +196,20 @@ public class DetailFragment extends CustomFragment{
 
             ));
         }
+        RecyclerView recList = v.findViewById(R.id.cardList);
+
+        mBannerItemsList = new ArrayList<>();
+        recList.setHasFixedSize(true);
+
+
+        StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1,
+                StaggeredGridLayoutManager.HORIZONTAL);
+
+        recList.setLayoutManager(llm);
+
+        mCardAdapter = new UzaBannerAdapter(this.getContext(),mBannerItemsList);
+        recList.setAdapter(mCardAdapter);
+
         initPager(v);
         return v;
     }
@@ -250,30 +259,6 @@ public class DetailFragment extends CustomFragment{
             case R.id.favourite:
                 likePressed();
                 break;
-            /*case R.id.shareFacebook:
-                ((UzaActivity)getActivity()).showProgressDialog("Please wait");
-                ShareLinkContent content = new ShareLinkContent.Builder()
-                        .setContentUrl(Uri.parse(getString(R.string.uza_store_link)))
-                        .setShareHashtag(new ShareHashtag.Builder()
-                                .setHashtag("#africart")
-                                .build())
-                        .build();
-
-                if(!ShareDialog.canShow(ShareLinkContent.class)){
-                    Log.i(TAG,"Can't show share dialog");
-                    return;
-                }
-                shareDialog.show(content);
-                break;
-            case R.id.share_whatsapp:
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.uza_store_link));
-                sendIntent.setType("text/plain");
-                sendIntent.setPackage("com.whatsapp");
-                startActivity(sendIntent);
-                break;*/
-
             default:
                 Toast.makeText(this.getContext(), "Unknown error occured", Toast.LENGTH_LONG).show();
         }
@@ -283,19 +268,19 @@ public class DetailFragment extends CustomFragment{
         //Log.i(TAG, "button like pressed (case)");
         DatabaseReference likes = getDb().child("users-data").child(getUid()).child("likes");
         Map<String, Object> childUpdates = new HashMap<>();
-        if (!mLiked) {
+
+        if (!itemData.isFavourite()) {
             //Log.i(TAG, "mlike is false");
             String like = getDb().child("users").push().getKey();
-            key = like;
             childUpdates.put("/users-data/" + getUid() + "/likes/" + like,itemData.getItemId());
             getDb().updateChildren(childUpdates);
+            itemData.setFavourite(true);
+            itemData.setFavouriteId(like);
             mlike.setImageResource(R.drawable.ic_action_favorite_black);
-            mLiked = true;
         } else {
-            //Log.i(TAG, "mlike is true - key = "+key);
-            likes.child(key).removeValue();
-            mLiked = false;
+            likes.child(itemData.getFavouriteId()).removeValue();
             mlike.setImageResource(R.drawable.ic_action_favorite);
+            itemData.setFavourite(false);
         }
     }
 
@@ -303,24 +288,30 @@ public class DetailFragment extends CustomFragment{
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri PlacesUri = UzaContract.LikesEntry.CONTENT_URI;
+        Uri PlacesUri = UzaContract.ItemsEntry.SAME_AUTHOR_URI;
+        String[] whereArgs= {itemData.getAuthor()};
         //Log.i(TAG,itemData.getData()[UID]);
         return new CursorLoader(getContext(),
                 PlacesUri,
-                FAVOURITES_COLUMNS,
-                itemData.getItemId(),
-                null,
+                ITEMS_COLUMNS,
+                itemData.getAuthor(),
+               null,
                 null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         while (data.moveToNext()) {
-            //Log.i(TAG,data.getString(0) + "  " + itemData.getData()[0]);
-            mlike.setImageResource(R.drawable.ic_action_favorite_black);
-            key = data.getString(0);
-            mLiked = true;
+            Data d = new Data(data,0);
+            // add new item into the list of items
+            if(d.getItemId().equalsIgnoreCase(itemData.getItemId()))
+                continue;
+
+            mBannerItemsList.add(d);
+            mCardAdapter.notifyDataSetChanged();
         }
+        if(mBannerItemsList != null && mBannerItemsList.size() > 0)
+            sameArtistCont.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -346,7 +337,7 @@ public class DetailFragment extends CustomFragment{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //Log.i(TAG,"****************On activity created");
-        if(mLiked){
+        if(itemData.isFavourite()){
             mlike.setImageResource(R.drawable.ic_action_favorite_black);
         }
         if(mCommand){

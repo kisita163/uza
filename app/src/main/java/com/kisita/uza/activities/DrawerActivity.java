@@ -56,6 +56,8 @@ public class DrawerActivity extends CustomActivity
 
     private Fragment fragment = OnSaleFragment.newInstance();
 
+    private static final String CURRENT_FRAGMENT_ID = "current_fragment_id";
+
     private Stack<MenuItem> mFragmentsStack = new Stack<>();
     private Stack<Integer> mNavItemsStack  = new Stack<>();
 
@@ -104,7 +106,6 @@ public class DrawerActivity extends CustomActivity
         TextView  userName    = navigationHeader.findViewById(R.id.textView);
 
         fetchAuthorization();
-        setFragment(setCurrentFragment(mNavigationView.getMenu().getItem(0)));
 
         setGreeting(userName,userPicture);
     }
@@ -274,6 +275,13 @@ public class DrawerActivity extends CustomActivity
         }
     }
 
+    @Override
+    protected void onResume() {
+        setFragment(setCurrentFragment(mNavigationView.getMenu().getItem(mCheckedItem)));
+        mNavigationView.getMenu().getItem(mCheckedItem).setChecked(true);
+        super.onResume();
+    }
+
     public void setFragment(Fragment f){
         /* Note : You should not add transactions to the back stack when the transaction is for horizontal navigation
         (such as when switching tabs) or when modifying the content appearance (such as when adjusting filters).
@@ -379,5 +387,11 @@ public class DrawerActivity extends CustomActivity
             setFragment(setCurrentFragment(mNavigationView.getMenu().getItem(ARTISTS)));
             return;
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(CURRENT_FRAGMENT_ID,mCheckedItem);
+        super.onSaveInstanceState(outState);
     }
 }

@@ -29,6 +29,7 @@ public class UzaProvider extends ContentProvider {
     static final int SEARCH      = 103;
     static final int CHECKOUT    = 104;
     static final int CATEGORY    = 105;
+    static final int SAME_AUTHOR = 106;
 
     @Override
     public boolean onCreate() {
@@ -70,6 +71,19 @@ public class UzaProvider extends ContentProvider {
                 );
                 break;
             }
+
+            case SAME_AUTHOR: {
+                String sql = "SELECT " + columnsArray2string(projection)    +" FROM " + UzaContract.ItemsEntry.TABLE_NAME     +
+                        " LEFT JOIN "   + UzaContract.LikesEntry.TABLE_NAME  +
+                        " ON "           + UzaContract.ItemsEntry.TABLE_NAME     + "." + UzaContract.ItemsEntry._ID +
+                        " =  "           + UzaContract.LikesEntry.TABLE_NAME  + "." + UzaContract.LikesEntry.COLUMN_LIKES +
+                        " WHERE " + UzaContract.ItemsEntry.TABLE_NAME  + "."     + UzaContract.ItemsEntry.COLUMN_AUTHOR +
+                        " = "     + "'" + selection + "'" + ";";
+                //Log.i(TAG,"** category query ..." + sql);
+                retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
+                break;
+            }
+
             case FAVOURITES: {
                 String whereClause = "";
                 String innerClause = "";
@@ -82,7 +96,7 @@ public class UzaProvider extends ContentProvider {
                                   " =  "           + UzaContract.LikesEntry.TABLE_NAME  + "." + UzaContract.LikesEntry.COLUMN_LIKES;
                 }
                 String sql = "SELECT " + columnsArray2string(projection)    +" FROM " + UzaContract.LikesEntry.TABLE_NAME  + innerClause + whereClause + ";";
-                //Log.i(TAG,"** Favourites query ..." + sql);
+                Log.i(TAG,"** Favourites query ..." + sql);
                 retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
                 break;
             }
@@ -272,6 +286,7 @@ testUriMatcher test within TestUriMatcher.
         matcher.addURI(authority, UzaContract.PATH_CHECKOUT, CHECKOUT);
         matcher.addURI(authority, UzaContract.PATH_LIKES, FAVOURITES);
         matcher.addURI(authority, UzaContract.PATH_CATEGORY, CATEGORY);
+        matcher.addURI(authority, UzaContract.PATH_SAME_AUTHOR, SAME_AUTHOR);
         matcher.addURI(authority, UzaContract.PATH_ITEMS + "/" + SearchManager.SUGGEST_URI_PATH_QUERY,SEARCH);
 
         return matcher;

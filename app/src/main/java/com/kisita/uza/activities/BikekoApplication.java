@@ -21,7 +21,6 @@ import java.io.IOException;
 public class BikekoApplication extends Application implements Thread.UncaughtExceptionHandler {
 
     private static String TAG = "### BikekoApplication";
-    private Intent mEmailIntent;
     private Thread.UncaughtExceptionHandler mDefaultExceptionHandler;
 
     @Override

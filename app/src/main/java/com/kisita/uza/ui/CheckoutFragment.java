@@ -26,7 +26,6 @@ import android.widget.TextView;
 import com.google.firebase.database.DatabaseReference;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.DrawerActivity;
-import com.kisita.uza.activities.MainActivity;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.UzaCheckoutPageAdapter;

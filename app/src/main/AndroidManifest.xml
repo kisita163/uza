@@ -102,11 +102,11 @@
         <activity
             android:name=".activities.UzaActivity"
             android:launchMode="singleInstance"
-            android:parentActivityName=".activities.MainActivity"
+            android:parentActivityName=".activities.DrawerActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
+                android:value=".activities.DrawerActivity" />
         </activity>
 
         <meta-data
@@ -141,15 +141,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".activities.MainActivity"
-            android:label="@string/title_activity_main2"
-            android:parentActivityName=".activities.LoginActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.kisita.uza.activities.LoginActivity" />
-        </activity>
         <activity
             android:name=".activities.DrawerActivity"
             android:parentActivityName=".activities.LoginActivity"
