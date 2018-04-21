@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.model.Data;
@@ -25,9 +24,6 @@ import java.util.ArrayList;
 
 import static com.kisita.uza.utils.UzaFunctions.getCommandState;
 import static com.kisita.uza.utils.UzaFunctions.getCommandStateLogo;
-import static com.kisita.uza.utils.UzaFunctions.getCurrency;
-import static com.kisita.uza.utils.UzaFunctions.setFormat;
-import static com.kisita.uza.utils.UzaFunctions.setPrice;
 
 /*
  * Created by Hugues on 23/04/2017.
@@ -59,10 +55,7 @@ public class UzaCommandAdapter extends
     public void onBindViewHolder(UzaCommandAdapter.CardViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         //Log.i(TAG, "Position is  : " + position);
         final Data d = itemsList.get(position);
-        holder.commandId.setText(d.getCommandId());
         holder.commandState.setText(getCommandState(d.getCommandState()));
-        holder.commandQuantity.setText(d.getQuantity());
-        holder.commandId.setText(d.getCommandId());
         // Item listeners
         mOnItemClickListener = new AdapterView.OnItemClickListener() {
             @Override
@@ -119,7 +112,7 @@ public class UzaCommandAdapter extends
     {
         UzaCommandAdapter mAdapter;
 
-        private TextView commandId, commandState, commandQuantity;
+        private TextView commandState;
 
         private ViewPager pager;
 
@@ -137,11 +130,7 @@ public class UzaCommandAdapter extends
         {
             super(v);
             this.mAdapter = adapter;
-
-            commandId         =  v.findViewById(R.id.command_id_value);
             commandState      =  v.findViewById(R.id.command_state_value);
-            commandQuantity   =  v.findViewById(R.id.command_quantity_value);
-
             /* The pager. */
             pager     =  v.findViewById(R.id.pager);
             pager.setPageMargin(10);
