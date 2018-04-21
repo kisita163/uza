@@ -1,5 +1,6 @@
 package com.kisita.uza.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.database.Cursor;
@@ -21,14 +22,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.facebook.share.widget.ShareDialog;
 import com.google.firebase.database.DatabaseReference;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.UzaBannerAdapter;
-import com.kisita.uza.utils.UzaCardAdapter;
 import com.kisita.uza.utils.UzaPageAdapter;
 
 import java.util.ArrayList;
@@ -107,6 +106,7 @@ public class DetailFragment extends CustomFragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         super.onCreateView(inflater,container,savedInstanceState);
+        @SuppressLint("InflateParams")
         View v = inflater.inflate(R.layout.fragment_detail, null);
         setHasOptionsMenu(true);
         return setupView(v);
@@ -248,7 +248,7 @@ public class DetailFragment extends CustomFragment{
                     itemData.setQuantity("1");
                     String commandKey = getDb().child("users").push().getKey();
                     details = new String[]{itemData.getItemId(),
-                                           itemData.getSize(), ""/*selected color TODO*/,itemData.getQuantity(),"", commandKey, getUid(), itemData.getSeller()};
+                                           itemData.getSize(), ""/*selected color*/,itemData.getQuantity(),"", commandKey, getUid(), itemData.getSeller()};
                     onButtonPressed(details,mCommand);
                     mCommand = true; //update case + update the quantity here for example
                 }
@@ -286,10 +286,10 @@ public class DetailFragment extends CustomFragment{
 
 
 
+    @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri PlacesUri = UzaContract.ItemsEntry.SAME_AUTHOR_URI;
-        String[] whereArgs= {itemData.getAuthor()};
         //Log.i(TAG,itemData.getData()[UID]);
         return new CursorLoader(getContext(),
                 PlacesUri,
@@ -300,7 +300,7 @@ public class DetailFragment extends CustomFragment{
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         while (data.moveToNext()) {
             Data d = new Data(data,0);
             // add new item into the list of items
@@ -315,7 +315,7 @@ public class DetailFragment extends CustomFragment{
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
 
     }
 
