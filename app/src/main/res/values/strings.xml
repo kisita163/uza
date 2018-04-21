@@ -149,4 +149,12 @@
     <string name="item_details">Item details</string>
     <string name="processing">Processing</string>
     <string name="item_availability">Availability</string>
+
+
+    <string-array name="command_state">
+        <item>Payment processing</item>
+        <item>Packing</item>
+        <item>Shipped</item>
+        <item>Delivered</item>
+    </string-array>
 </resources>

@@ -71,6 +71,8 @@ public class UzaContract {
 
         public static final String COLUMN_ID         = "id";
 
+        public static final String COLUMN_USER       = "user";
+
         public static final String COLUMN_COLOR      = "color";
 
         public static final String COLUMN_KEY        = "key";

@@ -202,28 +202,30 @@ public class UzaFunctions {
         return ret;
     }
 
-    public static int getCommandStateLogo(int state){
+    public static int getCommandStateId(String state){
 
-        int ret;
+        int ret = -1;
 
         switch (state){
-            case 1 :
-                ret = R.drawable.ic_action_payement;
+            case "Payment processing" :
+                ret = 0;
                 break;
-            case 2 :
-                ret = R.drawable.ic_action_packing;
+            case "Packing":
+                ret = 1;
                 break;
-            case 3 :
-                ret = R.drawable.ic_action_shipping;
+            case "Shipped" :
+                ret = 2;
                 break;
-            case 4 :
-                ret =  R.drawable.ic_action_delivered;
+            case "Delivered" :
+                ret = 3;
                 break;
             default:
-                ret = 0;
+                ret = -1;
         }
         return ret;
     }
+
+
 
     public static void infoAlertDialog(Context context,String message) {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {

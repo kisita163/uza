@@ -141,22 +141,9 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
     }
 
     @Override
-    public void onCommandChanged(String[] details, boolean update) {
+    public void onStateChanged(String user, String commandId, int state) {
         if(mBound){
-            mService.addNewItemInCart(details);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        Log.i(TAG,"Fragment count is  : " + getSupportFragmentManager().getBackStackEntryCount());
-        if(getSupportFragmentManager().getBackStackEntryCount() == 1)
-            finish();
-        else {
-            toolbar.setTitle(R.string.commands);
-            Drawable upArrow = getResources().getDrawable(R.drawable.ic_action_close);
-            getSupportActionBar().setHomeAsUpIndicator(upArrow);
-            super.onBackPressed();
+            mService.updateCommandState(user,commandId,state);
         }
     }
 
@@ -175,5 +162,10 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
             onBackPressed();
         }
         return true;
+    }
+
+    @Override
+    public void onCommandChanged(String[] details, boolean update) {
+
     }
 }

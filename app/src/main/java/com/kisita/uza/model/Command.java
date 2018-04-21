@@ -11,6 +11,8 @@ import com.kisita.uza.provider.UzaContract;
 
 public class Command extends Data {
 
+    private  String mUser;
+
     private String mAddress;
 
     private String mNumber;
@@ -53,6 +55,7 @@ public class Command extends Data {
             UzaContract.CommandsEntry.COLUMN_PROVINCE,
             UzaContract.CommandsEntry.COLUMN_COUNTRY,
             UzaContract.CommandsEntry.COLUMN_NUMBER,
+            UzaContract.CommandsEntry.COLUMN_USER,
             UzaContract.CommandsEntry.COLUMN_FNAME,
             UzaContract.CommandsEntry.COLUMN_LNAME,
             UzaContract.CommandsEntry.TABLE_NAME + "." +UzaContract.CommandsEntry._ID
@@ -106,6 +109,9 @@ public class Command extends Data {
                 this.mFname = data.getString(index);
             }
 
+            if (s.equalsIgnoreCase(UzaContract.CommandsEntry.COLUMN_USER)) {
+                this.mUser = data.getString(index);
+            }
 
             if ( s.equalsIgnoreCase("_id") && index > 0) {
                 Log.i(TAG,"Command id is  : "+ index + " " + data.getString(index));
@@ -182,6 +188,10 @@ public class Command extends Data {
 
     public void setCommandState(String mCommandState) {
         this.mCommandState = mCommandState;
+    }
+
+    public String getUser() {
+        return mUser;
     }
 
     public int getCommandState(){

@@ -3,17 +3,18 @@ package com.kisita.uza.ui;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.kisita.uza.R;
@@ -21,10 +22,9 @@ import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Command;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
-import com.kisita.uza.utils.UzaPageAdapter;
+
 import static com.kisita.uza.model.Data.FAVOURITES_COLUMNS;
 import static com.kisita.uza.utils.UzaFunctions.getCommandState;
-import static com.kisita.uza.utils.UzaFunctions.getCurrency;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -84,9 +84,9 @@ public class CommandDetails extends CustomFragment{
         return setupView(v);
     }
 
-    private void onButtonPressed(String[] details, boolean update) {
+    private void onButtonPressed(int state) {
         if (mListener != null) {
-            mListener.onCommandChanged(details,update);
+            mListener.onStateChanged(itemData.getUser(),itemData.getCommandId(),state);
         }
     }
 
@@ -97,7 +97,7 @@ public class CommandDetails extends CustomFragment{
             mListener = (OnFragmentInteractionListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString()
-                    + " must implement OnNewArticleInteractionListener");
+                    + " must implement OnCommandInteractionListener");
         }
     }
 
@@ -119,7 +119,7 @@ public class CommandDetails extends CustomFragment{
         TextView  itemPrice         = v.findViewById(R.id.item_price_value);*/
         //
         TextView  commandId         = v.findViewById(R.id.command_id_value);
-        TextView  commandState      = v.findViewById(R.id.command_state_value);
+        final TextView  commandState      = v.findViewById(R.id.command_state_value);
         TextView  commandQty        = v.findViewById(R.id.command_quantity_value);
         //
         TextView  billingAddress    = v.findViewById(R.id.address);
@@ -132,13 +132,32 @@ public class CommandDetails extends CustomFragment{
         TextView  billingLastName   = v.findViewById(R.id.last_name);
 
 
-        /*String price = setPrice(itemData.getCurrency(),itemData.getPrice(),getContext());
-        String s = setFormat(price) + " "+mCurrency;
-        itemPrice.setText(s);
-        itemId.setText(itemData.getItemId());*/
-
         commandId.setText(itemData.getCommandId());
         commandState.setText(getCommandState(itemData.getCommandState()));
+        final String[] listItems = getResources().getStringArray(R.array.command_state);
+        commandState.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+                mBuilder.setSingleChoiceItems(listItems, itemData.getCommandState() - 1 , new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        commandState.setText(listItems[i]);
+                        itemData.setCommandState(String.valueOf(i + 1));
+                        //update database
+                        Log.i(TAG,itemData.getUser());
+                        Log.i(TAG,itemData.getCommandId());
+                        onButtonPressed(i + 1);
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                AlertDialog mDialog = mBuilder.create();
+                mDialog.show();
+            }
+        });
+
+
         commandQty.setText(itemData.getQuantity());
 
 
@@ -154,25 +173,6 @@ public class CommandDetails extends CustomFragment{
         //initPager(v);
         return v;
     }
-
-    /**
-     * Inits the pager view.
-     */
-    private void initPager(View v)
-    {
-        /* The pager. */
-        ViewPager pager = v.findViewById(R.id.pager);
-        //pager.setPageMargin(10);
-        /* The view that hold dots. */
-        LinearLayout vDots = v.findViewById(R.id.vDots);
-
-        UzaPageAdapter adapter = new UzaPageAdapter(getContext(), itemData, vDots, null);
-
-        pager.setOnPageChangeListener(adapter);
-
-        pager.setAdapter(adapter);
-    }
-
 
     @Override
     public void onClick(View v) {
@@ -218,6 +218,6 @@ public class CommandDetails extends CustomFragment{
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-         void onCommandChanged(String[] details, boolean update);
+         void onStateChanged(String user,String commandId,int state);
     }
 }

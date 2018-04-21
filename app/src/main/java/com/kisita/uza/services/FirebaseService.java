@@ -209,6 +209,7 @@ public class FirebaseService extends Service {
         commandsValues.put(UzaContract.CommandsEntry.COLUMN_QUANTITY     ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_QUANTITY));
         commandsValues.put(UzaContract.CommandsEntry.COLUMN_ADDRESS      ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_ADDRESS));
         commandsValues.put(UzaContract.CommandsEntry.COLUMN_POSTAl       ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_POSTAl));
+        commandsValues.put(UzaContract.CommandsEntry.COLUMN_USER         ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_USER));
         commandsValues.put(UzaContract.CommandsEntry.COLUMN_CITY         ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_CITY));
         commandsValues.put(UzaContract.CommandsEntry.COLUMN_COUNTRY      ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_COUNTRY));
         commandsValues.put(UzaContract.CommandsEntry.COLUMN_NUMBER       ,FirebaseUtils.getItemData(dataSnapshot,  UzaContract.CommandsEntry.COLUMN_NUMBER));
@@ -325,6 +326,16 @@ public class FirebaseService extends Service {
         childUpdates.put("/commands/"+details[5]+"/seller"  ,details[7]);
         childUpdates.put("/commands/"+details[5]+"/state"   ,0);
 
+        mDatabase.updateChildren(childUpdates);
+    }
+
+    public void updateCommandState(String user,String commandId, int state){
+
+        Map<String, Object> childUpdates = new HashMap<>();
+
+        childUpdates.put("/users-data/" + user + "/commands/"+commandId+"/state",state);
+        mDatabase.updateChildren(childUpdates);
+        childUpdates.put("/commands/"+commandId+"/state",state);
         mDatabase.updateChildren(childUpdates);
     }
 
