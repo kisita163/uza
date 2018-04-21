@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.kisita.uza.R;
 import static com.kisita.uza.custom.CustomActivity.ARTISTS;
 import static com.kisita.uza.custom.CustomActivity.ARTWORKS;
@@ -54,13 +57,19 @@ public class StartFragment extends Fragment {
             }
         });
 
-
         artists.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onButtonPressed(ARTISTS);
             }
         });
+
+        ImageView img = v.findViewById(R.id.home_image);
+        Glide.with(this)
+                .load("https://firebasestorage.googleapis.com/v0/b/glam-afc14.appspot.com/o/home_image%2Fdanseurs.png?alt=media&token=44632681-ac0a-421d-b228-689b9071ba4b")
+                .fitCenter()
+                .error(R.drawable.danseurs)
+                .into(img);
 
 
         return v;
