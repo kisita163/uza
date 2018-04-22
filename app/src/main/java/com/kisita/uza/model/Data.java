@@ -26,7 +26,9 @@ public class Data implements Serializable, Comparable<Data>
 
 	public static String TAG = "### Data";
 
-    /* List of picture(s) associated to this item */
+	private String mAvailability;
+
+	/* List of picture(s) associated to this item */
 	private ArrayList<String> pictures;
 
 	/* True if the this item is listed as a favourite one */
@@ -62,13 +64,13 @@ public class Data implements Serializable, Comparable<Data>
 
     private String mPrice;
 
-    private String mQuantity;
+    private String mQuantity     = "";
 
-    private String mCheckoutId;
+    private String mCheckoutId   = "";
 
-    private String mCommandState;
+    private String mCommandState = "";
 
-    private String mCommandID;
+    private String mCommandID    = "";
 
     /**
      * Instantiates a new data.
@@ -123,6 +125,10 @@ public class Data implements Serializable, Comparable<Data>
             if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_WEIGHT)){
                 this.mWeight = data.getString(index);
             }
+
+			if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_AVAILABILITY)){
+				this.mAvailability = data.getString(index);
+			}
 
             if(s.equalsIgnoreCase(UzaContract.CommandsEntry.COLUMN_STATE)){
                 this.mCommandState = data.getString(index);
@@ -195,9 +201,32 @@ public class Data implements Serializable, Comparable<Data>
             UzaContract.ItemsEntry.COLUMN_PICTURES,
             UzaContract.ItemsEntry.COLUMN_WEIGHT,
             UzaContract.ItemsEntry.COLUMN_URL,
+            UzaContract.ItemsEntry.COLUMN_AVAILABILITY,
+            UzaContract.CommandsEntry.COLUMN_KEY,
+            UzaContract.CommandsEntry.COLUMN_STATE,
 			UzaContract.LikesEntry.COLUMN_LIKES,
             UzaContract.LikesEntry.TABLE_NAME + "." +UzaContract.LikesEntry._ID
     };
+
+	public static final String[] ITEMS_FAVOURITE_COLUMNS = {
+			UzaContract.ItemsEntry.TABLE_NAME + "." + UzaContract.ItemsEntry._ID,
+			UzaContract.ItemsEntry.COLUMN_NAME,
+			UzaContract.ItemsEntry.COLUMN_PRICE,
+			UzaContract.ItemsEntry.COLUMN_CURRENCY,
+			UzaContract.ItemsEntry.COLUMN_BRAND,
+			UzaContract.ItemsEntry.COLUMN_DESCRIPTION,
+			UzaContract.ItemsEntry.COLUMN_SELLER,
+			UzaContract.ItemsEntry.COLUMN_CATEGORY,
+			UzaContract.ItemsEntry.COLUMN_TYPE,
+			UzaContract.ItemsEntry.COLUMN_AUTHOR,
+			UzaContract.ItemsEntry.TABLE_NAME + "." +UzaContract.ItemsEntry.COLUMN_SIZE,
+			UzaContract.ItemsEntry.COLUMN_PICTURES,
+			UzaContract.ItemsEntry.COLUMN_WEIGHT,
+			UzaContract.ItemsEntry.COLUMN_URL,
+			UzaContract.ItemsEntry.COLUMN_AVAILABILITY,
+			UzaContract.LikesEntry.COLUMN_LIKES,
+			UzaContract.LikesEntry.TABLE_NAME + "." +UzaContract.LikesEntry._ID
+	};
 
 	public static final String[] ITEMS_COMMANDS_COLUMNS = {
 			UzaContract.ItemsEntry.TABLE_NAME + "." + UzaContract.ItemsEntry._ID,
@@ -208,6 +237,7 @@ public class Data implements Serializable, Comparable<Data>
 			UzaContract.ItemsEntry.COLUMN_BRAND,
 			UzaContract.ItemsEntry.COLUMN_DESCRIPTION,
 			UzaContract.ItemsEntry.COLUMN_SELLER,
+			UzaContract.ItemsEntry.COLUMN_AVAILABILITY,
 			UzaContract.ItemsEntry.TABLE_NAME + "." +UzaContract.ItemsEntry.COLUMN_SIZE,
 			UzaContract.ItemsEntry.COLUMN_AUTHOR,
 			UzaContract.ItemsEntry.COLUMN_PICTURES,
@@ -216,22 +246,6 @@ public class Data implements Serializable, Comparable<Data>
 			UzaContract.CommandsEntry.COLUMN_QUANTITY,
 			UzaContract.CommandsEntry.COLUMN_STATE,
 			UzaContract.CommandsEntry.TABLE_NAME + "." +UzaContract.CommandsEntry._ID
-	};
-
-	public static final String [] FAVOURITES_COLUMNS = {
-			UzaContract.LikesEntry.TABLE_NAME + "." + UzaContract.LikesEntry._ID,
-			UzaContract.LikesEntry.COLUMN_LIKES
-	};
-
-
-	public static final String[] COMMANDS_COLUMNS = {
-			UzaContract.CommandsEntry.TABLE_NAME + "." + UzaContract.CommandsEntry._ID,
-			UzaContract.CommandsEntry.COLUMN_KEY,
-			UzaContract.CommandsEntry.TABLE_NAME + "." +UzaContract.CommandsEntry.COLUMN_SIZE,
-			UzaContract.CommandsEntry.TABLE_NAME + "." +UzaContract.CommandsEntry.COLUMN_COLOR,
-			UzaContract.CommandsEntry.COLUMN_COMMENT,
-			UzaContract.CommandsEntry.COLUMN_QUANTITY,
-			UzaContract.CommandsEntry.COLUMN_STATE
 	};
 
 	public boolean isFavourite() {
@@ -307,6 +321,11 @@ public class Data implements Serializable, Comparable<Data>
 		return FirebaseDatabase.getInstance().getReference();
 	}
 
+	public boolean isAvailable() {
+		if(mAvailability != null && mAvailability.equalsIgnoreCase("0"))
+			return true;
+		return false;
+	}
 
 	private void updateFavouriteInDataBase(){
 
@@ -342,6 +361,13 @@ public class Data implements Serializable, Comparable<Data>
 			check = true;
 		return check;
 	}
+
+	public boolean  isInCart(){
+    	if(mCommandState != null && mCommandState.equalsIgnoreCase("0"))
+    		return true;
+    	return false;
+	}
+
 
 	public int getCommandState(){
 		int state = -1;

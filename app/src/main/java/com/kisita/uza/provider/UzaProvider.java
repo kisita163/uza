@@ -77,6 +77,10 @@ public class UzaProvider extends ContentProvider {
                         " LEFT JOIN "   + UzaContract.LikesEntry.TABLE_NAME  +
                         " ON "           + UzaContract.ItemsEntry.TABLE_NAME     + "." + UzaContract.ItemsEntry._ID +
                         " =  "           + UzaContract.LikesEntry.TABLE_NAME  + "." + UzaContract.LikesEntry.COLUMN_LIKES +
+                        // Command table
+                        " LEFT JOIN "    + UzaContract.CommandsEntry.TABLE_NAME  +
+                        " ON "           + UzaContract.LikesEntry.TABLE_NAME  + "." + UzaContract.LikesEntry.COLUMN_LIKES +
+                        "="              + UzaContract.CommandsEntry.TABLE_NAME  + "." + UzaContract.CommandsEntry.COLUMN_KEY +
                         " WHERE " + UzaContract.ItemsEntry.TABLE_NAME  + "."     + UzaContract.ItemsEntry.COLUMN_AUTHOR +
                         " = "     + "'" + selection + "'" + ";";
                 //Log.i(TAG,"** category query ..." + sql);
@@ -103,12 +107,19 @@ public class UzaProvider extends ContentProvider {
 
             case CATEGORY: {
                 String sql = "SELECT " + columnsArray2string(projection)    +" FROM " + UzaContract.ItemsEntry.TABLE_NAME     +
-                             " LEFT JOIN "   + UzaContract.LikesEntry.TABLE_NAME  +
+                             // Likes table
+                             " LEFT JOIN "    + UzaContract.LikesEntry.TABLE_NAME  +
                              " ON "           + UzaContract.ItemsEntry.TABLE_NAME     + "." + UzaContract.ItemsEntry._ID +
-                             " =  "           + UzaContract.LikesEntry.TABLE_NAME  + "." + UzaContract.LikesEntry.COLUMN_LIKES +
-                             " WHERE " + UzaContract.ItemsEntry.TABLE_NAME  + "."     + UzaContract.ItemsEntry.COLUMN_CATEGORY +
-                             " = "     + "'" + selection + "'" + ";";
-                //Log.i(TAG,"** category query ..." + sql);
+                             "="           + UzaContract.LikesEntry.TABLE_NAME  + "." + UzaContract.LikesEntry.COLUMN_LIKES +
+                             // Command table
+                             " LEFT JOIN "    + UzaContract.CommandsEntry.TABLE_NAME  +
+                             " ON "           + UzaContract.ItemsEntry.TABLE_NAME  + "." + UzaContract.ItemsEntry._ID +
+                             "="              + UzaContract.CommandsEntry.TABLE_NAME  + "." + UzaContract.CommandsEntry.COLUMN_KEY +
+                             // TODO no need of where clause here
+                            /*" WHERE " + UzaContract.CommandsEntry.TABLE_NAME  + "."     + UzaContract.CommandsEntry.COLUMN_STATE +
+                            " = "     + "'0'" + */";";
+
+                Log.i(TAG,"** category query ..." + sql);
                 retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
                 break;
             }

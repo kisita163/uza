@@ -171,6 +171,9 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 		while (data.moveToNext()) {
 			Data d = new Data(data, CHECKOUT_DATA);
 
+			if(!d.isAvailable()) // If the item is not available anymore, just don't show it
+				continue;
+
 			handleCost(setPrice(d.getCurrency(),d.getPrice(),getContext()), // The item price in the currency used by the app
 					      d.getQuantity()); // item quantity
 

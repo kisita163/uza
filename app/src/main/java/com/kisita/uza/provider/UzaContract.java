@@ -140,6 +140,8 @@ public class UzaContract {
 
         public static final String COLUMN_WEIGHT      = "weight";
 
+        public static final String COLUMN_AVAILABILITY= "availability";
+
         public static Uri buildPlaceUri() {
             return CONTENT_URI;
         }

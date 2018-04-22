@@ -142,4 +142,5 @@
     <string name="artworks">Artworks</string>
     <string name="art_africain_contemporain">Art africain contemporain</string>
     <string name="same_artist">Same artist</string>
+    <string name="item_not_available">Sold</string>
 </resources>

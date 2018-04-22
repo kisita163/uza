@@ -39,16 +39,18 @@ public class CustomActivity extends AppCompatActivity implements
 		ItemsFragment.OnItemFragmentInteractionListener
 {
 
-	public static final  int HOME       = 0;
-	public static final  int ARTWORKS   = 1;
-	public static final  int ARTISTS    = 2;
-	public static final  int CART       = 3;
-	public static final  int FAVOURITES = 4;
-	public static final  int COMMANDS   = 5;
-	public static final  int FILTERS    = 6;
-	public static final  int LOGS       = 7;
-	public static final  int BILLING    = 8;
-	public static final  int LOGOUT     = 9;
+	public enum BikekoMenu {
+		HOME,
+		ARTWORKS,
+		//ARTISTS,
+		CART,
+		FAVOURITES,
+		COMMANDS,
+		FILTERS,
+		LOGS,
+		BILLING,
+		LOGOUT
+	}
 
 	public static final TouchEffect TOUCH = new TouchEffect();
 	/**

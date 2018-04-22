@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Bikeko</string>
 
-    <string name="favourites">Favourite(s)</string>
+    <string name="favourites">Favoris</string>
 
 
     <string name="sign_in">Sign in</string>
@@ -36,9 +36,8 @@
     <string name="phone_number">Phone Number</string>
 
 
-    <string name="quantity">Quantity</string>
+    <string name="quantity">Quantité</string>
 
-    <string name="item_in_the_cart">Item in the cart</string>
 
     <string name="confirm_password">Confirm Password</string>
     <string name="name">Name</string>
@@ -50,22 +49,22 @@
     <!-- Payment content -->
 
     <!-- Electronics content -->
-    <string name="home">Home</string>
+    <string name="home">Acceuil</string>
 
     <!-- choices -->
     <string name="total">TOTAL</string>
-    <string name="order_amount">Order Amount</string>
-    <string name="shipping_cost">Shipping cost</string>
+    <string name="order_amount">Coût</string>
+    <string name="shipping_cost">Frais de livraison</string>
     <string name="authentication_failed">Authentication failed.</string>
-    <string name="required">Required</string>
-    <string name="password_not_equal">Entered passwords are not equal</string>
+    <string name="required">Champs obligatoires</string>
+    <string name="password_not_equal">Les mots de passe entrés ne sont pas égaux</string>
     <string name="please_wait">Veuillez patienter svp…</string>
     <string name="commands">Commands</string>
     <string name="command_id">ID #</string>
     <string name="command_state">State</string>
     <string name="command_contact">Contact</string>
     <string name="none">None</string>
-    <string name="cart">Cart</string>
+    <string name="cart">Panier</string>
     <string name="add_to_cart">Ajouter au panier</string>
     <string name="unspecified_resource">Unspecified</string>
     <string name="logout">Se deconnecter de</string>
@@ -83,14 +82,18 @@
     <string name="email_verification">Verification email sent to</string>
     <string name="send_verification_fail">Failed to send verification email.</string>
     <string name="hello">Hello</string>
-    <string name="selecte_a_country">Click here to select a country</string>
-    <string name="loading">Loading...</string>
-    <string name="command_current_state">Command state</string>
-    <string name="Billing_info_missing">Some billing info are missing</string>
-    <string name="Billing_info_saved">Billing information saved</string>
-    <string name="remove_item">Do you really want to remove this item from the cart ?</string>
+    <string name="selecte_a_country">Cliquez ici pour sélectionner un pays</string>
+    <string name="loading">Chargement…</string>
+    <string name="command_current_state">Etat de la commande</string>
+    <string name="Billing_info_missing">Certaines informations de facturation sont manquantes</string>
+    <string name="Billing_info_saved">Informations de facturation enregistrées</string>
+    <string name="billing_information">Informations de faturation</string>
+    <string name="remove_item">Voulez-vous vraiment retirer cet article du panier?</string>
     <string name="artists">Artistes</string>
     <string name="artworks">Oeuvres d\'art</string>
     <string name="art_africain_contemporain">Art africain contemporain</string>
-    <string name="same_artist">Same artist</string>
+    <string name="same_artist">Du même artiste</string>
+    <string name="item_not_available">Vendu</string>
+    <string name="title_filters">Filtres</string>
+    <string name="item_in_the_cart">Article dans le panier</string>
 </resources>

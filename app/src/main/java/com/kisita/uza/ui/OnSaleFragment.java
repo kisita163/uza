@@ -204,15 +204,15 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 		    mListFilled = true;
 
 		while (data.moveToNext()) {
-
-			/*for(int i = 0 ; i < data.getColumnCount() ; i ++ ){
+			Log.i(TAG, "/!\\"+data.getString(0));
+			for(int i = 1 ; i < data.getColumnCount() ; i ++ ){
 				if(data.getString(i) == null){
-					Log.i(TAG, "null");
+					Log.i(TAG, "\t/!\\ null");
 				}
 				else {
-					Log.i(TAG, data.getString(i));
+					Log.i(TAG,"\t/!\\"+ data.getString(i));
 				}
-			}*/
+			}
 
 			Data d = new Data(data,ITEM_DATA);
 			// add new item into the list of items

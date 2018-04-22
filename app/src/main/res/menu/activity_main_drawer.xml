@@ -14,10 +14,10 @@
             android:icon="@drawable/bikeko_artworks_black_24dp"
             android:title="@string/artworks" />
 
-        <item
+        <!--<item
             android:id="@+id/nav_artists"
             android:icon="@drawable/bikeko_group_black_24dp"
-            android:title="@string/artists" />
+            android:title="@string/artists" />-->
 
         <item
             android:id="@+id/nav_checkout"

@@ -184,6 +184,9 @@ public class UzaFunctions {
         String ret = null;
 
         switch (state){
+            case 0 :
+                ret = "In the cart";
+                break;
             case 1 :
                 ret = "Payment processing";
             break;
@@ -207,6 +210,9 @@ public class UzaFunctions {
         int ret;
 
         switch (state){
+            case 0 :
+                ret = R.drawable.ic_action_cart;
+                break;
             case 1 :
                 ret = R.drawable.ic_action_payement;
                 break;

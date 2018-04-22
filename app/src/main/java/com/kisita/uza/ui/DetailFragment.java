@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.firebase.database.DatabaseReference;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
@@ -161,13 +162,24 @@ public class DetailFragment extends CustomFragment{
 
         Button add = v.findViewById(R.id.addToCart);
 
+        Log.i(TAG,"--------------------------------> isInCart " + itemData.isInCart() + " " + itemData.isAvailable() );
+
         if(itemData.isCommand()){
             add.setVisibility(View.GONE);
             commandState.setText(getCommandState(itemData.getCommandState()));
             commandId.setText(itemData.getCommandId());
             commandQty.setText(itemData.getQuantity());
             stateLogo.setImageResource(getCommandStateLogo(itemData.getCommandState()));
-        }else{
+        }else if(itemData.isInCart()){
+            commandCont.setVisibility(View.GONE);
+            add.setText(getString(R.string.item_in_the_cart));
+            add.setBackgroundColor(getResources().getColor(R.color.main_grey));
+        }else if(!itemData.isAvailable()){
+            commandCont.setVisibility(View.GONE);
+            add.setText(getString(R.string.item_not_available));
+            add.setBackgroundColor(getResources().getColor(R.color.main_grey));
+        }
+        else{
             commandCont.setVisibility(View.GONE);
             add.setOnClickListener(this);
         }
@@ -231,13 +243,6 @@ public class DetailFragment extends CustomFragment{
         pager.setAdapter(adapter);
     }
 
-
-    private void setAddButton() {
-        //Log.i(TAG, "Setting add button");
-        //add.setVisibility(View.INVISIBLE);
-        Toast.makeText(getContext(), R.string.item_in_the_cart, Toast.LENGTH_LONG).show();
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -254,7 +259,6 @@ public class DetailFragment extends CustomFragment{
                 }
                 //Log.i(TAG,selectedColor + " " +  selectedSize + " " +  selectedQty);
                 infoAlertDialog(getContext(),getString(R.string.item_in_the_cart));
-                Toast.makeText(getContext(), R.string.item_in_the_cart, Toast.LENGTH_LONG).show();
                 break;
             case R.id.favourite:
                 likePressed();
@@ -339,9 +343,6 @@ public class DetailFragment extends CustomFragment{
         //Log.i(TAG,"****************On activity created");
         if(itemData.isFavourite()){
             mlike.setImageResource(R.drawable.ic_action_favorite_black);
-        }
-        if(mCommand){
-            setAddButton();
         }
     }
 }

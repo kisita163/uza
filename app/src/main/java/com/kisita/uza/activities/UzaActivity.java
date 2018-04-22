@@ -19,7 +19,6 @@ import com.kisita.uza.ui.CheckoutFragment;
 import com.kisita.uza.ui.CommandsFragment;
 import com.kisita.uza.ui.DetailFragment;
 import com.kisita.uza.ui.ItemsFragment;
-import com.kisita.uza.ui.MapsFragment;
 
 import java.util.ArrayList;
 
@@ -138,20 +137,6 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
 		ft.detach(frg);
 		ft.attach(frg);
 		ft.commit();
-    }
-
-    @Override
-    public void onCommandSelectedInteraction(String key) {
-        //Log.i(TAG,"key received  : "+key);
-        Fragment f = MapsFragment.newInstance(key);
-        //toolbar.setTitle(R.string.command_details);
-        if (f != null) {
-            getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                    .addToBackStack(null)
-                    .replace(R.id.content_frame, f , "Command details")
-                    .commit();
-        }
     }
 
     @Override

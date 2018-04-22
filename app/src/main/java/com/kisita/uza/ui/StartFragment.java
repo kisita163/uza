@@ -12,8 +12,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.kisita.uza.R;
-import static com.kisita.uza.custom.CustomActivity.ARTISTS;
-import static com.kisita.uza.custom.CustomActivity.ARTWORKS;
+
+import static com.kisita.uza.custom.CustomActivity.BikekoMenu.ARTWORKS;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,21 +48,21 @@ public class StartFragment extends Fragment {
         View v =  inflater.inflate(R.layout.fragment_home, container, false);
 
         FrameLayout artworks = v.findViewById(R.id.bikeko_artworks);
-        FrameLayout artists  = v.findViewById(R.id.bikeko_artists);
+        //FrameLayout artists  = v.findViewById(R.id.bikeko_artists);
 
         artworks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onButtonPressed(ARTWORKS);
+                onButtonPressed(ARTWORKS.ordinal());
             }
         });
 
-        artists.setOnClickListener(new View.OnClickListener() {
+        /*artists.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onButtonPressed(ARTISTS);
             }
-        });
+        });*/
 
         ImageView img = v.findViewById(R.id.home_image);
         Glide.with(this)

@@ -26,6 +26,7 @@ import java.util.Arrays;
 
 import static com.kisita.uza.model.Data.FAVOURITE_DATA;
 import static com.kisita.uza.model.Data.ITEMS_COLUMNS;
+import static com.kisita.uza.model.Data.ITEMS_FAVOURITE_COLUMNS;
 
 
 /*
@@ -73,7 +74,7 @@ public class FavoritesFragment extends CustomFragment implements  LoaderManager.
 
         return new CursorLoader(getContext(),
                 PlacesUri,
-                ITEMS_COLUMNS,
+                ITEMS_FAVOURITE_COLUMNS,
                 "",
                 null,
                 null);

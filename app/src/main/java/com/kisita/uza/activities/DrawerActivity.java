@@ -48,6 +48,15 @@ import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
+import static com.kisita.uza.custom.CustomActivity.BikekoMenu.ARTWORKS;
+import static com.kisita.uza.custom.CustomActivity.BikekoMenu.BILLING;
+import static com.kisita.uza.custom.CustomActivity.BikekoMenu.CART;
+import static com.kisita.uza.custom.CustomActivity.BikekoMenu.COMMANDS;
+import static com.kisita.uza.custom.CustomActivity.BikekoMenu.FAVOURITES;
+import static com.kisita.uza.custom.CustomActivity.BikekoMenu.FILTERS;
+import static com.kisita.uza.custom.CustomActivity.BikekoMenu.HOME;
+import static com.kisita.uza.custom.CustomActivity.BikekoMenu.LOGOUT;
+import static com.kisita.uza.custom.CustomActivity.BikekoMenu.LOGS;
 import static com.kisita.uza.utils.Settings.isAllBillingInformationSet;
 import static com.kisita.uza.utils.UzaFunctions.TRANSACTION_OK;
 
@@ -167,43 +176,43 @@ public class DrawerActivity extends CustomActivity
         Fragment fragment = null;
         switch (item.getItemId()) {
             case R.id.nav_artworks:
-                mCheckedItem  = ARTWORKS;
+                mCheckedItem  = ARTWORKS.ordinal();
                 fragment = OnSaleFragment.newInstance();
                 break;
-            case R.id.nav_artists:
+            /*case R.id.nav_artists:
                 mCheckedItem  = ARTISTS;
                 fragment = OnSaleFragment.newInstance();
-                break;
+                break;*/
             case R.id.nav_home:
-                mCheckedItem  = HOME;
+                mCheckedItem  = HOME.ordinal();
                 fragment = StartFragment.newInstance();
                 break;
             case R.id.nav_manage:
-                mCheckedItem  = FILTERS;
+                mCheckedItem  = FILTERS.ordinal();
                 fragment = new SettingsFragment();
                 break;
             case R.id.nav_checkout:
-                mCheckedItem  = CART;
+                mCheckedItem  = CART.ordinal();
                 fragment = new CheckoutFragment();
                 break;
             case R.id.nav_favourites:
-                mCheckedItem = FAVOURITES;
+                mCheckedItem = FAVOURITES.ordinal();
                 fragment = new FavoritesFragment();
                 break;
             case R.id.nav_commands:
-                mCheckedItem = COMMANDS;
+                mCheckedItem = COMMANDS.ordinal();
                 fragment = CommandsFragment.newInstance();
                 break;
             case R.id.nav_billing_info:
-                mCheckedItem = BILLING;
+                mCheckedItem = BILLING.ordinal();
                 fragment = BillingFragment.newInstance();
                 break;
             case R.id.nav_logout:
-                mCheckedItem = LOGOUT;
+                mCheckedItem = LOGOUT.ordinal();
                 handlingLogout();
                 break;
             case R.id.nav_email:
-                mCheckedItem = LOGS;
+                mCheckedItem = LOGS.ordinal();
                 new LogReporting(this).collectAndSendLogs();
                 break;
             default:
@@ -378,15 +387,15 @@ public class DrawerActivity extends CustomActivity
 
     @Override
     public void onHomeInteraction(int button) {
-        if(button == ARTWORKS){
-            setFragment(setCurrentFragment(mNavigationView.getMenu().getItem(ARTWORKS)));
+        if(button == ARTWORKS.ordinal()){
+            setFragment(setCurrentFragment(mNavigationView.getMenu().getItem(ARTWORKS.ordinal())));
             return;
         }
 
-        if(button == ARTISTS){
+        /*if(button == ARTISTS){
             setFragment(setCurrentFragment(mNavigationView.getMenu().getItem(ARTISTS)));
             return;
-        }
+        }*/
     }
 
     @Override
