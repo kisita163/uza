@@ -16,7 +16,7 @@
         <item>EUR</item>
     </string-array>
 
-    <string name="action_logout">Logout</string>
+    <string name="action_logout">Se deconnecter</string>
     <string name="checkout">Checkout</string>
 
     <!-- Start Do not translate -->
@@ -59,7 +59,7 @@
     <string name="required">Champs obligatoires</string>
     <string name="password_not_equal">Les mots de passe entrés ne sont pas égaux</string>
     <string name="please_wait">Veuillez patienter svp…</string>
-    <string name="commands">Commands</string>
+    <string name="commands">Commandes</string>
     <string name="command_id">ID #</string>
     <string name="command_state">State</string>
     <string name="command_contact">Contact</string>

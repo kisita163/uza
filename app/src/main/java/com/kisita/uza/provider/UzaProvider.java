@@ -97,7 +97,11 @@ public class UzaProvider extends ContentProvider {
                 }else { // Favourite fragment
                     innerClause = " INNER JOIN "   + UzaContract.ItemsEntry.TABLE_NAME  +
                                   " ON "           + UzaContract.ItemsEntry.TABLE_NAME  + "." + UzaContract.ItemsEntry._ID +
-                                  " =  "           + UzaContract.LikesEntry.TABLE_NAME  + "." + UzaContract.LikesEntry.COLUMN_LIKES;
+                                  " =  "           + UzaContract.LikesEntry.TABLE_NAME  + "." + UzaContract.LikesEntry.COLUMN_LIKES+
+                                // Command table
+                                  " LEFT JOIN "    + UzaContract.CommandsEntry.TABLE_NAME  +
+                                  " ON "           + UzaContract.LikesEntry.TABLE_NAME  + "." + UzaContract.LikesEntry.COLUMN_LIKES +
+                                  "="              + UzaContract.CommandsEntry.TABLE_NAME  + "." + UzaContract.CommandsEntry.COLUMN_KEY ;
                 }
                 String sql = "SELECT " + columnsArray2string(projection)    +" FROM " + UzaContract.LikesEntry.TABLE_NAME  + innerClause + whereClause + ";";
                 Log.i(TAG,"** Favourites query ..." + sql);

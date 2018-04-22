@@ -74,7 +74,7 @@ public class FavoritesFragment extends CustomFragment implements  LoaderManager.
 
         return new CursorLoader(getContext(),
                 PlacesUri,
-                ITEMS_FAVOURITE_COLUMNS,
+                ITEMS_COLUMNS,
                 "",
                 null,
                 null);
