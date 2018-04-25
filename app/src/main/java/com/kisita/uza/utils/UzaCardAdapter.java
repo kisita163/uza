@@ -57,7 +57,7 @@ public class UzaCardAdapter extends
 
     @Override
     public void onBindViewHolder(UzaCardAdapter.CardViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        //Log.i(TAG, "Position is  : " + position);
+        Log.i(TAG, "Position is  : " + itemsList.get(position).getPrice());
         final Data d = itemsList.get(position);
 
         holder.author.setText(d.getAuthor()); // Author
@@ -101,11 +101,6 @@ public class UzaCardAdapter extends
         // Set favourite button
         if(d.isFavourite()) {
             holder.favButton.setImageResource(R.drawable.ic_action_favorite_black);
-        }
-
-        // Set Command State
-        if(d.isCommand()) {
-            holder.favButton.setVisibility(View.GONE);
         }
     }
 
@@ -203,5 +198,9 @@ public class UzaCardAdapter extends
 
         holder.pager.setOnPageChangeListener(adapter);
         holder.pager.setAdapter(adapter);
+    }
+
+    public void resetItemsList(ArrayList<Data> data){
+        this.itemsList = data;
     }
 }

@@ -26,12 +26,7 @@ public abstract class ItemsFragment extends CustomFragment
 {
     final static String TAG = "### ItemsFragment";
     final static String QUERY         = "QUERY";
-    final static String CHOICE_BUTTON = "CHOICE_BUTTON";
 
-    private static final int RESULT_CODE = 1;
-
-
-    private UzaCardAdapter mCardAdapter;
     private ArrayList<Data> itemsList;
 
     private String mQuery;
@@ -89,13 +84,7 @@ public abstract class ItemsFragment extends CustomFragment
         recList.setLayoutManager(llm);
         mCardAdapter = new UzaCardAdapter(this.getContext(),itemsList);
         recList.setAdapter(mCardAdapter);
-        loadData();
     }
-
-    /**
-     * Load  product data for displaying on the RecyclerView.
-     */
-    abstract void  loadData();
 
     @Override
     public void onDetach() {
@@ -154,5 +143,13 @@ public abstract class ItemsFragment extends CustomFragment
     public interface OnItemFragmentInteractionListener {
         void onItemFragmentInteraction(String title);
         void onCommandSelectedInteraction(String key);
+    }
+
+    @Override
+    public void notifyChanges(ArrayList<Data> data) {
+        if(mCardAdapter != null) {
+            mCardAdapter.resetItemsList(data);
+            mCardAdapter.notifyDataSetChanged();
+        }
     }
 }

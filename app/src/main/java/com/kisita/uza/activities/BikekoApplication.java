@@ -26,7 +26,7 @@ public class BikekoApplication extends Application implements Thread.UncaughtExc
     @Override
     public void onCreate() {
         Log.i(TAG,"onCreate");
-        if (BuildConfig.DEBUG) {
+        /*if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectCustomSlowCalls()
                     .detectNetwork()
@@ -41,7 +41,7 @@ public class BikekoApplication extends Application implements Thread.UncaughtExc
                     .penaltyLog()
                     .penaltyDeath()
                     .build());
-        }
+        }*/
 
         super.onCreate();
         MailableLog.init(this, BuildConfig.DEBUG);

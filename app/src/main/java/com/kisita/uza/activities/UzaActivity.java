@@ -16,7 +16,6 @@ import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.ui.BillingFragment;
 import com.kisita.uza.ui.CheckoutFragment;
-import com.kisita.uza.ui.CommandsFragment;
 import com.kisita.uza.ui.DetailFragment;
 import com.kisita.uza.ui.ItemsFragment;
 
@@ -70,10 +69,6 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
         String title = "";
         Fragment f = null;
         switch (fid) {
-            case (0):
-                title = getString(R.string.commands);
-                f = CommandsFragment.newInstance();
-                break;
             case (3):
                 Data d = (Data) getIntent().getSerializableExtra("details");
                 title = d.getAuthor();

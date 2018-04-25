@@ -10,6 +10,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 27
         multiDexEnabled true
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     lintOptions {
@@ -98,6 +100,24 @@ dependencies {
     compile 'com.braintreepayments:card-form:3.3.0'
     compile 'com.braintreepayments.api:braintree:2.12.0'
     compile 'com.braintreepayments.api:drop-in:3.3.0'
+
+    //Test
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    testCompile 'junit:junit:4.12'
+
+    // Android runner and rules support
+    testCompile 'com.android.support.test:runner:0.5'
+    testCompile 'com.android.support.test:rules:0.5'
+
+    // Espresso support
+    testCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    // add this for intent mocking support
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2'
 }
 
 /*configurations.all {

@@ -135,6 +135,10 @@ public class UzaProvider extends ContentProvider {
                              " INNER JOIN "   + UzaContract.CommandsEntry.TABLE_NAME  +
                              " ON "           + UzaContract.ItemsEntry.TABLE_NAME     + "." + UzaContract.ItemsEntry._ID +
                              " =  "           + UzaContract.CommandsEntry.TABLE_NAME  + "." + UzaContract.CommandsEntry.COLUMN_KEY +
+                             // Command table
+                             " LEFT JOIN "    + UzaContract.LikesEntry.TABLE_NAME  +
+                             " ON "           + UzaContract.CommandsEntry.TABLE_NAME  + "." + UzaContract.CommandsEntry.COLUMN_KEY +
+                             "="              + UzaContract.LikesEntry.TABLE_NAME  + "." + UzaContract.LikesEntry.COLUMN_LIKES     +
                              " WHERE "        + UzaContract.CommandsEntry.TABLE_NAME  + "." + UzaContract.CommandsEntry.COLUMN_STATE + "" +
                              " > 0 ;";
                 //Log.i(TAG,"** Command query : " + sql);
@@ -215,6 +219,7 @@ public class UzaProvider extends ContentProvider {
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
+        getContext().getContentResolver().notifyChange(UzaContract.ItemsEntry.CATEGORY_URI, null);
         getContext().getContentResolver().notifyChange(uri, null);
         //db.close();
         return returnUri;
@@ -246,6 +251,7 @@ public class UzaProvider extends ContentProvider {
         }
         // Because a null deletes all rows
         if (rowsDeleted != 0) {
+            getContext().getContentResolver().notifyChange(UzaContract.ItemsEntry.CATEGORY_URI, null);
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return rowsDeleted;
@@ -274,6 +280,7 @@ public class UzaProvider extends ContentProvider {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
         if (rowsUpdated != 0) {
+            getContext().getContentResolver().notifyChange(UzaContract.ItemsEntry.CATEGORY_URI, null);
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return rowsUpdated;

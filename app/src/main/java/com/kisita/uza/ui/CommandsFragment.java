@@ -1,41 +1,26 @@
 package com.kisita.uza.ui;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
-import com.kisita.uza.provider.UzaContract;
-import com.kisita.uza.utils.UzaCardAdapter;
 import com.kisita.uza.utils.UzaCommandAdapter;
 
 import java.util.ArrayList;
-
-import static com.kisita.uza.model.Data.COMMAND_DATA;
-import static com.kisita.uza.model.Data.FAVOURITE_DATA;
-import static com.kisita.uza.model.Data.ITEMS_COLUMNS;
-import static com.kisita.uza.model.Data.ITEMS_COMMANDS_COLUMNS;
 
 
 /*
  * A placeholder fragment containing a simple view.
  */
-public class CommandsFragment extends CustomFragment implements  LoaderManager.LoaderCallbacks<Cursor> {
+public class CommandsFragment extends CustomFragment {
     final static String TAG = "### CommandsFragment";
     /*The card adapter*/
     private UzaCommandAdapter mCardadapter;
@@ -51,8 +36,22 @@ public class CommandsFragment extends CustomFragment implements  LoaderManager.L
      *
      * @return A new instance of fragment DetailFragment.
      */
-    public static CommandsFragment newInstance() {
-        return new CommandsFragment();
+    public static CommandsFragment newInstance(ArrayList<Data> data) {
+        CommandsFragment f = new CommandsFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(ITEMS,data);
+        f.setArguments(args);
+        return f;
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            itemsList = (ArrayList<Data>) getArguments().getSerializable(ITEMS);
+            Log.i(TAG,"*** Command received " + itemsList.size());
+        }
+        //printKeyHash();
     }
 
     @Override
@@ -64,11 +63,18 @@ public class CommandsFragment extends CustomFragment implements  LoaderManager.L
         return v;
     }
 
+    @Override
+    protected void notifyChanges(ArrayList<Data> data) {
+        if(mCardadapter != null) {
+            mCardadapter.resetItemsList(data);
+            mCardadapter.notifyDataSetChanged();
+        }
+    }
+
     private void setupView(View v)
     {
 
         RecyclerView recList = v.findViewById(R.id.cardList);
-        itemsList = new ArrayList<>();
         recList.setHasFixedSize(true);
 
 
@@ -81,44 +87,8 @@ public class CommandsFragment extends CustomFragment implements  LoaderManager.L
     }
 
     @Override
-    public void onDetach() {
-        Log.i(TAG,"Fragment detached. array size is " + itemsList.size());
-        super.onDetach();
-    }
-
-    @Override
     public void onAttach(Context context) {
         Log.i(TAG,"Fragment attached. array size is ");
         super.onAttach(context);
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.i(TAG,"Loader created");
-        Uri PlacesUri = UzaContract.CommandsEntry.CONTENT_URI_COMMANDS;
-
-        return new CursorLoader(getContext(),
-                PlacesUri,
-                ITEMS_COMMANDS_COLUMNS,
-                "",
-                null,
-                null);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-        while (data.moveToNext()) {
-
-            Data d = new Data(data,COMMAND_DATA);
-            itemsList.add(d);
-            mCardadapter.notifyDataSetChanged();
-        }
-    }
-
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
     }
 }

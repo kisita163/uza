@@ -105,6 +105,10 @@ public class UzaCommandAdapter extends
         //Log.i(TAG, "Failure occurred. Error code is  : " + errorMessage + "-" + e.getCause().toString());
     }
 
+    public void resetItemsList(ArrayList<Data> data) {
+        this.itemsList = data;
+    }
+
     /**
      * The Class CardViewHolder is the View Holder class for Adapter views.
      */

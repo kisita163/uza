@@ -65,11 +65,11 @@ public class StartFragment extends Fragment {
         });*/
 
         ImageView img = v.findViewById(R.id.home_image);
-        Glide.with(this)
-                .load("https://firebasestorage.googleapis.com/v0/b/glam-afc14.appspot.com/o/home_image%2Fdanseurs.png?alt=media&token=44632681-ac0a-421d-b228-689b9071ba4b")
+        /*Glide.with(this)
+                .load("https://firebasestorage.googleapis.com/v0/b/glam-afc14.appspot.com/o/home_image%2Fabstrait_new.png?alt=media&token=4fa19aff-f9de-49c9-87ab-e1efb2d636aa")
                 .fitCenter()
                 .error(R.drawable.danseurs)
-                .into(img);
+                .into(img);*/
 
 
         return v;

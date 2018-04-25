@@ -21,6 +21,9 @@ import com.kisita.uza.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListene
 import com.kisita.uza.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
 import com.kisita.uza.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.kisita.uza.custom.CustomFragment;
+import com.kisita.uza.model.Data;
+
+import java.util.ArrayList;
 
 /**
  * The Class SettingsFragment is the fragment that shows various settings options.
@@ -121,7 +124,12 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 		super.onClick(v);
 	}
 
-	@Override
+    @Override
+    protected void notifyChanges(ArrayList<Data> data) {
+
+    }
+
+    @Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 		// parent.getItemAtPosition(pos)
 		Log.i("Settings", parent.getItemAtPosition(position).toString());
@@ -141,21 +149,6 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 
 	@Override
 	public void onNothingSelected(AdapterView<?> parent) {
-
-	}
-
-	@Override
-	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		return null;
-	}
-
-	@Override
-	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-	}
-
-	@Override
-	public void onLoaderReset(Loader<Cursor> loader) {
 
 	}
 

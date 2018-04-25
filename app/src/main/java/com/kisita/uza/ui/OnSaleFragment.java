@@ -1,82 +1,41 @@
 package com.kisita.uza.ui;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
-import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.UzaCardAdapter;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import static com.kisita.uza.model.Data.ITEMS_COLUMNS;
-import static com.kisita.uza.model.Data.ITEM_DATA;
-import static com.kisita.uza.ui.SettingsFragment.MAX_PRICE_VALUE;
-import static com.kisita.uza.utils.UzaFunctions.getPriceDouble;
-import static com.kisita.uza.utils.UzaFunctions.setPrice;
-
 
 /*
  * The Class OnSaleFragment is the fragment that shows the products in GridView.
  */
-public class OnSaleFragment extends CustomFragment implements  LoaderManager.LoaderCallbacks<Cursor>
+public class OnSaleFragment extends CustomFragment
 {
-	final static String TAG = "### OnSaleFragment";
-	final static String QUERY = "QUERY";
+	//final static String TAG = "### OnSaleFragment";
 
 	private UzaCardAdapter mCardAdapter;
 
-	private ArrayList<Data> itemsList;
-
-	private String mQuery;
-
-	private boolean mListFilled = false;
-
-	//we are going to use a handler to be able to run in our TimerTask
-	final Handler handler = new Handler();
-
-	Timer scheduledLoad;
-	TimerTask mTimerTask;
-
-    private void stopScheduledTask() {
-        // Stopping timer task
-        if(scheduledLoad != null) {
-            scheduledLoad.cancel();
-            scheduledLoad.purge();
-            scheduledLoad = null;
-        }
-    }
-
 	/* (non-Javadoc)
-	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)cd
 	 */
 
 	public OnSaleFragment() {
 		// Required empty public constructor
 	}
 
-	public static OnSaleFragment newInstance() {
+	public static OnSaleFragment newInstance(ArrayList<Data> itemsList) {
 		OnSaleFragment fragment = new OnSaleFragment();
 		Bundle args = new Bundle();
-		args.putString(QUERY, "Arts");
+		args.putSerializable(ITEMS,itemsList);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -92,11 +51,12 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 		return v;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null) {
-			mQuery = getArguments().getString(QUERY);
+			itemsList = (ArrayList<Data>) getArguments().getSerializable(ITEMS);
 		}
 	}
 
@@ -108,173 +68,33 @@ public class OnSaleFragment extends CustomFragment implements  LoaderManager.Loa
 	 * @param v
 	 *            the base view of fragment
 	 */
+
 	private void setupView(View v)
 	{
 
-		RecyclerView recList = v.findViewById(R.id.cardList);
+        RecyclerView mRecList = v.findViewById(R.id.cardList);
 
-		itemsList = new ArrayList<>();
-		recList.setHasFixedSize(true);
-
+		mRecList.setHasFixedSize(true);
 
 		StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1,
 				StaggeredGridLayoutManager.VERTICAL);
 
-		recList.setLayoutManager(llm);
+		mRecList.setLayoutManager(llm);
 
 		mCardAdapter = new UzaCardAdapter(this.getContext(),itemsList);
-		recList.setAdapter(mCardAdapter);
-		loadData();
+		mRecList.setAdapter(mCardAdapter);
 	}
 
-
-    @Override
-    public void onResume() {
-		super.onResume();
-		scheduledLoad = new Timer("load data");
-		// Initialize timer task
-		initializeTimerTask();
-		scheduledLoad.schedule(mTimerTask, 500, 1500); // Verify itemData after 500 ms
-    }
-
-	private void initializeTimerTask() {
-		// this will run when timer elapses
-		mTimerTask = new TimerTask() {
-
-			@Override
-			public void run() {
-				handler.post(new Runnable() {
-					@Override
-					public void run() {
-						if(itemsList.size() == 0 && !mListFilled) { // items list is empty. Try to load again
-							Log.i(TAG,"Items list is empty. Try to load again");
-							loadData();
-						}else{
-							stopScheduledTask();
-						}
-					}
-				});
-			}
-
-		};
-	}
-
-	@Override
-    public void onStop() {
-	    stopScheduledTask();
-        super.onStop();
-    }
-
-    /**
-	 * Load  product data for displaying on the RecyclerView.
-	 */
-	private void  loadData()
-	{
-		if (getLoaderManager().getLoader(0) == null){
-			getLoaderManager().initLoader(0, null, this);
-		}else{
-			getLoaderManager().restartLoader(0,null,this);
-		}
-	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	@NonNull
-	@Override
-	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		//Log.i(TAG,"Loader created");
-		Uri PlacesUri = UzaContract.ItemsEntry.CATEGORY_URI;
-
-		return new CursorLoader(getContext(),
-				PlacesUri,
-				ITEMS_COLUMNS,
-				mQuery,
-				null,
-				null);
-	}
-
-	@Override
-	public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-		Log.i(TAG,"Load finished " + data.getCount());
-
-		if(data.getCount() > 0)
-		    mListFilled = true;
-
-		while (data.moveToNext()) {
-			Log.i(TAG, "/!\\"+data.getString(0));
-			for(int i = 1 ; i < data.getColumnCount() ; i ++ ){
-				if(data.getString(i) == null){
-					Log.i(TAG, "\t/!\\ null");
-				}
-				else {
-					Log.i(TAG,"\t/!\\"+ data.getString(i));
-				}
-			}
-
-			Data d = new Data(data,ITEM_DATA);
-			// add new item into the list of items
-			if(filterType(d)) // Filter data type before adding it into the data list
-				if(filterPrice(d))
-					itemsList.add(d);
+	public void notifyChanges(ArrayList<Data> data){
+		if(mCardAdapter != null) {
+			mCardAdapter.resetItemsList(data);
 			mCardAdapter.notifyDataSetChanged();
 		}
-	}
-
-	private boolean filterPrice(Data data) {
-		SharedPreferences sharedPref = getActivity().getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
-
-		String p = setPrice(data.getCurrency(),data.getPrice(),getContext()); // Getting the price according to the currency
-
-		double price = getPriceDouble(p);
-
-		double minPrice = sharedPref.getLong("priceMinValue",0);
-		double maxPrice = sharedPref.getLong("priceMaxValue",MAX_PRICE_VALUE);
-
-		if(price >= 0){
-			if(price < maxPrice && price >= minPrice){
-				return true;
-			}else if(maxPrice == MAX_PRICE_VALUE && price >= maxPrice){
-				return true; // +MAX_PRICE_VALUE
-			}else{
-				Log.i(TAG,"Price not in the selected range");
-				return false;
-			}
-		}
-		Log.i(TAG,"Bad formatted price");
-		return false;
-	}
-
-	private boolean filterType(Data data) {
-		SharedPreferences sharedPref = getActivity().getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
-
-		Log.i(TAG,"Data type is  : "+data.getType());
-
-		if(data.getType().equalsIgnoreCase(getString(R.string.painting_key)))
-			return sharedPref.getBoolean(getString(R.string.painting_key),true);
-
-		if(data.getType().equalsIgnoreCase(getString(R.string.photography_key)))
-			return sharedPref.getBoolean(getString(R.string.photography_key),true);
-
-		if(data.getType().equalsIgnoreCase(getString(R.string.drawing_key)))
-			return sharedPref.getBoolean(getString(R.string.drawing_key),true);
-
-		if(data.getType().equalsIgnoreCase(getString(R.string.sculpture_key)))
-			return sharedPref.getBoolean(getString(R.string.sculpture_key),true);
-
-		if(data.getType().equalsIgnoreCase(getString(R.string.textile_key)))
-			return sharedPref.getBoolean(getString(R.string.textile_key),true);
-
-		if(data.getType().equalsIgnoreCase(getString(R.string.literature_key)))
-			return sharedPref.getBoolean(getString(R.string.literature_key),true);
-
-		return false;
-	}
-
-	@Override
-	public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-
 	}
 }

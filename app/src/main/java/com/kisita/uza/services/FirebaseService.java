@@ -176,7 +176,7 @@ public class FirebaseService extends Service {
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 //Log.i(TAG,"onChildChanged");
-                insertItemsData(dataSnapshot);
+                updateItemsData(dataSnapshot);
             }
 
             @Override
@@ -215,6 +215,7 @@ public class FirebaseService extends Service {
                 UzaContract.CommandsEntry.CONTENT_URI_COMMANDS,
                 commandsValues
         );
+        getApplicationContext().getContentResolver().notifyChange(UzaContract.ItemsEntry.CONTENT_URI, null);
         //Log.i(TAG,insertUri.toString());
     }
 
@@ -246,6 +247,38 @@ public class FirebaseService extends Service {
         //Log.i(TAG,insertUri.toString());
     }
 
+    void updateItemsData(DataSnapshot dataSnapshot){
+        //Log.i(TAG,"onChildAdded " + FirebaseUtils.getItemData(dataSnapshot, UzaContract.ItemsEntry.COLUMN_ID));
+        itemsValues.clear();
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_NAME           , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_NAME));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_BRAND          , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_BRAND));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_CATEGORY       , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_CATEGORY));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_TYPE           , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_TYPE));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_CURRENCY       , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_CURRENCY));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_SELLER         , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_SELLER));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_DESCRIPTION    , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_DESCRIPTION));
+        itemsValues.put(UzaContract.ItemsEntry._ID                   , FirebaseUtils.getItemId(dataSnapshot));//getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_ID));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_AUTHOR         , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_AUTHOR));//getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_ID));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_PICTURES       , FirebaseUtils.getPicures(dataSnapshot));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_URL            , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_URL));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_SIZE           , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_SIZE));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_WEIGHT         , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_WEIGHT));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_PRICE          , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_PRICE));
+        itemsValues.put(UzaContract.ItemsEntry.COLUMN_AVAILABILITY   , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_AVAILABILITY));
+
+        String where = UzaContract.ItemsEntry.TABLE_NAME  + "."+ UzaContract.ItemsEntry._ID + "=?";
+        String[] sel = {FirebaseUtils.getItemId(dataSnapshot)};
+        // Finally, update item's data into the database.
+        getApplicationContext().getContentResolver().update(
+                UzaContract.ItemsEntry.CONTENT_URI,
+                itemsValues,
+                where,
+                sel
+        );
+        //Log.i(TAG,insertUri.toString());
+    }
+
+
     void insertFavouritesData(DataSnapshot dataSnapshot){
         //Log.i(TAG,dataSnapshot.getKey().toString()+" *** " + dataSnapshot.getValue().toString());
         favouritesValues.clear();
@@ -257,6 +290,7 @@ public class FirebaseService extends Service {
                 UzaContract.LikesEntry.CONTENT_URI,
                 favouritesValues
         );
+        getApplicationContext().getContentResolver().notifyChange(UzaContract.ItemsEntry.CONTENT_URI, null);
         //Log.i(TAG,insertUri.toString());
     }
 

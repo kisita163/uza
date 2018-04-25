@@ -3,13 +3,9 @@ package com.kisita.uza.ui;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -27,15 +23,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
-import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.UzaBannerAdapter;
 import com.kisita.uza.utils.UzaPageAdapter;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.kisita.uza.model.Data.ITEMS_COLUMNS;
 import static com.kisita.uza.utils.UzaFunctions.getCommandState;
 import static com.kisita.uza.utils.UzaFunctions.getCommandStateLogo;
 import static com.kisita.uza.utils.UzaFunctions.getCurrency;
@@ -134,6 +126,11 @@ public class DetailFragment extends CustomFragment{
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    protected void notifyChanges(ArrayList<Data> data) {
+
     }
 
     /**
@@ -288,40 +285,6 @@ public class DetailFragment extends CustomFragment{
         }
     }
 
-
-
-    @NonNull
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri PlacesUri = UzaContract.ItemsEntry.SAME_AUTHOR_URI;
-        //Log.i(TAG,itemData.getData()[UID]);
-        return new CursorLoader(getContext(),
-                PlacesUri,
-                ITEMS_COLUMNS,
-                itemData.getAuthor(),
-               null,
-                null);
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        while (data.moveToNext()) {
-            Data d = new Data(data,0);
-            // add new item into the list of items
-            if(d.getItemId().equalsIgnoreCase(itemData.getItemId()))
-                continue;
-
-            mBannerItemsList.add(d);
-            mCardAdapter.notifyDataSetChanged();
-        }
-        if(mBannerItemsList != null && mBannerItemsList.size() > 0)
-            sameArtistCont.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-
-    }
 
     /**
      * This interface must be implemented by activities that contain this

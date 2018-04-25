@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,20 +15,25 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kisita.uza.model.Data;
+import com.kisita.uza.utils.UzaCardAdapter;
 
-import java.util.Comparator;
-import java.util.function.Function;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
+import java.util.ArrayList;
+
 
 /**
  * The Class CustomFragment is the base Fragment class. You can extend your
  * Fragment classes with this class in case you want to apply common set of
  * rules for those Fragments.
  */
-public abstract class CustomFragment extends Fragment implements OnClickListener,LoaderManager.LoaderCallbacks<Cursor>
+public abstract class CustomFragment extends Fragment implements OnClickListener
 {
+	protected static final String ITEMS = "items";
+
+	protected ArrayList<Data> itemsList;
+
+	protected UzaCardAdapter mCardAdapter;
+
+	//protected  RecyclerView.Adapter mCardAdapter;
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
@@ -34,7 +41,6 @@ public abstract class CustomFragment extends Fragment implements OnClickListener
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState)
 	{
-		loadData();
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
@@ -71,21 +77,20 @@ public abstract class CustomFragment extends Fragment implements OnClickListener
 	}
 
 
-	/**
-	 * Load  product data for displaying on the RecyclerView.
-	 */
-	private void  loadData()
-	{
-		if (getLoaderManager().getLoader(0) == null){
-			getLoaderManager().initLoader(0, null, this);
-		}else{
-			getLoaderManager().restartLoader(0,null,this);
-		}
-	}
 
 	@Override
 	public void onDetach() {
 		getLoaderManager().destroyLoader(0);
 		super.onDetach();
 	}
+
+	/*public void notifyChanges(ArrayList<Data> data){
+		Log.i("CustomFragment","Notification");
+		if(mCardAdapter != null)
+			itemsList = data;
+			Log.i("CustomFragment","Notification sent");
+			mCardAdapter.notifyDataSetChanged();
+	}*/
+
+	protected abstract void notifyChanges(ArrayList<Data> data);
 }

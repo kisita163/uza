@@ -1,8 +1,10 @@
 package com.kisita.uza.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,7 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.braintreepayments.api.BraintreeFragment;
 import com.braintreepayments.api.dropin.DropInRequest;
 import com.braintreepayments.api.dropin.DropInResult;
@@ -42,8 +43,6 @@ import com.kisita.uza.ui.FavoritesFragment;
 import com.kisita.uza.ui.OnSaleFragment;
 import com.kisita.uza.ui.SettingsFragment;
 import com.kisita.uza.ui.StartFragment;
-import com.kisita.uza.utils.Settings;
-
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.Stack;
@@ -57,13 +56,14 @@ import static com.kisita.uza.custom.CustomActivity.BikekoMenu.FILTERS;
 import static com.kisita.uza.custom.CustomActivity.BikekoMenu.HOME;
 import static com.kisita.uza.custom.CustomActivity.BikekoMenu.LOGOUT;
 import static com.kisita.uza.custom.CustomActivity.BikekoMenu.LOGS;
+import static com.kisita.uza.ui.SettingsFragment.MAX_PRICE_VALUE;
 import static com.kisita.uza.utils.Settings.isAllBillingInformationSet;
 import static com.kisita.uza.utils.UzaFunctions.TRANSACTION_OK;
+import static com.kisita.uza.utils.UzaFunctions.getPriceDouble;
+import static com.kisita.uza.utils.UzaFunctions.setPrice;
 
 public class DrawerActivity extends CustomActivity
         implements NavigationView.OnNavigationItemSelectedListener,CheckoutFragment.OnCheckoutInteractionListener,StartFragment.OnHomeInteractionListener {
-
-    private Fragment fragment = OnSaleFragment.newInstance();
 
     private static final String CURRENT_FRAGMENT_ID = "current_fragment_id";
 
@@ -87,7 +87,6 @@ public class DrawerActivity extends CustomActivity
     NavigationView mNavigationView;
 
     private int mCheckedItem = 0;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +116,9 @@ public class DrawerActivity extends CustomActivity
         fetchAuthorization();
 
         setGreeting(userName,userPicture);
+        setFragment(setCurrentFragment(mNavigationView.getMenu().getItem(mCheckedItem)));
     }
+
 
     @Override
     public void onBackPressed() {
@@ -152,7 +153,7 @@ public class DrawerActivity extends CustomActivity
 
     private void setGreeting(TextView greeting, final ImageView userPicture) {
         //Text
-        String name      = Settings.getSharedPreferences(this).getString(getResources().getString(R.string.uza_billing_name),"");
+        //String name      = Settings.getSharedPreferences(this).getString(getResources().getString(R.string.uza_billing_name),"");
         String message   = "";//getString(R.string.hello) + " " + name + " !"; //TODO
         greeting.setText(message);
         //Image
@@ -177,7 +178,7 @@ public class DrawerActivity extends CustomActivity
         switch (item.getItemId()) {
             case R.id.nav_artworks:
                 mCheckedItem  = ARTWORKS.ordinal();
-                fragment = OnSaleFragment.newInstance();
+                fragment = OnSaleFragment.newInstance(getFilteredItems());
                 break;
             /*case R.id.nav_artists:
                 mCheckedItem  = ARTISTS;
@@ -193,15 +194,15 @@ public class DrawerActivity extends CustomActivity
                 break;
             case R.id.nav_checkout:
                 mCheckedItem  = CART.ordinal();
-                fragment = new CheckoutFragment();
+                fragment = CheckoutFragment.newInstance(getInCartItems());
                 break;
             case R.id.nav_favourites:
                 mCheckedItem = FAVOURITES.ordinal();
-                fragment = new FavoritesFragment();
+                fragment = FavoritesFragment.newInstance(getFavouritesItems());
                 break;
             case R.id.nav_commands:
                 mCheckedItem = COMMANDS.ordinal();
-                fragment = CommandsFragment.newInstance();
+                fragment = CommandsFragment.newInstance(getCommandsItems());
                 break;
             case R.id.nav_billing_info:
                 mCheckedItem = BILLING.ordinal();
@@ -216,7 +217,7 @@ public class DrawerActivity extends CustomActivity
                 new LogReporting(this).collectAndSendLogs();
                 break;
             default:
-                fragment = OnSaleFragment.newInstance();
+                fragment = OnSaleFragment.newInstance(getFilteredItems());
                 break;
         }
 
@@ -284,30 +285,22 @@ public class DrawerActivity extends CustomActivity
         }
     }
 
-    @Override
-    protected void onResume() {
-        setFragment(setCurrentFragment(mNavigationView.getMenu().getItem(mCheckedItem)));
-        mNavigationView.getMenu().getItem(mCheckedItem).setChecked(true);
-        super.onResume();
-    }
-
     public void setFragment(Fragment f){
         /* Note : You should not add transactions to the back stack when the transaction is for horizontal navigation
         (such as when switching tabs) or when modifying the content appearance (such as when adjusting filters).
          */
-        Log.i(TAG,"setFragment()  "+fragment.toString());
         if(f != null) {
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                    .addToBackStack(null)
-                    .replace(R.id.frame, f)
+                    .addToBackStack(mFragmentsStack.peek().toString())
+                    .replace(R.id.frame, f,mFragmentsStack.peek().toString())
                     .commit();
         }
+        Log.i(TAG,"Current fragment tag is  : "+ mFragmentsStack.peek().toString());
     }
 
     void paymentRequest() {
         Log.i(TAG, "Launch Payment activity");
-
         DropInRequest dropInRequest = new DropInRequest()
                 .maskCardNumber(true)
                 .maskSecurityCode(true)
@@ -389,7 +382,6 @@ public class DrawerActivity extends CustomActivity
     public void onHomeInteraction(int button) {
         if(button == ARTWORKS.ordinal()){
             setFragment(setCurrentFragment(mNavigationView.getMenu().getItem(ARTWORKS.ordinal())));
-            return;
         }
 
         /*if(button == ARTISTS){
@@ -402,5 +394,126 @@ public class DrawerActivity extends CustomActivity
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt(CURRENT_FRAGMENT_ID,mCheckedItem);
         super.onSaveInstanceState(outState);
+    }
+
+
+    protected void notifyChanges(){
+
+        Fragment f = getSupportFragmentManager().findFragmentByTag(mFragmentsStack.peek().toString());
+
+        if(f != null) {
+            Log.i(TAG, f.getTag());
+            if(f instanceof OnSaleFragment)
+                ((OnSaleFragment) f).notifyChanges(getFilteredItems());
+            if(f instanceof CheckoutFragment)
+                ((CheckoutFragment) f).notifyChanges(getFilteredItems());
+        }
+    }
+
+    /**
+     * Dispatch onResume() to fragments.  Note that for better inter-operation
+     * with older versions of the platform, at the point of this call the
+     * fragments attached to the activity are <em>not</em> resumed.  This means
+     * that in some cases the previous state may still be saved, not allowing
+     * fragment transactions that modify the state.  To correctly interact
+     * with fragments in their proper state, you should instead override
+     * {@link #onResumeFragments()}.
+     */
+    @Override
+    protected void onResume() {
+        Log.i(TAG,"Resume items here" + itemsList.size());
+        super.onResume();
+    }
+
+    private ArrayList<Data> getInCartItems(){
+        ArrayList<Data> d = new ArrayList<>();
+
+        for(Data data : itemsList){
+            if(data.isInCart())
+                d.add(data);
+        }
+        return d;
+    }
+
+    private ArrayList<Data> getFavouritesItems(){
+        ArrayList<Data> d = new ArrayList<>();
+
+        for(Data data : itemsList){
+            if(data.isFavourite())
+                d.add(data);
+        }
+        return d;
+    }
+
+    private ArrayList<Data> getCommandsItems(){
+        ArrayList<Data> d = new ArrayList<>();
+
+        for(Data data : itemsList){
+            if(data.isCommand())
+                d.add(data);
+        }
+        return d;
+    }
+
+
+    private ArrayList<Data> getFilteredItems(){
+        ArrayList<Data> d = new ArrayList<>();
+
+        for(Data data : itemsList)
+            if(filterPrice(data))
+                if(filterType(data)) {
+                    d.add(data);
+                }
+
+        return d;
+    }
+
+    private boolean filterPrice(Data data) {
+        SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
+
+        String p = setPrice(data.getCurrency(),data.getPrice(),this); // Getting the price according to the currency
+
+        double price = getPriceDouble(p);
+
+        double minPrice = sharedPref.getLong("priceMinValue",0);
+        double maxPrice = sharedPref.getLong("priceMaxValue",MAX_PRICE_VALUE);
+
+        if(price >= 0){
+            if(price < maxPrice && price >= minPrice){
+                return true;
+            }else if(maxPrice == MAX_PRICE_VALUE && price >= maxPrice){
+                return true; // +MAX_PRICE_VALUE
+            }else{
+                Log.i(TAG,"Price not in the selected range");
+                return false;
+            }
+        }
+        Log.i(TAG,"Bad formatted price");
+        return false;
+    }
+
+    private boolean filterType(Data data) {
+        SharedPreferences sharedPref =getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
+
+
+        if(data.getType().equalsIgnoreCase(getString(R.string.painting_key)))
+            return sharedPref.getBoolean(getString(R.string.painting_key),true);
+
+        if(data.getType().equalsIgnoreCase(getString(R.string.photography_key)))
+            return sharedPref.getBoolean(getString(R.string.photography_key),true);
+
+        if(data.getType().equalsIgnoreCase(getString(R.string.drawing_key)))
+            return sharedPref.getBoolean(getString(R.string.drawing_key),true);
+
+        if(data.getType().equalsIgnoreCase(getString(R.string.sculpture_key)))
+            return sharedPref.getBoolean(getString(R.string.sculpture_key),true);
+
+        if(data.getType().equalsIgnoreCase(getString(R.string.textile_key)))
+            return sharedPref.getBoolean(getString(R.string.textile_key),true);
+
+        if(data.getType().equalsIgnoreCase(getString(R.string.literature_key)))
+            return sharedPref.getBoolean(getString(R.string.literature_key),true);
+
+        return false;
     }
 }

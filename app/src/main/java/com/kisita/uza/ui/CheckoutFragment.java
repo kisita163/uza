@@ -4,25 +4,15 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.google.firebase.database.DatabaseReference;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.DrawerActivity;
@@ -30,13 +20,10 @@ import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.UzaCheckoutPageAdapter;
 import java.util.ArrayList;
-import static com.kisita.uza.model.Data.CHECKOUT_DATA;
-import static com.kisita.uza.model.Data.ITEMS_COMMANDS_COLUMNS;
 import static com.kisita.uza.utils.UzaFunctions.addDoubles;
 import static com.kisita.uza.utils.UzaFunctions.getCost;
 import static com.kisita.uza.utils.UzaFunctions.getCurrency;
 import static com.kisita.uza.utils.UzaFunctions.getShippingCost;
-import static com.kisita.uza.utils.UzaFunctions.infoAlertDialog;
 import static com.kisita.uza.utils.UzaFunctions.questionAlertDialog;
 import static com.kisita.uza.utils.UzaFunctions.setFormat;
 import static com.kisita.uza.utils.UzaFunctions.setPrice;
@@ -46,7 +33,7 @@ import static com.kisita.uza.utils.UzaFunctions.setPrice;
  * and show the credit card details as well. You need to load and display actual
  * contents.
  */
-public class CheckoutFragment extends ItemsFragment implements LoaderManager.LoaderCallbacks<Cursor>
+public class CheckoutFragment extends ItemsFragment
 {
 	/** The product list. */
 	private ArrayList<Data> itemsList;
@@ -65,6 +52,21 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 
 	private OnCheckoutInteractionListener mListener;
 
+	public static CheckoutFragment newInstance(ArrayList<Data> itemsList) {
+		CheckoutFragment fragment = new CheckoutFragment();
+		Bundle args = new Bundle();
+		args.putSerializable(ITEMS,itemsList);
+		fragment.setArguments(args);
+		return fragment;
+	}
+    @SuppressWarnings("unchecked")
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		if (getArguments() != null) {
+			itemsList = (ArrayList<Data>) getArguments().getSerializable(ITEMS);
+		}
+	}
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
@@ -119,57 +121,26 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 
 		mCheckoutLayout.setVisibility(View.INVISIBLE);
 
-		itemsList = new ArrayList<>();
-
 		setHasOptionsMenu(true);
 
 		initPager(v);
-		loadData();
+		setFields();
 	}
 
 	private void handleCost(String newCost, String newQantity) {
-		// Initializing fields
-		/*
-		shippingCostField.setText("0.0");
-		totalAmount.setText("0.0");*/
 		mOrder = addDoubles(mOrder,Double.valueOf(getCost(newCost,newQantity)));
-		Log.i(TAG,"Total order is : " + mOrder + " " + newCost +  " " + Double.valueOf(getCost(newCost,newQantity)) + "quantity = "+newQantity);
-		orderAmountField.setText(setFormat(String.valueOf(mOrder)) + " " + getCurrency(getContext()));
+		String order = setFormat(String.valueOf(mOrder)) + " " + getCurrency(getContext());
+		orderAmountField.setText(order);
 	}
 
-	/**
-	 * Load  product data for displaying on the RecyclerView.
-	 */
-	void  loadData()
-	{
-		if (getLoaderManager().getLoader(0) == null){
-			getLoaderManager().initLoader(0, null, this);
-		}else{
-			getLoaderManager().restartLoader(0,null,this);
-		}
-	}
 
-	@Override
-	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		Uri PlacesUri = UzaContract.CommandsEntry.CONTENT_URI_CHECKOUT;
-
-		return new CursorLoader(getContext(),
-				PlacesUri,
-				ITEMS_COMMANDS_COLUMNS,
-				null,
-				null,
-				null);
-	}
-
-	@Override
-	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+	public void setFields() {
 		//Log.i(TAG,"Load finished : itemList size = "+itemsList.size());
 		mOrder        = 0;
 		mTotalAmount  = 0;
 		mShippingCost = 0;
 
-		while (data.moveToNext()) {
-			Data d = new Data(data, CHECKOUT_DATA);
+		for (Data d : itemsList) {
 
 			if(!d.isAvailable()) // If the item is not available anymore, just don't show it
 				continue;
@@ -181,7 +152,6 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 
 			handleTotalAmount();
 
-			itemsList.add(d);
 			mCheckoutItemsAdapter.notifyDataSetChanged();
 		}
 
@@ -196,16 +166,11 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 		mTotalAmount = addDoubles(mShippingCost,mOrder);
 
 		String amount  = String.valueOf(mTotalAmount);
-
-		totalAmountField.setText(setFormat(amount) + " " + getCurrency(getContext()));
+		String total = setFormat(amount) + " " + getCurrency(getContext());
+		totalAmountField.setText(total);
 		SharedPreferences.Editor editor = sharedPref.edit();
 		editor.putString("total_amount",amount);
 		editor.apply();
-
-		/*if(mTotalAmount > 0){
-			checkoutButton.setClickable(true);
-			checkoutButton.setBackgroundColor(getResources().getColor(R.color.main_color));
-		}*/
 	}
 
 	private void handleShippingCost(String weight, String quantity) {
@@ -213,14 +178,11 @@ public class CheckoutFragment extends ItemsFragment implements LoaderManager.Loa
 		if(weight.equalsIgnoreCase("")){
 			weight = "0";
 		}
+		String shippingCost = setFormat(String.valueOf(mShippingCost)) + " " + getCurrency(getContext());
 		mShippingCost = addDoubles(mShippingCost,Double.valueOf(getShippingCost(weight,quantity)));
-		shippingCostField.setText(setFormat(String.valueOf(mShippingCost)) + " " + getCurrency(getContext()));
+		shippingCostField.setText(shippingCost);
 	}
 
-	@Override
-	public void onLoaderReset(Loader<Cursor> loader) {
-
-	}
 
 	/**
 	 * This interface must be implemented by activities that contain this

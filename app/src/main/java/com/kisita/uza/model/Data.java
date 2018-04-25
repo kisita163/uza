@@ -82,7 +82,7 @@ public class Data implements Serializable, Comparable<Data>
 	    int index = 0;
 		for (String s :
 			 data.getColumnNames()) {
-            Log.i("### Data","column " + s + " ,index "+ index + " ,data : " +  data.getString(index));
+            Log.i("### Data "+ dataType,"column " + s + " ,index "+ index + " ,data : " +  data.getString(index));
 			if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_NAME))
 				this.mName = data.getString(index);
 
@@ -186,47 +186,52 @@ public class Data implements Serializable, Comparable<Data>
 		return mCommandID;
 	}
 
-	public static final String[] ITEMS_COLUMNS = {
-	        UzaContract.ItemsEntry.TABLE_NAME + "." + UzaContract.ItemsEntry._ID,
-            UzaContract.ItemsEntry.COLUMN_NAME,
-            UzaContract.ItemsEntry.COLUMN_PRICE,
-            UzaContract.ItemsEntry.COLUMN_CURRENCY,
-            UzaContract.ItemsEntry.COLUMN_BRAND,
-            UzaContract.ItemsEntry.COLUMN_DESCRIPTION,
-            UzaContract.ItemsEntry.COLUMN_SELLER,
-            UzaContract.ItemsEntry.COLUMN_CATEGORY,
-            UzaContract.ItemsEntry.COLUMN_TYPE,
-            UzaContract.ItemsEntry.COLUMN_AUTHOR,
-            UzaContract.ItemsEntry.TABLE_NAME + "." +UzaContract.ItemsEntry.COLUMN_SIZE,
-            UzaContract.ItemsEntry.COLUMN_PICTURES,
-            UzaContract.ItemsEntry.COLUMN_WEIGHT,
-            UzaContract.ItemsEntry.COLUMN_URL,
-            UzaContract.ItemsEntry.COLUMN_AVAILABILITY,
-            UzaContract.CommandsEntry.COLUMN_KEY,
-            UzaContract.CommandsEntry.COLUMN_STATE,
-			UzaContract.LikesEntry.COLUMN_LIKES,
-            UzaContract.LikesEntry.TABLE_NAME + "." +UzaContract.LikesEntry._ID
-    };
+	public Data(Cursor data){
+		this.mItemId       = data.getString(0);
+		this.mName         = data.getString(1);
+		this.mPrice        = data.getString(2);
+		this.mCurrency     = data.getString(3);
+		this.mDescription  = data.getString(5);
+		this.mSeller       = data.getString(6);
+		this.mType         = data.getString(8);
+		this.mAuthor       = data.getString(9);
+		this.mSize         = data.getString(10);
+		this.pictures      = getPicturesUrls(data.getString(11));
+		this.mWeight       = data.getString(12);
+		this.mAvailability = data.getString(14);
+		this.mQuantity     = data.getString(15);
+		this.mCommandState = data.getString(17);
+		this.mCommandID    = data.getString(18);
+		this.mFavouriteId  = data.getString(20);
 
-	public static final String[] ITEMS_FAVOURITE_COLUMNS = {
-			UzaContract.ItemsEntry.TABLE_NAME + "." + UzaContract.ItemsEntry._ID,
-			UzaContract.ItemsEntry.COLUMN_NAME,
-			UzaContract.ItemsEntry.COLUMN_PRICE,
-			UzaContract.ItemsEntry.COLUMN_CURRENCY,
-			UzaContract.ItemsEntry.COLUMN_BRAND,
-			UzaContract.ItemsEntry.COLUMN_DESCRIPTION,
-			UzaContract.ItemsEntry.COLUMN_SELLER,
-			UzaContract.ItemsEntry.COLUMN_CATEGORY,
-			UzaContract.ItemsEntry.COLUMN_TYPE,
-			UzaContract.ItemsEntry.COLUMN_AUTHOR,
-			UzaContract.ItemsEntry.TABLE_NAME + "." +UzaContract.ItemsEntry.COLUMN_SIZE,
-			UzaContract.ItemsEntry.COLUMN_PICTURES,
-			UzaContract.ItemsEntry.COLUMN_WEIGHT,
-			UzaContract.ItemsEntry.COLUMN_URL,
-			UzaContract.ItemsEntry.COLUMN_AVAILABILITY,
-			UzaContract.LikesEntry.COLUMN_LIKES,
-			UzaContract.LikesEntry.TABLE_NAME + "." +UzaContract.LikesEntry._ID
-	};
+		if(data.getString(19) != null)
+			this.mFavourite = true;
+	}
+
+	// Changing this array imply  updating Data(Cursor data) constructor
+	public static final String[] ITEMS_COLUMNS = {
+	        UzaContract.ItemsEntry.TABLE_NAME + "." + UzaContract.ItemsEntry._ID, //0
+            UzaContract.ItemsEntry.COLUMN_NAME,//1
+            UzaContract.ItemsEntry.COLUMN_PRICE,//2
+            UzaContract.ItemsEntry.COLUMN_CURRENCY,//3
+            UzaContract.ItemsEntry.COLUMN_BRAND,//4
+            UzaContract.ItemsEntry.COLUMN_DESCRIPTION,//5
+            UzaContract.ItemsEntry.COLUMN_SELLER,//6
+            UzaContract.ItemsEntry.COLUMN_CATEGORY,//7
+            UzaContract.ItemsEntry.COLUMN_TYPE,//8
+            UzaContract.ItemsEntry.COLUMN_AUTHOR,//9
+            UzaContract.ItemsEntry.TABLE_NAME + "." +UzaContract.ItemsEntry.COLUMN_SIZE,//10
+            UzaContract.ItemsEntry.COLUMN_PICTURES,//11
+            UzaContract.ItemsEntry.COLUMN_WEIGHT,//12
+            UzaContract.ItemsEntry.COLUMN_URL,//13
+            UzaContract.ItemsEntry.COLUMN_AVAILABILITY,//14
+			UzaContract.CommandsEntry.COLUMN_QUANTITY,//15
+            UzaContract.CommandsEntry.COLUMN_KEY,//16
+            UzaContract.CommandsEntry.COLUMN_STATE,//17
+			UzaContract.CommandsEntry.TABLE_NAME + "." +UzaContract.CommandsEntry._ID,//18
+			UzaContract.LikesEntry.COLUMN_LIKES,//19
+            UzaContract.LikesEntry.TABLE_NAME + "." +UzaContract.LikesEntry._ID//20
+    };
 
 	public static final String[] ITEMS_COMMANDS_COLUMNS = {
 			UzaContract.ItemsEntry.TABLE_NAME + "." + UzaContract.ItemsEntry._ID,
@@ -243,6 +248,7 @@ public class Data implements Serializable, Comparable<Data>
 			UzaContract.ItemsEntry.COLUMN_PICTURES,
 			UzaContract.ItemsEntry.COLUMN_WEIGHT,
 			UzaContract.ItemsEntry.COLUMN_URL,
+			UzaContract.LikesEntry.COLUMN_LIKES,
 			UzaContract.CommandsEntry.COLUMN_QUANTITY,
 			UzaContract.CommandsEntry.COLUMN_STATE,
 			UzaContract.CommandsEntry.TABLE_NAME + "." +UzaContract.CommandsEntry._ID
@@ -383,7 +389,7 @@ public class Data implements Serializable, Comparable<Data>
 
 	@Override
 	public int compareTo(@NonNull Data data) {
-	    Log.i(TAG,"Comparator in Data");
+	    Log.i(TAG,"Comparator in Data "+ this.getItemId() + " - " + data.getItemId());
 		return this.getItemId().compareTo(data.getItemId());
 	}
 }
