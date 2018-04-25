@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.kisita.uza.R;
+import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.utils.UzaBannerAdapter;
@@ -49,8 +50,6 @@ public class DetailFragment extends CustomFragment{
 
     private static final String ITEM_DATA = "ITEM_DATA";
 
-    private UzaBannerAdapter mCardAdapter;
-
     private ImageView mlike;
 
     protected OnFragmentInteractionListener mListener;
@@ -64,6 +63,12 @@ public class DetailFragment extends CustomFragment{
     private ArrayList<Data> mBannerItemsList;
 
     private LinearLayout sameArtistCont;
+
+    private LinearLayout mCommandCont;
+
+    private Button mAdd;
+
+    private RecyclerView mBannerRecList;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -128,9 +133,37 @@ public class DetailFragment extends CustomFragment{
         mListener = null;
     }
 
-    @Override
-    protected void notifyChanges(ArrayList<Data> data) {
 
+    public void notifyChanges(ArrayList<Data> data) {
+        getOtherArtworks(data);
+        setFromTheSameAuthorBanner();
+    }
+
+    void getOtherArtworks(ArrayList<Data> data){
+        if(data != null){
+            for(Data d : data){
+                if(d.getAuthor().equalsIgnoreCase(itemData.getAuthor()) && !d.getItemId().equalsIgnoreCase(itemData.getItemId())){
+                    mBannerItemsList.add(d);
+                }
+            }
+        }
+    }
+
+    private void setFromTheSameAuthorBanner() {
+        if(mBannerItemsList.size() > 0) {
+            sameArtistCont.setVisibility(View.VISIBLE);
+            //
+            UzaBannerAdapter mCardAdapter = new UzaBannerAdapter(this.getContext(), mBannerItemsList);
+
+            mBannerRecList.setHasFixedSize(true);
+
+
+            StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1,
+                    StaggeredGridLayoutManager.HORIZONTAL);
+
+            mBannerRecList.setLayoutManager(llm);
+            mBannerRecList.setAdapter(mCardAdapter);
+        }
     }
 
     /**
@@ -152,33 +185,27 @@ public class DetailFragment extends CustomFragment{
         TextView  commandState      = v.findViewById(R.id.command_state_value);
         TextView  commandQty        = v.findViewById(R.id.command_quantity_value);
 
-        LinearLayout commandCont    = v.findViewById(R.id.command_state_container);
+        mCommandCont                = v.findViewById(R.id.command_state_container);
         sameArtistCont              = v.findViewById(R.id.same_artist_container);
+        mAdd                        = v.findViewById(R.id.addToCart);
 
         ImageView    stateLogo      = v.findViewById(R.id.state_logo);
 
-        Button add = v.findViewById(R.id.addToCart);
-
-        Log.i(TAG,"--------------------------------> isInCart " + itemData.isInCart() + " " + itemData.isAvailable() );
 
         if(itemData.isCommand()){
-            add.setVisibility(View.GONE);
+            mAdd.setVisibility(View.GONE);
             commandState.setText(getCommandState(itemData.getCommandState()));
             commandId.setText(itemData.getCommandId());
             commandQty.setText(itemData.getQuantity());
             stateLogo.setImageResource(getCommandStateLogo(itemData.getCommandState()));
         }else if(itemData.isInCart()){
-            commandCont.setVisibility(View.GONE);
-            add.setText(getString(R.string.item_in_the_cart));
-            add.setBackgroundColor(getResources().getColor(R.color.main_grey));
+            handleItemInCart(getString(R.string.item_in_the_cart));
         }else if(!itemData.isAvailable()){
-            commandCont.setVisibility(View.GONE);
-            add.setText(getString(R.string.item_not_available));
-            add.setBackgroundColor(getResources().getColor(R.color.main_grey));
+            handleItemInCart(getString(R.string.item_not_available));
         }
         else{
-            commandCont.setVisibility(View.GONE);
-            add.setOnClickListener(this);
+            mCommandCont.setVisibility(View.GONE);
+            mAdd.setOnClickListener(this);
         }
 
         mlike =  v.findViewById(R.id.favourite);
@@ -205,23 +232,22 @@ public class DetailFragment extends CustomFragment{
 
             ));
         }
-        RecyclerView recList = v.findViewById(R.id.cardList);
-
+        mBannerRecList = v.findViewById(R.id.cardList);
         mBannerItemsList = new ArrayList<>();
-        recList.setHasFixedSize(true);
-
-
-        StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1,
-                StaggeredGridLayoutManager.HORIZONTAL);
-
-        recList.setLayoutManager(llm);
-
-        mCardAdapter = new UzaBannerAdapter(this.getContext(),mBannerItemsList);
-        recList.setAdapter(mCardAdapter);
-
+        getOtherArtworks(((UzaActivity)getActivity()).getItemsList());
+        setFromTheSameAuthorBanner();
         initPager(v);
+
         return v;
     }
+
+    private void handleItemInCart(String string) {
+        mCommandCont.setVisibility(View.GONE);
+        mAdd.setText(string);
+        mAdd.setBackgroundColor(getResources().getColor(R.color.main_grey));
+        mAdd.setOnClickListener(null);
+    }
+
     /**
      * Inits the pager view.
      */
@@ -256,6 +282,7 @@ public class DetailFragment extends CustomFragment{
                 }
                 //Log.i(TAG,selectedColor + " " +  selectedSize + " " +  selectedQty);
                 infoAlertDialog(getContext(),getString(R.string.item_in_the_cart));
+                handleItemInCart(getString(R.string.item_in_the_cart));
                 break;
             case R.id.favourite:
                 likePressed();

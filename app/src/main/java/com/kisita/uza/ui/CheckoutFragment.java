@@ -36,7 +36,6 @@ import static com.kisita.uza.utils.UzaFunctions.setPrice;
 public class CheckoutFragment extends ItemsFragment
 {
 	/** The product list. */
-	private ArrayList<Data> itemsList;
 	private UzaCheckoutPageAdapter mCheckoutItemsAdapter;
 
 	private TextView orderAmountField;
@@ -123,8 +122,10 @@ public class CheckoutFragment extends ItemsFragment
 
 		setHasOptionsMenu(true);
 
-		initPager(v);
-		setFields();
+		if(itemsList != null) {
+            initPager(v);
+            setFields();
+        }
 	}
 
 	private void handleCost(String newCost, String newQantity) {
@@ -227,7 +228,7 @@ public class CheckoutFragment extends ItemsFragment
 					case DialogInterface.BUTTON_POSITIVE:
 						removeItemFromCart(d);
 						// Update activity checkout fragment
-						((DrawerActivity)getActivity()).setFragment(new CheckoutFragment());
+						((DrawerActivity)getActivity()).setFragment(CheckoutFragment.newInstance(null));
 						break;
 					case DialogInterface.BUTTON_NEGATIVE:
 						//No button clicked
@@ -242,7 +243,7 @@ public class CheckoutFragment extends ItemsFragment
 		mCheckoutItemsAdapter.notifyDataSetChanged();
 
 		String where   = "_ID = ?";
-		String [] args =  {d.getCheckoutId()};
+		String [] args =  {d.getCommandId()};
 		getContext().getContentResolver().delete(
 				UzaContract.CommandsEntry.CONTENT_URI_COMMANDS,
 				where,
@@ -251,7 +252,7 @@ public class CheckoutFragment extends ItemsFragment
 
 		// Delete command in firebase
 		DatabaseReference commands = getDb().child("users-data").child(getUid()).child("commands");
-		commands.child(d.getCheckoutId()).removeValue();
+		commands.child(d.getCommandId()).removeValue();
 	}
 
 	/*

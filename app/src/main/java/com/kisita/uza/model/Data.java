@@ -66,104 +66,9 @@ public class Data implements Serializable, Comparable<Data>
 
     private String mQuantity     = "";
 
-    private String mCheckoutId   = "";
-
     private String mCommandState = "";
 
-    private String mCommandID    = "";
-
-    /**
-     * Instantiates a new data.
-     *
-     * @param data
-     *            the Cursor containing data
-     */
-	public Data(Cursor data,int dataType) {
-	    int index = 0;
-		for (String s :
-			 data.getColumnNames()) {
-            Log.i("### Data "+ dataType,"column " + s + " ,index "+ index + " ,data : " +  data.getString(index));
-			if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_NAME))
-				this.mName = data.getString(index);
-
-			if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_AUTHOR))
-				this.mAuthor = data.getString(index);
-
-			if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_DESCRIPTION))
-				this.mDescription = data.getString(index);
-
-            if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_CURRENCY))
-                this.mCurrency = data.getString(index);
-
-			if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_SIZE))
-				this.mSize = data.getString(index);
-
-            if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_PICTURES)){
-                this.pictures =  getPicturesUrls(data.getString(index));
-            }
-
-            if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_PRICE)){
-                this.mPrice =  data.getString(index);
-            }
-
-            /*if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_BRAND)){
-                this.mBrand = data.getString(index);
-            }*/
-
-            if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_SELLER)){
-                this.mSeller =  data.getString(index);
-            }
-
-            /*if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_CATEGORY)){
-                this.mCategory = data.getString(index);
-            }*/
-
-            if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_TYPE)){
-                this.mType = data.getString(index);
-            }
-
-            if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_WEIGHT)){
-                this.mWeight = data.getString(index);
-            }
-
-			if(s.equalsIgnoreCase(UzaContract.ItemsEntry.COLUMN_AVAILABILITY)){
-				this.mAvailability = data.getString(index);
-			}
-
-            if(s.equalsIgnoreCase(UzaContract.CommandsEntry.COLUMN_STATE)){
-                this.mCommandState = data.getString(index);
-            }
-
-
-            if(s.equalsIgnoreCase(UzaContract.LikesEntry.COLUMN_LIKES)){
-                if(data.getString(index) != null)
-                    this.mFavourite = true;
-            }
-
-            if(s.equalsIgnoreCase("_id")){
-                if(index == 0){
-                    this.mItemId = data.getString(0);
-                }else {
-
-                    if(data.getString(index) != null && dataType == CHECKOUT_DATA){
-                        this.mCheckoutId = data.getString(index);
-                    }else if((data.getString(index) != null) && ((dataType == ITEM_DATA) || (dataType == FAVOURITE_DATA))){
-						this.mFavouriteId = data.getString(index);
-					}else if(data.getString(index) != null && dataType == COMMAND_DATA){
-                    	this.mCommandID = data.getString(index);
-					}
-                }
-            }
-
-            if(s.equalsIgnoreCase(UzaContract.CommandsEntry.COLUMN_QUANTITY)){
-                this.mQuantity =  data.getString(index);
-            }
-            index++;
-		}
-	}
-	public String getKey() {
-			return null;
-	}
+    private String mCommandId = "";
 
 	public ArrayList<String> getPictures() {
 		return pictures;
@@ -178,12 +83,8 @@ public class Data implements Serializable, Comparable<Data>
         this.mFavourite = favourite;
     }
 
-    public String getCheckoutId() {
-        return mCheckoutId;
-    }
-
 	public String getCommandId() {
-		return mCommandID;
+		return mCommandId;
 	}
 
 	public Data(Cursor data){
@@ -201,7 +102,7 @@ public class Data implements Serializable, Comparable<Data>
 		this.mAvailability = data.getString(14);
 		this.mQuantity     = data.getString(15);
 		this.mCommandState = data.getString(17);
-		this.mCommandID    = data.getString(18);
+		this.mCommandId    = data.getString(18);
 		this.mFavouriteId  = data.getString(20);
 
 		if(data.getString(19) != null)
@@ -232,27 +133,6 @@ public class Data implements Serializable, Comparable<Data>
 			UzaContract.LikesEntry.COLUMN_LIKES,//19
             UzaContract.LikesEntry.TABLE_NAME + "." +UzaContract.LikesEntry._ID//20
     };
-
-	public static final String[] ITEMS_COMMANDS_COLUMNS = {
-			UzaContract.ItemsEntry.TABLE_NAME + "." + UzaContract.ItemsEntry._ID,
-			UzaContract.ItemsEntry.COLUMN_NAME,
-			UzaContract.ItemsEntry.COLUMN_PRICE,
-			UzaContract.ItemsEntry.COLUMN_TYPE,
-			UzaContract.ItemsEntry.COLUMN_CURRENCY,
-			UzaContract.ItemsEntry.COLUMN_BRAND,
-			UzaContract.ItemsEntry.COLUMN_DESCRIPTION,
-			UzaContract.ItemsEntry.COLUMN_SELLER,
-			UzaContract.ItemsEntry.COLUMN_AVAILABILITY,
-			UzaContract.ItemsEntry.TABLE_NAME + "." +UzaContract.ItemsEntry.COLUMN_SIZE,
-			UzaContract.ItemsEntry.COLUMN_AUTHOR,
-			UzaContract.ItemsEntry.COLUMN_PICTURES,
-			UzaContract.ItemsEntry.COLUMN_WEIGHT,
-			UzaContract.ItemsEntry.COLUMN_URL,
-			UzaContract.LikesEntry.COLUMN_LIKES,
-			UzaContract.CommandsEntry.COLUMN_QUANTITY,
-			UzaContract.CommandsEntry.COLUMN_STATE,
-			UzaContract.CommandsEntry.TABLE_NAME + "." +UzaContract.CommandsEntry._ID
-	};
 
 	public boolean isFavourite() {
 		return mFavourite;
@@ -328,9 +208,7 @@ public class Data implements Serializable, Comparable<Data>
 	}
 
 	public boolean isAvailable() {
-		if(mAvailability != null && mAvailability.equalsIgnoreCase("0"))
-			return true;
-		return false;
+		return mAvailability != null && mAvailability.equalsIgnoreCase("0");
 	}
 
 	private void updateFavouriteInDataBase(){
@@ -369,9 +247,7 @@ public class Data implements Serializable, Comparable<Data>
 	}
 
 	public boolean  isInCart(){
-    	if(mCommandState != null && mCommandState.equalsIgnoreCase("0"))
-    		return true;
-    	return false;
+		return mCommandState != null && mCommandState.equalsIgnoreCase("0");
 	}
 
 

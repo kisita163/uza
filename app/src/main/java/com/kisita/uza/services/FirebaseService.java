@@ -315,17 +315,17 @@ public class FirebaseService extends Service {
         Map<String, Object> commandsUpdates = new HashMap<>();
         if(commands != null){
             for(Data d : commands) {
-                commandsUpdates.put("/users-data/" + getUid() + "/commands/" + d.getCheckoutId() + "/state","1"); // 1 = command received
+                commandsUpdates.put("/users-data/" + getUid() + "/commands/" + d.getCommandId() + "/state","1"); // 1 = command received
 
-                commandsUpdates.put("/commands/" + d.getCheckoutId() + "/state", "1");
-                commandsUpdates.put("/commands/" + d.getCheckoutId() + "/fname", getClientFirstName(this));
-                commandsUpdates.put("/commands/" + d.getCheckoutId() + "/lname", getClientLastName(this));
-                commandsUpdates.put("/commands/" + d.getCheckoutId() + "/phone",getClientNumber(this));
-                commandsUpdates.put("/commands/" + d.getCheckoutId() + "/address",getClientAddress(this));
-                commandsUpdates.put("/commands/" + d.getCheckoutId() + "/city",getClientCity(this));
-                commandsUpdates.put("/commands/" + d.getCheckoutId() + "/province", getClientState(this));
-                commandsUpdates.put("/commands/" + d.getCheckoutId() + "/postal",getClientPostalCode(this));
-                commandsUpdates.put("/commands/" + d.getCheckoutId() + "/country",getClientCountry(this));
+                commandsUpdates.put("/commands/" + d.getCommandId() + "/state", "1");
+                commandsUpdates.put("/commands/" + d.getCommandId() + "/fname", getClientFirstName(this));
+                commandsUpdates.put("/commands/" + d.getCommandId() + "/lname", getClientLastName(this));
+                commandsUpdates.put("/commands/" + d.getCommandId() + "/phone",getClientNumber(this));
+                commandsUpdates.put("/commands/" + d.getCommandId() + "/address",getClientAddress(this));
+                commandsUpdates.put("/commands/" + d.getCommandId() + "/city",getClientCity(this));
+                commandsUpdates.put("/commands/" + d.getCommandId() + "/province", getClientState(this));
+                commandsUpdates.put("/commands/" + d.getCommandId() + "/postal",getClientPostalCode(this));
+                commandsUpdates.put("/commands/" + d.getCommandId() + "/country",getClientCountry(this));
             }
             mDatabase.updateChildren(commandsUpdates);
         }

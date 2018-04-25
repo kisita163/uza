@@ -26,9 +26,6 @@ public abstract class ItemsFragment extends CustomFragment
 {
     final static String TAG = "### ItemsFragment";
     final static String QUERY         = "QUERY";
-
-    private ArrayList<Data> itemsList;
-
     private String mQuery;
     private android.support.design.widget.FloatingActionButton choicesButton;
 
@@ -74,7 +71,6 @@ public abstract class ItemsFragment extends CustomFragment
 
         RecyclerView recList = v.findViewById(R.id.cardList);
 
-        itemsList = new ArrayList<>();
         recList.setHasFixedSize(true);
 
 

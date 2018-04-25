@@ -192,7 +192,9 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="invisible">
+                    android:layout_marginStart="@dimen/pad_10dp"
+                    android:layout_marginEnd="@dimen/pad_10dp"
+                    android:visibility="gone">
                     <TextView
                         style="@style/uza_lineto_text_style"
                         android:textStyle="bold"

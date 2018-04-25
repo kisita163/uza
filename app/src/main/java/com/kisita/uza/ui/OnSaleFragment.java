@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,7 @@ import java.util.ArrayList;
  */
 public class OnSaleFragment extends CustomFragment
 {
-	//final static String TAG = "### OnSaleFragment";
-
-	private UzaCardAdapter mCardAdapter;
+	final static String TAG = "### OnSaleFragment";
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)cd
@@ -45,8 +44,8 @@ public class OnSaleFragment extends CustomFragment
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
 	{
+        super.onCreateView(inflater,container,savedInstanceState);
 		View v = inflater.inflate(R.layout.fragment_onsale, null);
-		setHasOptionsMenu(true);
 		setupView(v);
 		return v;
 	}
@@ -83,12 +82,6 @@ public class OnSaleFragment extends CustomFragment
 
 		mCardAdapter = new UzaCardAdapter(this.getContext(),itemsList);
 		mRecList.setAdapter(mCardAdapter);
-	}
-
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	public void notifyChanges(ArrayList<Data> data){

@@ -101,6 +101,8 @@ public class UzaCardAdapter extends
         // Set favourite button
         if(d.isFavourite()) {
             holder.favButton.setImageResource(R.drawable.ic_action_favorite_black);
+        }else{
+            holder.favButton.setImageResource(R.drawable.ic_action_favorite);
         }
     }
 

@@ -18,6 +18,7 @@ import com.kisita.uza.ui.BillingFragment;
 import com.kisita.uza.ui.CheckoutFragment;
 import com.kisita.uza.ui.DetailFragment;
 import com.kisita.uza.ui.ItemsFragment;
+import com.kisita.uza.ui.OnSaleFragment;
 
 import java.util.ArrayList;
 
@@ -91,7 +92,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
         if (f != null) {
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.slide_in_right,R.anim.slide_out_left,R.anim.slide_in_left,R.anim.slide_out_right)
-                    .replace(R.id.content_frame, f , title)
+                    .replace(R.id.content_frame, f,"details")
                     .addToBackStack(null)
                     .commit();
         }
@@ -172,5 +173,15 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
             onBackPressed();
         }
         return true;
+    }
+
+    protected void notifyChanges(){
+        Fragment f = getSupportFragmentManager().findFragmentByTag("details");
+
+        if(f != null) {
+            Log.i(TAG, f.getTag());
+            if (f instanceof DetailFragment)
+                ((DetailFragment) f).notifyChanges(itemsList);
+        }
     }
 }

@@ -63,8 +63,7 @@ public class CommandsFragment extends CustomFragment {
         return v;
     }
 
-    @Override
-    protected void notifyChanges(ArrayList<Data> data) {
+    public void notifyChanges(ArrayList<Data> data) {
         if(mCardadapter != null) {
             mCardadapter.resetItemsList(data);
             mCardadapter.notifyDataSetChanged();

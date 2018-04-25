@@ -324,4 +324,9 @@ public class CustomActivity extends AppCompatActivity implements
 	protected void notifyChanges(){
 
 	}
+
+	public ArrayList<Data> getItemsList() {
+		Log.i(TAG,"------------> get the list " + itemsList.size());
+		return itemsList;
+	}
 }

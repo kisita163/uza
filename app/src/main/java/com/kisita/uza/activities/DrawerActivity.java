@@ -198,7 +198,7 @@ public class DrawerActivity extends CustomActivity
                 break;
             case R.id.nav_favourites:
                 mCheckedItem = FAVOURITES.ordinal();
-                fragment = FavoritesFragment.newInstance(getFavouritesItems());
+                fragment = OnSaleFragment.newInstance(getFavouritesItems());
                 break;
             case R.id.nav_commands:
                 mCheckedItem = COMMANDS.ordinal();
@@ -398,15 +398,14 @@ public class DrawerActivity extends CustomActivity
 
 
     protected void notifyChanges(){
-
         Fragment f = getSupportFragmentManager().findFragmentByTag(mFragmentsStack.peek().toString());
 
         if(f != null) {
             Log.i(TAG, f.getTag());
             if(f instanceof OnSaleFragment)
                 ((OnSaleFragment) f).notifyChanges(getFilteredItems());
-            if(f instanceof CheckoutFragment)
-                ((CheckoutFragment) f).notifyChanges(getFilteredItems());
+            if(f instanceof CommandsFragment)
+                ((CommandsFragment) f).notifyChanges(getCommandsItems());
         }
     }
 
@@ -422,6 +421,7 @@ public class DrawerActivity extends CustomActivity
     @Override
     protected void onResume() {
         Log.i(TAG,"Resume items here" + itemsList.size());
+        notifyChanges();
         super.onResume();
     }
 

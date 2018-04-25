@@ -126,17 +126,6 @@ public class UzaFunctions {
         return  String.valueOf(shippingCost);
     }
 
-
-    public static String printItems(ArrayList<Data> items){
-        StringBuilder buf = new StringBuilder();
-        for(Data d : items){
-            buf.append(d.getKey());
-            buf.append(System.getProperty("line.separator"));
-        }
-
-        return buf.toString();
-    }
-
     public static ArrayList<String> getPicturesUrls(String string) {
 
         return  new ArrayList<>(Arrays.asList(string.split(",")));
