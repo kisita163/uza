@@ -96,4 +96,5 @@
     <string name="item_not_available">Vendu</string>
     <string name="title_filters">Filtres</string>
     <string name="item_in_the_cart">Article dans le panier</string>
+    <string name="send_password_email">Send password email</string>
 </resources>

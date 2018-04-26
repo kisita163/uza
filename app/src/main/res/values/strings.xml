@@ -143,4 +143,5 @@
     <string name="art_africain_contemporain">Art africain contemporain</string>
     <string name="same_artist">Same artist</string>
     <string name="item_not_available">Sold</string>
+    <string name="send_password_email">Send password email</string>
 </resources>

@@ -39,7 +39,6 @@ import com.kisita.uza.model.Data;
 import com.kisita.uza.ui.BillingFragment;
 import com.kisita.uza.ui.CheckoutFragment;
 import com.kisita.uza.ui.CommandsFragment;
-import com.kisita.uza.ui.FavoritesFragment;
 import com.kisita.uza.ui.OnSaleFragment;
 import com.kisita.uza.ui.SettingsFragment;
 import com.kisita.uza.ui.StartFragment;
@@ -361,8 +360,6 @@ public class DrawerActivity extends CustomActivity
             // Update commands
             if(mBound) {
                 mService.setCommandsState(mCommands);
-            }else{
-                //TODO Something wrong happened here
             }
         }
         hideProgressDialog();
@@ -374,8 +371,13 @@ public class DrawerActivity extends CustomActivity
         // Sign out facebook if needed
         if(LoginManager.getInstance() != null)
             LoginManager.getInstance().logOut();
+        // Go to LoginActivity
+        Intent startLogin = new Intent(DrawerActivity.this,LoginActivity.class);
+        startLogin.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
+        startActivity(startLogin);
         finish();
+
     }
 
     @Override

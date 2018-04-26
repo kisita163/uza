@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -31,6 +32,9 @@ import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.model.User;
 import com.kisita.uza.services.FirebaseService;
+
+import static android.view.View.GONE;
+import static com.kisita.uza.utils.UzaFunctions.infoAlertDialog;
 
 /**
  * The Activity LoginActivity is launched after the Home screen. You need to write your
@@ -57,6 +61,7 @@ public class LoginActivity extends CustomActivity
 	private EditText mConfirmPassword;
 
 	private boolean signUp = false;
+	private boolean passUpdate = false;
 
 	private CallbackManager callbackManager;
 	private boolean mNewUser = false;
@@ -149,11 +154,11 @@ public class LoginActivity extends CustomActivity
 		// Views
 		//Name in case of sign up
 		mName = findViewById(R.id.field_name);
-		mName.setVisibility(View.GONE);
+		mName.setVisibility(GONE);
 
 		//Phone number in case of sign up
 		mPhoneNumber = findViewById(R.id.field_number);
-		mPhoneNumber.setVisibility(View.GONE);
+		mPhoneNumber.setVisibility(GONE);
 
 		//Email
 		mEmailField = findViewById(R.id.field_email);
@@ -161,12 +166,13 @@ public class LoginActivity extends CustomActivity
 
 		//Confirm password
 		mConfirmPassword = findViewById(R.id.field_confirm_password);
-		mConfirmPassword.setVisibility(View.GONE);
+		mConfirmPassword.setVisibility(GONE);
 
 		mSignInButton = findViewById(R.id.button_sign_in);
 		mSignInButton.setOnClickListener(this);
 
 		mForgotButton= findViewById(R.id.btnForget);
+		mForgotButton.setOnClickListener(this);
 
 		LoginButton loginButton = findViewById(R.id.login_button);
 		loginButton.setReadPermissions("email");
@@ -203,6 +209,8 @@ public class LoginActivity extends CustomActivity
 		{
 			if(signUp){
 				signUp();
+			}else if(passUpdate){
+				passwordUpdateProcessing();
 			}else{
 				signIn();
 			}
@@ -215,36 +223,47 @@ public class LoginActivity extends CustomActivity
 			mConfirmPassword.setVisibility(View.VISIBLE);
 
 			//loginButton.setVisibility(View.GONE);
-			mForgotButton.setVisibility(View.GONE);
-			mSignUpButton.setVisibility(View.GONE);
+			mForgotButton.setVisibility(GONE);
+			mSignUpButton.setVisibility(GONE);
 
 			signUp = true;
 
 			mSignInButton.setText(R.string.submit);
-			new Thread(new Runnable() {
-				@Override
-				public void run()
-				{
-					try
-					{
-						Thread.sleep(2000);
-
-					} catch (Exception e)
-					{
-						e.printStackTrace();
-					} finally
-					{
-						runOnUiThread(new Runnable() {
-							@Override
-							public void run()
-							{
-								hideProgressDialog();
-							}
-						});
-					}
-				}
-			}).start();
+			pleaseWaitThread();
 		}
+
+		if(v.getId() == R.id.btnForget){
+			showProgressDialog(getString(R.string.please_wait));
+			passUpdate = true;
+			passwordUpdateSetup();
+			pleaseWaitThread();
+		}
+	}
+
+	private void pleaseWaitThread() {
+		new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    Thread.sleep(2000);
+
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                } finally
+                {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run()
+                        {
+                            hideProgressDialog();
+                        }
+                    });
+                }
+            }
+        }).start();
 	}
 
 	private boolean validateSignUpForm() {
@@ -347,6 +366,45 @@ public class LoginActivity extends CustomActivity
 			}
 		});
 	}
+
+	private void passwordUpdateSetup(){
+		mName.setVisibility(GONE);
+		mPhoneNumber.setVisibility(GONE);
+		mPasswordField.setVisibility(GONE);
+		mConfirmPassword.setVisibility(View.GONE);
+
+		mSignInButton.setText(R.string.send_password_email);
+
+		mForgotButton.setVisibility(GONE);
+		mSignUpButton.setVisibility(GONE);
+	}
+
+	private void passwordUpdateProcessing(){
+		showProgressDialog(getString(R.string.please_wait));
+		String emailAddress = mEmailField.getText().toString();
+
+		// Check if no view has focus:
+		View view = this.getCurrentFocus();
+		if (view != null) {
+			InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+		}
+
+		mAuth.sendPasswordResetEmail(emailAddress)
+				.addOnCompleteListener(new OnCompleteListener<Void>() {
+					@Override
+					public void onComplete(@NonNull Task<Void> task) {
+						if (task.isSuccessful()) {
+							hideProgressDialog();
+							//infoAlertDialog(getApplicationContext(),"Password reset email sent");
+						}else{
+							infoAlertDialog(getApplicationContext(),"Password reset email NOT sent");
+							//hideProgressDialog();
+						}
+					}
+				});
+	}
+
 
 	private void signIn() {
 		//Log.d(TAG, "signIn");
