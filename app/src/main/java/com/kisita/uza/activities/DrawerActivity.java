@@ -37,6 +37,7 @@ import com.kisita.uza.custom.CustomActivity;
 import com.kisita.uza.internal.LogReporting;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.ui.BillingFragment;
+import com.kisita.uza.ui.BlankFragment;
 import com.kisita.uza.ui.CheckoutFragment;
 import com.kisita.uza.ui.CommandsFragment;
 import com.kisita.uza.ui.OnSaleFragment;
@@ -173,11 +174,14 @@ public class DrawerActivity extends CustomActivity
     }
 
     private Fragment setCurrentFragment(MenuItem item){
-        Fragment fragment = null;
+        Fragment fragment = BlankFragment.newInstance(CART.ordinal());
+        ArrayList<Data> data;
         switch (item.getItemId()) {
             case R.id.nav_artworks:
                 mCheckedItem  = ARTWORKS.ordinal();
-                fragment = OnSaleFragment.newInstance(getFilteredItems());
+                data = getFilteredItems();
+                if(data.size() > 0)
+                    fragment = OnSaleFragment.newInstance(data);
                 break;
             /*case R.id.nav_artists:
                 mCheckedItem  = ARTISTS;
@@ -193,15 +197,21 @@ public class DrawerActivity extends CustomActivity
                 break;
             case R.id.nav_checkout:
                 mCheckedItem  = CART.ordinal();
-                fragment = CheckoutFragment.newInstance(getInCartItems());
+                data = getInCartItems();
+                if(data.size() > 0)
+                    fragment = CheckoutFragment.newInstance(data);
                 break;
             case R.id.nav_favourites:
                 mCheckedItem = FAVOURITES.ordinal();
-                fragment = OnSaleFragment.newInstance(getFavouritesItems());
+                data = getFavouritesItems();
+                if(data.size() > 0)
+                    fragment = OnSaleFragment.newInstance(data);
                 break;
             case R.id.nav_commands:
                 mCheckedItem = COMMANDS.ordinal();
-                fragment = CommandsFragment.newInstance(getCommandsItems());
+                data = getCommandsItems();
+                if(data.size() > 0)
+                    fragment = CommandsFragment.newInstance(data);
                 break;
             case R.id.nav_billing_info:
                 mCheckedItem = BILLING.ordinal();
@@ -401,7 +411,7 @@ public class DrawerActivity extends CustomActivity
 
     protected void notifyChanges(){
         Fragment f = getSupportFragmentManager().findFragmentByTag(mFragmentsStack.peek().toString());
-
+        setCartItemNumber();
         if(f != null) {
             Log.i(TAG, f.getTag());
             if(f instanceof OnSaleFragment)
@@ -517,5 +527,16 @@ public class DrawerActivity extends CustomActivity
             return sharedPref.getBoolean(getString(R.string.literature_key),true);
 
         return false;
+    }
+
+    public void setCartItemNumber(){
+        String num = String.valueOf(getInCartItems().size());
+        mNavigationView.getMenu().getItem(CART.ordinal()).setTitle(getString(R.string.cart) + " ( "+num+" )");
+    }
+
+    public void setCartItemNumber(int num){
+        String s = getString(R.string.cart) + " ( "+num+" )";
+        mToolbarTitle.setText(s);
+        mNavigationView.getMenu().getItem(CART.ordinal()).setTitle(s);
     }
 }

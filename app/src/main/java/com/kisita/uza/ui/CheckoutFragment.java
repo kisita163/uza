@@ -227,8 +227,12 @@ public class CheckoutFragment extends ItemsFragment
 				switch (i){
 					case DialogInterface.BUTTON_POSITIVE:
 						removeItemFromCart(d);
+                        ((DrawerActivity)getActivity()).setCartItemNumber(itemsList.size());
 						// Update activity checkout fragment
-						((DrawerActivity)getActivity()).setFragment(CheckoutFragment.newInstance(null));
+                        if(itemsList.size() > 0 )
+						    ((DrawerActivity)getActivity()).setFragment(CheckoutFragment.newInstance(itemsList));
+                        else
+                            ((DrawerActivity)getActivity()).setFragment(BlankFragment.newInstance(0));
 						break;
 					case DialogInterface.BUTTON_NEGATIVE:
 						//No button clicked

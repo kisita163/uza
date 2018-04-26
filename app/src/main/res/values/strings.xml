@@ -59,7 +59,7 @@
     <string name="authentication_failed">Authentication failed.</string>
     <string name="required">Required</string>
     <string name="password_not_equal">Entered passwords are not equal</string>
-    <string name="please_wait">Please wait...</string>
+    <string name="please_wait">Please wait…</string>
     <string name="commands">Commands</string>
 
     <!-- Provider -->
@@ -126,16 +126,14 @@
     <string name="send_verification_fail">Failed to send verification email.</string>
     <string name="hello">Hello</string>
     <string name="selecte_a_country">Click here to select a country</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
     <string name="command_current_state">Command state</string>
     <string name="send_logs">Send logs</string>
     <string name="the_command_state">The command state</string>
     <string name="ok">OK</string>
     <string name="Billing_info_missing">Some billing info are missing</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="Billing_info_saved">Billing information saved</string>
     <string name="remove_item">Do you really want to remove this item from the cart ?</string>
     <string name="artists">Artists</string>
@@ -144,4 +142,5 @@
     <string name="same_artist">Same artist</string>
     <string name="item_not_available">Sold</string>
     <string name="send_password_email">Send password email</string>
+    <string name="nothing_to_show">Nothing to show!</string>
 </resources>
