@@ -77,7 +77,14 @@ public class UzaBannerAdapter extends
     }
 
     private void openDetailFragment(int position) {
-        ((UzaActivity) mContext).updateForegroundFragment(itemsList.get(position).getAuthor(), DetailFragment.newInstance( itemsList.get(position)));
+        if(mContext instanceof UzaActivity)
+            ((UzaActivity) mContext).updateForegroundFragment(itemsList.get(position).getAuthor(), DetailFragment.newInstance( itemsList.get(position)));
+        else{
+            Intent intent = new Intent(mContext, UzaActivity.class);
+            intent.putExtra("fragment", 3);
+            intent.putExtra("details", itemsList.get(position));
+            mContext.startActivity(intent);
+        }
     }
 
 

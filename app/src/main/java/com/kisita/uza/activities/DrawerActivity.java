@@ -219,10 +219,12 @@ public class DrawerActivity extends CustomActivity
                 break;
             case R.id.nav_logout:
                 mCheckedItem = LOGOUT.ordinal();
+                fragment = null;
                 handlingLogout();
                 break;
             case R.id.nav_email:
                 mCheckedItem = LOGS.ordinal();
+                fragment = null;
                 new LogReporting(this).collectAndSendLogs();
                 break;
             default:

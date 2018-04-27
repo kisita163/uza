@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:numColumns="2"
-    android:rowCount="4"
-    tools:showIn="@layout/grid_item">
+    android:rowCount="3">
 
     <TextView
         android:id="@+id/command_id"
@@ -20,21 +19,21 @@
     <TextView
         android:id="@+id/command_state"
         android:layout_column="0"
-        android:layout_row="2"
+        android:layout_row="1"
         style="@style/uza_text_style"
         android:text="@string/command_state"
         android:layout_marginTop="@dimen/pad_1dp"/>
-    <TextView
+    <!--<TextView
         android:id="@+id/command_quantity"
         android:layout_column="0"
         android:layout_row="1"
         style="@style/uza_text_style"
         android:text="@string/quantity"
-        android:layout_marginTop="@dimen/pad_1dp"/>
+        android:layout_marginTop="@dimen/pad_1dp"/>-->
 
     <TextView
         android:layout_column="0"
-        android:layout_row="3"
+        android:layout_row="2"
         style="@style/uza_text_style"
         android:layout_marginTop="@dimen/pad_1dp"/>
 
@@ -50,26 +49,26 @@
     <TextView
         android:id="@+id/command_state_value"
         android:layout_column="1"
-        android:layout_row="2"
-        android:layout_gravity="end"
-        style="@style/uza_command_style"
-        android:text="@string/unspecified_resource"
-        android:layout_marginTop="@dimen/pad_1dp"/>
-
-    <TextView
-        android:id="@+id/command_quantity_value"
-        android:layout_column="1"
         android:layout_row="1"
         android:layout_gravity="end"
         style="@style/uza_command_style"
         android:text="@string/unspecified_resource"
         android:layout_marginTop="@dimen/pad_1dp"/>
 
+    <!--<TextView
+        android:id="@+id/command_quantity_value"
+        android:layout_column="1"
+        android:layout_row="1"
+        android:layout_gravity="end"
+        style="@style/uza_command_style"
+        android:text="@string/unspecified_resource"
+        android:layout_marginTop="@dimen/pad_1dp"/>-->
+
 
     <ImageView
         android:id="@+id/state_logo"
         android:layout_column="1"
-        android:layout_row="3"
+        android:layout_row="2"
         android:layout_columnSpan="1"
         android:layout_gravity="end"
         android:src="@drawable/ic_action_payement"

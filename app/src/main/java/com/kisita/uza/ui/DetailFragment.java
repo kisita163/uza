@@ -183,10 +183,10 @@ public class DetailFragment extends CustomFragment{
         //
         TextView  commandId         = v.findViewById(R.id.command_id_value);
         TextView  commandState      = v.findViewById(R.id.command_state_value);
-        TextView  commandQty        = v.findViewById(R.id.command_quantity_value);
+        //TextView  commandQty        = v.findViewById(R.id.command_quantity_value);
 
         mCommandCont                = v.findViewById(R.id.command_state_container);
-        sameArtistCont              = v.findViewById(R.id.same_artist_container);
+        sameArtistCont              = v.findViewById(R.id.banner_container);
         mAdd                        = v.findViewById(R.id.addToCart);
 
         ImageView    stateLogo      = v.findViewById(R.id.state_logo);
@@ -196,7 +196,7 @@ public class DetailFragment extends CustomFragment{
             mAdd.setVisibility(View.GONE);
             commandState.setText(getCommandState(itemData.getCommandState()));
             commandId.setText(itemData.getCommandId());
-            commandQty.setText(itemData.getQuantity());
+            //commandQty.setText(itemData.getQuantity());
             stateLogo.setImageResource(getCommandStateLogo(itemData.getCommandState()));
         }else if(itemData.isInCart()){
             handleItemInCart(getString(R.string.item_in_the_cart));

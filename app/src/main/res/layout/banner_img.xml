@@ -5,6 +5,7 @@
     android:layout_height="100dp"
     android:layout_gravity="center"
     android:adjustViewBounds="true"
+    android:layout_marginStart="5dp"
     android:scaleType="fitXY"
     >
 </ImageView>

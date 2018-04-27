@@ -3,11 +3,21 @@ package com.kisita.uza.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.kisita.uza.R;
+import com.kisita.uza.activities.DrawerActivity;
+import com.kisita.uza.activities.UzaActivity;
+import com.kisita.uza.model.Data;
+import com.kisita.uza.utils.UzaBannerAdapter;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +29,9 @@ public class BlankFragment extends Fragment {
     private static final String MENU_ITEM = "menu_item";
 
     private int mItemNumber;
+    private RecyclerView mBannerRecList;
+    private ArrayList<Data> mBannerItemsList;
+    private LinearLayout sameArtistCont;
 
 
     public BlankFragment() {
@@ -53,7 +66,33 @@ public class BlankFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_blank, container, false);
+       View v =  inflater.inflate(R.layout.fragment_blank, container, false);
+        sameArtistCont   = v.findViewById(R.id.banner_container);
+        mBannerRecList   = v.findViewById(R.id.cardList);
+        mBannerItemsList = new ArrayList<>();
+        mBannerItemsList = (((DrawerActivity)getActivity()).getItemsList());
+        setBanner();
+        TextView bannerTitle = v.findViewById(R.id.banner_title);
+        bannerTitle.setText(getString(R.string.artworks));
+
+       return v;
+    }
+
+    private void setBanner() {
+        if(mBannerItemsList.size() > 0) {
+            sameArtistCont.setVisibility(View.VISIBLE);
+            //
+            UzaBannerAdapter mCardAdapter = new UzaBannerAdapter(this.getContext(), mBannerItemsList);
+
+            mBannerRecList.setHasFixedSize(true);
+
+
+            StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1,
+                    StaggeredGridLayoutManager.HORIZONTAL);
+
+            mBannerRecList.setLayoutManager(llm);
+            mBannerRecList.setAdapter(mCardAdapter);
+        }
     }
 
 }

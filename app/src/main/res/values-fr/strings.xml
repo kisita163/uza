@@ -87,7 +87,7 @@
     <string name="command_current_state">Etat de la commande</string>
     <string name="Billing_info_missing">Certaines informations de facturation sont manquantes</string>
     <string name="Billing_info_saved">Informations de facturation enregistrées</string>
-    <string name="billing_information">Informations de faturation</string>
+    <string name="billing_information">Informations de facturation</string>
     <string name="remove_item">Voulez-vous vraiment retirer cet article du panier?</string>
     <string name="artists">Artistes</string>
     <string name="artworks">Oeuvres d\'art</string>
