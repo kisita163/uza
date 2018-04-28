@@ -5,10 +5,11 @@ import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,8 +23,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.CursorAdapter;
-
 import com.kisita.uza.R;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
@@ -33,7 +32,6 @@ import com.kisita.uza.utils.TouchEffect;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
-
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -117,7 +115,7 @@ public class CustomActivity extends AppCompatActivity implements
 					@Override
 					public void run() {
 						if(itemsList.size() == 0 && !mListFilled) { // items list is empty. Try to load again
-							Log.i(TAG,"Items list is empty. Try to load again");
+							//Log.i(TAG,"Items list is empty. Try to load again");
 							loadData();
 						}else{
 							stopScheduledTask();
@@ -215,7 +213,7 @@ public class CustomActivity extends AppCompatActivity implements
 		public void onServiceConnected(ComponentName className,
 									   IBinder service) {
 			// We've bound to LocalService, cast the IBinder and get LocalService instance
-			Log.i(TAG, "Connected to Firebase service");
+			//Log.i(TAG, "Connected to Firebase service");
 			FirebaseService.LocalBinder binder = (FirebaseService.LocalBinder) service;
 			mService = binder.getService();
 			mBound = true;
@@ -223,7 +221,7 @@ public class CustomActivity extends AppCompatActivity implements
 
 		@Override
 		public void onServiceDisconnected(ComponentName arg0) {
-			Log.i(TAG, "Disconnected from Firebase service");
+			//Log.i(TAG, "Disconnected from Firebase service");
 			mBound = false;
 		}
 	};
@@ -284,7 +282,7 @@ public class CustomActivity extends AppCompatActivity implements
 		}
 
 		while (data.moveToNext()) {
-			Log.i(TAG, "/!\\"+data.getString(0));
+			/*Log.i(TAG, "/!\\"+data.getString(0));
 			for(int i = 1 ; i < data.getColumnCount() ; i ++ ){
 				if(data.getString(i) == null){
 					Log.i(TAG, "\t/!\\ null");
@@ -292,7 +290,7 @@ public class CustomActivity extends AppCompatActivity implements
 				else {
 					Log.i(TAG,"\t/!\\"+ data.getString(i));
 				}
-			}
+			}*/
 			Data d = new Data(data);
             /*int index = Arrays.binarySearch(itemsList.toArray(), d); // Is the new data already in my list?
             if(index > 0){
@@ -326,7 +324,15 @@ public class CustomActivity extends AppCompatActivity implements
 	}
 
 	public ArrayList<Data> getItemsList() {
-		Log.i(TAG,"------------> get the list " + itemsList.size());
 		return itemsList;
+	}
+
+	protected boolean isConnected() {
+		ConnectivityManager cm =
+				(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+
+		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+		return activeNetwork != null &&
+				activeNetwork.isConnectedOrConnecting();
 	}
 }

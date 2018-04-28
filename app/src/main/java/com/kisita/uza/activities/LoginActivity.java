@@ -185,13 +185,13 @@ public class LoginActivity extends CustomActivity
 
 			@Override
 			public void onCancel() {
-				//Log.i(TAG,"Facebook onCancel");
+
 			}
 
 			@Override
 			public void onError(FacebookException error) {
-				//Log.i(TAG,"Facebook onError "+error.getMessage());
-
+				Toast.makeText(LoginActivity.this, getString(R.string.network_failed),
+						Toast.LENGTH_LONG).show();
 			} });
 
 		mSignUpButton = findViewById(R.id.btnReg);
@@ -205,6 +205,13 @@ public class LoginActivity extends CustomActivity
 	public void onClick(View v)
 	{
 		super.onClick(v);
+		// First check internet connexion
+		if(!isConnected()) {
+			Toast.makeText(LoginActivity.this, getString(R.string.network_failed),
+					Toast.LENGTH_LONG).show();
+			return;
+		}
+
 		if (v.getId() == R.id.button_sign_in)
 		{
 			if(signUp){
