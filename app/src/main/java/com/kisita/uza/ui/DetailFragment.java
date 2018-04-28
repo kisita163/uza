@@ -140,6 +140,7 @@ public class DetailFragment extends CustomFragment{
     }
 
     void getOtherArtworks(ArrayList<Data> data){
+        mBannerItemsList.clear();
         if(data != null){
             for(Data d : data){
                 if(d.getAuthor().equalsIgnoreCase(itemData.getAuthor()) && !d.getItemId().equalsIgnoreCase(itemData.getItemId())){
