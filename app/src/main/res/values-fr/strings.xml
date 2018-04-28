@@ -97,6 +97,8 @@
     <string name="title_filters">Filtres</string>
     <string name="item_in_the_cart">Article dans le panier</string>
     <string name="send_password_email">Send password email</string>
-    <string name="nothing_to_show">Rien à afficher !</string>
+    <string name="nothing_to_show">Rien à afficher. Vérifier vos filtres</string>
     <string name="network_failed">No internet connexion !</string>
+    <string name="nothing_in_the_cart">Nothing in the cart.</string>
+    <string name="nothing_in_favourites">Nothing in the wish list.</string>
 </resources>

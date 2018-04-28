@@ -142,6 +142,8 @@
     <string name="same_artist">Same artist</string>
     <string name="item_not_available">Sold</string>
     <string name="send_password_email">Send password email</string>
-    <string name="nothing_to_show">Nothing to show!</string>
+    <string name="nothing_to_show">Nothing to show. Please check your filters</string>
     <string name="network_failed">No internet connexion !</string>
+    <string name="nothing_in_the_cart">Nothing in the cart.</string>
+    <string name="nothing_in_favourites">Nothing in the wish list.</string>
 </resources>

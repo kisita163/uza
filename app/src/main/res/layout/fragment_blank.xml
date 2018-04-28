@@ -4,30 +4,27 @@
     android:layout_height="match_parent"
     tools:context="com.kisita.uza.ui.BlankFragment">
 
-        <ImageView
-            android:id="@+id/blank_image"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_centerHorizontal="true"
-            android:layout_above="@id/blank_text"
-            android:src="@drawable/anonymous_user"
-            tools:ignore="ContentDescription" />
 
-        <TextView
-            android:id="@+id/blank_text"
-            style="@style/uza_lineto_text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true"
-            android:text="@string/nothing_to_show" />
+    <TextView
+        android:id="@+id/blank_text"
+        style="@style/uza_lineto_text_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:drawableTop="@drawable/ic_blank_warning"
+        android:text="@string/nothing_to_show" />
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 
         <include
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             layout="@layout/banner_layout"
-            />
+            android:id="@+id/banner_container" />
 </RelativeLayout>
 
 

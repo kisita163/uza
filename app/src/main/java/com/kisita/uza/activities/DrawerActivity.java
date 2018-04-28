@@ -174,7 +174,7 @@ public class DrawerActivity extends CustomActivity
     }
 
     private Fragment setCurrentFragment(MenuItem item){
-        Fragment fragment = BlankFragment.newInstance(CART.ordinal());
+        Fragment fragment = null;
         ArrayList<Data> data;
         switch (item.getItemId()) {
             case R.id.nav_artworks:
@@ -182,6 +182,8 @@ public class DrawerActivity extends CustomActivity
                 data = getFilteredItems();
                 if(data.size() > 0)
                     fragment = OnSaleFragment.newInstance(data);
+                else
+                    fragment = BlankFragment.newInstance(ARTWORKS.ordinal());
                 break;
             /*case R.id.nav_artists:
                 mCheckedItem  = ARTISTS;
@@ -200,18 +202,24 @@ public class DrawerActivity extends CustomActivity
                 data = getInCartItems();
                 if(data.size() > 0)
                     fragment = CheckoutFragment.newInstance(data);
+                else
+                    fragment = BlankFragment.newInstance(CART.ordinal());
                 break;
             case R.id.nav_favourites:
                 mCheckedItem = FAVOURITES.ordinal();
                 data = getFavouritesItems();
                 if(data.size() > 0)
                     fragment = OnSaleFragment.newInstance(data);
+                else
+                    fragment = BlankFragment.newInstance(FAVOURITES.ordinal());
                 break;
             case R.id.nav_commands:
                 mCheckedItem = COMMANDS.ordinal();
                 data = getCommandsItems();
                 if(data.size() > 0)
                     fragment = CommandsFragment.newInstance(data);
+                else
+                    fragment = BlankFragment.newInstance(COMMANDS.ordinal());
                 break;
             case R.id.nav_billing_info:
                 mCheckedItem = BILLING.ordinal();
@@ -219,12 +227,10 @@ public class DrawerActivity extends CustomActivity
                 break;
             case R.id.nav_logout:
                 mCheckedItem = LOGOUT.ordinal();
-                fragment = null;
                 handlingLogout();
                 break;
             case R.id.nav_email:
                 mCheckedItem = LOGS.ordinal();
-                fragment = null;
                 new LogReporting(this).collectAndSendLogs();
                 break;
             default:

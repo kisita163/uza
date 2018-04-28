@@ -5,6 +5,6 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:adjustViewBounds="true"
-    android:scaleType="fitXY"
+    android:scaleType="fitCenter"
     >
 </ImageView>

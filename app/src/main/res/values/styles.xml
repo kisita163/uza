@@ -162,4 +162,9 @@
         <item name="android:windowBackground">@color/main_color</item>
     </style>
 
+    <!-- Alert Dialog -->
+    <style name="UzaProgressDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="colorAccent">@color/main_color_dk</item>
+    </style>
+
 </resources>

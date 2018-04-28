@@ -13,11 +13,14 @@ import android.widget.TextView;
 
 import com.kisita.uza.R;
 import com.kisita.uza.activities.DrawerActivity;
-import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.utils.UzaBannerAdapter;
 
 import java.util.ArrayList;
+
+import static com.kisita.uza.custom.CustomActivity.BikekoMenu.ARTWORKS;
+import static com.kisita.uza.custom.CustomActivity.BikekoMenu.CART;
+import static com.kisita.uza.custom.CustomActivity.BikekoMenu.FAVOURITES;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -71,8 +74,10 @@ public class BlankFragment extends Fragment {
         mBannerRecList   = v.findViewById(R.id.cardList);
         mBannerItemsList = new ArrayList<>();
         mBannerItemsList = (((DrawerActivity)getActivity()).getItemsList());
-        setBanner();
         TextView bannerTitle = v.findViewById(R.id.banner_title);
+        setBanner();
+        TextView blankText   = v.findViewById(R.id.blank_text);
+        setBlankText(blankText);
         bannerTitle.setText(getString(R.string.artworks));
 
        return v;
@@ -95,4 +100,18 @@ public class BlankFragment extends Fragment {
         }
     }
 
+    public void setBlankText(TextView blankText) {
+
+        if(mItemNumber == CART.ordinal()){
+            blankText.setText(getString(R.string.nothing_in_the_cart));
+        }
+
+        if(mItemNumber == FAVOURITES.ordinal()){
+            blankText.setText(getString(R.string.nothing_in_favourites));
+        }
+
+        if(mItemNumber == ARTWORKS.ordinal()){
+            blankText.setText(getString(R.string.nothing_to_show));
+        }
+    }
 }

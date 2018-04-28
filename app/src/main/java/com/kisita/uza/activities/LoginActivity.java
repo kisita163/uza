@@ -180,6 +180,7 @@ public class LoginActivity extends CustomActivity
 		loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 			@Override
 			public void onSuccess(LoginResult loginResult) {
+				showProgressDialog(getString(R.string.loading));
 				handleFacebookAccessToken(loginResult.getAccessToken());
 			}
 
@@ -476,8 +477,10 @@ public class LoginActivity extends CustomActivity
 							onAuthSuccess(user);
 						} else {
 							// If sign in fails, display a message to the user.
-							Log.w(TAG, "signInWithCredential:failure", task.getException());
+							Toast.makeText(LoginActivity.this, "Sign In Failed",
+									Toast.LENGTH_SHORT).show();
 						}
+						hideProgressDialog();
 					}
 				});
 	}
