@@ -29,10 +29,13 @@ import com.kisita.uza.utils.UzaPageAdapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.kisita.uza.utils.UzaFunctions.getCategory;
 import static com.kisita.uza.utils.UzaFunctions.getCommandState;
 import static com.kisita.uza.utils.UzaFunctions.getCommandStateLogo;
 import static com.kisita.uza.utils.UzaFunctions.getCurrency;
 import static com.kisita.uza.utils.UzaFunctions.infoAlertDialog;
+import static com.kisita.uza.utils.UzaFunctions.itemCategoryNum;
 import static com.kisita.uza.utils.UzaFunctions.setFormat;
 import static com.kisita.uza.utils.UzaFunctions.setPrice;
 
@@ -226,7 +229,7 @@ public class DetailFragment extends CustomFragment{
 
             item_price.setText(s);
             item_author.setText(itemData.getAuthor());
-            item_type.setText(itemData.getType());
+            item_type.setText(getString(getCategory(itemCategoryNum(itemData.getType()))));
             item_name.setText(itemData.getName());
             item_size.setText(itemData.getSize());
             item_description.setText(itemData.getDescription(

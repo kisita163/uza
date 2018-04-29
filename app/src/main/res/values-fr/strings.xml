@@ -101,4 +101,12 @@
     <string name="network_failed">No internet connexion !</string>
     <string name="nothing_in_the_cart">Nothing in the cart.</string>
     <string name="nothing_in_favourites">Nothing in the wish list.</string>
+
+    <string name="literature">Littérature</string>
+    <string name="textile">Textile</string>
+    <string name="sculpture">Sculpture</string>
+    <string name="photography">Photographie</string>
+    <string name="painting">Peinture</string>
+    <string name="categories">Categories</string>
+    <string name="drawing">Dessin</string>
 </resources>

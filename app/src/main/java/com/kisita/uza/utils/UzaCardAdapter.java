@@ -25,7 +25,9 @@ import com.kisita.uza.ui.DetailFragment;
 
 import java.util.ArrayList;
 
+import static com.kisita.uza.utils.UzaFunctions.getCategory;
 import static com.kisita.uza.utils.UzaFunctions.getCurrency;
+import static com.kisita.uza.utils.UzaFunctions.itemCategoryNum;
 import static com.kisita.uza.utils.UzaFunctions.setFormat;
 import static com.kisita.uza.utils.UzaFunctions.setPrice;
 
@@ -63,7 +65,7 @@ public class UzaCardAdapter extends
         holder.author.setText(d.getAuthor()); // Author
         holder.name.setText(d.getName()); // Item Name
         holder.size.setText(d.getSize()); // Item Size
-        holder.type.setText(d.getType()); // Item Type
+        holder.type.setText(mContext.getString(getCategory(itemCategoryNum(d.getType())))); // Item Type
 
         String price = setPrice(d.getCurrency(), d.getPrice(),mContext);
         holder.price.setText(setFormat(price) + " "+getCurrency(mContext));

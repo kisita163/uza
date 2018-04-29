@@ -220,6 +220,43 @@ public class UzaFunctions {
         return ret;
     }
 
+    public static int getCategory(int category){
+        int cat = 0;
+        switch (category){
+            case 0:
+                cat = R.string.painting;
+                break;
+            case 1:
+                cat = R.string.photography;
+                break;
+            case 2:
+                cat = R.string.drawing;
+                break;
+            case 3:
+                cat = R.string.sculpture;
+                break;
+            case 4:
+                cat = R.string.textile;
+                break;
+            case 5:
+                cat = R.string.literature;
+                break;
+
+        }
+        return cat;
+    }
+
+    public static int itemCategoryNum(String cat){
+        int ret = 0;
+        try {
+            ret = Integer.valueOf(cat);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return  ret;
+    }
+
     public static void infoAlertDialog(Context context,String message) {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override

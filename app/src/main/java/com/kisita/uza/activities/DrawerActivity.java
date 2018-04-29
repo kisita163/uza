@@ -516,22 +516,22 @@ public class DrawerActivity extends CustomActivity
         SharedPreferences sharedPref =getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
 
 
-        if(data.getType().equalsIgnoreCase(getString(R.string.painting_key)))
+        if(data.getType().equalsIgnoreCase("0"))
             return sharedPref.getBoolean(getString(R.string.painting_key),true);
 
-        if(data.getType().equalsIgnoreCase(getString(R.string.photography_key)))
+        if(data.getType().equalsIgnoreCase("1"))
             return sharedPref.getBoolean(getString(R.string.photography_key),true);
 
-        if(data.getType().equalsIgnoreCase(getString(R.string.drawing_key)))
+        if(data.getType().equalsIgnoreCase("2"))
             return sharedPref.getBoolean(getString(R.string.drawing_key),true);
 
-        if(data.getType().equalsIgnoreCase(getString(R.string.sculpture_key)))
+        if(data.getType().equalsIgnoreCase("3"))
             return sharedPref.getBoolean(getString(R.string.sculpture_key),true);
 
-        if(data.getType().equalsIgnoreCase(getString(R.string.textile_key)))
+        if(data.getType().equalsIgnoreCase("4"))
             return sharedPref.getBoolean(getString(R.string.textile_key),true);
 
-        if(data.getType().equalsIgnoreCase(getString(R.string.literature_key)))
+        if(data.getType().equalsIgnoreCase("5"))
             return sharedPref.getBoolean(getString(R.string.literature_key),true);
 
         return false;
