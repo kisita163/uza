@@ -115,5 +115,4 @@
         <attr name="right_thumb_image_pressed" format="reference" />
         <attr name="seek_bar_touch_enabled" />
     </declare-styleable>
-
 </resources>

@@ -24,6 +24,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import com.kisita.uza.R;
+import com.kisita.uza.activities.DrawerActivity;
+import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.services.FirebaseService;
@@ -99,10 +101,12 @@ public class CustomActivity extends AppCompatActivity implements
 	{
 		super.onCreate(arg0);
 		itemsList = new ArrayList<>();
-		loadData();
-		initializeTimerTask();
-		scheduledLoad = new Timer("load data");
-		scheduledLoad.schedule(mTimerTask, 500, 1500); // Verify itemData after 500 ms
+		if(this instanceof DrawerActivity || this instanceof UzaActivity) {
+			loadData();
+			initializeTimerTask();
+			scheduledLoad = new Timer("load data");
+			scheduledLoad.schedule(mTimerTask, 500, 1500); // Verify itemData after 500 ms
+		}
 	}
 
 	private void initializeTimerTask() {

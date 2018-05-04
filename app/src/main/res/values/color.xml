@@ -5,11 +5,9 @@
     <color name="black">#000000</color>
 
     <color name="main_color">#ffffff</color>
-    <color name="main_green">#7ed673</color>
     <color name="main_color_dk">#000000</color>
      <color name="main_grey_dk">#666666</color>
-     <color name="comment_dk">#ff7802</color>
-     <color name="main_grey_dk1">#424242</color>
+    <color name="main_grey_dk1">#424242</color>
      <color name="main_grey">#bebbbb</color>
     <color name="main_grey_lt">#e5e5e5</color>
 </resources>

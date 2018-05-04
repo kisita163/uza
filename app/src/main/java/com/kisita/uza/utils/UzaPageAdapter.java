@@ -2,7 +2,6 @@ package com.kisita.uza.utils;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +20,7 @@ import java.util.Collections;
  * Created by Hugues on 27/04/2017.
  */
 
-public class UzaPageAdapter extends PagerAdapter implements ViewPager.OnPageChangeListener {
+public class UzaPageAdapter extends PagerAdapter implements BikekoViewPager.OnPageChangeListener {
 
     private static final String TAG = "### UzaPageAdapter";
 
@@ -65,6 +64,10 @@ public class UzaPageAdapter extends PagerAdapter implements ViewPager.OnPageChan
         final ImageView img = (ImageView)LayoutInflater.from(container.getContext())
                 .inflate(R.layout.img, container, false);
 
+        container.addView(img,
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
         if(urls.size() > 0) {
             Glide.with(mContext)
                     .load(urls.get(arg0))
@@ -72,10 +75,6 @@ public class UzaPageAdapter extends PagerAdapter implements ViewPager.OnPageChan
                     .error(R.drawable.anonymous_user)
                     .into(img);
         }
-
-        container.addView(img,
-                android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-                android.view.ViewGroup.LayoutParams.MATCH_PARENT);
         img.setOnClickListener(listener);
         return img;
     }

@@ -309,5 +309,6 @@
     <orderEntry type="library" name="com.android.support:support-v4-27.1.1" level="project" />
     <orderEntry type="library" name="android.arch.core:runtime-1.1.0" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-tasks-license-11.8.0" level="project" />
+    <orderEntry type="library" name="android-android-27" level="project" />
   </component>
 </module>

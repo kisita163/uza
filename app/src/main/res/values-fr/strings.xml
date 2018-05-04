@@ -11,11 +11,6 @@
     <string name="forget_pwd">Forgot Password?</string>
     <string name="sign_up">New here? Sign up</string>
 
-    <string-array name="currency">
-        <item>USD</item>
-        <item>EUR</item>
-    </string-array>
-
     <string name="action_logout">Se deconnecter</string>
     <string name="checkout">Checkout</string>
 
@@ -34,9 +29,6 @@
 
     <!-- End  Do not translate -->
     <string name="phone_number">Phone Number</string>
-
-
-    <string name="quantity">Quantité</string>
 
 
     <string name="confirm_password">Confirm Password</string>
@@ -62,8 +54,6 @@
     <string name="commands">Commandes</string>
     <string name="command_id">ID #</string>
     <string name="command_state">State</string>
-    <string name="command_contact">Contact</string>
-    <string name="none">None</string>
     <string name="cart">Panier</string>
     <string name="add_to_cart">Ajouter au panier</string>
     <string name="unspecified_resource">Unspecified</string>
@@ -77,11 +67,8 @@
     <string name="country">Pays</string>
     <string name="save_information">Sauvegarder</string>
     <string name="first_name">Prénom</string>
-    <string name="select">Choisir</string>
-    <string name="cancel">Annuler</string>
     <string name="email_verification">Verification email sent to</string>
     <string name="send_verification_fail">Failed to send verification email.</string>
-    <string name="hello">Hello</string>
     <string name="selecte_a_country">Cliquez ici pour sélectionner un pays</string>
     <string name="loading">Chargement…</string>
     <string name="command_current_state">Etat de la commande</string>
@@ -89,7 +76,6 @@
     <string name="Billing_info_saved">Informations de facturation enregistrées</string>
     <string name="billing_information">Informations de facturation</string>
     <string name="remove_item">Voulez-vous vraiment retirer cet article du panier?</string>
-    <string name="artists">Artistes</string>
     <string name="artworks">Oeuvres d\'art</string>
     <string name="art_africain_contemporain">Art africain contemporain</string>
     <string name="same_artist">Du même artiste</string>

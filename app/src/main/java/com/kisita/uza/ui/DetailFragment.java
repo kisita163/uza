@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -24,6 +23,7 @@ import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.custom.CustomFragment;
 import com.kisita.uza.model.Data;
+import com.kisita.uza.utils.BikekoViewPager;
 import com.kisita.uza.utils.UzaBannerAdapter;
 import com.kisita.uza.utils.UzaPageAdapter;
 import java.util.ArrayList;
@@ -258,7 +258,7 @@ public class DetailFragment extends CustomFragment{
     private void initPager(View v)
     {
         /* The pager. */
-        ViewPager pager = v.findViewById(R.id.pager);
+        BikekoViewPager pager = v.findViewById(R.id.pager);
         pager.setPageMargin(10);
         /* The view that hold dots. */
         LinearLayout vDots = v.findViewById(R.id.vDots);

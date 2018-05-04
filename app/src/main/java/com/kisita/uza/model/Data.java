@@ -19,11 +19,6 @@ import static com.kisita.uza.utils.UzaFunctions.getPicturesUrls;
 
 public class Data implements Serializable, Comparable<Data>
 {
-    public static int ITEM_DATA      = 0;
-    public static int CHECKOUT_DATA  = 1;
-    public static int FAVOURITE_DATA = 2;
-	public static int COMMAND_DATA   = 3;
-
 	public static String TAG = "### Data";
 
 	private String mAvailability;

@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
-        android:layout_below="@id/sa"
+        
         android:layout_marginLeft="@dimen/pad_10dp"
         android:layout_marginRight="@dimen/pad_10dp"
         android:layout_marginTop="@dimen/pad_10dp"

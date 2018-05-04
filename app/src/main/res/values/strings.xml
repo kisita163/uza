@@ -11,11 +11,6 @@
     <string name="forget_pwd">Forgot Password?</string>
     <string name="sign_up">New here? Sign up</string>
 
-    <string-array name="currency">
-        <item>USD</item>
-        <item>EUR</item>
-    </string-array>
-
     <string name="action_logout">Logout</string>
     <string name="checkout">Checkout</string>
 
@@ -35,8 +30,6 @@
     <!-- End  Do not translate -->
     <string name="phone_number">Phone Number</string>
 
-
-    <string name="quantity">Quantity</string>
 
     <string name="item_in_the_cart">Item in the cart</string>
 
@@ -71,9 +64,6 @@
     </string>
     <string name="command_id">ID #</string>
     <string name="command_state">State</string>
-    <string name="command_transporter">Transporter</string>
-    <string name="command_contact">Contact</string>
-    <string name="none">None</string>
     <string name="title_filters">Filters</string>
     <string name="cart">Cart</string>
     <string name="literature">Literature</string>
@@ -92,7 +82,6 @@
     <string name="textile_key">Textile</string>
     <string name="literature_key">Literature</string>
     <string name="title_user">User</string>
-    <string name="euros">EUR</string>
     <string name="billing_information">Billing Information</string>
     <string name="about_us">About us</string>
     <string name="add_to_cart">Add to cart</string>
@@ -120,11 +109,8 @@
     <string name="uza_billing_country">uza_billing_country</string>
     <string name="first_name">First name</string>
     <string name="uza_billing_first_name">uza_billing_first_name</string>
-    <string name="select">Select</string>
-    <string name="cancel">Cancel</string>
     <string name="email_verification">Verification email sent to</string>
     <string name="send_verification_fail">Failed to send verification email.</string>
-    <string name="hello">Hello</string>
     <string name="selecte_a_country">Click here to select a country</string>
     <string name="loading">Loading…</string>
     <string name="command_current_state">Command state</string>
@@ -136,7 +122,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="Billing_info_saved">Billing information saved</string>
     <string name="remove_item">Do you really want to remove this item from the cart ?</string>
-    <string name="artists">Artists</string>
     <string name="artworks">Artworks</string>
     <string name="art_africain_contemporain">Art africain contemporain</string>
     <string name="same_artist">Same artist</string>

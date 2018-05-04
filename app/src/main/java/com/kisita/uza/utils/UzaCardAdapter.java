@@ -154,7 +154,7 @@ public class UzaCardAdapter extends
 
         private TextView author, name, size, price, type;
 
-        private ViewPager pager;
+        private BikekoViewPager pager;
 
         private LinearLayout vDots;
 
