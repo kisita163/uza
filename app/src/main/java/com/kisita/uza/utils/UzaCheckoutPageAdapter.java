@@ -20,7 +20,9 @@ import com.kisita.uza.ui.CheckoutFragment;
 
 import java.util.ArrayList;
 
+import static com.kisita.uza.utils.UzaFunctions.getCategory;
 import static com.kisita.uza.utils.UzaFunctions.getCurrency;
+import static com.kisita.uza.utils.UzaFunctions.itemCategoryNum;
 import static com.kisita.uza.utils.UzaFunctions.setFormat;
 import static com.kisita.uza.utils.UzaFunctions.setPrice;
 
@@ -105,9 +107,7 @@ public class UzaCheckoutPageAdapter extends PagerAdapter implements ViewPager.On
         type.setText(mItemList.get(arg0).getType());
         price.setText(priceWithCurrency);
         size.setText(mItemList.get(arg0).getSize());
-
-
-
+        type.setText(mContext.getString(getCategory(itemCategoryNum(mItemList.get(arg0).getType())))); // Item Type
 
         remove.setOnClickListener(new View.OnClickListener() {
             @Override

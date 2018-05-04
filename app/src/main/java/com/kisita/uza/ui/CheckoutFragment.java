@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -179,8 +180,9 @@ public class CheckoutFragment extends ItemsFragment
 		if(weight.equalsIgnoreCase("")){
 			weight = "0";
 		}
-		String shippingCost = setFormat(String.valueOf(mShippingCost)) + " " + getCurrency(getContext());
+
 		mShippingCost = addDoubles(mShippingCost,Double.valueOf(getShippingCost(weight,quantity)));
+		String shippingCost = setFormat(String.valueOf(mShippingCost)) + " " + getCurrency(getContext());
 		shippingCostField.setText(shippingCost);
 	}
 
