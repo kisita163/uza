@@ -128,8 +128,11 @@ public class DrawerActivity extends CustomActivity
         } else {
             try {
                 mEmptyingStack = true;
-                mFragmentsStack.pop();
-                mNavItemsStack.pop();
+                MenuItem i;
+                do {
+                    i = mFragmentsStack.pop();
+                    mNavItemsStack.pop();
+                }while(mFragmentsStack.peek().toString().equalsIgnoreCase(i.getTitle().toString()));
 
                 setFragment(setCurrentFragment(mFragmentsStack.peek()));
                 mNavigationView.getMenu().getItem(mNavItemsStack.peek()).setChecked(true);
@@ -418,15 +421,11 @@ public class DrawerActivity extends CustomActivity
 
 
     protected void notifyChanges(){
-        Fragment f = getSupportFragmentManager().findFragmentByTag(mFragmentsStack.peek().toString());
+        //Fragment f = getSupportFragmentManager().findFragmentByTag(mFragmentsStack.peek().toString());
         setCartItemNumber();
-        if(f != null) {
-            Log.i(TAG, f.getTag());
-            if(f instanceof OnSaleFragment)
-                ((OnSaleFragment) f).notifyChanges(getFilteredItems());
-            if(f instanceof CommandsFragment)
-                ((CommandsFragment) f).notifyChanges(getCommandsItems());
-        }
+
+        Log.i(TAG,"Notifying......" + mFragmentsStack.peek().toString());
+        setFragment(setCurrentFragment( mFragmentsStack.peek()));
     }
 
     /**

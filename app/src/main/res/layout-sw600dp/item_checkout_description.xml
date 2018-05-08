@@ -15,7 +15,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
-            android:layout_height="150dp"
+            android:layout_height="300dp"
             android:src="@drawable/ic_launcher"/>
      </RelativeLayout>
 
@@ -24,6 +24,6 @@
         layout="@layout/item_simple_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/pad_10dp"
+        android:layout_margin="@dimen/pad_20dp"
         />
 </LinearLayout>

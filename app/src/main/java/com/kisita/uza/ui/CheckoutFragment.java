@@ -21,6 +21,8 @@ import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 import com.kisita.uza.utils.UzaCheckoutPageAdapter;
 import java.util.ArrayList;
+
+import static com.kisita.uza.custom.CustomActivity.BikekoMenu.CART;
 import static com.kisita.uza.utils.UzaFunctions.addDoubles;
 import static com.kisita.uza.utils.UzaFunctions.getCost;
 import static com.kisita.uza.utils.UzaFunctions.getCurrency;
@@ -234,7 +236,7 @@ public class CheckoutFragment extends ItemsFragment
                         if(itemsList.size() > 0 )
 						    ((DrawerActivity)getActivity()).setFragment(CheckoutFragment.newInstance(itemsList));
                         else
-                            ((DrawerActivity)getActivity()).setFragment(BlankFragment.newInstance(0));
+                            ((DrawerActivity)getActivity()).setFragment(BlankFragment.newInstance(CART.ordinal()));
 						break;
 					case DialogInterface.BUTTON_NEGATIVE:
 						//No button clicked

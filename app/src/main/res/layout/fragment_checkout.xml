@@ -5,11 +5,21 @@
     android:background="@color/white">
 
     <include
+        android:layout_alignParentTop="true"
         android:layout_margin="@dimen/pad_20dp"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_above="@id/cost_layout"
         layout="@layout/pager_with_dot"/>
+
+    <View
+        style="@style/uza_divider_style"
+        android:layout_height="2dp"
+        android:id="@+id/separator"
+        android:layout_above="@id/cost_layout"
+        android:layout_marginLeft="@dimen/pad_20dp"
+        android:layout_marginRight="@dimen/pad_20dp"
+        android:background="@color/main_color_dk"/>
 
     <LinearLayout
         android:id="@+id/cost_layout"
