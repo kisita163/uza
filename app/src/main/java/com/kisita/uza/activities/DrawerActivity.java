@@ -18,7 +18,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -422,10 +421,16 @@ public class DrawerActivity extends CustomActivity
 
 
     protected void notifyChanges(){
-        //Fragment f = getSupportFragmentManager().findFragmentByTag(mFragmentsStack.peek().toString());
+        BiLog.i(TAG,"Notifying......" + mFragmentsStack.peek().toString());
+        Fragment f = getSupportFragmentManager().findFragmentByTag(mFragmentsStack.peek().toString());
         setCartItemNumber();
 
-        BiLog.i(TAG,"Notifying......" + mFragmentsStack.peek().toString());
+        if(f != null){
+            if(f.getTag().equalsIgnoreCase(getString(R.string.artworks))){
+                ((OnSaleFragment)f).notifyChanges(getFilteredItems());
+                return;
+            }
+        }
         setFragment(setCurrentFragment( mFragmentsStack.peek()));
     }
 
