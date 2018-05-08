@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.kisita.uza.internal.BiLog;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.provider.UzaContract;
 
@@ -115,7 +116,7 @@ public class FirebaseService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(TAG,"Starting firebase service for : " + FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        BiLog.i(TAG,"Starting firebase service for : " + FirebaseAuth.getInstance().getCurrentUser().getEmail());
         initTables();
         // Items
         setItemsListener(); // This method need to be called prior to add listener to query
@@ -175,24 +176,24 @@ public class FirebaseService extends Service {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                //Log.i(TAG,"onChildChanged");
+                //BiLog.i(TAG,"onChildChanged");
                 updateItemsData(dataSnapshot);
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                //Log.i(TAG,"onChildRemoved");
+                //BiLog.i(TAG,"onChildRemoved");
                 removeEntryFromTable(dataSnapshot,UzaContract.ItemsEntry.CONTENT_URI);
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                //Log.i(TAG,"onChildMoved");
+                //BiLog.i(TAG,"onChildMoved");
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.i(TAG,"onCancelled " + databaseError.getMessage());
+                BiLog.i(TAG,"onCancelled " + databaseError.getMessage());
             }
         };
     }
@@ -216,12 +217,12 @@ public class FirebaseService extends Service {
                 commandsValues
         );
         getApplicationContext().getContentResolver().notifyChange(UzaContract.ItemsEntry.CONTENT_URI, null);
-        //Log.i(TAG,insertUri.toString());
+        //BiLog.i(TAG,insertUri.toString());
     }
 
 
     void insertItemsData(DataSnapshot dataSnapshot){
-        //Log.i(TAG,"onChildAdded " + FirebaseUtils.getItemData(dataSnapshot, UzaContract.ItemsEntry.COLUMN_ID));
+        //BiLog.i(TAG,"onChildAdded " + FirebaseUtils.getItemData(dataSnapshot, UzaContract.ItemsEntry.COLUMN_ID));
         itemsValues.clear();
         itemsValues.put(UzaContract.ItemsEntry.COLUMN_NAME           , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_NAME));
         itemsValues.put(UzaContract.ItemsEntry.COLUMN_BRAND          , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_BRAND));
@@ -244,11 +245,11 @@ public class FirebaseService extends Service {
                 UzaContract.ItemsEntry.CONTENT_URI,
                 itemsValues
         );
-        //Log.i(TAG,insertUri.toString());
+        //BiLog.i(TAG,insertUri.toString());
     }
 
     void updateItemsData(DataSnapshot dataSnapshot){
-        //Log.i(TAG,"onChildAdded " + FirebaseUtils.getItemData(dataSnapshot, UzaContract.ItemsEntry.COLUMN_ID));
+        //BiLog.i(TAG,"onChildAdded " + FirebaseUtils.getItemData(dataSnapshot, UzaContract.ItemsEntry.COLUMN_ID));
         itemsValues.clear();
         itemsValues.put(UzaContract.ItemsEntry.COLUMN_NAME           , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_NAME));
         itemsValues.put(UzaContract.ItemsEntry.COLUMN_BRAND          , FirebaseUtils.getItemData(dataSnapshot,  UzaContract.ItemsEntry.COLUMN_BRAND));
@@ -275,12 +276,12 @@ public class FirebaseService extends Service {
                 where,
                 sel
         );
-        //Log.i(TAG,insertUri.toString());
+        //BiLog.i(TAG,insertUri.toString());
     }
 
 
     void insertFavouritesData(DataSnapshot dataSnapshot){
-        //Log.i(TAG,dataSnapshot.getKey().toString()+" *** " + dataSnapshot.getValue().toString());
+        //BiLog.i(TAG,dataSnapshot.getKey().toString()+" *** " + dataSnapshot.getValue().toString());
         favouritesValues.clear();
         favouritesValues.put(UzaContract.LikesEntry.COLUMN_LIKES        ,dataSnapshot.getValue().toString());
         favouritesValues.put(UzaContract.LikesEntry._ID                 ,dataSnapshot.getKey());
@@ -291,7 +292,7 @@ public class FirebaseService extends Service {
                 favouritesValues
         );
         getApplicationContext().getContentResolver().notifyChange(UzaContract.ItemsEntry.CONTENT_URI, null);
-        //Log.i(TAG,insertUri.toString());
+        //BiLog.i(TAG,insertUri.toString());
     }
 
     void removeEntryFromTable(DataSnapshot dataSnapshot,Uri uri){

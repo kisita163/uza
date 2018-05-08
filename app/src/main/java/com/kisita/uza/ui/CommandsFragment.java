@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
+import com.kisita.uza.internal.BiLog;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.utils.UzaCommandAdapter;
 
@@ -49,7 +49,7 @@ public class CommandsFragment extends CustomFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             itemsList = (ArrayList<Data>) getArguments().getSerializable(ITEMS);
-            Log.i(TAG,"*** Command received " + itemsList.size());
+            BiLog.i(TAG,"*** Command received " + itemsList.size());
         }
         //printKeyHash();
     }
@@ -87,7 +87,7 @@ public class CommandsFragment extends CustomFragment {
 
     @Override
     public void onAttach(Context context) {
-        Log.i(TAG,"Fragment attached. array size is ");
+        BiLog.i(TAG,"Fragment attached. array size is ");
         super.onAttach(context);
     }
 }

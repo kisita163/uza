@@ -88,7 +88,7 @@ public abstract class CustomFragment extends Fragment implements OnClickListener
 		Log.i("CustomFragment","Notification");
 		if(mCardAdapter != null)
 			itemsList = data;
-			Log.i("CustomFragment","Notification sent");
+			BiBiLog.i("CustomFragment","Notification sent");
 			mCardAdapter.notifyDataSetChanged();
 	}*/
 

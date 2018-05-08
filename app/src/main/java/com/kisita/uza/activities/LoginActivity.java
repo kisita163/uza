@@ -30,6 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
+import com.kisita.uza.internal.BiLog;
 import com.kisita.uza.model.User;
 import com.kisita.uza.services.FirebaseService;
 
@@ -78,10 +79,10 @@ public class LoginActivity extends CustomActivity
 
 
 		try {
-			//Log.i(TAG,"Make data persistent");
+			//BiLog.i(TAG,"Make data persistent");
 			FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 		}catch (Exception e){
-			//Log.i(TAG,"The app crash arguing that this instance must be called prior to other instances");
+			//BiLog.i(TAG,"The app crash arguing that this instance must be called prior to other instances");
 		}
 		mDatabase = FirebaseDatabase.getInstance().getReference();
 		mAuth = FirebaseAuth.getInstance();
@@ -443,7 +444,7 @@ public class LoginActivity extends CustomActivity
 
 	// [START basic_write]
 	private void writeNewUser(String userId, String name, String email, String phone) {
-		Log.i(TAG,"Writing new user in database...");
+		BiLog.i(TAG,"Writing new user in database...");
 		SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
 
@@ -471,7 +472,7 @@ public class LoginActivity extends CustomActivity
 							// Sign in success, update UI with the signed-in user's information
 							Log.d(TAG, "signInWithCredential:success");
 							FirebaseUser user = mAuth.getCurrentUser();
-							//Log.i(TAG,"The user is  : "+user.getEmail().toString());
+							//BiLog.i(TAG,"The user is  : "+user.getEmail().toString());
 							mFacebookUser = true;
 							mNewUser      = false; // Just to be sure
 							onAuthSuccess(user);

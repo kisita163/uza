@@ -8,11 +8,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.support.v7.app.AlertDialog;
 import android.util.Base64;
-import android.util.Log;
-
 import com.kisita.uza.R;
-import com.kisita.uza.model.Data;
-
+import com.kisita.uza.internal.BiLog;
 import java.math.RoundingMode;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -67,9 +64,9 @@ public class UzaFunctions {
     public static String setPrice(String currency,String price,Context context) {
         SharedPreferences sharedPref = context.getSharedPreferences(context.getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
 
-        /*Log.i(TAG,sharedPref.getString("eur-cdf","") + "**** done");
-        Log.i(TAG,sharedPref.getString("usd-cdf","") + "**** done");
-        Log.i(TAG,sharedPref.getString("usf-eur","") + "**** done");*/
+        /*BiLog.i(TAG,sharedPref.getString("eur-cdf","") + "**** done");
+        BiLog.i(TAG,sharedPref.getString("usd-cdf","") + "**** done");
+        BiLog.i(TAG,sharedPref.getString("usf-eur","") + "**** done");*/
 
         double usd_eur = Double.valueOf(sharedPref.getString("usd-eur","0.889098"));//0.889098;
 
@@ -147,13 +144,13 @@ public class UzaFunctions {
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
-                Log.i("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+                BiLog.i("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
         } catch (PackageManager.NameNotFoundException e) {
-            Log.i("KeyHash","NameNotFoundException");
+            BiLog.i("KeyHash","NameNotFoundException");
 
         } catch (NoSuchAlgorithmException e) {
-            Log.i("KeyHash","NoSuchAlgorithmException");
+            BiLog.i("KeyHash","NoSuchAlgorithmException");
         }
     }
 

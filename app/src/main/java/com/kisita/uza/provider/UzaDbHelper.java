@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.kisita.uza.internal.BiLog;
+
 /*
  * Created by HuguesKi on 03-09-17.
  */
@@ -22,7 +24,7 @@ public class UzaDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        Log.i(TAG,"onCreate");
+        BiLog.i(TAG,"onCreate");
         // Create a table to hold items
         final String SQL_CREATE_ITEMS_TABLE = "CREATE TABLE " + UzaContract.ItemsEntry.TABLE_NAME + " (" +
 

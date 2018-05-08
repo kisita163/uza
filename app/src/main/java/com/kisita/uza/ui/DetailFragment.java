@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
 import com.kisita.uza.custom.CustomFragment;
+import com.kisita.uza.internal.BiLog;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.utils.BikekoViewPager;
 import com.kisita.uza.utils.UzaBannerAdapter;
@@ -216,7 +216,7 @@ public class DetailFragment extends CustomFragment{
         mlike.setOnClickListener(this);
 
         if(itemData.isFavourite()){
-            Log.i(TAG,"I like this item");
+            BiLog.i(TAG,"I like this item");
             mlike.setImageResource(R.drawable.ic_action_favorite_black);
         }
 
@@ -284,7 +284,7 @@ public class DetailFragment extends CustomFragment{
                     onButtonPressed(details,mCommand);
                     mCommand = true; //update case + update the quantity here for example
                 }
-                //Log.i(TAG,selectedColor + " " +  selectedSize + " " +  selectedQty);
+                //BiLog.i(TAG,selectedColor + " " +  selectedSize + " " +  selectedQty);
                 infoAlertDialog(getContext(),getString(R.string.item_in_the_cart));
                 handleItemInCart(getString(R.string.item_in_the_cart));
                 break;
@@ -297,12 +297,12 @@ public class DetailFragment extends CustomFragment{
     }
 
     private void likePressed() {
-        //Log.i(TAG, "button like pressed (case)");
+        //BiLog.i(TAG, "button like pressed (case)");
         DatabaseReference likes = getDb().child("users-data").child(getUid()).child("likes");
         Map<String, Object> childUpdates = new HashMap<>();
 
         if (!itemData.isFavourite()) {
-            //Log.i(TAG, "mlike is false");
+            //BiLog.i(TAG, "mlike is false");
             String like = getDb().child("users").push().getKey();
             childUpdates.put("/users-data/" + getUid() + "/likes/" + like,itemData.getItemId());
             getDb().updateChildren(childUpdates);
@@ -334,7 +334,7 @@ public class DetailFragment extends CustomFragment{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //Log.i(TAG,"****************On activity created");
+        //BiLog.i(TAG,"****************On activity created");
         if(itemData.isFavourite()){
             mlike.setImageResource(R.drawable.ic_action_favorite_black);
         }

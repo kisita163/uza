@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
+import com.kisita.uza.internal.BiLog;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.ui.CheckoutFragment;
 
@@ -175,7 +175,7 @@ public class UzaCheckoutPageAdapter extends PagerAdapter implements ViewPager.On
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         param.setMargins(10, 0, 0, 0);
         vDots.removeAllViews();
-        Log.i(TAG,"The current list size is  : "+mItemList.size());
+        BiLog.i(TAG,"The current list size is  : "+mItemList.size());
         for (int i = 0; i < mItemList.size(); i++)
         {
             ImageView img = new ImageView(mContext);

@@ -34,6 +34,7 @@ import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
+import com.kisita.uza.internal.BiLog;
 import com.kisita.uza.internal.LogReporting;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.ui.BillingFragment;
@@ -172,7 +173,7 @@ public class DrawerActivity extends CustomActivity
                     userPicture.setImageDrawable(circularBitmapDrawable);
                 }
             });
-            Log.i(TAG,"Pic uri is  : "+ pic.getAuthority() + " " + pic.getPath()+ " "+ pic.toString());
+            BiLog.i(TAG,"Pic uri is  : "+ pic.getAuthority() + " " + pic.getPath()+ " "+ pic.toString());
         }
     }
 
@@ -263,7 +264,7 @@ public class DrawerActivity extends CustomActivity
 
     private void handlingLogout() {
 
-        Log.i(TAG,"Handling logout");
+        BiLog.i(TAG,"Handling logout");
 
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -288,11 +289,11 @@ public class DrawerActivity extends CustomActivity
     protected void onAuthorizationFetched(String token) {
 
         if(token != null) {
-            Log.i(TAG,"Authorization received");
+            BiLog.i(TAG,"Authorization received");
             mAuthorization = token;
             setUpBrainTreeFragment();
         }else{
-            Log.i(TAG,"Authorization not received. We will try to get it again");
+            BiLog.i(TAG,"Authorization not received. We will try to get it again");
             fetchAuthorization(); // Try again to get a token
         }
     }
@@ -301,7 +302,7 @@ public class DrawerActivity extends CustomActivity
         try {
             BraintreeFragment.newInstance(this,mAuthorization);
         } catch (InvalidArgumentException e) {
-            Log.i(TAG,"There was an issue with authorization string");
+            BiLog.i(TAG,"There was an issue with authorization string");
         }
     }
 
@@ -316,11 +317,11 @@ public class DrawerActivity extends CustomActivity
                     .replace(R.id.frame, f,mFragmentsStack.peek().toString())
                     .commit();
         }
-        Log.i(TAG,"Current fragment tag is  : "+ mFragmentsStack.peek().toString());
+        BiLog.i(TAG,"Current fragment tag is  : "+ mFragmentsStack.peek().toString());
     }
 
     void paymentRequest() {
-        Log.i(TAG, "Launch Payment activity");
+        BiLog.i(TAG, "Launch Payment activity");
         DropInRequest dropInRequest = new DropInRequest()
                 .maskCardNumber(true)
                 .maskSecurityCode(true)
@@ -334,7 +335,7 @@ public class DrawerActivity extends CustomActivity
         mCommands = commands;
         if(isAllBillingInformationSet(this)) {
             paymentRequest();
-            Log.i(TAG, "Start transaction with amount = " + mAmount);
+            BiLog.i(TAG, "Start transaction with amount = " + mAmount);
         }else{
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                 @Override
@@ -424,7 +425,7 @@ public class DrawerActivity extends CustomActivity
         //Fragment f = getSupportFragmentManager().findFragmentByTag(mFragmentsStack.peek().toString());
         setCartItemNumber();
 
-        Log.i(TAG,"Notifying......" + mFragmentsStack.peek().toString());
+        BiLog.i(TAG,"Notifying......" + mFragmentsStack.peek().toString());
         setFragment(setCurrentFragment( mFragmentsStack.peek()));
     }
 
@@ -439,7 +440,7 @@ public class DrawerActivity extends CustomActivity
      */
     @Override
     protected void onResume() {
-        Log.i(TAG,"Resume items here" + itemsList.size());
+        BiLog.i(TAG,"Resume items here" + itemsList.size());
         notifyChanges();
         super.onResume();
     }
@@ -503,11 +504,11 @@ public class DrawerActivity extends CustomActivity
             }else if(maxPrice == MAX_PRICE_VALUE && price >= maxPrice){
                 return true; // +MAX_PRICE_VALUE
             }else{
-                Log.i(TAG,"Price not in the selected range");
+                BiLog.i(TAG,"Price not in the selected range");
                 return false;
             }
         }
-        Log.i(TAG,"Bad formatted price");
+        BiLog.i(TAG,"Bad formatted price");
         return false;
     }
 

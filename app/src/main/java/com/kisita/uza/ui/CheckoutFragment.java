@@ -139,7 +139,7 @@ public class CheckoutFragment extends ItemsFragment
 
 
 	public void setFields() {
-		//Log.i(TAG,"Load finished : itemList size = "+itemsList.size());
+		//BiLog.i(TAG,"Load finished : itemList size = "+itemsList.size());
 		mOrder        = 0;
 		mTotalAmount  = 0;
 		mShippingCost = 0;
@@ -204,7 +204,6 @@ public class CheckoutFragment extends ItemsFragment
 	}
 
 	public void onCheckoutPressed(String amount) {
-		//Log.i("***** form checkout",ItemsFragment.printItems(itemsList));
 		if (mListener != null) {
 			mListener.onCheckoutInteraction(amount,itemsList);
 		}
@@ -223,8 +222,7 @@ public class CheckoutFragment extends ItemsFragment
 
 	public void onRemovePressedListener(final Data d){
 
-		//Log.i(TAG,"**** "+rowDeleted);
-		//Log.i(TAG, "onRemovePressedListener " + getTag());
+		Log.i(TAG, "onRemovePressedListener " + getTag());
 		questionAlertDialog(getContext(),getString(R.string.remove_item), new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialogInterface, int i) {

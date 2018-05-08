@@ -8,6 +8,7 @@ import android.util.Log;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.kisita.uza.internal.BiLog;
 import com.kisita.uza.provider.UzaContract;
 
 import java.io.Serializable;
@@ -211,12 +212,12 @@ public class Data implements Serializable, Comparable<Data>
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 		if (isFavourite()) {
-		    Log.i("### Data","Update database ("+isFavourite()+")");
+		    BiLog.i("### Data","Update database ("+isFavourite()+")");
 			DatabaseReference likes = getDb().child("users-data").child(uid).child("likes");
 			likes.child(getFavouriteId()).removeValue();
 
 		} else {
-            Log.i("### Data","Update database ("+isFavourite()+")");
+            BiLog.i("### Data","Update database ("+isFavourite()+")");
 
 			String like = getDb().child("users").push().getKey(); // Get a new firebase key
 
@@ -260,7 +261,7 @@ public class Data implements Serializable, Comparable<Data>
 
 	@Override
 	public int compareTo(@NonNull Data data) {
-	    Log.i(TAG,"Comparator in Data "+ this.getItemId() + " - " + data.getItemId());
+	    BiLog.i(TAG,"Comparator in Data "+ this.getItemId() + " - " + data.getItemId());
 		return this.getItemId().compareTo(data.getItemId());
 	}
 }

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.kisita.uza.R;
 import com.kisita.uza.activities.UzaActivity;
+import com.kisita.uza.internal.BiLog;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.ui.DetailFragment;
 
@@ -53,7 +54,7 @@ public class UzaCommandAdapter extends
 
     @Override
     public void onBindViewHolder(UzaCommandAdapter.CardViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        //Log.i(TAG, "Position is  : " + position);
+        BiLog.i(TAG, "Position is  : " + position);
         final Data d = itemsList.get(position);
         holder.commandState.setText(getCommandState(d.getCommandState()));
         // Item listeners
@@ -87,7 +88,7 @@ public class UzaCommandAdapter extends
 
     @Override
     public int getItemCount() {
-        //Log.i(TAG, "count = " + itemsList.size());
+        BiLog.i(TAG, "count = " + itemsList.size());
         return itemsList.size();
     }
 
@@ -102,7 +103,7 @@ public class UzaCommandAdapter extends
     @Override
     public void onFailure(@NonNull Exception e) {
         e.printStackTrace();
-        //Log.i(TAG, "Failure occurred. Error code is  : " + errorMessage + "-" + e.getCause().toString());
+        BiLog.i(TAG, "Failure occurred. Error code is  : " + e.getCause().toString());
     }
 
     public void resetItemsList(ArrayList<Data> data) {

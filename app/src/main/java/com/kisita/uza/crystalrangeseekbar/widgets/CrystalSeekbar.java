@@ -20,6 +20,7 @@ import android.view.View;
 import com.kisita.uza.R;
 import com.kisita.uza.crystalrangeseekbar.interfaces.OnSeekbarChangeListener;
 import com.kisita.uza.crystalrangeseekbar.interfaces.OnSeekbarFinalValueListener;
+import com.kisita.uza.internal.BiLog;
 
 
 /**
@@ -665,7 +666,7 @@ public class CrystalSeekbar extends View {
     }
 
     protected void setupLeftThumb(final Canvas canvas, final Paint paint, final RectF rect) {
-        Log.i("THUMB","setup left here with color");
+        BiLog.i("THUMB","setup left here with color");
         thumbColor = (Thumb.MIN.equals(pressedThumb)) ? thumbColorPressed : thumbColorNormal;
         paint.setColor(thumbColor);
 
@@ -676,22 +677,22 @@ public class CrystalSeekbar extends View {
         rectThumb.bottom = thumbHeight;
 
         if (thumb != null) {
-            Log.i("THUMB","not null");
+            BiLog.i("THUMB","not null");
             Bitmap lThumb = (Thumb.MIN.equals(pressedThumb)) ? thumbPressed : thumb;
             drawLeftThumbWithImage(canvas, paint, rectThumb, lThumb);
         } else {
-            Log.i("THUMB","null");
+            BiLog.i("THUMB","null");
             drawLeftThumbWithColor(canvas, paint, rectThumb);
         }
     }
 
     protected void drawLeftThumbWithColor(final Canvas canvas, final Paint paint, final RectF rect) {
-        Log.i("THUMB","Drawing left here with color");
+        BiLog.i("THUMB","Drawing left here with color");
         canvas.drawOval(rect, paint);
     }
 
     protected void drawLeftThumbWithImage(final Canvas canvas, final Paint paint, final RectF rect, final Bitmap image) {
-        Log.i("THUMB","Drawing left here with image");
+        BiLog.i("THUMB","Drawing left here with image");
         canvas.drawBitmap(image, rect.left, rect.top, paint);
     }
 

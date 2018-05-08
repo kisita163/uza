@@ -11,6 +11,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.kisita.uza.internal.BiLog;
+
 import static com.kisita.uza.services.FirebaseUtils.columnsArray2string;
 
 /*
@@ -33,7 +35,7 @@ public class UzaProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        Log.i(TAG,"onCreate");
+        BiLog.i(TAG,"onCreate");
         mOpenHelper = new UzaDbHelper(getContext());
         return true;
     }
@@ -59,7 +61,7 @@ public class UzaProvider extends ContentProvider {
                 break;
             }
             case ITEMS: {
-                Log.i(TAG,"** Items query ...");
+                BiLog.i(TAG,"** Items query ...");
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         UzaContract.ItemsEntry.TABLE_NAME,
                         projection, // List of columns to return
@@ -83,7 +85,7 @@ public class UzaProvider extends ContentProvider {
                         "="              + UzaContract.CommandsEntry.TABLE_NAME  + "." + UzaContract.CommandsEntry.COLUMN_KEY +
                         " WHERE " + UzaContract.ItemsEntry.TABLE_NAME  + "."     + UzaContract.ItemsEntry.COLUMN_AUTHOR +
                         " = "     + "'" + selection + "'" + ";";
-                //Log.i(TAG,"** category query ..." + sql);
+                BiLog.i(TAG,"** category query ..." + sql);
                 retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
                 break;
             }
@@ -104,7 +106,7 @@ public class UzaProvider extends ContentProvider {
                                   "="              + UzaContract.CommandsEntry.TABLE_NAME  + "." + UzaContract.CommandsEntry.COLUMN_KEY ;
                 }
                 String sql = "SELECT " + columnsArray2string(projection)    +" FROM " + UzaContract.LikesEntry.TABLE_NAME  + innerClause + whereClause + ";";
-                Log.i(TAG,"** Favourites query ..." + sql);
+                BiLog.i(TAG,"** Favourites query ..." + sql);
                 retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
                 break;
             }
@@ -123,13 +125,13 @@ public class UzaProvider extends ContentProvider {
                             /*" WHERE " + UzaContract.CommandsEntry.TABLE_NAME  + "."     + UzaContract.CommandsEntry.COLUMN_STATE +
                             " = "     + "'0'" + */";";
 
-                Log.i(TAG,"** category query ..." + sql);
+                BiLog.i(TAG,"** category query ..." + sql);
                 retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
                 break;
             }
 
             case COMMANDS: {
-                //Log.i(TAG,"** Command query ...");
+                Log.i(TAG,"** Command query ...");
 
                 String sql = "SELECT "+ columnsArray2string(projection) +" FROM " + UzaContract.ItemsEntry.TABLE_NAME     +
                              " INNER JOIN "   + UzaContract.CommandsEntry.TABLE_NAME  +
@@ -141,12 +143,12 @@ public class UzaProvider extends ContentProvider {
                              "="              + UzaContract.LikesEntry.TABLE_NAME  + "." + UzaContract.LikesEntry.COLUMN_LIKES     +
                              " WHERE "        + UzaContract.CommandsEntry.TABLE_NAME  + "." + UzaContract.CommandsEntry.COLUMN_STATE + "" +
                              " > 0 ;";
-                //Log.i(TAG,"** Command query : " + sql);
+                //BiLog.i(TAG,"** Command query : " + sql);
                 retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
                 break;
             }
             case CHECKOUT: {
-                //Log.i(TAG, "** Checkout query ...");
+                //BiLog.i(TAG, "** Checkout query ...");
 
                 String sql = "SELECT " + columnsArray2string(projection) + " FROM " + UzaContract.ItemsEntry.TABLE_NAME +
                         " INNER JOIN " + UzaContract.CommandsEntry.TABLE_NAME +
@@ -154,7 +156,7 @@ public class UzaProvider extends ContentProvider {
                         " =  " + UzaContract.CommandsEntry.TABLE_NAME + "." + UzaContract.CommandsEntry.COLUMN_KEY +
                         " WHERE " + UzaContract.CommandsEntry.TABLE_NAME + "." + UzaContract.CommandsEntry.COLUMN_STATE + "" +
                         " = 0 ;";
-                //Log.i(TAG,"** Checkout query : " + sql);
+                //BiLog.i(TAG,"** Checkout query : " + sql);
                 retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
                 break;
             }
@@ -230,7 +232,7 @@ public class UzaProvider extends ContentProvider {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
         int rowsDeleted;
-        Log.i(TAG,uri.toString());
+        BiLog.i(TAG,uri.toString());
         // this makes delete all rows return the number of rows deleted
         if ( null == selection ) selection = "1";
         switch (match) {

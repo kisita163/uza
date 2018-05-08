@@ -8,6 +8,7 @@ import android.os.SystemClock;
 import android.util.Log;
 
 import com.kisita.uza.BuildConfig;
+import com.kisita.uza.internal.BiLog;
 import com.lukekorth.mailable_log.MailableLog;
 
 import org.slf4j.Logger;
@@ -25,7 +26,7 @@ public class BikekoApplication extends Application implements Thread.UncaughtExc
 
     @Override
     public void onCreate() {
-        Log.i(TAG,"onCreate");
+        BiLog.i(TAG,"onCreate");
         /*if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectCustomSlowCalls()

@@ -21,6 +21,7 @@ import com.kisita.uza.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListene
 import com.kisita.uza.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
 import com.kisita.uza.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.kisita.uza.custom.CustomFragment;
+import com.kisita.uza.internal.BiLog;
 import com.kisita.uza.model.Data;
 
 import java.util.ArrayList;
@@ -96,7 +97,7 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
 
         boolean painting = sharedPref.getBoolean(getResources().getString(R.string.painting_key),true);
         mPainting.setChecked(painting);
-        Log.i(TAG,"tag"+" ** "+ painting);
+        BiLog.i(TAG,"tag"+" ** "+ painting);
 
         boolean photography = sharedPref.getBoolean(getResources().getString(R.string.photography_key),true);
         mPhotography.setChecked(photography);
@@ -132,7 +133,7 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
     @Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 		// parent.getItemAtPosition(pos)
-		Log.i("Settings", parent.getItemAtPosition(position).toString());
+		BiLog.i("Settings", parent.getItemAtPosition(position).toString());
 
 		SharedPreferences sharedPref = getActivity().getSharedPreferences(getResources().getString(R.string.uza_keys), Context.MODE_PRIVATE);
 
@@ -184,7 +185,7 @@ public class SettingsFragment extends CustomFragment implements AdapterView.OnIt
                 editor.apply();
 			}
 		});
-        //Log.i(TAG,"start/end = "+sharedPref.getLong("priceMinValue",0)+"/"+sharedPref.getLong("priceMaxValue",0));
+        //BiLog.i(TAG,"start/end = "+sharedPref.getLong("priceMinValue",0)+"/"+sharedPref.getLong("priceMaxValue",0));
         rangeSeekbar.setMinValue(MIN_PRICE_VALUE)
                 .setMaxValue(MAX_PRICE_VALUE)
                 .setBarHeight(10)

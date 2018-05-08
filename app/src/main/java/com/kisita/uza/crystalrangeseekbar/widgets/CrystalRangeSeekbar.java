@@ -20,6 +20,7 @@ import android.view.View;
 import com.kisita.uza.R;
 import com.kisita.uza.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.kisita.uza.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
+import com.kisita.uza.internal.BiLog;
 
 
 /**
@@ -445,7 +446,7 @@ public class CrystalRangeSeekbar extends View {
     public Number getSelectedMaxValue(){
 
         double nv = normalizedMaxValue;
-        Log.i(TAG,"" + (Math.abs(absoluteMaxValue) / 2));
+        BiLog.i(TAG,"" + (Math.abs(absoluteMaxValue) / 2));
         if(steps > 0 && steps <= (Math.abs(absoluteMaxValue) / 2)){
             float stp = steps / (absoluteMaxValue - absoluteMinValue) * 100;
             double half_step = stp / 2;

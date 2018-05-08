@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomFragment;
+import com.kisita.uza.internal.BiLog;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.utils.UzaCardAdapter;
 
@@ -90,7 +92,7 @@ public abstract class ItemsFragment extends CustomFragment
     }
 
     public void onReloadRequest(String title) {
-        //Log.i(TAG, "onReloadRequest");
+        BiLog.i(TAG, "onReloadRequest");
         if (mListener != null) {
             mListener.onItemFragmentInteraction(title);
         }
