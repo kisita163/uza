@@ -83,7 +83,7 @@ public class UzaProvider extends ContentProvider {
                         "="              + UzaContract.CommandsEntry.TABLE_NAME  + "." + UzaContract.CommandsEntry.COLUMN_KEY +
                         " WHERE " + UzaContract.ItemsEntry.TABLE_NAME  + "."     + UzaContract.ItemsEntry.COLUMN_AUTHOR +
                         " = "     + "'" + selection + "'" + ";";
-                //Log.i(TAG,"** category query ..." + sql);
+                Log.i(TAG,"** category query ..." + sql);
                 retCursor = mOpenHelper.getWritableDatabase().rawQuery(sql, null);
                 break;
             }

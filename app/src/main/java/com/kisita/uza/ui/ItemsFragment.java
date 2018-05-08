@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,7 +91,7 @@ public abstract class ItemsFragment extends CustomFragment
     }
 
     public void onReloadRequest(String title) {
-        //Log.i(TAG, "onReloadRequest");
+        Log.i(TAG, "onReloadRequest");
         if (mListener != null) {
             mListener.onItemFragmentInteraction(title);
         }

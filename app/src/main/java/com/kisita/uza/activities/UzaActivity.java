@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.facebook.CallbackManager;
 import com.kisita.uza.R;
 import com.kisita.uza.custom.CustomActivity;
+import com.kisita.uza.internal.BiLog;
 import com.kisita.uza.model.Data;
 import com.kisita.uza.ui.BillingFragment;
 import com.kisita.uza.ui.CheckoutFragment;
@@ -63,7 +64,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i(TAG,"(resume) fid = " + mCurrentFragmentId);
+        BiLog.i(TAG,"(resume) fid = " + mCurrentFragmentId);
     }
 
     void setFragment(int fid) {
@@ -98,7 +99,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
         }
 
         //Handle upper left button
-        Log.i(TAG,"Here we go. count is  : "+getSupportFragmentManager().getBackStackEntryCount());
+        BiLog.i(TAG,"Here we go. count is  : "+getSupportFragmentManager().getBackStackEntryCount());
         if(getSupportFragmentManager().getBackStackEntryCount() > 0){
             Drawable upArrow = getResources().getDrawable(R.drawable.ic_action_back_arrow);
             getSupportActionBar().setHomeAsUpIndicator(upArrow);
@@ -113,7 +114,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i(TAG, "received result is  : " + resultCode + " request code : "+requestCode);
+        BiLog.i(TAG, "received result is  : " + resultCode + " request code : "+requestCode);
         handleFacebookResult(requestCode,resultCode, data);
     }
 
@@ -125,7 +126,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
 
     @Override
     public void onItemFragmentInteraction(String title) {
-        //Log.i(TAG,"Reload fragment with tag : "+title);
+        //BiLog.i(TAG,"Reload fragment with tag : "+title);
         // Reload current fragment
 		Fragment frg;
 		frg = getSupportFragmentManager().findFragmentByTag(title);
@@ -144,7 +145,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
 
     @Override
     public void onBackPressed() {
-        Log.i(TAG,"Fragment count is  : " + getSupportFragmentManager().getBackStackEntryCount());
+        BiLog.i(TAG,"Fragment count is  : " + getSupportFragmentManager().getBackStackEntryCount());
         if(getSupportFragmentManager().getBackStackEntryCount() == 1)
             finish();
 
@@ -179,7 +180,7 @@ public class UzaActivity extends CustomActivity implements CheckoutFragment.OnCh
         Fragment f = getSupportFragmentManager().findFragmentByTag("details");
 
         if(f != null) {
-            Log.i(TAG, f.getTag());
+            BiLog.i(TAG, f.getTag());
             if (f instanceof DetailFragment)
                 ((DetailFragment) f).notifyChanges(itemsList);
         }

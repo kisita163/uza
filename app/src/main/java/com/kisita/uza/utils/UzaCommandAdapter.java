@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,7 @@ public class UzaCommandAdapter extends
 
     @Override
     public void onBindViewHolder(UzaCommandAdapter.CardViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        //Log.i(TAG, "Position is  : " + position);
+        Log.i(TAG, "Position is  : " + position);
         final Data d = itemsList.get(position);
         holder.commandState.setText(getCommandState(d.getCommandState()));
         // Item listeners
@@ -87,7 +88,7 @@ public class UzaCommandAdapter extends
 
     @Override
     public int getItemCount() {
-        //Log.i(TAG, "count = " + itemsList.size());
+        Log.i(TAG, "count = " + itemsList.size());
         return itemsList.size();
     }
 
@@ -102,7 +103,7 @@ public class UzaCommandAdapter extends
     @Override
     public void onFailure(@NonNull Exception e) {
         e.printStackTrace();
-        //Log.i(TAG, "Failure occurred. Error code is  : " + errorMessage + "-" + e.getCause().toString());
+        Log.i(TAG, "Failure occurred. Error code is  : " + e.getCause().toString());
     }
 
     public void resetItemsList(ArrayList<Data> data) {
