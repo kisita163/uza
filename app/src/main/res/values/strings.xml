@@ -131,4 +131,8 @@
     <string name="network_failed">No internet connexion !</string>
     <string name="nothing_in_the_cart">Nothing in the cart.</string>
     <string name="nothing_in_favourites">Nothing in the wish list.</string>
+    <string name="signature">Signature</string>
+    <string name="technique">Technique</string>
+    <string name="tirage">Tirage</string>
+    <string name="encadrement">Encadrement</string>
 </resources>

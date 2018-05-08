@@ -95,4 +95,8 @@
     <string name="painting">Peinture</string>
     <string name="categories">Categories</string>
     <string name="drawing">Dessin</string>
+    <string name="signature">Signature</string>
+    <string name="technique">Technique</string>
+    <string name="tirage">Tirage</string>
+    <string name="encadrement">Encadrement</string>
 </resources>

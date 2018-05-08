@@ -108,17 +108,10 @@
                     android:layout_marginLeft="@dimen/pad_10dp"
                     android:layout_marginRight="@dimen/pad_10dp"
                     android:background="@color/main_color_dk"/>
-
-                <TextView
-                    android:id="@+id/item_description"
-                    style="@style/uza_text_style"
+                <include
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/pad_10dp"
-                    android:text=""
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="@dimen/txt_14sp" />
-
+                    layout="@layout/description_layout"/>
                 <!--<TextView
                     android:id="@+id/title_artist"
                     style="@style/uza_lineto_text_style"

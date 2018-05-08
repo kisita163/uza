@@ -183,7 +183,7 @@ public class DetailFragment extends CustomFragment{
         TextView  item_size         = v.findViewById(R.id.item_size);
         TextView  item_type         = v.findViewById(R.id.item_type);
         TextView  item_price        = v.findViewById(R.id.item_price);
-        TextView  item_description  = v.findViewById(R.id.item_description);
+        //TextView  item_description  = v.findViewById(R.id.item_description);
         //
         TextView  commandId         = v.findViewById(R.id.command_id_value);
         TextView  commandState      = v.findViewById(R.id.command_state_value);
@@ -232,9 +232,7 @@ public class DetailFragment extends CustomFragment{
             item_type.setText(getString(getCategory(itemCategoryNum(itemData.getType()))));
             item_name.setText(itemData.getName());
             item_size.setText(itemData.getSize());
-            item_description.setText(itemData.getDescription(
-
-            ));
+            //item_description.setText(itemData.getDescription());
         }
         mBannerRecList = v.findViewById(R.id.cardList);
         mBannerItemsList = new ArrayList<>();

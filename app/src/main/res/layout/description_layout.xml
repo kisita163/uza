@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/pad_20dp"
+    android:paddingLeft="@dimen/pad_20dp"
+    android:paddingRight="@dimen/pad_20dp"
+    android:numColumns="2"
+    android:rowCount="8">
+
+    <TextView
+        android:layout_column="0"
+        android:layout_row="0"
+        style="@style/uza_text_style"
+        android:textStyle="bold"
+        android:layout_columnWeight="1"
+        android:textSize="@dimen/txt_14sp"
+        android:text="@string/signature" />
+
+    <TextView
+        android:id="@+id/auth"
+        android:layout_column="1"
+        android:layout_row="0"
+        style="@style/uza_text_style"
+        android:maxLines="2"
+        android:layout_columnWeight="1"
+        android:layout_gravity="end"
+        android:textSize="@dimen/txt_14sp"
+        android:text="Oeuvre signée" />
+
+    <View
+        style="@style/uza_divider_style"
+        android:layout_column="0"
+        android:layout_row="1"
+        android:layout_height="1dp"
+        android:layout_columnSpan="2"
+        android:background="@color/main_grey_lt"/>
+
+    <TextView
+        android:layout_column="0"
+        android:layout_row="2"
+        style="@style/uza_text_style"
+        android:textStyle="bold"
+        android:layout_columnWeight="1"
+        android:textSize="@dimen/txt_14sp"
+        android:text="@string/technique" />
+
+    <TextView
+        android:id="@+id/technique"
+        android:layout_column="1"
+        android:layout_row="2"
+        style="@style/uza_text_style"
+        android:maxLines="2"
+        android:layout_columnWeight="1"
+        android:layout_gravity="end"
+        android:textSize="@dimen/txt_14sp"
+        android:text="Peinture : Huile sur toile, châssis" />
+
+    <View
+        style="@style/uza_divider_style"
+        android:layout_column="0"
+        android:layout_row="3"
+        android:layout_height="1dp"
+        android:layout_columnSpan="2"
+        android:background="@color/main_grey_lt"/>
+
+    <TextView
+        android:layout_column="0"
+        android:layout_row="4"
+        style="@style/uza_text_style"
+        android:textStyle="bold"
+        android:layout_columnWeight="1"
+        android:textSize="@dimen/txt_14sp"
+        android:text="@string/tirage" />
+
+    <TextView
+        android:id="@+id/tirage"
+        android:layout_column="1"
+        android:layout_row="4"
+        style="@style/uza_text_style"
+        android:maxLines="2"
+        android:layout_columnWeight="1"
+        android:layout_gravity="end"
+        android:textSize="@dimen/txt_14sp"
+        android:text="Oeuvre unique" />
+
+    <View
+        style="@style/uza_divider_style"
+        android:layout_column="0"
+        android:layout_row="5"
+        android:layout_height="1dp"
+        android:layout_columnSpan="2"
+        android:background="@color/main_grey_lt"/>
+
+    <TextView
+        android:layout_column="0"
+        android:layout_row="6"
+        style="@style/uza_text_style"
+        android:textStyle="bold"
+        android:layout_columnWeight="1"
+        android:textSize="@dimen/txt_14sp"
+        android:text="@string/encadrement" />
+
+    <TextView
+        android:id="@+id/encadrement"
+        android:layout_column="1"
+        android:layout_row="6"
+        style="@style/uza_text_style"
+        android:maxLines="2"
+        android:layout_columnWeight="1"
+        android:layout_gravity="end"
+        android:textSize="@dimen/txt_14sp"
+        android:text="Cadre en bois noir" />
+
+</GridLayout>
