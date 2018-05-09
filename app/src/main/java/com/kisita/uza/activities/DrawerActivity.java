@@ -310,11 +310,15 @@ public class DrawerActivity extends CustomActivity
         (such as when switching tabs) or when modifying the content appearance (such as when adjusting filters).
          */
         if(f != null) {
-            getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-                    .addToBackStack(mFragmentsStack.peek().toString())
-                    .replace(R.id.frame, f,mFragmentsStack.peek().toString())
-                    .commit();
+            try {
+                getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                        .addToBackStack(mFragmentsStack.peek().toString())
+                        .replace(R.id.frame, f, mFragmentsStack.peek().toString())
+                        .commit();
+            }catch(IllegalStateException e){
+                BiLog.i(TAG,"Unable to apply this commit");
+            }
         }
         BiLog.i(TAG,"Current fragment tag is  : "+ mFragmentsStack.peek().toString());
     }
