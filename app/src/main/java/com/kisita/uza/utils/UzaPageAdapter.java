@@ -1,20 +1,24 @@
 package com.kisita.uza.utils;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.kisita.uza.R;
+import com.kisita.uza.internal.BiLog;
 import com.kisita.uza.model.Data;
-
 import java.util.ArrayList;
-import java.util.Collections;
 
 /*
  * Created by Hugues on 27/04/2017.
@@ -61,22 +65,40 @@ public class UzaPageAdapter extends PagerAdapter implements BikekoViewPager.OnPa
     @Override
     public Object instantiateItem(ViewGroup container, int arg0)
     {
-        final ImageView img = (ImageView)LayoutInflater.from(container.getContext())
+        final RelativeLayout view = (RelativeLayout) LayoutInflater.from(container.getContext())
                 .inflate(R.layout.img, container, false);
+        final ImageView img = view.findViewById(R.id.img);
+        final ProgressBar progressBar = view.findViewById(R.id.progress_bar);
 
-        container.addView(img,
-                android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+        container.addView(view,
+                ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
         if(urls.size() > 0) {
             Glide.with(mContext)
                     .load(urls.get(arg0))
                     .fitCenter()
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            BiLog.i(TAG,"Failed to load image");
+                            img.setImageResource(R.drawable.anonymous_user);
+                            progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            BiLog.i(TAG,"Image loaded");
+                            progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
                     .error(R.drawable.anonymous_user)
                     .into(img);
         }
         img.setOnClickListener(listener);
-        return img;
+        return view;
     }
 
     /* (non-Javadoc)
