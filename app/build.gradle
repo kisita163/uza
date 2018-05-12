@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.kisita.uza"
-        minSdkVersion 21
+        minSdkVersion 16
         targetSdkVersion 27
         multiDexEnabled true
 
@@ -118,6 +118,7 @@ dependencies {
     // add this for intent mocking support
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
     androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2'
+    compile 'com.android.support:multidex:1.0.1'
 }
 
 /*configurations.all {

@@ -95,6 +95,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javaPrecompile" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/multi-dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/prebuild" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
@@ -150,6 +151,7 @@
     <orderEntry type="library" name="com.google.android.gms:play-services-ads-lite-11.8.0" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-games-license-11.8.0" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-ads-lite-license-11.8.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="com.android.support:multidex-instrumentation-1.0.2" level="project" />
     <orderEntry type="library" name="com.android.support:support-core-utils-27.1.1" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-vision-11.8.0" level="project" />
     <orderEntry type="library" name="com.firebase:firebase-jobdispatcher-with-gcm-dep-0.6.0" level="project" />
@@ -206,7 +208,9 @@
     <orderEntry type="library" scope="TEST" name="com.android.support.test.espresso:espresso-contrib-2.2.2" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-analytics-license-11.8.0" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-analytics-impl-license-11.8.0" level="project" />
+    <orderEntry type="library" name="com.android.support:multidex-1.0.2" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-crash-11.8.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="com.android.support:multidex-1.0.1" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-vision-common-11.8.0" level="project" />
     <orderEntry type="library" name="com.android.support:appcompat-v7-27.1.1" level="project" />
     <orderEntry type="library" name="com.paypal.android.sdk:data-collector:2.12.0@jar" level="project" />

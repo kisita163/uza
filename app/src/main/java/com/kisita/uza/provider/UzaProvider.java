@@ -121,7 +121,6 @@ public class UzaProvider extends ContentProvider {
                              " LEFT JOIN "    + UzaContract.CommandsEntry.TABLE_NAME  +
                              " ON "           + UzaContract.ItemsEntry.TABLE_NAME  + "." + UzaContract.ItemsEntry._ID +
                              "="              + UzaContract.CommandsEntry.TABLE_NAME  + "." + UzaContract.CommandsEntry.COLUMN_KEY +
-                             // TODO no need of where clause here
                             /*" WHERE " + UzaContract.CommandsEntry.TABLE_NAME  + "."     + UzaContract.CommandsEntry.COLUMN_STATE +
                             " = "     + "'0'" + */";";
 

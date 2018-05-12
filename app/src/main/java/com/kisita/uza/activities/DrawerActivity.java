@@ -60,6 +60,7 @@ import static com.kisita.uza.ui.SettingsFragment.MAX_PRICE_VALUE;
 import static com.kisita.uza.utils.Settings.isAllBillingInformationSet;
 import static com.kisita.uza.utils.UzaFunctions.TRANSACTION_OK;
 import static com.kisita.uza.utils.UzaFunctions.getPriceDouble;
+import static com.kisita.uza.utils.UzaFunctions.infoAlertDialog;
 import static com.kisita.uza.utils.UzaFunctions.setPrice;
 
 public class DrawerActivity extends CustomActivity
@@ -367,11 +368,11 @@ public class DrawerActivity extends CustomActivity
                 // use the result to update your UI and send the payment method nonce to your server
                 sendPaymentNonce(result.getPaymentMethodNonce().getNonce(),mAmount);
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                //TODO
+                infoAlertDialog(this,getString(R.string.transaction_cancelled));
                 // the user canceled
                 hideProgressDialog();
             } else {
-                //TODO
+                infoAlertDialog(this,getString(R.string.unknown_error));
                 // handle errors here, an exception may be available in
                 hideProgressDialog();
             }
@@ -381,7 +382,8 @@ public class DrawerActivity extends CustomActivity
     @Override
     protected void onTransactionDone(String responseString) {
         if(responseString.equalsIgnoreCase(TRANSACTION_OK)){
-            setFragment(setCurrentFragment(mNavigationView.getMenu().getItem(0)));
+            infoAlertDialog(this,getString(R.string.transaction_successful));
+            setFragment(setCurrentFragment(mNavigationView.getMenu().getItem(ARTWORKS.ordinal())));
             // Update commands
             if(mBound) {
                 mService.setCommandsState(mCommands);

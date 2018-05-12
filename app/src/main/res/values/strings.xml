@@ -58,7 +58,6 @@
     <!-- Provider -->
     <string name="content_authority">com.kisita.uza</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyBRrg6VtkuBk9gwrvxRmkkQEJs0_5D7ATQ
     </string>
@@ -98,8 +97,6 @@
     <string name="postal_code">Zip / Postal Code</string>
     <string name="country">Country</string>
     <string name="save_information">Save</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="uza_billing_name">uza_billing_name</string>
     <string name="uza_billing_phone">uza_billing_phone</string>
     <string name="uza_billing_address">uza_billing_address</string>
@@ -141,6 +138,9 @@
     <string name="several_copies">Several copies</string>
     <string name="framed">Framed</string>
     <string name="not_framed">Not framed</string>
+    <string name="transaction_successful">Transaction successful</string>
+    <string name="transaction_cancelled">Transaction cancelled</string>
+    <string name="unknown_error">Unknown error occurred. Please try later</string>
     <string-array
         name="techniques_array">
         <item>Acrylic painting</item>

@@ -105,6 +105,9 @@
     <string name="several_copies">Several copies</string>
     <string name="framed">Framed</string>
     <string name="not_framed">Not framed</string>
+    <string name="transaction_successful">Transaction successful</string>
+    <string name="transaction_cancelled">Transaction cancelled</string>
+    <string name="unknown_error">Unknown error occurred. Please try later</string>
     <string-array
         name="techniques_array">
         <item>Acrylic painting</item>
