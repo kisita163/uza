@@ -17,8 +17,8 @@
     <ProgressBar
         android:id="@+id/progress_bar"
         style="@style/UzaProgressDialog"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:visibility="visible"
         android:layout_centerInParent="true"/>
 </RelativeLayout>

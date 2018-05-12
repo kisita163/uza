@@ -30,10 +30,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.kisita.uza.utils.UzaFunctions.DRAWING;
+import static com.kisita.uza.utils.UzaFunctions.FRAMING;
+import static com.kisita.uza.utils.UzaFunctions.SIGNATURE;
+import static com.kisita.uza.utils.UzaFunctions.TECHNIQUE;
 import static com.kisita.uza.utils.UzaFunctions.getCategory;
 import static com.kisita.uza.utils.UzaFunctions.getCommandState;
 import static com.kisita.uza.utils.UzaFunctions.getCommandStateLogo;
 import static com.kisita.uza.utils.UzaFunctions.getCurrency;
+import static com.kisita.uza.utils.UzaFunctions.getDetailsDrawing;
+import static com.kisita.uza.utils.UzaFunctions.getDetailsFraming;
+import static com.kisita.uza.utils.UzaFunctions.getDetailsSignature;
+import static com.kisita.uza.utils.UzaFunctions.getIntegerFromString;
 import static com.kisita.uza.utils.UzaFunctions.infoAlertDialog;
 import static com.kisita.uza.utils.UzaFunctions.itemCategoryNum;
 import static com.kisita.uza.utils.UzaFunctions.setFormat;
@@ -183,7 +191,11 @@ public class DetailFragment extends CustomFragment{
         TextView  item_size         = v.findViewById(R.id.item_size);
         TextView  item_type         = v.findViewById(R.id.item_type);
         TextView  item_price        = v.findViewById(R.id.item_price);
-        //TextView  item_description  = v.findViewById(R.id.item_description);
+        // Description views
+        TextView  item_signature    = v.findViewById(R.id.auth);
+        TextView  item_technique    = v.findViewById(R.id.technique);
+        TextView  item_drawing      = v.findViewById(R.id.tirage);
+        TextView  item_framing      = v.findViewById(R.id.framing);
         //
         TextView  commandId         = v.findViewById(R.id.command_id_value);
         TextView  commandState      = v.findViewById(R.id.command_state_value);
@@ -232,7 +244,13 @@ public class DetailFragment extends CustomFragment{
             item_type.setText(getString(getCategory(itemCategoryNum(itemData.getType()))));
             item_name.setText(itemData.getName());
             item_size.setText(itemData.getSize());
-            //item_description.setText(itemData.getDescription());
+            // Description
+            String[] techniques = getResources().getStringArray(R.array.techniques_array);
+
+            item_signature.setText(getString(getDetailsSignature(itemData.getDescription().get(SIGNATURE))));
+            item_technique.setText(techniques[getIntegerFromString(itemData.getDescription().get(TECHNIQUE))]);
+            item_drawing.setText(getString(getDetailsDrawing(itemData.getDescription().get(DRAWING))));
+            item_framing.setText(getString(getDetailsFraming(itemData.getDescription().get(FRAMING))));
         }
         mBannerRecList = v.findViewById(R.id.cardList);
         mBannerItemsList = new ArrayList<>();

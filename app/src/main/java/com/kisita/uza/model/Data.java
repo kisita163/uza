@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.kisita.uza.utils.UzaFunctions.getDescArray;
 import static com.kisita.uza.utils.UzaFunctions.getPicturesUrls;
 
 public class Data implements Serializable, Comparable<Data>
@@ -40,7 +41,7 @@ public class Data implements Serializable, Comparable<Data>
 
 	private String mName        = "";
 
-	private String mDescription = "";
+	private ArrayList<String> mDescription;
 
 	private String mSize        = "";
 
@@ -88,7 +89,7 @@ public class Data implements Serializable, Comparable<Data>
 		this.mName         = data.getString(1);
 		this.mPrice        = data.getString(2);
 		this.mCurrency     = data.getString(3);
-		this.mDescription  = data.getString(5);
+		this.mDescription  = getDescArray(data.getString(5));
 		this.mSeller       = data.getString(6);
 		this.mType         = data.getString(8);
 		this.mAuthor       = data.getString(9);
@@ -150,7 +151,7 @@ public class Data implements Serializable, Comparable<Data>
 		return mName;
 	}
 
-	public String getDescription() {
+	public ArrayList<String> getDescription() {
 		return mDescription;
 	}
 

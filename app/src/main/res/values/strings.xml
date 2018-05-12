@@ -134,5 +134,46 @@
     <string name="signature">Signature</string>
     <string name="technique">Technique</string>
     <string name="tirage">Tirage</string>
-    <string name="encadrement">Encadrement</string>
+    <string name="encadrement">Framing</string>
+    <string name="signed_artworks">Signed artwork</string>
+    <string name="non_signed_artworks">Unsigned artwork</string>
+    <string name="unique_work">Unique work</string>
+    <string name="several_copies">Several copies</string>
+    <string name="framed">Framed</string>
+    <string name="not_framed">Not framed</string>
+    <string-array
+        name="techniques_array">
+        <item>Acrylic painting</item>
+        <item>Action painting</item>
+        <item>Aerial perspective</item>
+        <item>Anamorphosis</item>
+        <item>Camaieu</item>
+        <item>Casein painting</item>
+        <item>Chiaroscuro</item>
+        <item>Divisionism</item>
+        <item>Easel painting</item>
+        <item>Encaustic painting</item>
+        <item>Foreshortening</item>
+        <item>Fresco painting</item>
+        <item>Gouache</item>
+        <item>Graffiti</item>
+        <item>Grisaille</item>
+        <item>Impasto</item>
+        <item>Miniature painting</item>
+        <item>Mural</item>
+        <item>Oil painting</item>
+        <item>Panel painting</item>
+        <item>Panorama</item>
+        <item>Perspective</item>
+        <item>Plein-air painting</item>
+        <item>Sand painting</item>
+        <item>Scroll painting</item>
+        <item>Sfumato</item>
+        <item>Sgraffito</item>
+        <item>Sotto in su</item>
+        <item>Tachism</item>
+        <item>Tempera painting</item>
+        <item>Tenebrism</item>
+        <item>Tromp l’oeil</item>
+    </string-array>
 </resources>

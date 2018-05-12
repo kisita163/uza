@@ -26,8 +26,7 @@
         android:maxLines="2"
         android:layout_columnWeight="1"
         android:layout_gravity="end"
-        android:textSize="@dimen/txt_14sp"
-        android:text="Oeuvre signée" />
+        android:textSize="@dimen/txt_14sp" />
 
     <View
         style="@style/uza_divider_style"
@@ -54,8 +53,7 @@
         android:maxLines="2"
         android:layout_columnWeight="1"
         android:layout_gravity="end"
-        android:textSize="@dimen/txt_14sp"
-        android:text="Peinture : Huile sur toile, châssis" />
+        android:textSize="@dimen/txt_14sp" />
 
     <View
         style="@style/uza_divider_style"
@@ -82,8 +80,7 @@
         android:maxLines="2"
         android:layout_columnWeight="1"
         android:layout_gravity="end"
-        android:textSize="@dimen/txt_14sp"
-        android:text="Oeuvre unique" />
+        android:textSize="@dimen/txt_14sp" />
 
     <View
         style="@style/uza_divider_style"
@@ -103,14 +100,13 @@
         android:text="@string/encadrement" />
 
     <TextView
-        android:id="@+id/encadrement"
+        android:id="@+id/framing"
         android:layout_column="1"
         android:layout_row="6"
         style="@style/uza_text_style"
         android:maxLines="2"
         android:layout_columnWeight="1"
         android:layout_gravity="end"
-        android:textSize="@dimen/txt_14sp"
-        android:text="Cadre en bois noir" />
+        android:textSize="@dimen/txt_14sp" />
 
 </GridLayout>

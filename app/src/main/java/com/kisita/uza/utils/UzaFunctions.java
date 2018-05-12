@@ -25,6 +25,13 @@ import java.util.Locale;
 
 public class UzaFunctions {
     public static String TRANSACTION_OK = "OK";
+
+    public static int SIGNATURE         = 0 ;
+    public static int TECHNIQUE = 1 ;
+    public static int DRAWING           = 2 ;
+    public static int FRAMING           = 3 ;
+
+
     /* Get the currency selected by the user*/
     public static String getCurrency(Context context){
         String currency;
@@ -124,6 +131,11 @@ public class UzaFunctions {
     }
 
     public static ArrayList<String> getPicturesUrls(String string) {
+
+        return  new ArrayList<>(Arrays.asList(string.split(",")));
+    }
+
+    public static ArrayList<String> getDescArray(String string) {
 
         return  new ArrayList<>(Arrays.asList(string.split(",")));
     }
@@ -241,6 +253,61 @@ public class UzaFunctions {
 
         }
         return cat;
+    }
+
+    public static int getIntegerFromString(String s){
+        int ret = -1;
+
+        try{
+            ret = Integer.valueOf(s);
+        }catch(Exception e){
+            BiLog.i("Utils","Failed to convert string to integer");
+        }
+
+        return ret;
+    }
+
+    public static int getDetailsSignature(String signature){
+        int sign = 0;
+        switch (getIntegerFromString(signature)){
+            case 0:
+                sign = R.string.signed_artworks;
+                break;
+            case 1:
+                sign = R.string.non_signed_artworks;
+                break;
+
+        }
+        return sign;
+    }
+
+
+    public static int getDetailsDrawing(String drawing){
+        int sign = 0;
+        switch (getIntegerFromString(drawing)){
+            case 0:
+                sign = R.string.unique_work;
+                break;
+            case 1:
+                sign = R.string.several_copies;
+                break;
+
+        }
+        return sign;
+    }
+
+    public static int getDetailsFraming(String framing){
+        int sign = 0;
+        switch (getIntegerFromString(framing)){
+            case 0:
+                sign = R.string.framed;
+                break;
+            case 1:
+                sign = R.string.not_framed;
+                break;
+
+        }
+        return sign;
     }
 
     public static int itemCategoryNum(String cat){
