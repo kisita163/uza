@@ -108,6 +108,8 @@
     <string name="transaction_successful">Transaction successful</string>
     <string name="transaction_cancelled">Transaction cancelled</string>
     <string name="unknown_error">Unknown error occurred. Please try later</string>
+    <string name="no_order_in_process">No order</string>
+
     <string-array
         name="techniques_array">
         <item>Acrylic painting</item>

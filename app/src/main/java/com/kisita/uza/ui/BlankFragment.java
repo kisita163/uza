@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import static com.kisita.uza.custom.CustomActivity.BikekoMenu.ARTWORKS;
 import static com.kisita.uza.custom.CustomActivity.BikekoMenu.CART;
+import static com.kisita.uza.custom.CustomActivity.BikekoMenu.COMMANDS;
 import static com.kisita.uza.custom.CustomActivity.BikekoMenu.FAVOURITES;
 
 /**
@@ -112,6 +113,10 @@ public class BlankFragment extends Fragment {
 
         if(mItemNumber == ARTWORKS.ordinal()){
             blankText.setText(getString(R.string.nothing_to_show));
+        }
+
+        if(mItemNumber == COMMANDS.ordinal()){
+            blankText.setText(getString(R.string.no_order_in_process));
         }
     }
 }

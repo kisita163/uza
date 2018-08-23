@@ -9,7 +9,6 @@
     android:rowCount="3">
 
     <TextView
-        android:id="@+id/command_id"
         style="@style/uza_text_style"
         android:layout_column="0"
         android:layout_row="0"
@@ -17,7 +16,6 @@
         android:layout_marginTop="@dimen/pad_1dp"/>
 
     <TextView
-        android:id="@+id/command_state"
         android:layout_column="0"
         android:layout_row="1"
         style="@style/uza_text_style"

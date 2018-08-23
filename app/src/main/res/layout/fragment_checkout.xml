@@ -15,7 +15,6 @@
     <View
         style="@style/uza_divider_style"
         android:layout_height="2dp"
-        android:id="@+id/separator"
         android:layout_above="@id/cost_layout"
         android:layout_marginLeft="@dimen/pad_20dp"
         android:layout_marginRight="@dimen/pad_20dp"
